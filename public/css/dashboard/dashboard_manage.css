@@ -1,0 +1,17 @@
+.form-border {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.borderless-tbody-last tbody, .borderless-tbody-last tbody tr:last-child *{
+    border: none !important;
+    border-style: none !important;
+}
+
+.borderless-tbody-last tbody tr td * {
+    border: none !important;
+}
+
+.borderless-tbody-last tbody tr td, .borderless-tbody-last tbody tr th {
+    border-bottom: 1px solid rgba(0,0,0,0.3) !important;
+}

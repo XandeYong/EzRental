@@ -1,0 +1,123 @@
+.ico, .ico-sm {
+    display: inline-block;
+    min-width: 32px;
+    min-height: 32px;
+    margin-right: 10px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.ico-sm {
+    min-width: 18px;
+    min-height: 18px;
+    margin-right: 10px;
+}
+
+.ico-color-dashboard {
+    filter: invert(99%) sepia(3%) saturate(289%) hue-rotate(303deg) brightness(115%) contrast(89%);
+}
+
+.ico-sidebar {
+    filter: invert(39%) sepia(28%) saturate(238%) hue-rotate(167deg) brightness(92%) contrast(83%);
+}
+
+.ico-sidebar-active {
+    filter: invert(69%) sepia(17%) saturate(191%) hue-rotate(156deg) brightness(91%) contrast(90%);
+}
+
+.ico-white {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(29deg) brightness(102%) contrast(102%);
+}
+
+.ico-red {
+    filter: invert(58%) sepia(24%) saturate(990%) hue-rotate(307deg) brightness(91%) contrast(113%);
+}
+
+.ico-blue {
+    filter: invert(55%) sepia(66%) saturate(443%) hue-rotate(154deg) brightness(103%) contrast(101%);
+}
+
+.ico-orange {
+    filter: invert(82%) sepia(34%) saturate(6743%) hue-rotate(358deg) brightness(101%) contrast(102%);
+}
+
+.ico-warning {
+    filter: invert(80%) sepia(50%) saturate(3330%) hue-rotate(3deg) brightness(110%) contrast(95%);
+}
+
+.ico-green {
+    filter: invert(50%) sepia(57%) saturate(6632%) hue-rotate(70deg) brightness(92%) contrast(96%);
+}
+
+.ico-logo {
+    background-image: url("../image/svg/logo.svg");
+}
+
+.ico-chevron-up {
+    background-image: url("../image/svg/chevron-up.svg");
+}
+
+.ico-chevron-down {
+    background-image: url("../image/svg/chevron-down.svg");
+}
+
+.ico-chevron-left {
+    background-image: url("../image/svg/chevron-left.svg");
+}
+
+.ico-chevron-right {
+    background-image: url("../image/svg/chevron-right.svg");
+}
+
+.ico-menu {
+    background-image: url("../image/svg/list.svg");
+}
+
+.ico-power {
+    background-image: url("../image/svg/power.svg");
+}
+
+.ico-gear {
+    background-image: url("../image/svg/gear.svg");
+}
+
+.ico-dashboard {
+    background-image: url("../image/svg/dashboard.svg");
+}
+
+.ico-list-task {
+    background-image: url("../image/svg/list-solid.svg");
+}
+
+.ico-plus-circle {
+    background-image: url("../image/svg/plus-circle.svg");
+}
+
+.ico-trash {
+    background-image: url("../image/svg/trash.svg");
+}
+
+.ico-edit {
+    background-image: url("../image/svg/edit-fill.svg");
+}
+
+.ico-arrow-clockwise {
+    background-image: url("../image/svg/arrow-clockwise.svg");
+}
+
+.ico-check-square {
+    background-image: url("../image/svg/check-square-fill.svg");
+}
+
+.ico-thumbs-up {
+    background-image: url("../image/svg/thumbs-up-solid.svg");
+}
+
+.ico-thumbs-down {
+    background-image: url("../image/svg/thumbs-down-solid.svg");
+}
+
+.ico-arrow-right {
+    background-image: url("../image/svg/arrow-right.svg");
+}

@@ -1,0 +1,14 @@
+#aboutus #sitemap {
+    background-color: rgb(232, 236, 239);
+    border-radius: 4px;
+}
+
+#aboutus #sitemap .path a {
+    text-decoration: none;
+}
+
+#aboutus #aboutus_content {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: justify;
+}

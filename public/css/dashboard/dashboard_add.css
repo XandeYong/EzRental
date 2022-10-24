@@ -1,0 +1,21 @@
+#content {
+    padding: 1rem;
+}
+
+.form-border {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+#content .add_category .title {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.add_category .category > label, .add_category .category-desc > label {
+    padding-right: 1rem;
+}
+
+.input {
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 3px;
+}

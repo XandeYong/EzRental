@@ -1,0 +1,61 @@
+body {
+    background-color: rgb(75, 145, 143);
+}
+
+.item {
+    padding: 12px 24px;
+
+    background-color: rgba(255,255,255,0.8);
+    border: 1px solid black;
+    border-radius: 10px;
+
+}
+
+.item h1 {
+    font-size: 2.8vw;
+}
+
+.item h2 {
+    font-size: 2.1vw;
+}
+
+.item h3 {
+    font-size: 1.8vw;
+}
+
+.item h4 {
+    font-size: 1.4vw;
+}
+
+.item h5 {
+    font-size: 1.3vw;
+}
+
+.item h4:nth-child(1) {
+    margin: 0;
+}
+
+
+@media only screen and (max-width: 575px) {
+    .item h1 {
+        font-size: 4vw;
+    }
+    
+    .item h2 {
+        font-size: 3.3vw;
+    }
+    
+    .item h3 {
+        font-size: 3vw;
+    }
+    
+    .item h4 {
+        font-size: 2.6vw;
+    }
+    
+    .item h5 {
+        font-size: 2.5vw;
+    }
+
+
+}

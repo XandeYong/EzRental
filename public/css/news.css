@@ -1,0 +1,47 @@
+#post {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+
+#post-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+#post-header #post-reference {
+    font-size: small;
+}
+
+#post-body .post-image > img {
+    width: 100%;
+    
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+#post-body .post-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+#post-body #post-content {
+    font-size: 14px;
+    font-weight: 499;
+}
+
+#post-comment-header {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background-color: rgb(247, 247, 247);
+}
+
+#post-comment-body {
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.post-user-comment {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+}

@@ -1,0 +1,51 @@
+.posts {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+
+.posts-body .posts-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.posts-body .posts-image > img {
+    width: 100%;
+    
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.posts-footer {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background-color: rgb(247, 247, 247);
+}
+
+.background-image-1 {
+    background-image: url('/image/condo.webp');
+    background-size: 100%;
+    height: calc(100vh - 50.5px);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.welcome {
+    margin: 0 auto;
+    border-radius: 4px;
+    background-color:rgba(222,184,135);
+}
+
+.welcome > h2 {
+    font-size: 2vw;
+    margin-bottom: 0.6vw;
+}
+
+
+@media only screen and (max-width: 991.5px) {
+    .background-image-1 {
+        background-position: top;
+    }
+}

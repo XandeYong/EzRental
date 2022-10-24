@@ -1,0 +1,50 @@
+:root {
+    --f-height: 52px;
+}
+
+/* base */
+#wrapper {
+    min-height: calc(100vh - var(--f-height));
+}
+
+#footer {
+    min-height: var(--f-height);
+}
+
+    #footer h3 {
+        padding: 10px;
+    }
+
+    #footer p {
+        font-size: small;
+        color: rgb(176, 180, 189);
+    }
+
+/* navbar */
+#navbar h3, #navbar ul {
+    margin: 0;
+}
+
+    #navbar #nav-title {
+        display:flex;
+        justify-content: center;
+    }
+
+        #navbar #nav-title > a > h3 > span:nth-child(1) {
+            color: tan;
+        }
+
+    #navbar #nav-item > ul {
+        display: flex;
+        justify-content: start;
+    }
+
+        #navbar #nav-item > ul > li {
+            list-style: none; 
+        }
+
+        #navbar #nav-item > ul > li > a {
+            text-decoration: none;
+            color: rgb(50, 160, 187);
+            white-space: nowrap;
+        }
