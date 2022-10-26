@@ -28,14 +28,14 @@
                                             <div class="row align-items-baseline">
                                                 <div class="col-8">
                                                     <div class="text-start">
-                                                        <h2>PV21 small room for rent</h3>    
+                                                        <h2>PV21 small room for rent</h3>
                                                     </div>
 
-                                                    <div class="text-start c-blue-1">
+                                                    <div class="text-start c-teal">
                                                         <h4>PV21-13-2</h4>
                                                     </div>
 
-                                                    <div class="text-start c-blue-1">
+                                                    <div class="text-start c-teal">
                                                         <h4>Small Room</h4>
                                                     </div>
                                                 </div>

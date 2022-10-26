@@ -17,7 +17,14 @@ use Illuminate\Support\Facades\Route;
 // Admin Dashboard
 //=============================================================================================
 
-// Route::get('/dashboard', function() {
-//     return view('dashboard/dashboard_index');
-// });
+Route::get('/dashboard/admin', function() {
+    return redirect(route("dashboard.admin.profile"));
+})->name('dashboard.admin');
 
+Route::get('/dashboard/admin/profile', function() {
+    return view('dashboard/dashboard_profile', [
+        'user' => 'Admin',
+        'page' => 'Profile',
+        'header' => 'Profile'
+    ]);
+})->name('dashboard.admin.profile');

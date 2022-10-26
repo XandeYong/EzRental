@@ -11,7 +11,7 @@
             <div id="account">
                 <div id="account-icon">
                     <a id="account-frame" href="#" class="" >
-                        <img class="unselectable" src="../image/account/Profile.png" alt="img">
+                        <img class="unselectable" src="{{ asset("/image/account/Profile.png") }}" alt="img">
                     </a>
 
                     <div id="account-dropdown" class="hide">
@@ -20,13 +20,13 @@
                                 <h6 id="account-name">Username</h6>
                             </div>
                             <div id="account-body" class="account-box">
-                                <a href="./dashboard_change_password.php">
-                                    <div id="account-chgpass" class="account-item">
-                                        <h6><i class="ico ico-gear"></i>Change Password</h6>
+                                <a href="/">
+                                    <div id="back_to_main" class="account-item">
+                                        <h6><i class="ico ico-gear"></i>Back to Main Page</h6>
                                     </div>
                                 </a>
                                 
-                                <a href="../backend/logout.php">
+                                <a href="{{ url("/logout") }}">
                                     <div id="account-logout" class="account-item">
                                         <h6><i class="ico ico-power"></i>Logout</h6>
                                     </div>
@@ -39,20 +39,25 @@
         </div>
     </div>
 
-    <div id="header-2" class="row d-flex">
-        <div id="header-title" class="col">
-            <h4>Header</h4>
-        </div>
+    @if (isset($header))
 
-        <div id="page-path" class="col justify-content-sm-end">
-            <span class="d-flex">
-                <a href="" class="path">Path 1</a>
-                <div>/</div>
-                <a href="" class="path">Path 2</a>
-                <div>/</div>
-                <span class="path">Path 3</span>
-            </span>
+    <div id="header-2" class="d-flex">
+        
+        @if (isset($back))
+        <div id="header-back" class="position-absolute">
+            <h4 class="m-0 border-right-2">
+                <a class="text-decoration-none" href="{{ url()->previous() }}">
+                    <i class="ico-sm ico-chevron-left"></i>
+                </a>
+            </h4>
+        </div>
+        @endif
+
+        <div id="header-title" class="mx-auto">
+            <h4 class="m-0">{{ $header }}</h4>
         </div>
     </div>
+
+    @endif
 
 </div>

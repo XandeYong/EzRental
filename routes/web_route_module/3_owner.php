@@ -17,7 +17,15 @@ use Illuminate\Support\Facades\Route;
 // Owner Dashboard
 //=============================================================================================
 
-// Route::get('/dashboard', function() {
-//     return view('dashboard/dashboard_index');
-// });
+Route::get('/dashboard/owner', function() {
+    return redirect(route('dashboard.owner.profile'));
+})->name('dashboard.owner');
+
+Route::get('/dashboard/owner/profile', function() {
+    return view('dashboard/dashboard_profile', [
+        'user' => 'Owner',
+        'page' => 'Profile',
+        'header' => 'Profile'
+    ]);
+})->name('dashboard.owner.profile');
 

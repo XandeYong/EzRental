@@ -1,3 +1,6 @@
+
+@if (isset($user))
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,19 +68,15 @@
                 </div>
             </div>
             @endif
+            
         </div>
     </div>
 
     @include('../base/dashboard/dashboard_script')
-    @if(1 != 1)
-    <?php include_once "../base/dashboard/dashboard_script.php" ?>
-    <?php if (isset($_GET['chgpass']) && $_GET['chgpass'] == 'true') {?>  
-        <script>
-            alert("Successfully changed password.");
-            window.location.href = "./dashboard_index.php";
-        </script>
-    <?php } ?>
-    @endif
 
 </body>
 </html>
+
+@else
+    <script>window.location = "/";</script>
+@endif

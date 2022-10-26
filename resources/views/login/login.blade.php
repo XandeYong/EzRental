@@ -20,7 +20,7 @@
                     <div class="row justify-content-center">
                         <div id="login-model" class="col-12 col-sm-6 col-md-6 col-lg-4">
 
-                            <form action="{{route('dashboard.tenant')}}" method="get">
+                            <form action="{{route('dashboard.' . strtolower($user))}}" method="get">
                                 <div id="l-m-header" class="row">
                                     <div class="text-center">
                                         <h5>{{$user}} Login</h5>
@@ -47,7 +47,7 @@
 
                     <div class="row justify-content-center mt-5 text-center">
                         <h5>Don't have an account yet? 
-                            <a href="{{route('register.tenant')}}" class="btn btn-sm btn-outline-success">Register here</a>
+                            <a href="{{route('register.' . strtolower($user))}}" class="btn btn-sm btn-outline-success">Register here</a>
                         </h5>
                     </div>
                     

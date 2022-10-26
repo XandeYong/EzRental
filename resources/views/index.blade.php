@@ -11,11 +11,11 @@
 <body>
     
     <div id="wrapper">
-        <div class="container-fluid pt-5">
+        <div class="container-fluid pt-5 pt-sm-4">
             @include('base/navbar')
 
             <div class="row background-image-1">
-                <div class="container mt-3 mt-sm-5">
+                <div class="container mt-5 mt-sm-5">
 
                     <div class="row">
                         <div class="col">

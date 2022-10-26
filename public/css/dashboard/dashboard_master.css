@@ -81,7 +81,10 @@
         #sidebar .navlist-item .navlist-item-title {
             display: flex;
             align-items: center;
-            height: 3rem;
+            min-height: 3rem;
+
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
 
             #sidebar .navlist-item-title:hover, #sidebar .navlist-item-title:hover > a {

@@ -1,3 +1,6 @@
+
+@if (isset($user))
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,10 +20,10 @@
                     <div class="row justify-content-center">
                         <div id="login-model" class="col-12 col-sm-6 col-md-6 col-lg-4">
 
-                            <form action="./backend/login.php" method="post">
+                            <form action="#" method="post">
                                 <div id="l-m-header" class="row">
                                     <div class="text-center">
-                                        <h5>Register Tenant Account</h5>
+                                        <h5>Register {{$user}} Account</h5>
                                     </div>
                                 </div>
 
@@ -43,8 +46,8 @@
                     </div>
 
                     <div class="row justify-content-center mt-5 text-center">
-                        <h5>Already have an account? 
-                            <a href="{{route('login.tenant')}}" class="btn btn-sm btn-outline-success">Login here</a>
+                        <h5>Already have an account?
+                            <a href="{{route('login.' . strtolower($user))}}" class="btn btn-sm btn-outline-success">Login here</a>
                         </h5>
                     </div>
                     
@@ -59,3 +62,7 @@
 
 </body>
 </html>
+
+@else
+    <script>window.location = "/";</script>
+@endif

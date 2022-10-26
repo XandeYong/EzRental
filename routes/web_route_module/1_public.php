@@ -51,7 +51,9 @@ Route::get('/login_portal/login/tenant', function () {
 })->name('login.tenant');
 
 Route::get('/login_portal/register/tenant', function () {
-    return view('/login/tenant/register_tenant');
+    return view('/login/register', [
+        'user' => 'Tenant'
+    ]);
 })->name('register.tenant');
 
 
@@ -64,7 +66,9 @@ Route::get('/login_portal/login/owner', function () {
 })->name('login.owner');
 
 Route::get('/login_portal/register/owner', function () {
-    return view('/login/owner/register_owner');
+    return view('/login/register', [
+        'user' => 'Owner'
+    ]);
 })->name('register.owner');
 
 
@@ -77,8 +81,18 @@ Route::get('/login_portal/login/admin', function () {
 })->name('login.admin');
 
 Route::get('/login_portal/register/admin', function () {
-    return view('/login/admin/register_admin');
+    return view('/login/register', [
+        'user' => 'Admin'
+    ]);
 })->name('register.admin');
 
 
+//----------
+// Logout
+//----------
 
+
+Route::get('/logout', function () {
+    //function to logout
+    return redirect(route("home"));
+})->name('logout');

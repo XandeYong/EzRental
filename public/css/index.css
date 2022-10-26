@@ -47,5 +47,7 @@
 @media only screen and (max-width: 991.5px) {
     .background-image-1 {
         background-position: top;
+        background-size: auto;
+        background-position-x: 25%;
     }
 }

@@ -17,7 +17,18 @@ use Illuminate\Support\Facades\Route;
 // Tenant Dashboard
 //=============================================================================================
 
-Route::get('/dashboard', function() {
-    return view('dashboard/dashboard_index');
+Route::get('/dashboard/tenant', function() {
+    return redirect(route("dashboard.tenant.profile"));
 })->name('dashboard.tenant');
+
+Route::get('/dashboard/tenant/profile', function() {
+    return view('dashboard/dashboard_profile', [
+        'user' => 'Tenant',
+        'page' => 'Profile',
+        'header' => 'Profile',
+        //'back' => true
+    ]);
+})->name('dashboard.tenant.profile');
+
+
 
