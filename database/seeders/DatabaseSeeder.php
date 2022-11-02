@@ -284,10 +284,10 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
 
-        static $BR =1;
+        static $iBR =1;
 
         $br1 = BanRecord::create([
-            'ban_id' => 'BR' . strval($BR++),
+            'ban_id' => 'BR' . strval($iBR++),
             'reason' => 'for testing purpose (1 day ban)',
             'duration' => '1',
             'status' => 'banned',
@@ -297,7 +297,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $br2 = BanRecord::create([
-            'ban_id' => 'BR' . strval($BR++),
+            'ban_id' => 'BR' . strval($iBR++),
             'reason' => 'for testing purpose (perma ban)',
             'duration' => '0',
             'status' => 'banned',
@@ -310,7 +310,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iNTF = 1;
 
         $ntf1 = Notification::create([
-            'notification_id' => 'BR' . strval($BR++),
+            'notification_id' => 'BR' . strval($iNTF++),
             'title' => 'new message from ' . $a2->name,
             'message' => 'hello',
             'type' => 'chat',
@@ -324,7 +324,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iRRP = 1;
 
         $rrp1 = RoomRentalPost::create([
-            'notification_id' => 'RRP' . strval($BR++),
+            'notification_id' => 'RRP' . strval($iRRP++),
             'title' => 'test',
             'description' => 'Totam ut hic quas consequatur voluptas. Eum at reiciendis. Quam quia voluptatibus sed mollitia accusamus consequatur optio. Omnis occaecati cumque excepturi.',
             'room_size' => 4,
