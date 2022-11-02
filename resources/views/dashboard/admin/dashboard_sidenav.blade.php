@@ -18,7 +18,7 @@
 
 <div id="report" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.admin.report') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Report</h5>
         </a>

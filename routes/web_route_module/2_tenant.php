@@ -30,6 +30,15 @@ Route::get('/dashboard/tenant/profile', function() {
     ]);
 })->name('dashboard.tenant.profile');
 
+Route::get('/dashboard/tenant/favorite', function() {
+    return view('dashboard/tenant/dashboard_favorite', [
+        'user' => 'Tenant',
+        'page' => 'Favorite',
+        'header' => 'Favorite',
+        //'back' => true
+    ]);
+})->name('dashboard.tenant.favorite');
+
 
 
 
