@@ -250,7 +250,8 @@ return new class extends Migration
         });
 
 
-
+        // Foreign key
+        
         Schema::table('ban_records', function (Blueprint $table) {
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });
