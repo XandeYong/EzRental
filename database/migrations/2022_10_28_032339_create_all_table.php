@@ -230,7 +230,7 @@ return new class extends Migration
         });
 
         Schema::create('maintenance_requests', function (Blueprint $table) {
-            $table->string('maintainance_id')->primary();
+            $table->string('maintenance_id')->primary();
             $table->string('title');
             $table->mediumText('description');
             $table->date('fullfill_date');
@@ -294,7 +294,7 @@ return new class extends Migration
             $table->foreign('post_id')->references('post_id')->on('room_rental_posts');
         });
 
-        Schema::table('chat_message', function (Blueprint $table) {
+        Schema::table('chat_messages', function (Blueprint $table) {
             $table->foreign('sender_id')->references('account_id')->on('accounts');
             $table->foreign('receiver_id')->references('account_id')->on('accounts');
             $table->foreign('chat_id')->references('chat_id')->on('chats');
@@ -302,10 +302,10 @@ return new class extends Migration
 
         Schema::table('group_messages', function (Blueprint $table) {
             $table->foreign('sender_id')->references('account_id')->on('accounts');
-            $table->foreign('chat_id')->references('chat_id')->on('group_chats');
+            $table->foreign('chat_id')->references('group_id')->on('group_chats');
         });
 
-        Schema::table('group_user', function (Blueprint $table) {
+        Schema::table('group_users', function (Blueprint $table) {
             $table->foreign('group_id')->references('group_id')->on('group_chats');
             $table->foreign('account_id')->references('account_id')->on('accounts');
         });
@@ -346,9 +346,9 @@ return new class extends Migration
         Schema::dropIfExists('payments');
         Schema::dropIfExists('favorites');
         Schema::dropIfExists('selected_criterias');
-        Schema::dropIfExists('group_user');
+        Schema::dropIfExists('group_users');
         Schema::dropIfExists('group_messages');
-        Schema::dropIfExists('chat_message');
+        Schema::dropIfExists('chat_messages');
         Schema::dropIfExists('post_images');
         Schema::dropIfExists('negotiations');
         Schema::dropIfExists('visit_appointments');
