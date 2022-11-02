@@ -321,21 +321,24 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
 
-        // static $iRRP = 1;
+        static $iRRP = 1;
 
-        // $rrp1 = RoomRentalPost::create([
-        //    'post_id' => 'RRP' . strval($iRRP++),
-        //    'title' => '',
-        //    'title' => '', 
-        //    'title' => '',
-        //    'title' => '',
-        //    'title' => '',
-        //    'title' => '',
-        //    'title' => '',
-        //    'title' => '',
-        // ]);
-
+        $rrp1 = RoomRentalPost::create([
+            'notification_id' => 'RRP' . strval($BR++),
+            'title' => 'test',
+            'description' => 'Totam ut hic quas consequatur voluptas. Eum at reiciendis. Quam quia voluptatibus sed mollitia accusamus consequatur optio. Omnis occaecati cumque excepturi.',
+            'room_size' => 4,
+            'address' => 'unread',
+            'condominium_name' => 'PV13',
+            'block' => 'A',
+            'floor' => '3A',
+            'unit' => 5,
+            'status' => 'available',
+            'contract_id' => $ct3->contract_id,
+            'account_id' => $a2->account_id
+        ]);
         
+        sleep(1);
 
 
 
