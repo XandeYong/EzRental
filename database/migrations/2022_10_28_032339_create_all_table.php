@@ -217,10 +217,9 @@ return new class extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->string('payment_id')->primary();
-            $table->string('title');
             $table->string('payment_method');
             $table->string('payment_type');
-            $table->string('paid_date');
+            $table->string('paid_date')->nullable();
             $table->double('amount');
             $table->string('status');
             $table->string('renting_id');
@@ -232,8 +231,7 @@ return new class extends Migration
             $table->string('maintenance_id')->primary();
             $table->string('title');
             $table->mediumText('description');
-            $table->date('fullfill_date');
-            $table->string('maintenance_proof');
+            $table->date('fullfill_date')->nullable();
             $table->string('status');
             $table->string('renting_id');
             $table->timestamp('created_at')->useCurrent();

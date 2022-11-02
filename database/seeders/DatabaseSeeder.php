@@ -12,18 +12,24 @@ use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\Comment;
 use App\Models\Contract;
+use App\Models\Favorite;
 use App\Models\GroupChat;
 use App\Models\GroupMessage;
 use App\Models\GroupUser;
+use App\Models\MaintenanceImage;
+use App\Models\MaintenanceRequest;
 use App\Models\Negotiation;
 use App\Models\Notification;
+use App\Models\Payment;
 use App\Models\PostCriteria;
 use App\Models\PostImage;
 use App\Models\Renting;
 use App\Models\RentRequest;
 use App\Models\RoomRentalPost;
+use App\Models\SelectedCriteria;
 use App\Models\VisitAppointment;
 use Carbon\Carbon;
+use Symfony\Component\CssSelector\Node\SelectorNode;
 
 class DatabaseSeeder extends Seeder
 {
@@ -784,7 +790,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'group_message_id' => 'GM' . strval($iGM++),
             'message' => 'Hi, everyone.',
             'sender_id' => $a5->account_id,
-            'group_id' => $gc2->group_id,
+            'group_id' => $gc1->group_id,
         ]);
         
         sleep(1);
@@ -793,7 +799,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'group_message_id' => 'GM' . strval($iGM++),
             'message' => 'Nice to meet you.',
             'sender_id' => $a2->account_id,
-            'group_id' => $gc2->group_id,
+            'group_id' => $gc1->group_id,
         ]);
         
         sleep(1);
@@ -802,7 +808,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iGU = 1;
 
         $gu1 = GroupUser::create([
-            'group_id' => 'GU' . strval($iGU++),
+            'group_id' => $gc1->group_id,
             'account_id' => $a2->account_id,
             'role' => 'Master',
         ]);
@@ -810,7 +816,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $gu2 = GroupUser::create([
-            'group_id' => 'GU' . strval($iGU++),
+            'group_id' => $gc1->group_id,
             'account_id' => $a3->account_id,
             'role' => 'Admin',
         ]);
@@ -818,7 +824,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $gu3 = GroupUser::create([
-            'group_id' => 'GU' . strval($iGU++),
+            'group_id' => $gc1->group_id,
             'account_id' => $a5->account_id,
             'role' => 'Member',
         ]);
@@ -826,24 +832,141 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
 
+        static $iSC = 1;
+
+        $sc1 = SelectedCriteria::create([
+            'criteria_id' => $pc1->criteria_id,
+            'account_id' => $a5->account_id,
+        ]);
+        
+        sleep(1);
+
+        $sc2 = SelectedCriteria::create([
+            'criteria_id' => $pc2->criteria_id,
+            'account_id' => $a6->account_id,
+        ]);
+        
+        sleep(1);
+
+
+        static $iF = 1;
+
+        $f1 = Favorite::create([
+            'post_id' => $rrp1->post_id,
+            'account_id' => $a5->account_id,
+        ]);
+        
+        sleep(1);
 
 
 
+        static $iP = 1;
+
+        $p1 = Payment::create([
+            'payment_id' => 'P' . strval($iP++),
+            'payment_method' => 'PayPal',    
+            'payment_type' => 'Monthly',    
+            'paid_date' => null,    
+            'amount' => 500.00,    
+            'status' => 'unpaid',
+            'renting_id' => $r1->renting_id,
+        ]);
+        
+        sleep(1);
+
+        $p2 = Payment::create([
+            'payment_id' => 'P' . strval($iP++),
+            'payment_method' => 'PayPal',    
+            'payment_type' => 'Deposit',    
+            'paid_date' => '2022-04-22',    
+            'amount' => 1250.00,    
+            'status' => 'paid',
+            'renting_id' => $r1->renting_id,
+        ]);
+        
+        sleep(1);
 
 
+        static $iMR = 1;
+
+        $mr1 = MaintenanceRequest::create([
+            'maintenance_id' => 'MR' . strval($iMR++),
+            'title' => 'Toilet Light Bulb Burn Out',    
+            'description' => 'Urgent!',    
+            'fullfill_date' => null,  
+            'status' => 'pending',   
+            'renting_id' => $r1->renting_id,
+        ]);
+        
+        sleep(1);
 
 
+        $mr2 = MaintenanceRequest::create([
+            'maintenance_id' => 'MR' . strval($iMR++),
+            'title' => 'Toilet Door Break',    
+            'description' => 'Urgent!',    
+            'fullfill_date' => null,  
+            'status' => 'approved',   
+            'renting_id' => $r1->renting_id,
+        ]);
+        
+        sleep(1);
 
 
+        $mr3 = MaintenanceRequest::create([
+            'maintenance_id' => 'MR' . strval($iMR++),
+            'title' => 'Air-conditioner Not Working',    
+            'description' => 'Urgent!',    
+            'fullfill_date' => null,  
+            'status' => 'rejected',   
+            'renting_id' => $r2->renting_id,
+        ]);
+        
+        sleep(1);
+
+        $mr4 = MaintenanceRequest::create([
+            'maintenance_id' => 'MR' . strval($iMR++),
+            'title' => 'Wall Fan Not Working',    
+            'description' => 'Urgent!',    
+            'fullfill_date' => '2022-11-12',  
+            'status' => 'success',   
+            'renting_id' => $r2->renting_id,
+        ]);
+        
+        sleep(1);
 
 
+        static $iMI = 1;
 
+        $mi1 = MaintenanceImage::create([
+            'maintenance_image_id' => 'MI' . strval($iMI++),
+            'image' => 'profile.png',   
+            'maintenance_id' => $mr1->maintenance_id,
+        ]);
+        
+        sleep(1);
 
+        $mi2 = MaintenanceImage::create([
+            'maintenance_image_id' => 'MI' . strval($iMI++),
+            'image' => 'profile.png',   
+            'maintenance_id' => $mr2->maintenance_id,
+        ]);
+        
+        sleep(1);
 
+        $mi3 = MaintenanceImage::create([
+            'maintenance_image_id' => 'MI' . strval($iMI++),
+            'image' => 'profile.png',   
+            'maintenance_id' => $mr3->maintenance_id,
+        ]);
+        
+        sleep(1);
 
-
-
-
+        $mi4 = MaintenanceImage::create([
+            'maintenance_image_id' => 'MI' . strval($iMI++),
+            'image' => 'profile.png',   
+            'maintenance_id' => $mr4->maintenance_id,
+        ]);
 
     }
 }
