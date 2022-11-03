@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use PhpParser\Node\Expr\BinaryOp\Equal;
+use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
@@ -53,7 +54,7 @@ class ProfileController extends Controller
         $correctOldPassword = $request->input('correctOldPassword');
 
         if(trim($correctOldPassword) == trim($oldPassword) && strlen($newPassword) >= 6){
-            return redirect(route("dashboard.profile"));
+            return redirect('dashboard.profile');
 
         }else{
             $newPassError = "";
@@ -62,11 +63,10 @@ class ProfileController extends Controller
             if(strlen($newPassword) < 6){
                 $newPassError="*Password must have 6 value or more than 6 value!";
             }
-            if(trim($correctOldPassword) == trim($oldPassword)){
+            if(trim($correctOldPassword) != trim($oldPassword)){
                 $oldPassError="*Invalid old password!";
             }
-            return redirect(route("/dashboard/profile/errMsgDisChgPass. '/' .$newPassError. '/' .$oldPassError"));
-
+            return redirect('/dashboard/profile/errMsgDisChgPass/'. $newPassError. '/' .$oldPassError ); 
 
         }
 
