@@ -18,10 +18,10 @@
         <div class="container-fluid">
             @include('../base/dashboard/dashboard_header')
 
-            <div id="content" class="row">
-                
+            <div id="content" class="row justify-content-center">
+
                 {{-- Code here --}}
-                <div class="col justify-content-center">
+                <div class="col col-sm-10 col-md-8 col-lg-10">
                     
 
                 </div>
