@@ -51,9 +51,20 @@ class ProfileController extends Controller
         $correctOldPassword = $request->input('correctOldPassword');
 
         if(trim($correctOldPassword) == trim($oldPassword)){
-            
+            if(strlen($newPassword) >= 6){
+                
+            }else{
+
+            }
+
         }else{
-            
+            return view('dashboard/dashboard_profile', [
+                'user' => $this->user,
+                'page' => $this->name,
+                'header' => $this->name,
+                'profile' => $profile,
+                'age' => $age
+            ]);
         }
 
 
