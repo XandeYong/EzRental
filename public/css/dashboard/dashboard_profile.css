@@ -33,3 +33,13 @@
     margin-top: 10px;
     
 }
+
+#change_password .card-footer {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+#edit_profile button {
+    border-color: rgba(0,0,0,0.18);
+}

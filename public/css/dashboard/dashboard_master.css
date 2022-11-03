@@ -290,9 +290,7 @@
         }
 
 #content {
-    padding-top: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 3rem 0.5rem;
 }
 
 #footer {
@@ -313,10 +311,47 @@
     width: var(--sidebar-width);
 }
 
+@media only screen and (min-width: 992px) {
+
+    html {
+        overflow: hidden;
+    }    
+
+    #content {
+        max-height: 85vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
 
 @media only screen and (max-width: 992px) {
     #wrapper {
         padding-left: 0;
+    }
+
+    #header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+
+        background-color:white;
+        border-bottom: black;
+        border: 2px;
+    }
+
+    #content {
+        padding-top: calc(var(--header-height) + 3rem + 3rem);
+        padding-bottom: 3rem;
+    }
+
+    #header-2 {
+        max-height: 3rem;
+    }
+
+    #header-2 h4 {
+        font-size: 1.25rem;
     }
 }
 
