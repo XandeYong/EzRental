@@ -101,8 +101,9 @@ Route::get('/logout', function () {
 
 //Controller
 //ProfileController
-Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('dashboard.profile');
-Route::post("/dashboard/profile/changePassword", [accountController::class, 'changePassword']);
+Route::get('/dashboard/profile/index', [ProfileController::class, 'index'])->name('dashboard.profile');
+Route::post("/dashboard/profile/changePassword", [ProfileController::class, 'changePassword']);
+Route::get('/dashboard/profile/errMsgDisChgPass/{newPassError}/{oldPassError}', [ProfileController::class, 'errMsgDisChgPass']);
 
 Route::get("/dashboard/profile/edit", [ProfileController::class, 'editProfile'])->name('dashboard.profile.edit');
 
