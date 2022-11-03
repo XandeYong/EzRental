@@ -23,7 +23,7 @@
                             <a href="{{url("/chat")}}">Chat</a>
                         </li>
 
-                        @if (!session()->get('account'))
+                        @if (!Session::has('account'))
                         <li class="px-2">
                             <a href="{{url("/login_portal")}}">Login</a>
                         </li>

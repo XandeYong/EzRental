@@ -11,13 +11,13 @@
             <div id="account">
                 <div id="account-icon">
                     <a id="account-frame" href="#" class="" >
-                        <img class="unselectable" src="{{ asset("/image/account/profile.png") }}" alt="img">
+                        <img class="unselectable" src="{{ asset("/image/account/" . Session::get('account')['image']) }}" alt="img">
                     </a>
 
                     <div id="account-dropdown" class="hide">
                         <div id="account-dropdown-box">
                             <div id="account-header" class="account-box">
-                                <h6 id="account-name">{{ session()->get('account')['name']; }}</h6>
+                                <h6 id="account-name">{{ Session::get('account')['name']; }}</h6>
                             </div>
                             <div id="account-body" class="account-box">
                                 <a href="/">
@@ -46,7 +46,7 @@
         @if (isset($back))
         <div id="header-back" class="position-absolute">
             <h4 class="m-0 border-right-2">
-                <a class="text-decoration-none" href="{{ url()->previous() }}">
+                <a class="text-decoration-none" href="{{ $back }}">
                     <i class="ico-sm ico-chevron-left"></i>
                 </a>
             </h4>

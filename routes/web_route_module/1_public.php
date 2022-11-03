@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +119,11 @@ Route::get('/login_portal/login/admin', function () {
 
 
 Route::get('/logout', function () {
-    session()->forget('account');
+    DB::table('accounts')
+        ->where('account_id', Session::get('account')['account_id'])
+        ->update(['status' => "offline"]);
+
+    Session::forget('account');
     return redirect(route("home"));
 })->name('logout');
 

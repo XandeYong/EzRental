@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Account;
 use App\Models\BanRecord;
@@ -28,8 +26,6 @@ use App\Models\RentRequest;
 use App\Models\RoomRentalPost;
 use App\Models\SelectedCriteria;
 use App\Models\VisitAppointment;
-use Carbon\Carbon;
-use Symfony\Component\CssSelector\Node\SelectorNode;
 
 class DatabaseSeeder extends Seeder
 {
@@ -67,15 +63,15 @@ class DatabaseSeeder extends Seeder
 
         static $iA = 1;
 
-        $masteradmin1 = Account::create([
-            'account_id' => 'A' . strval($iA++),
+        $ma1 = Account::create([
+            'account_id' => 'A' . strval($iA),
             'name' => "Jon Strosin",
             'gender' => "M",
             'dob' => "1981-01-19",
             'mobile_number' => "0188550178",
             'email' => "jonstrosin@gmail.com",
             'password' => "KLEIgoXUKD",
-            'image' => 'profile.png',
+            'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
             'role' => 'MA'
         ]);
@@ -83,14 +79,14 @@ class DatabaseSeeder extends Seeder
         sleep(1);
 
         $a1 = Account::create([
-            'account_id' => 'A' . strval($iA++),
+            'account_id' => 'A' . strval($iA),
             'name' => "Yolanda Fahey",
             'gender' => "F",
             'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
             'mobile_number' => "01" . strval(rand(10000000, 99999999)),
             'email' => "pbrandt1@gmail.com",
             'password' => "I0pVObJcKH",
-            'image' => 'profile.png',
+            'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
             'role' => 'A',
         ]);
@@ -98,14 +94,14 @@ class DatabaseSeeder extends Seeder
         sleep(1);
 
         $a2 = Account::create([
-            'account_id' => 'A' . strval($iA++),
+            'account_id' => 'A' . strval($iA),
             'name' => "Peter Greenholt",
             'gender' => "M",
             'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
             'mobile_number' => "01" . strval(rand(10000000, 99999999)),
             'email' => "tmoss2@gmail.com",
             'password' => "ObJc0pVXUEIg",
-            'image' => 'profile.png',
+            'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
             'role' => 'O',
         ]);
@@ -113,14 +109,14 @@ class DatabaseSeeder extends Seeder
         sleep(1);
 
         $a3 = Account::create([
-            'account_id' => 'A' . strval($iA++),
+            'account_id' => 'A' . strval($iA),
             'name' => "Janice Towne",
             'gender' => "F",
             'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
             'mobile_number' => "01" . strval(rand(10000000, 99999999)),
             'email' => "vjanton6@gmail.com",
             'password' => 'DxiKRnJrLc',
-            'image' => 'profile.png',
+            'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
             'role' => 'T',
         ]);
@@ -166,7 +162,7 @@ class DatabaseSeeder extends Seeder
             'email' => "Danial@gmail.com",
             'password' => Str::random(10),
             'image' => 'profile.png',
-            'status' => 'unbanned',
+            'status' => 'online',
             'role' => 'T',
         ]);
         
@@ -721,40 +717,40 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iPI = 1;
 
         $pi1 = PostImage::create([
-            'post_image_id' => 'PI' . strval($iPI++),
-            'image' => 'profile.png',
+            'post_image_id' => 'PI' . strval($iPI),
+            'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp1->post_id,
         ]);
         
         sleep(1);
 
         $pi2 = PostImage::create([
-            'post_image_id' => 'PI' . strval($iPI++),
-            'image' => 'profile.png',
+            'post_image_id' => 'PI' . strval($iPI),
+            'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp2->post_id,
         ]);
         
         sleep(1);
 
         $pi3 = PostImage::create([
-            'post_image_id' => 'PI' . strval($iPI++),
-            'image' => 'profile.png',
+            'post_image_id' => 'PI' . strval($iPI),
+            'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp3->post_id,
         ]);
         
         sleep(1);
 
         $pi4 = PostImage::create([
-            'post_image_id' => 'PI' . strval($iPI++),
-            'image' => 'profile.png',
+            'post_image_id' => 'PI' . strval($iPI),
+            'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp4->post_id,
         ]);
         
         sleep(1);
 
         $pi5 = PostImage::create([
-            'post_image_id' => 'PI' . strval($iPI++),
-            'image' => 'profile.png',
+            'post_image_id' => 'PI' . strval($iPI),
+            'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp5->post_id,
         ]);
         
@@ -939,32 +935,32 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iMI = 1;
 
         $mi1 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI++),
-            'image' => 'profile.png',   
+            'maintenance_image_id' => 'MI' . strval($iMI),
+            'image' => 'MI' . strval($iMI++) . '.png',     
             'maintenance_id' => $mr1->maintenance_id,
         ]);
         
         sleep(1);
 
         $mi2 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI++),
-            'image' => 'profile.png',   
+            'maintenance_image_id' => 'MI' . strval($iMI),
+            'image' => 'MI' . strval($iMI++) . '.png',     
             'maintenance_id' => $mr2->maintenance_id,
         ]);
         
         sleep(1);
 
         $mi3 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI++),
-            'image' => 'profile.png',   
+            'maintenance_image_id' => 'MI' . strval($iMI),
+            'image' => 'MI' . strval($iMI++) . '.png',     
             'maintenance_id' => $mr3->maintenance_id,
         ]);
         
         sleep(1);
 
         $mi4 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI++),
-            'image' => 'profile.png',   
+            'maintenance_image_id' => 'MI' . strval($iMI),
+            'image' => 'MI' . strval($iMI++) . '.png',     
             'maintenance_id' => $mr4->maintenance_id,
         ]);
 
