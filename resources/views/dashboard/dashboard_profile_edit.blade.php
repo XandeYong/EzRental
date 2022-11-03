@@ -27,20 +27,24 @@
                         {{-- Profile Details --}}
                         <div class="container">
 
-                            <form action="">
+                            <form action="/dashboard/profile/validateEditProfileDetails" method="post"
+                                    onsubmit="return confirm('Are you sure you want to edit profile?');" enctype="multipart/form-data">
+                                    @csrf
                                 {{-- Check is the profile empty --}}
                                 @if ($profile->isEmpty())
-                                    <tr>
-                                        <th colspan="6">No Profile found</th>
-                                    </tr>
+                                    
+                                        <label colspan="6">No Profile found</label>
+                                    
                                 @else
                                 <div class="row row-gap align-items-center">
 
                                     <div class="col-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 img-thumbnail py-3">
-                                        <img src="/image/condo.webp" class="img-fluid rounded" alt="...">
+                                        <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid rounded" alt="...">
                                         <div class="pt-3 px-2">
-                                            <input class="form-control text-center" type="file" name="" id="">
-                                            <span class="c-red-error text-left">*Error message</span>
+                                            <input class="form-control text-center" type="file" name="image">
+                                            @if($errors->has('image'))
+                                            <span class="c-red-error">*{{ $errors->first('image') }}</span>
+                                            @endif
                                         </div>
                                         
                                     </div>
@@ -70,8 +74,10 @@
                                                             <label>Name :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="{{ $profile[0]->name }}" placeholder="Please Enter your name here">
-                                                            <span class="c-red-error">*Error message</span>
+                                                            <input class="form-control" type="text" name="name" value="{{ old('name', $profile[0]->name) }}" placeholder="Please Enter your name here" required>
+                                                            @if($errors->has('name'))
+                                                            <span class="c-red-error">*{{ $errors->first('name') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>  
                                                 </li>
@@ -82,20 +88,39 @@
                                                             <label>Gender :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
+
+                                                            @if($errors->any())
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" required @if ($profile[0]->gender == "M") checked @endif />
-                                                                <label class="form-check-label" for="exampleRadios1">
+                                                                <input class="form-check-input" type="radio" name="gender"  value="M" {{ old('gender') == "M" ? 'checked' : '' }} required  />
+                                                                <label class="form-check-label" >
                                                                     Male
                                                                 </label>
                                                             </div>
 
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" required @if ($profile[0]->gender == "F") checked @endif />
-                                                                <label class="form-check-label" for="exampleRadios2">
+                                                                <input class="form-check-input" type="radio" name="gender"  value="F" {{ old('gender') == "F" ? 'checked' : '' }}  required />
+                                                                <label class="form-check-label" >
                                                                     Female
                                                                 </label>
                                                             </div>
-                                                            <span class="c-red-error">*Error message</span>
+                                                            @if($errors->has('gender'))
+                                                            <span class="c-red-error">*{{ $errors->first('gender') }}</span>
+                                                            @endif
+                                                            @else
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="gender"  value="M" required @if ($profile[0]->gender == "M") checked @endif />
+                                                                <label class="form-check-label" >
+                                                                    Male
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="gender"  value="F" required @if ($profile[0]->gender == "F") checked @endif />
+                                                                <label class="form-check-label" >
+                                                                    Female
+                                                                </label>
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                     </div>  
                                                 </li>
@@ -106,8 +131,10 @@
                                                             <label>Age :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="{{ $age }}" placeholder="Please Enter your Age here">
-                                                            <span class="c-red-error">*Error message</span>
+                                                            <input class="form-control" type="text" name="age" value="{{ old('age', $age) }}" placeholder="Please Enter your Age here" required>
+                                                            @if($errors->has('age'))
+                                                            <span class="c-red-error">*{{ $errors->first('age') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>  
                                                 </li>
@@ -118,8 +145,10 @@
                                                             <label>Phone Number :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="{{ $profile[0]->mobile_number }}" placeholder="Please Enter your phone number here">
-                                                            <span class="c-red-error">*Error message</span>
+                                                            <input class="form-control" type="text" name="phoneNumber" value="{{ old('phoneNumber', $profile[0]->mobile_number) }}" placeholder="Please Enter your phone number here" required>
+                                                            @if($errors->has('phoneNumber'))
+                                                            <span class="c-red-error">*{{ $errors->first('phoneNumber') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>  
                                                 </li>
@@ -130,8 +159,10 @@
                                                             <label>Email :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="{{ $profile[0]->email }}" placeholder="Please Enter your email here">
-                                                            <span class="c-red-error">*Error message</span>
+                                                            <input class="form-control" type="text" name="email" value="{{ old('email', $profile[0]->email) }}" placeholder="Please Enter your email here" required>
+                                                            @if($errors->has('email'))
+                                                            <span class="c-red-error">*{{ $errors->first('email') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>  
                                                 </li>
@@ -146,7 +177,7 @@
 
                                 <div id="edit_profile" class="row row-gap justify-content-center mt-1 mt-lg-2">
                                     <div class="col text-center">
-                                        <input type="submit" class="edit-btn btn btn-lg btn-warning w-100" value="Update Profile" />
+                                        <input type="submit" class="edit-btn btn btn-lg btn-warning w-100" name="Edit Profile" value="Edit Profile" />
                                     </div>
                                 </div>
 
