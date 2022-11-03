@@ -26,6 +26,13 @@
 
                         {{-- Profile Details --}}
                         <div class="container">
+
+                            {{-- Check is the profile empty --}}
+                            @if ($profile->isEmpty())
+                                <tr>
+                                    <th colspan="6">No Profile found</th>
+                                </tr>
+                            @else
                             <div class="row row-gap align-items-center">
 
                                 <div class="col-12 col-lg-4 mb-3 mb-lg-0">
@@ -46,7 +53,7 @@
                                                         <label>ID :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>A1</label>
+                                                        <label>{{ $profile[0]->account_id }}</label>
                                                     </div>
                                                 </div>
                                             </li>
@@ -57,7 +64,7 @@
                                                         <label>Name :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>Genji</label>
+                                                        <label>{{ $profile[0]->name }}</label>
                                                     </div>
                                                 </div>  
                                             </li>
@@ -68,7 +75,7 @@
                                                         <label>Gender :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>Male</label>
+                                                        <label>{{ $profile[0]->gender }}</label>
                                                     </div>
                                                 </div>  
                                             </li>
@@ -79,7 +86,7 @@
                                                         <label>Age :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>28</label>
+                                                        <label>{{ $age }}</label>
                                                     </div>
                                                 </div>  
                                             </li>
@@ -90,7 +97,7 @@
                                                         <label>Phone Number :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>0137897232</label>
+                                                        <label>{{ $profile[0]->mobile_number }}</label>
                                                     </div>
                                                 </div>  
                                             </li>
@@ -101,7 +108,7 @@
                                                         <label>Email :</label>
                                                     </div>
                                                     <div class="col col-lg-9">
-                                                        <label>genji@battle.net</label>
+                                                        <label>{{ $profile[0]->email }}</label>
                                                     </div>
                                                 </div>  
                                             </li>
@@ -122,6 +129,7 @@
 
                         {{-- Change Password --}}
                         <div id="change_password" class="container mt-4">
+                            <form action="/profileControl/changePassword" method="post" onsubmit="return confirm('Are you sure you want to change password?');">
                             <div class="row">
                                 <div class="col">
 
@@ -136,7 +144,7 @@
                                                     <label>New Password: </label>
                                                 </div>
                                                 <div class="col-12 col-lg-9">
-                                                    <input class="form-control" type="text">
+                                                    <input type="password" name="newPassword" class="w-100" required>
                                                 </div>
                                             </div>
 
@@ -145,16 +153,18 @@
                                                     <label>Old Password: </label>
                                                 </div>
                                                 <div class="col-12 col-lg-9">
-                                                    <input class="form-control" type="text">
+                                                    <input type="password" name="oldPassword" class="w-100" required>
+                                                    <input type="hidden" id="correctOldPassword" name="custId" value={{ $profile[0]->password }}>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <button class="card-footer btn btn-outline-danger w-100">Change Password</button>
+                                        <input type="submit" name="Change Password" value="Change Password"
+                                        class="card-footer btn btn-outline-danger w-100">
                                     </div>
 
                                 </div>
                             </div>
+                        </form>
                         </div>
 
                     </div>
