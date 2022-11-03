@@ -148,7 +148,7 @@ return new class extends Migration
         });
 
         Schema::create('negotiations', function (Blueprint $table) {
-            $table->string('negotiate_id')->primary();
+            $table->string('negotiation_id')->primary();
             $table->double('price');
             $table->text('message');
             $table->string('status');

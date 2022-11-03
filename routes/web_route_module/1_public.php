@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,24 +35,46 @@ Route::get('/chat', function () {
     return view('chat');
 })->name('chat');
 
+Route::get('/dashboard', function () {
+    $role = session()->get('account')['role'];
+    switch ($role) {
+        case 'A':
+            return redirect(route('dashboard.admin'));
+        case 'O':
+            return redirect(route('dashboard.owner'));
+        case 'T':
+            return redirect(route('dashboard.tenant'));
+        default:
+            return redirect('/');
+    }
+})->name('dashboard');
+
 //--------
 // Login
 //--------
 
 Route::get('/login_portal', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/login_portal');
 })->name('login.portal');
+
+Route::post('/login_portal/login/account_login', [AccountController::class, 'login'])->name('login.portal.login');
 
 
 // Tenant
 
 Route::get('/login_portal/login/tenant', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/login', [
         'user' => 'Tenant'
     ]);
 })->name('login.tenant');
 
 Route::get('/login_portal/register/tenant', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/register', [
         'user' => 'Tenant'
     ]);
@@ -61,12 +84,16 @@ Route::get('/login_portal/register/tenant', function () {
 // Owner
 
 Route::get('/login_portal/login/owner', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/login', [
         'user' => 'Owner'
     ]);
 })->name('login.owner');
 
 Route::get('/login_portal/register/owner', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/register', [
         'user' => 'Owner'
     ]);
@@ -76,16 +103,12 @@ Route::get('/login_portal/register/owner', function () {
 // Admin
 
 Route::get('/login_portal/login/admin', function () {
+    if (session()->get('account')) { return redirect('/'); }
+
     return view('/login/login', [
         'user' => 'Admin'
     ]);
 })->name('login.admin');
-
-Route::get('/login_portal/register/admin', function () {
-    return view('/login/register', [
-        'user' => 'Admin'
-    ]);
-})->name('register.admin');
 
 
 //----------
@@ -94,7 +117,7 @@ Route::get('/login_portal/register/admin', function () {
 
 
 Route::get('/logout', function () {
-    //function to logout
+    session()->forget('account');
     return redirect(route("home"));
 })->name('logout');
 

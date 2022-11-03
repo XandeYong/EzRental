@@ -1,5 +1,8 @@
 /*
 *  
+*  Custom css reference from bootstrap
+*
+*  @Author: Xande Yong
 *  All right Reserved to @Xande_Yong
 *  Credit to @Xande_Yong when using this css
 *
@@ -749,6 +752,17 @@
 
 .hide {
     visibility: hidden;
+}
+
+/* popup */
+.message-popup {
+    display: none;
+    position:absolute;
+    text-align: center;
+    top: 10%;
+
+    width: 25%;
+    max-width: 75%;
 }
 
 /* Media */

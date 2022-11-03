@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'account_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
 }

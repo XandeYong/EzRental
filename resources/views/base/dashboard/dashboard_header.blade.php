@@ -11,13 +11,13 @@
             <div id="account">
                 <div id="account-icon">
                     <a id="account-frame" href="#" class="" >
-                        <img class="unselectable" src="{{ asset("/image/account/Profile.png") }}" alt="img">
+                        <img class="unselectable" src="{{ asset("/image/account/profile.png") }}" alt="img">
                     </a>
 
                     <div id="account-dropdown" class="hide">
                         <div id="account-dropdown-box">
                             <div id="account-header" class="account-box">
-                                <h6 id="account-name">Username</h6>
+                                <h6 id="account-name">{{ session()->get('account')['name']; }}</h6>
                             </div>
                             <div id="account-body" class="account-box">
                                 <a href="/">

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'contract_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+   
 }

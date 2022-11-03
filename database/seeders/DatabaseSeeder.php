@@ -663,7 +663,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iNGT = 1;
 
         $ngt1 = Negotiation::create([
-            'negotiate_id' => 'NGT' . strval($iNGT++),
+            'negotiation_id' => 'NGT' . strval($iNGT++),
             'price' => 500.00,
             'message' => 'Can negotiate.',
             'status' => 'tenant_offer',
@@ -674,7 +674,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $ngt2 = Negotiation::create([
-            'negotiate_id' => 'NGT' . strval($iNGT++),
+            'negotiation_id' => 'NGT' . strval($iNGT++),
             'price' => 600.00,
             'message' => 'Can negotiate.',
             'status' => 'owner_offer',
@@ -685,7 +685,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $ngt3 = Negotiation::create([
-            'negotiate_id' => 'NGT' . strval($iNGT++),
+            'negotiation_id' => 'NGT' . strval($iNGT++),
             'price' => 400.00,
             'message' => 'Can negotiate.',
             'status' => 'accepted',
@@ -696,7 +696,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $ngt4 = Negotiation::create([
-            'negotiate_id' => 'NGT' . strval($iNGT++),
+            'negotiation_id' => 'NGT' . strval($iNGT++),
             'price' => 500.00,
             'message' => 'Can negotiate.',
             'status' => 'rejected',
@@ -707,7 +707,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $ngt5 = Negotiation::create([
-            'negotiate_id' => 'NGT' . strval($iNGT++),
+            'negotiation_id' => 'NGT' . strval($iNGT++),
             'price' => 600.00,
             'message' => 'Can negotiate.',
             'status' => 'canceled',

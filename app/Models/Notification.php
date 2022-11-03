@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'notification_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+   
 }

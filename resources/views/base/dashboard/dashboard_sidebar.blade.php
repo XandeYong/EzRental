@@ -1,7 +1,7 @@
 <div id="sidebar">
     <div class="container-fluid">
         <div id="sidebar-title" class="row">
-            <a href="{{ route("dashboard." . strtolower($user)) }}" class="text-decoration-none">
+            <a href="{{ route("dashboard") }}" class="text-decoration-none">
                 <div id="sidebar-title-text" >
                     <h1 class="d-flex">
                         <span>Ez</span>
@@ -19,14 +19,14 @@
             <div class="navlist-list col-12">
 
                 {{-- Side Navigation Content --}}
-
-                @if (strtolower($user) == "tenant")
+                @php $role = session()->get('account')['role']; @endphp
+                @if ($role == "T")
                     @include("dashboard/tenant/dashboard_sidenav")
                     
-                @elseif (strtolower($user) == "owner")
+                @elseif ($role == "O")
                     @include("dashboard/owner/dashboard_sidenav")
 
-                @elseif (strtolower($user) == "admin")
+                @elseif ($role == "A" || $role == "MA")
                     @include("dashboard/admin/dashboard_sidenav")
 
                 @endif

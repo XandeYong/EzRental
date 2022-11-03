@@ -37,8 +37,8 @@
 
                             <div class="row row-gap align-items-center">
 
-                                <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                                    <img src="/image/condo.webp" class="img-fluid img-thumbnail rounded"
+                                <div class="col-12 col-lg-4 mb-3 mb-lg-0 text-center">
+                                    <img src="/image/account/profile.png" class="img-fluid img-thumbnail rounded"
                                         alt="...">
                                 </div>
 
@@ -165,6 +165,7 @@
                                                 </div>
                                             </div>
 
+
                                             <div class="row">
                                                 <div class="col-12 text-center">
                                                     <?php if(!(empty($oldPassError))){ ?>
@@ -185,13 +186,25 @@
                 </div>
                 @endif
 
+                {{-- login success message --}}
+                @if(session()->has('login_message'))
+                    <div id="login_message" class="message-popup">
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ session()->get('login_message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
 
+                    @php session()->forget('login_message') @endphp
+                @endif
 
             </div>
         </div>
     </div>
 
+
     @include('../base/dashboard/dashboard_script')
+    <script src="{{ asset('vendor/xande/animation.js') }}"></script>
 
 </body>
 </html>

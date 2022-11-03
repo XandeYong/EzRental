@@ -22,9 +22,19 @@
                         <li class="px-2">
                             <a href="{{url("/chat")}}">Chat</a>
                         </li>
+
+                        @if (!session()->get('account'))
                         <li class="px-2">
                             <a href="{{url("/login_portal")}}">Login</a>
                         </li>
+                        @else
+                        <li class="px-2">
+                            <a href="{{url("/dashboard")}}">Dashboard</a>
+                        </li>
+                        <li class="px-2">
+                            <a href="{{url("/logout")}}">Logout</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
 

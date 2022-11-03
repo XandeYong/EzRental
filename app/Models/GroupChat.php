@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class GroupChat extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'group_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+   
 }
