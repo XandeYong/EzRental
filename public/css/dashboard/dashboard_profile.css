@@ -44,6 +44,6 @@
     border-bottom: 0;
 }
 
-#edit_profile button {
+#edit_profile .edit-btn {
     border-color: rgba(0,0,0,0.18);
 }

@@ -123,7 +123,9 @@
 
                             <div id="edit_profile" class="row row-gap justify-content-center mt-1">
                                 <div class="col text-center">
-                                    <button type="button" class="btn btn-lg btn-light btn-outline-dark w-100">Edit Profile</button>
+                                    <a href="{{ route('dashboard.profile.edit') }}">
+                                        <button type="button" class="edit-btn btn btn-lg btn-light btn-outline-dark w-100">Edit Profile</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

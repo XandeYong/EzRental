@@ -25,20 +25,20 @@ class ProfileController extends Controller
             ->select('account_id', 'name', 'gender', 'dob', 'mobile_number', 'email', 'image', 'role', 'password')
             ->get();
 
-            if ($profile->isNotEmpty()) {
-            //calculate age
-            $age=Carbon::parse($profile[0]->dob)->age;
-            }else{
-            $age=0;
-            }
+        if ($profile->isNotEmpty()) {
+        //calculate age
+        $age=Carbon::parse($profile[0]->dob)->age;
+        }else{
+        $age=0;
+        }
 
-            return view('dashboard/dashboard_profile', [
-                'user' => $this->user,
-                'page' => $this->name,
-                'header' => $this->name,
-                'profile' => $profile,
-                'age' => $age
-            ]);
+        return view('dashboard/dashboard_profile', [
+            'user' => $this->user,
+            'page' => $this->name,
+            'header' => $this->name,
+            'profile' => $profile,
+            'age' => $age
+        ]);
 
     }
 
@@ -78,6 +78,31 @@ class ProfileController extends Controller
                 'profile' => $profile,
                 'age' => $age
             ]);
+
+    }
+
+    public function editProfile() {
+        $id = "A6"; //meed edit
+
+        $profile = DB::table('accounts')
+            ->where('account_id', $id) 
+            ->select('account_id', 'name', 'gender', 'dob', 'mobile_number', 'email', 'image', 'role', 'password')
+            ->get();
+
+        if ($profile->isNotEmpty()) {
+            //calculate age
+            $age=Carbon::parse($profile[0]->dob)->age;
+        }else{
+            $age=0;
+        }
+
+        return view('dashboard/dashboard_profile_edit', [
+            'user' => $this->user,
+            'page' => $this->name,
+            'header' => "Edit Profile",
+            'profile' => $profile,
+            'age' => $age
+        ]);
 
     }
 

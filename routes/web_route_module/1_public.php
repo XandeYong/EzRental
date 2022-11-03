@@ -101,8 +101,11 @@ Route::get('/logout', function () {
 
 //Controller
 //ProfileController
-Route::get('/profileControl/index', [ProfileController::class, 'index'])->name('dashboard.profile');
-Route::post("/profileControl/changePassword", [accountController::class, 'changePassword']);
+Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('dashboard.profile');
+Route::post("/dashboard/profile/changePassword", [accountController::class, 'changePassword']);
+
+Route::get("/dashboard/profile/edit", [ProfileController::class, 'editProfile'])->name('dashboard.profile.edit');
+
 
 
 

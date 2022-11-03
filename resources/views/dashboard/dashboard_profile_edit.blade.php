@@ -26,135 +26,131 @@
 
                         {{-- Profile Details --}}
                         <div class="container">
-                            <div class="row row-gap align-items-center">
 
-                                <div class="col-12 col-lg-4 mb-3 mb-lg-0">
-                                    <img src="/image/condo.webp" class="img-fluid img-thumbnail rounded" alt="...">
-                                </div>
+                            <form action="">
+                                {{-- Check is the profile empty --}}
+                                @if ($profile->isEmpty())
+                                    <tr>
+                                        <th colspan="6">No Profile found</th>
+                                    </tr>
+                                @else
+                                <div class="row row-gap align-items-center">
 
-                                <div class="col-12 col-lg-8">
-                                    <div class="card">
-
-                                        <div class="card-header">
-                                            <h5>Information</h5>
+                                    <div class="col-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 img-thumbnail py-3">
+                                        <img src="/image/condo.webp" class="img-fluid rounded" alt="...">
+                                        <div class="pt-3 px-2">
+                                            <input class="form-control text-center" type="file" name="" id="">
+                                            <span class="c-red-error text-left">*Error message</span>
                                         </div>
+                                        
+                                    </div>
 
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>ID :</label>
-                                                    </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>A1</label>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                    <div class="col-12 col-lg-7 col-xl-8">
+                                        <div class="card">
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>Name :</label>
-                                                    </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>Genji</label>
-                                                    </div>
-                                                </div>  
-                                            </li>
+                                            <div class="card-header">
+                                                <h5>Information</h5>
+                                            </div>
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>Gender :</label>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>ID :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <label>{{ $profile[0]->account_id }}</label>
+                                                        </div>
                                                     </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>Male</label>
-                                                    </div>
-                                                </div>  
-                                            </li>
+                                                </li>
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>Age :</label>
-                                                    </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>28</label>
-                                                    </div>
-                                                </div>  
-                                            </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>Name :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <input class="form-control" type="text" value="{{ $profile[0]->name }}" placeholder="Please Enter your name here">
+                                                            <span class="c-red-error">*Error message</span>
+                                                        </div>
+                                                    </div>  
+                                                </li>
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>Phone Number :</label>
-                                                    </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>0137897232</label>
-                                                    </div>
-                                                </div>  
-                                            </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>Gender :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" required @if ($profile[0]->gender == "M") checked @endif />
+                                                                <label class="form-check-label" for="exampleRadios1">
+                                                                    Male
+                                                                </label>
+                                                            </div>
 
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col col-lg-3">
-                                                        <label>Email :</label>
-                                                    </div>
-                                                    <div class="col col-lg-9">
-                                                        <label>genji@battle.net</label>
-                                                    </div>
-                                                </div>  
-                                            </li>
-                                        </ul>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" required @if ($profile[0]->gender == "F") checked @endif />
+                                                                <label class="form-check-label" for="exampleRadios2">
+                                                                    Female
+                                                                </label>
+                                                            </div>
+                                                            <span class="c-red-error">*Error message</span>
+                                                        </div>
+                                                    </div>  
+                                                </li>
 
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>Age :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <input class="form-control" type="text" value="{{ $age }}" placeholder="Please Enter your Age here">
+                                                            <span class="c-red-error">*Error message</span>
+                                                        </div>
+                                                    </div>  
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>Phone Number :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <input class="form-control" type="text" value="{{ $profile[0]->mobile_number }}" placeholder="Please Enter your phone number here">
+                                                            <span class="c-red-error">*Error message</span>
+                                                        </div>
+                                                    </div>  
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-lg-3">
+                                                            <label>Email :</label>
+                                                        </div>
+                                                        <div class="col-12 col-sm-8 col-lg-9">
+                                                            <input class="form-control" type="text" value="{{ $profile[0]->email }}" placeholder="Please Enter your email here">
+                                                            <span class="c-red-error">*Error message</span>
+                                                        </div>
+                                                    </div>  
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                
+
+
+                                <div id="edit_profile" class="row row-gap justify-content-center mt-1">
+                                    <div class="col text-center">
+                                        <input type="submit" class="edit-btn btn btn-lg btn-warning w-100" value="Update Profile" />
                                     </div>
                                 </div>
 
-                            </div>
-
-                            <div id="edit_profile" class="row row-gap justify-content-center mt-1">
-                                <div class="col text-center">
-                                    <button type="button" class="btn btn-lg btn-light btn-outline-dark w-100">Edit Profile</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {{-- Change Password --}}
-                        <div id="change_password" class="container mt-4">
-                            <div class="row">
-                                <div class="col">
-
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5>Change Password</h5>
-                                        </div>
-
-                                        <div class="card-body">
-                                            <div class="row row-gap">
-                                                <div class="col-12 col-lg-3">
-                                                    <label>New Password: </label>
-                                                </div>
-                                                <div class="col-12 col-lg-9">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-
-                                            <div class="row row-gap">
-                                                <div class="col-12 col-lg-3">
-                                                    <label>Old Password: </label>
-                                                </div>
-                                                <div class="col-12 col-lg-9">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button class="card-footer btn btn-outline-danger w-100">Change Password</button>
-                                    </div>
-
-                                </div>
-                            </div>
+                            </form>
                         </div>
 
                     </div>
