@@ -211,19 +211,19 @@
                         alert({{ session('successMessage') }});
                     </script>
                 @endif
-            </div>
 
-            {{-- login success message --}}
-            @if(Session::has('login_message'))
-                <div id="login_message" class="message-popup">
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        {{ session()->get('login_message') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{-- login success message --}}
+                @if(Session::has('login_message'))
+                    <div id="login_message" class="message-popup">
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            {{ session()->get('login_message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     </div>
-                </div>
 
-                @php session()->forget('login_message') @endphp
-            @endif
+                    @php session()->forget('login_message') @endphp
+                @endif
+            </div>
 
         </div>
     </div>
