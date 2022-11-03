@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,16 +19,16 @@ use Illuminate\Support\Facades\Route;
 //=============================================================================================
 
 Route::get('/dashboard/admin', function() {
-    return redirect(route("dashboard.admin.profile"));
+    return redirect(route("dashboard.profile"));
 })->name('dashboard.admin');
 
-Route::get('/dashboard/admin/profile', function() {
-    return view('dashboard/dashboard_profile', [
-        'user' => 'Admin',
-        'page' => 'Profile',
-        'header' => 'Profile'
-    ]);
-})->name('dashboard.admin.profile');
+// Route::get('/dashboard/admin/profile', function() {
+//     return view('dashboard/dashboard_profile', [
+//         'user' => 'Admin',
+//         'page' => 'Profile',
+//         'header' => 'Profile'
+//     ]);
+// })->name('dashboard.admin.profile');
 
 Route::get('/dashboard/admin/report', function() {
     return view('dashboard/admin/dashboard_report', [
@@ -45,3 +46,10 @@ Route::get('/dashboard/admin/topselectioncriterialist', function() {
         'back' => true
     ]);
 })->name('dashboard.admin.topselectioncriterialist');
+
+
+
+
+
+
+

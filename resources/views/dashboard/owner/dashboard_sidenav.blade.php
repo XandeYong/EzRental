@@ -1,6 +1,6 @@
 <div id="profile" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="{{ route('dashboard.owner.profile') }}" class="unselectable">
+        <a href="{{ route('dashboard.profile') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-dashboard"></i>
             <h5>Profile</h5>
         </a>

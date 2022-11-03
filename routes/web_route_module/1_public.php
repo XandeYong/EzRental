@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -96,3 +97,13 @@ Route::get('/logout', function () {
     //function to logout
     return redirect(route("home"));
 })->name('logout');
+
+
+//Controller
+//ProfileController
+Route::get('/profileControl/index', [ProfileController::class, 'index'])->name('dashboard.profile');
+Route::post("/profileControl/changePassword", [accountController::class, 'changePassword']);
+
+
+
+

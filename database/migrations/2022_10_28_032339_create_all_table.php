@@ -90,7 +90,7 @@ return new class extends Migration
             $table->string('post_id')->primary();
             $table->string('title');
             $table->mediumText('description');
-            $table->integer('room_size');
+            $table->string('room_size');
             $table->text('address');
             $table->string('condominium_name')->unique();
             $table->string('block');
@@ -138,8 +138,7 @@ return new class extends Migration
 
         Schema::create('visit_appointments', function (Blueprint $table) {
             $table->string('appointment_id')->primary();
-            $table->date('date');
-            $table->dateTime('time');
+            $table->dateTime('datetime');
             $table->text('note');
             $table->string('status');
             $table->string('post_id');
@@ -181,7 +180,7 @@ return new class extends Migration
             $table->string('group_message_id')->primary();
             $table->text('message');
             $table->string('sender_id');
-            $table->string('chat_id');
+            $table->string('group_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -218,10 +217,9 @@ return new class extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->string('payment_id')->primary();
-            $table->string('title');
             $table->string('payment_method');
             $table->string('payment_type');
-            $table->string('paid_date');
+            $table->string('paid_date')->nullable();
             $table->double('amount');
             $table->string('status');
             $table->string('renting_id');
@@ -233,8 +231,7 @@ return new class extends Migration
             $table->string('maintenance_id')->primary();
             $table->string('title');
             $table->mediumText('description');
-            $table->date('fullfill_date');
-            $table->string('maintenance_proof');
+            $table->date('fullfill_date')->nullable();
             $table->string('status');
             $table->string('renting_id');
             $table->timestamp('created_at')->useCurrent();
@@ -303,7 +300,7 @@ return new class extends Migration
 
         Schema::table('group_messages', function (Blueprint $table) {
             $table->foreign('sender_id')->references('account_id')->on('accounts');
-            $table->foreign('chat_id')->references('group_id')->on('group_chats');
+            $table->foreign('group_id')->references('group_id')->on('group_chats');
         });
 
         Schema::table('group_users', function (Blueprint $table) {
