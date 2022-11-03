@@ -34,6 +34,10 @@
     
 }
 
+.card-header {
+    background-color: rgba(70, 130, 175, 0.7);
+}
+
 #change_password .card-footer {
     border-left: 0;
     border-right: 0;

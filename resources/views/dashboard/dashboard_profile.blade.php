@@ -117,6 +117,8 @@
                                     </div>
                                 </div>
 
+                            @endif
+
                             </div>
 
                             <div id="edit_profile" class="row row-gap justify-content-center mt-1">
@@ -139,22 +141,28 @@
                                         </div>
 
                                         <div class="card-body">
-                                            <div class="row row-gap">
+                                            <div class="row row-gap align-items-center">
                                                 <div class="col-12 col-lg-3">
                                                     <label>New Password: </label>
                                                 </div>
                                                 <div class="col-12 col-lg-9">
-                                                    <input type="password" name="newPassword" class="w-100" required>
+                                                    <input type="password" name="newPassword" class="form-control w-100" required>
                                                 </div>
                                             </div>
 
-                                            <div class="row row-gap">
+                                            <div class="row row-gap align-items-center">
                                                 <div class="col-12 col-lg-3">
                                                     <label>Old Password: </label>
                                                 </div>
                                                 <div class="col-12 col-lg-9">
-                                                    <input type="password" name="oldPassword" class="w-100" required>
+                                                    <input type="password" name="oldPassword" class="form-control w-100" required>
                                                     <input type="hidden" id="correctOldPassword" name="custId" value={{ $profile[0]->password }}>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 text-center">
+                                                    <span class="c-red-error">*Error message</span>
                                                 </div>
                                             </div>
                                         </div>
