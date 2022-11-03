@@ -144,7 +144,7 @@
                                 
 
 
-                                <div id="edit_profile" class="row row-gap justify-content-center mt-1">
+                                <div id="edit_profile" class="row row-gap justify-content-center mt-1 mt-lg-2">
                                     <div class="col text-center">
                                         <input type="submit" class="edit-btn btn btn-lg btn-warning w-100" value="Update Profile" />
                                     </div>
