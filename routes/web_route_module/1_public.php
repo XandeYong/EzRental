@@ -131,6 +131,7 @@ Route::get('/logout', function () {
         ->update(['status' => "offline"]);
 
     session()->forget('account');
+    session()->forget('access_message');
     return redirect(route("home"));
 })->name('logout');
 

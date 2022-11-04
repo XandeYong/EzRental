@@ -1,6 +1,28 @@
 
 @if (isset($user))
 
+    @php
+        $email = "";
+        $password = "";
+
+        if ($user == "Tenant") {
+            $email = "vjanton6@gmail.com";
+            $password = "DxiKRnJrLc";
+
+        } else if ($user == "Owner") {
+            $email = "tmoss2@gmail.com";
+            $password = "ObJc0pVXUEIg";
+            
+        } else if ($user == "Admin") {
+            $email = "pbrandt1@gmail.com";
+            $password = "I0pVObJcKH";
+
+        } else if ($user == "Master") {
+            $email = "jonstrosin@gmail.com";
+            $password = "KLEIgoXUKD";
+        }
+    @endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,11 +65,11 @@
 
                                 <div id="l-m-body" class="row justify-content-center pt-4 pb-3">
                                     <div id="email-txt" class="col-10 mb-3">
-                                        <input type="email" name="email" class="w-100" placeholder="E-mail" required>
+                                        <input type="email" name="email" class="w-100" placeholder="E-mail" required value="{{ $email }}">
                                     </div>
                                     
                                     <div id="password-txt" class="col-10 mb-3">
-                                        <input type="password" name="password" class="w-100" placeholder="Password" required>
+                                        <input type="password" name="password" class="w-100" placeholder="Password" required value="{{ $password }}">
                                     </div>
 
                                     <input type="text" value="{{ $user }}" name="role" hidden required>
