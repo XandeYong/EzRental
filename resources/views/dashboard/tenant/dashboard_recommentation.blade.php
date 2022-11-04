@@ -26,7 +26,7 @@
                             <h3><u>Selected Filter Criteria List</u></h3>
                         </div>
 
-                        <ul class="border-1 rounded mt-3 mb-5">
+                        <ul class="border-1 rounded mt-3 mb-5 bg-light">
                             <div class="row mt-3 justify-content-center">
 
                                 @for ($i = 0; $i < 100; $i++)
