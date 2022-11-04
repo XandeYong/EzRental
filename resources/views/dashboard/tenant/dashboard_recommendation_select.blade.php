@@ -29,7 +29,7 @@
                         <form action="" method="post">
 
                             <div class="border-1 rounded mt-3 mb-5 bg-light">
-                                <div class="row mt-3 justify-content-center">
+                                <div class="row mt-3">
     
                             {{-- Check is the selectedCriterias empty --}}
                             @if ($postCriterias->isEmpty())

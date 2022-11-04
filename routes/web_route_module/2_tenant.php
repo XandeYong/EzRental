@@ -25,14 +25,14 @@ Route::get('/dashboard/tenant', function() {
 
 
 
-Route::get('/dashboard/recommendation', function() {
-    return view('dashboard/tenant/dashboard_recommendation', [
-        'user' => 'Tenant',
-        'page' => 'Recommendation',
-        'header' => 'Recommendation Criteria',
-        //'back' => 'url'
-    ]);
-})->name('dashboard.tenant.recommendation');
+// Route::get('/dashboard/recommendation', function() {
+//     return view('dashboard/tenant/dashboard_recommendation', [
+//         'user' => 'Tenant',
+//         'page' => 'Recommendation',
+//         'header' => 'Recommendation Criteria',
+//         //'back' => 'url'
+//     ]);
+// })->name('dashboard.tenant.recommendation');
 
 Route::get('/dashboard/recommendation/select', function() {
     return view('dashboard/tenant/dashboard_recommendation_select', [

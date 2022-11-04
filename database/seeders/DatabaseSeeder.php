@@ -145,9 +145,9 @@ class DatabaseSeeder extends Seeder
             'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
             'mobile_number' => "01" . strval(rand(10000000, 99999999)),
             'email' => "Kailey@gmail.com",
-            'password' => Str::random(10),
+            'password' => "Vruqm3C6j4",
             'image' => 'profile.png',
-            'status' => 'banned',
+            'status' => 'offline',
             'role' => 'T',
         ]);
         
@@ -163,6 +163,21 @@ class DatabaseSeeder extends Seeder
             'password' => Str::random(10),
             'image' => 'profile.png',
             'status' => 'online',
+            'role' => 'T',
+        ]);
+        
+        sleep(1);
+
+        $a7 = Account::create([
+            'account_id' => 'A' . strval($iA++),
+            'name' => "Sylvester Cremin",
+            'gender' => "M",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "Oberbrunner@gmail.com",
+            'password' => Str::random(10),
+            'image' => 'profile.png',
+            'status' => 'banned',
             'role' => 'T',
         ]);
         
@@ -345,7 +360,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'reason' => 'for testing purpose (perma ban)',
             'duration' => '0',
             'status' => 'banned',
-            'account_id' => $a5->account_id
+            'account_id' => $a7->account_id
         ]);
 
         sleep(1);

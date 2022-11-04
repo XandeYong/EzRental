@@ -80,7 +80,6 @@ function isLogin() {
     
     if (!session()->has('account')) {
         session()->put('access_message', $unauthorized_access_message);
-        dd($unauthorized_access_message);
         $valid = false;
     }
 
