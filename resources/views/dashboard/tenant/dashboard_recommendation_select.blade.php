@@ -27,16 +27,17 @@
                         </div>
 
                         <form action="" method="post">
-
-                            <div class="border-1 rounded mt-3 mb-5 bg-light">
-                                <div class="row mt-3">
-    
-                            {{-- Check is the selectedCriterias empty --}}
                             @if ($postCriterias->isEmpty())
                             <label>
                                 <h3>There was no post criteria.</h3><br>
                             </label>
                             @else
+
+                            <div class="border-1 rounded mt-3 mb-5 bg-light">
+                                <div class="row mt-3">
+    
+                            {{-- Check is the selectedCriterias empty --}}
+
                                 {{-- For loop records --}}
                                 @foreach ($postCriterias as $postCriteria)
                                 
@@ -50,7 +51,7 @@
                                 </div>
 
                                 @endforeach
-                            @endif
+
                                 
                                 </div>        
                             </div>
@@ -65,7 +66,7 @@
                             </div>
                         </div>
 
-                        
+                        @endif
                     </form>
 
                         
