@@ -25,25 +25,6 @@ Route::get('/dashboard/tenant', function() {
 
 
 
-// Route::get('/dashboard/recommendation', function() {
-//     return view('dashboard/tenant/dashboard_recommendation', [
-//         'user' => 'Tenant',
-//         'page' => 'Recommendation',
-//         'header' => 'Recommendation Criteria',
-//         //'back' => 'url'
-//     ]);
-// })->name('dashboard.tenant.recommendation');
-
-Route::get('/dashboard/recommendation/select', function() {
-    return view('dashboard/tenant/dashboard_recommendation_select', [
-        'user' => 'Tenant',
-        'page' => 'Recommendation',
-        'header' => 'Recommendation Criteria',
-        'back' => '/dashboard/recommendation'
-    ]);
-})->name('dashboard.tenant.recommendation.select');
-
-
 //Controller
 //FavoriteControlle
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
@@ -54,6 +35,9 @@ Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->n
 //RecommendationController
 Route::get('/dashboard/recommendation/index', [RecommendationController::class, 'index'])->name('dashboard.tenant.recommendation');
 Route::get('/dashboard/recommendation/getCriteriaList', [RecommendationController::class, 'getCriteriaList']);
+Route::post("/dashboard/recommendation/updateSelectionCriteriaToDB", [RecommendationController::class, 'updateSelectionCriteriaToDB']);
+
+
 
 
 //need remove

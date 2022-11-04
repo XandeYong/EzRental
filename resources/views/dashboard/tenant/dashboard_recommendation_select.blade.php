@@ -26,7 +26,9 @@
                             <h3><u>Select Filter Criteria List</u></h3>
                         </div>
 
-                        <form action="" method="post">
+                        <form action="/dashboard/recommendation/updateSelectionCriteriaToDB" method="post" onsubmit="return confirm('Are you sure you want to submit the selection?');">
+                            @csrf
+                                    
                             @if ($postCriterias->isEmpty())
                             <label>
                                 <h3>There was no post criteria.</h3><br>
@@ -43,7 +45,7 @@
                                 
                                 <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="{{ $postCriteria->name }}" value="{{ $postCriteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $postCriteria->criteria_id)) checked @endif>
+                                        <input class="form-check-input" type="checkbox" name="criteria[]" value="{{ $postCriteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $postCriteria->criteria_id)) checked @endif>
                                         <label class="form-check-label" for="criteria">
                                             {{ $postCriteria->name }}
                                         </label>
@@ -60,9 +62,8 @@
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
                                 <input class="btn btn-lg btn-success me-sm-2 px-3 px-sm-5" type="submit" value="Submit">
-                                <a href="{{ route('dashboard.tenant.recommendation') }}">
-                                    <button class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
-                                </a>
+
+                                <button class="btn btn-lg btn-danger px-3 px-sm-5" type="button" onclick="window.location.href ='{{ route('dashboard.tenant.recommendation') }}';">Cancel</button>
                             </div>
                         </div>
 
