@@ -95,7 +95,7 @@ class ProfileController extends Controller
 
         return view('dashboard/dashboard_profile_edit', [
             'user' => $user,
-            'page' => "Profile",
+            'page' => $this->name,
             'header' => "Edit Profile",
             'back' => "/dashboard/profile/index",
             'profile' => $profile,

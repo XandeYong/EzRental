@@ -28,7 +28,7 @@
                         {{-- Check is the topResult empty --}}
                         @if ($topResults->isEmpty())
                         <label>
-                            <h1>There was no selection criteria.</h1>
+                            <h3>There was no selection criteria.</h3>
                         </label>
                         @else
                             <table>

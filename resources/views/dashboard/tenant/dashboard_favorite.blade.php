@@ -1,15 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>EzRental | Favorite</title>
     
     @include('../base/dashboard/dashboard_head')
-    <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
+    <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_index.css') }}">
 </head>
+
 <body>
-     
-    
+
+
     @include('../base/dashboard/dashboard_sidebar')
 
     <div id="wrapper">
@@ -21,38 +22,50 @@
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
 
-                    @for ($i = 0; $i < 100; $i++)
-                        <div class="card mb-4">
-                            <div class="d-flex bg-warning align-items-center">
-                                <div class="row me-auto px-3 w-100 align-items-center">
-                                    <div class="col-12 col-sm">
-                                        <h3 class="mb-0">
-                                            PV13-A-21-1
-                                        </h3>
+                    {{-- Check is the favorite empty --}}
+                    @if ($favoritePosts->isEmpty())
+                        <label>
+                            <h3 >There was no favourite found.</h3>
+                        </label>
+                    @else
+                            {{-- For loop records --}}
+                            @foreach ($favoritePosts as $favoritePost)
+                            <div class="card mb-4">
+                                <div class="d-flex bg-warning align-items-center">
+                                    <div class="row me-auto px-3 w-100 align-items-center" onclick="window.location.href ='{{ URL('/dashboard/favorite/test/' . Crypt::encrypt($favoritePost->post_id)) }}';"> {{-- need edit to cover whole box and link to post page --}}
+                                        <div class="col-12 col-sm">
+                                            <h3 class="mb-0">
+                                                {{ $favoritePost->title }}
+                                            </h3>
+                                        </div>
+    
+                                        <div class="col-12 col-sm">
+                                            <h4 class="mb-0 text-sm-end">
+                                                {{ $favoritePost->status }}
+                                            </h4>
+                                        </div>
                                     </div>
-
-                                    <div class="col-12 col-sm">
-                                        <h4 class="mb-0 text-sm-end">
-                                            Reserved
-                                        </h4>
+    
+                                    <div class="bg-white h-100 py-4 px-3 px-sm-4">
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href ='{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}';"></button> {{-- need edit to cover whole box and link to post page --}}
                                     </div>
-                                </div>
-                                
-                                <div class="bg-white h-100 py-4 px-3 px-sm-4">
-                                    <button type="button" class="btn-close" aria-label="Close"></button>
+                
                                 </div>
                             </div>
-                        </div>
-                    @endfor
+                            @endforeach
+
+                    @endif
+
 
                 </div>
 
             </div>
-            
+
         </div>
     </div>
 
     @include('../base/dashboard/dashboard_script')
 
 </body>
+
 </html>
