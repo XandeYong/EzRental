@@ -21,7 +21,7 @@
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
 
-                    @for ($i = 0; $i < 100; $i++)
+                    @for ($i = 0; $i < 3; $i++)
                         <div class="card mb-4">
                             <div class="d-flex bg-warning align-items-center">
                                 <div class="row me-auto px-3 w-100 align-items-center">
