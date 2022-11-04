@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | Profile</title>
+    <title>EzRental | Favorite</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">

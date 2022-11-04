@@ -21,7 +21,7 @@ Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
 
-Route::get('/dashboard/tenant/favorite', function() {
+Route::get('/dashboard/favorite', function() {
     return view('dashboard/tenant/dashboard_favorite', [
         'user' => 'Tenant',
         'page' => 'Favorite',
@@ -29,6 +29,15 @@ Route::get('/dashboard/tenant/favorite', function() {
         //'back' => true
     ]);
 })->name('dashboard.tenant.favorite');
+
+Route::get('/dashboard/recommentation', function() {
+    return view('dashboard/tenant/dashboard_recommentation', [
+        'user' => 'Tenant',
+        'page' => 'Recommentation',
+        'header' => 'Recommentation Criteria',
+        //'back' => true
+    ]);
+})->name('dashboard.tenant.recommentation');
 
 
 //Controller

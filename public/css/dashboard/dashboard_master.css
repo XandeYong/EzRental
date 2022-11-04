@@ -18,6 +18,13 @@
     background-color: rgba(0,0,0,0.5);
 }
 
+/* common styling */
+.fixed-bottom-button {
+    
+    position: fixed;
+    bottom: 4%;
+}
+
 /* Utility */
 .rotate {
     transition: transform 0.1s ease;
