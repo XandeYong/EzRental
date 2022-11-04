@@ -133,7 +133,7 @@ class ProfileController extends Controller
         //check is image file empty
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $image->getClientOriginalName();
+            $imageName = $id.".".$image->getClientOriginalExtension();
         }
 
         //dob havent update
