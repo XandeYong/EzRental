@@ -27,19 +27,15 @@
                         {{-- Profile Details --}}
                         <div class="container">
 
-                            <form action="/dashboard/profile/validateEditProfileDetails" method="post"
+                            <form action="/dashboard/profile/updateProfileInDatabase" method="post"
                                     onsubmit="return confirm('Are you sure you want to edit profile?');" enctype="multipart/form-data">
                                     @csrf
-                                {{-- Check is the profile empty --}}
-                                @if ($profile->isEmpty())
-                                    
-                                        <label colspan="6">No Profile found</label>
-                                    
-                                @else
+
                                 <div class="row row-gap align-items-center">
 
                                     <div class="col-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 img-thumbnail py-3">
                                         <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid rounded" alt="...">
+                                        <input type="hidden" name="oriImage" value={{ $profile[0]->image }} >
                                         <div class="pt-3 px-2">
                                             <input class="form-control text-center" type="file" name="image">
                                             @if($errors->has('image'))
@@ -128,12 +124,12 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Age :</label>
+                                                            <label>Date Of birth :</label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" name="age" value="{{ old('age', $age) }}" placeholder="Please Enter your Age here" required>
-                                                            @if($errors->has('age'))
-                                                            <span class="c-red-error">*{{ $errors->first('age') }}</span>
+                                                            <input class="form-control" type="date" name="dob" value="{{ old('dob', $dob) }}" required >
+                                                            @if($errors->has('dob'))
+                                                            <span class="c-red-error">*{{ $errors->first('dob') }}</span>
                                                             @endif
                                                         </div>
                                                     </div>  
@@ -171,7 +167,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                                 
 
 

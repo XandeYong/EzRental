@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\TopSelectionCriteriaList;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,14 +22,6 @@ Route::get('/dashboard/admin', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.admin');
 
-// Route::get('/dashboard/admin/profile', function() {
-//     return view('dashboard/dashboard_profile', [
-//         'user' => 'Admin',
-//         'page' => 'Profile',
-//         'header' => 'Profile'
-//     ]);
-// })->name('dashboard.admin.profile');
-
 Route::get('/dashboard/admin/report', function() {
     return view('dashboard/admin/dashboard_report', [
         'user' => 'Admin',
@@ -38,14 +30,27 @@ Route::get('/dashboard/admin/report', function() {
     ]);
 })->name('dashboard.admin.report');
 
-Route::get('/dashboard/admin/topselectioncriterialist', function() {
-    return view('dashboard/admin/dashboard_topselectioncriterialist', [
-        'user' => 'Admin',
-        'page' => 'Top Selection Criteria List',
-        'header' => 'Top Selection Criteria List',
-        'back' => true
-    ]);
-})->name('dashboard.admin.topselectioncriterialist');
+
+//reference view format
+// Route::get('/dashboard/admin/topselectioncriterialist', function() {
+//     return view('dashboard/admin/dashboard_topselectioncriterialist', [
+//         'user' => 'Admin',
+//         'page' => 'Top Selection Criteria List',
+//         'header' => 'Top Selection Criteria List',
+//         'back' => true
+//     ]);
+// })->name('dashboard.admin.topselectioncriterialist');
+
+
+
+
+
+//Controller
+Route::get('/dashboard/topselectioncriterialist/index', [TopSelectionCriteriaList::class, 'index'])->name('dashboard.admin.topselectioncriterialist');
+
+
+
+
 
 
 
