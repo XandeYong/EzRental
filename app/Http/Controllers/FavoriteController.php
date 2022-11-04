@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
-class Favorite extends Controller
+class FavoriteController extends Controller
 {
     //
     public $name = 'Favorite';

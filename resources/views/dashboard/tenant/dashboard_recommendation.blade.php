@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | Recommentation</title>
+    <title>EzRental | recommendation</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
@@ -29,20 +29,30 @@
                         <ul class="border-1 rounded mt-3 mb-5 bg-light">
                             <div class="row mt-3 justify-content-center">
 
-                                @for ($i = 0; $i < 100; $i++)
-                                    <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
-                                        <li>
-                                            <h5>Big Medium Room</h5>
-                                        </li>
-                                    </div>    
-                                @endfor
+                            {{-- Check is the selectedCriterias empty --}}
+                            @if ($selectedCriterias->isEmpty())
+                            <label>
+                                <h3>There was no selected criteria.</h3><br>
+                            </label>
+                            @else
+                                {{-- For loop records --}}
+                                @foreach ($selectedCriterias as $selectedCriteria)
+                                
+                                <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
+                                    <li>
+                                        <h5>{{ $selectedCriteria->name }}</h5>
+                                    </li>
+                                </div>  
+                        
+                                @endforeach
+                            @endif
                             
                             </div>        
                         </ul>
 
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
-                                <a href="{{ route('dashboard.tenant.recommentation.select') }}">
+                                <a href="{{ URL('/dashboard/recommendation/getCriteriaList') }}">
                                     <button class="btn btn-lg btn-success px-3 px-sm-5">Select Criteria</button>
                                 </a>
                             </div>

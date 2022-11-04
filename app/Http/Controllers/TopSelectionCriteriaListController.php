@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TopSelectionCriteriaList extends Controller
+class TopSelectionCriteriaListController extends Controller
 {
     //
     public $name = 'Top Selection Criteria List';
@@ -29,17 +29,6 @@ class TopSelectionCriteriaList extends Controller
             'topResults' => $topResults
         ]);
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

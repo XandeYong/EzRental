@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | Recommentation</title>
+    <title>EzRental | Recommendation</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
@@ -31,16 +31,26 @@
                             <div class="border-1 rounded mt-3 mb-5 bg-light">
                                 <div class="row mt-3 justify-content-center">
     
-                                    @for ($i = 0; $i < 100; $i++)
-                                        <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Big Medium Room" id="criteria">
-                                                <label class="form-check-label" for="criteria">
-                                                  Big Medium Room
-                                                </label>
-                                              </div>
-                                        </div>
-                                    @endfor
+                            {{-- Check is the selectedCriterias empty --}}
+                            @if ($postCriterias->isEmpty())
+                            <label>
+                                <h3>There was no post criteria.</h3><br>
+                            </label>
+                            @else
+                                {{-- For loop records --}}
+                                @foreach ($postCriterias as $postCriteria)
+                                
+                                <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="{{ $postCriteria->name }}" value="{{ $postCriteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $postCriteria->criteria_id)) checked @endif>
+                                        <label class="form-check-label" for="criteria">
+                                            {{ $postCriteria->name }}
+                                        </label>
+                                      </div>
+                                </div>
+
+                                @endforeach
+                            @endif
                                 
                                 </div>        
                             </div>
@@ -49,7 +59,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
                                 <input class="btn btn-lg btn-success me-sm-2 px-3 px-sm-5" type="submit" value="Submit">
-                                <a href="{{ route('dashboard.tenant.recommentation') }}">
+                                <a href="{{ route('dashboard.tenant.recommendation') }}">
                                     <button class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
                                 </a>
                             </div>

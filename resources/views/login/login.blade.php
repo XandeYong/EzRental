@@ -6,8 +6,8 @@
         $password = "";
 
         if ($user == "Tenant") {
-            $email = "vjanton6@gmail.com";
-            $password = "DxiKRnJrLc";
+            $email = "Kailey@gmail.com";
+            $password = "vmcs6CbYj6";
 
         } else if ($user == "Owner") {
             $email = "tmoss2@gmail.com";

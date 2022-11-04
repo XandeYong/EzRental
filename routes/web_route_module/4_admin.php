@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TopSelectionCriteriaList;
+use App\Http\Controllers\TopSelectionCriteriaListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +46,8 @@ Route::get('/dashboard/admin/report', function() {
 
 
 //Controller
-Route::get('/dashboard/topselectioncriterialist/index', [TopSelectionCriteriaList::class, 'index'])->name('dashboard.admin.topselectioncriterialist');
+//TopSelectionCriteriaListController
+Route::get('/dashboard/topselectioncriterialist/index', [TopSelectionCriteriaListController::class, 'index'])->name('dashboard.admin.topselectioncriterialist');
 
 
 

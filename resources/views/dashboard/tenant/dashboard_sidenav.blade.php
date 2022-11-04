@@ -16,11 +16,11 @@
     </div>    
 </div>
 
-<div id="recommentation" class="row navlist-item">
+<div id="recommendation" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="{{ route('dashboard.tenant.recommentation') }}" class="unselectable">
+        <a href="{{ route('dashboard.tenant.recommendation') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
-            <h5>Recommentation</h5>
+            <h5>Recommendation</h5>
         </a>
     </div>
 </div>
