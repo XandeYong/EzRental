@@ -26,7 +26,7 @@ Route::get('/dashboard/favorite', function() {
         'user' => 'Tenant',
         'page' => 'Favorite',
         'header' => 'Favorite',
-        //'back' => true
+        //'back' => 'url'
     ]);
 })->name('dashboard.tenant.favorite');
 
@@ -35,9 +35,18 @@ Route::get('/dashboard/recommentation', function() {
         'user' => 'Tenant',
         'page' => 'Recommentation',
         'header' => 'Recommentation Criteria',
-        //'back' => true
+        //'back' => 'url'
     ]);
 })->name('dashboard.tenant.recommentation');
+
+Route::get('/dashboard/recommentation/select', function() {
+    return view('dashboard/tenant/dashboard_recommentation_select', [
+        'user' => 'Tenant',
+        'page' => 'Recommentation',
+        'header' => 'Recommentation Criteria',
+        'back' => '/dashboard/recommentation'
+    ]);
+})->name('dashboard.tenant.recommentation.select');
 
 
 //Controller

@@ -42,7 +42,7 @@
 
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
-                                <a href="">
+                                <a href="{{ route('dashboard.tenant.recommentation.select') }}">
                                     <button class="btn btn-lg btn-success px-3 px-sm-5">Select Criteria</button>
                                 </a>
                             </div>
