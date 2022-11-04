@@ -30,11 +30,26 @@
                 </div>
             </div>
 
+            {{-- login success message --}}
+            @if(session()->has('access_message'))
+                <div class="row justify-content-center">
+                    <div id="login_message" class="message-popup">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            {{ session()->get('access_message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+
+                @php session()->forget('access_message') @endphp
+            @endif
+
         </div>
     </div>
 
     @include('base/footer')
     @include('base/script')
+    <script src="{{ asset('vendor/xande/animation.js') }}"></script>
 
 </body>
 </html>

@@ -4,7 +4,6 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,17 +37,25 @@ Route::get('/chat', function () {
 })->name('chat');
 
 Route::get('/dashboard', function () {
-    $role = session()->get('account')['role'];
-    switch ($role) {
-        case 'A':
-            return redirect(route('dashboard.admin'));
-        case 'O':
-            return redirect(route('dashboard.owner'));
-        case 'T':
-            return redirect(route('dashboard.tenant'));
-        default:
-            return redirect('/');
+    $validation = isLogin();
+
+    if ($validation['valid'] == true) {
+        $role = session()->get('account')['role'];
+        switch ($role) {
+            case 'A':
+                return redirect(route('dashboard.admin'));
+            case 'O':
+                return redirect(route('dashboard.owner'));
+            case 'T':
+                return redirect(route('dashboard.tenant'));
+            default:
+                session()->put('access_message', 'Unknowned Error Occur, Please contact Admin to solve the issue.');
+                return redirect('/');
+        }
+    } else {
+        return redirect('/');
     }
+
 })->name('dashboard');
 
 //--------
@@ -67,7 +74,7 @@ Route::post('/login_portal/login/account_login', [AccountController::class, 'log
 // Tenant
 
 Route::get('/login_portal/login/tenant', function () {
-    if (session()->get('account')) { return redirect('/'); }
+    isTenant();
 
     return view('/login/login', [
         'user' => 'Tenant'
@@ -75,7 +82,7 @@ Route::get('/login_portal/login/tenant', function () {
 })->name('login.tenant');
 
 Route::get('/login_portal/register/tenant', function () {
-    if (session()->get('account')) { return redirect('/'); }
+    isTenant();
 
     return view('/login/register', [
         'user' => 'Tenant'
@@ -86,7 +93,7 @@ Route::get('/login_portal/register/tenant', function () {
 // Owner
 
 Route::get('/login_portal/login/owner', function () {
-    if (session()->get('account')) { return redirect('/'); }
+    isOwner();
 
     return view('/login/login', [
         'user' => 'Owner'
@@ -94,7 +101,7 @@ Route::get('/login_portal/login/owner', function () {
 })->name('login.owner');
 
 Route::get('/login_portal/register/owner', function () {
-    if (session()->get('account')) { return redirect('/'); }
+    isOwner();
 
     return view('/login/register', [
         'user' => 'Owner'
@@ -105,7 +112,7 @@ Route::get('/login_portal/register/owner', function () {
 // Admin
 
 Route::get('/login_portal/login/admin', function () {
-    if (session()->get('account')) { return redirect('/'); }
+    isAdmin();
 
     return view('/login/login', [
         'user' => 'Admin'
@@ -120,10 +127,10 @@ Route::get('/login_portal/login/admin', function () {
 
 Route::get('/logout', function () {
     DB::table('accounts')
-        ->where('account_id', Session::get('account')['account_id'])
+        ->where('account_id', session()->get('account')['account_id'])
         ->update(['status' => "offline"]);
 
-    Session::forget('account');
+    session()->forget('account');
     return redirect(route("home"));
 })->name('logout');
 
@@ -136,8 +143,6 @@ Route::post("/dashboard/profile/changePassword", [ProfileController::class, 'cha
 
 Route::get("/dashboard/profile/editProfileIndex", [ProfileController::class, 'editProfileIndex'])->name('dashboard.profile.edit');
 Route::post("/dashboard/profile/validateEditProfileDetails", [ProfileController::class, 'validateEditProfileDetails']);
-
-
 
 
 

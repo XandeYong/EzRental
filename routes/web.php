@@ -49,3 +49,96 @@ Route::get('/base', function () {
 Route::get('/base/dashboard', function () {
     return view('/dashboard/dashboard_index');
 })->name('base.dashboard');
+
+
+//==========================================================================================================
+// Custom function
+//=============================================================================================
+
+$GLOBALS['unauthorized_access_message'] = "You have been redirect to homepage as unauthorized access has been detected!";
+if (session()->has('account')) {
+    $GLOBALS['logged_in_access_message'] = "You have already logged in as " . session()->get('account')['name'];
+}
+
+// function validateAccount($condition = "") {
+
+//     switch ($condition) {
+//         case 'hasAccount':
+//             # code...
+//             break;
+        
+//         default:
+//             # code...
+//             break;
+//     }
+
+// }
+
+function isLogin() {
+    global $unauthorized_access_message;
+    $valid = true;
+    
+    if (!session()->has('account')) {
+        session()->put('access_message', $unauthorized_access_message);
+        dd($unauthorized_access_message);
+        $valid = false;
+    }
+
+    return [
+        'valid' => $valid
+    ];
+}
+
+function isNotLogin() {
+    global $logged_in_access_message;
+    
+    if (session()->has('account')) {
+        session()->put('access_message', $logged_in_access_message);
+        return redirect('/'); 
+    }
+}
+
+function isTenant() {
+    global $unauthorized_access_message;
+
+    if (!session()->has('account') 
+    || session()->get('account')['role'] != 'T'
+    ) { 
+        session()->put('access_message', $unauthorized_access_message);
+        return redirect('/'); 
+    }
+}
+
+function isOwner() {
+    global $unauthorized_access_message;
+
+    if (!session()->has('account') 
+    || session()->get('account')['role'] != 'O'
+    ) { 
+        session()->put('access_message', $unauthorized_access_message);
+        return redirect('/'); 
+    }
+}
+
+function isAdmin() {
+    global $unauthorized_access_message;
+
+    if (!session()->has('account') 
+    || (session()->get('account')['role'] != 'A' 
+    && session()->get('account')['role'] != 'MA')
+    ) { 
+        session()->put('access_message', $unauthorized_access_message);
+        return redirect('/'); 
+    }
+}
+
+function isMasterAdmin() {
+    global $unauthorized_access_message;
+
+    if (session()->has('account') 
+    && session()->get('account')['role'] == 'MA'
+    ) { 
+        session()->put('access_message', $unauthorized_access_message);
+        return redirect('/'); 
+    }
+}

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('gender');
             $table->date('dob');
-            $table->string('mobile_number');
+            $table->integer('mobile_number');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image');

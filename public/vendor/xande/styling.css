@@ -8,6 +8,16 @@
 *
 */
 
+/* display */
+
+.d-c-none {
+    display: none;
+}
+
+.d-c-block {
+    display: block;
+}
+
 
 /* padding */
   
