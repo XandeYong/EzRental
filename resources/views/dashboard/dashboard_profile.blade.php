@@ -21,13 +21,6 @@
             <div id="content" class="row justify-content-center">
 
                 {{-- Code here --}}
-
-                {{-- Check is the profile empty --}}
-                @if ($profile->isEmpty())
-
-                    <label colspan="6">No Profile found</label>
-
-                @else
                     <div class="col col-sm-10 col-md-8 col-lg-10">
 
                         {{-- Profile Details --}}
@@ -40,6 +33,14 @@
                                         <strong> {{ session('successMessage') }} </strong>
                                     </div>
                                     <?php session()->forget('successMessage'); ?>
+                                @endif
+
+                                {{-- Display fail message --}}
+                                @if (Session::has('failMessage'))
+                                    <div class="alert alert-danger">
+                                        <strong> {{ session('failMessage') }} </strong>
+                                    </div>
+                                    <?php session()->forget('failMessage'); ?>
                                 @endif
 
                                 <div class="col-12 col-lg-4 mb-3 mb-lg-0">
@@ -202,15 +203,15 @@
                         </div>
 
                     </div>
-                @endif
+
 
 
                 {{-- Display pop up message --}}
-                @if (Session::has('successMessage'))
+                {{-- @if (Session::has('successMessage'))
                     <script>
                         alert({{ session('successMessage') }});
                     </script>
-                @endif
+                @endif --}}
 
                 {{-- login success message --}}
                 @if(Session::has('login_message'))

@@ -25,7 +25,12 @@
                     <div class="col justify-content-center">
 
                         <div class="container">
-
+                        {{-- Check is the topResult empty --}}
+                        @if ($topResults->isEmpty())
+                        <label>
+                            <h1>There was no selection criteria.</h1>
+                        </label>
+                        @else
                             <table>
                                 <tr>
                                     <th>
@@ -36,19 +41,16 @@
                                     </th>
                                 </tr>
                                 {{-- For loop 3 records --}}
+                                @foreach ($topResults as $topResult)
                                 <tr>
-                                    <td><label>Master room</label></td>
-                                    <td class="text-align-second-column"><label>590</label></td>
+                                    <td><label>{{ $topResult->name }}</label></td>
+                                    <td class="text-align-second-column"><label>{{ $topResult->selected_count }}</label></td>
                                 </tr>
-                                <tr>
-                                    <td><label>Single room</label></td>
-                                    <td class="text-align-second-column"><label>100</label></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Sleep room</label></td>
-                                    <td class="text-align-second-column"><label>300</label></td>
-                                </tr>
+                                @endforeach
+
                             </table>
+
+                            @endif
 
                         </div>
 

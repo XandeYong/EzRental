@@ -21,15 +21,6 @@ Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
 
-// Route::get('/dashboard/tenant/profile', function() {
-//     return view('dashboard/dashboard_profile', [
-//         'user' => 'Tenant',
-//         'page' => 'Profile',
-//         'header' => 'Profile',
-//         //'back' => true
-//     ]);
-// })->name('dashboard.tenant.profile');
-
 Route::get('/dashboard/tenant/favorite', function() {
     return view('dashboard/tenant/dashboard_favorite', [
         'user' => 'Tenant',

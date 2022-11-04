@@ -135,7 +135,7 @@ Route::post("/dashboard/profile/changePassword", [ProfileController::class, 'cha
 // Route::get('/dashboard/profile/errMsgDisChgPass/{newPassError?}', [ProfileController::class, 'errMsgDisChgPass']); //be reference
 
 Route::get("/dashboard/profile/editProfileIndex", [ProfileController::class, 'editProfileIndex'])->name('dashboard.profile.edit');
-Route::post("/dashboard/profile/validateEditProfileDetails", [ProfileController::class, 'validateEditProfileDetails']);
+Route::post("/dashboard/profile/updateProfileInDatabase", [ProfileController::class, 'updateProfileInDatabase']);
 
 
 
