@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Favorite;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,20 +22,15 @@ Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
 
-Route::get('/dashboard/tenant/favorite', function() {
-    return view('dashboard/tenant/dashboard_favorite', [
-        'user' => 'Tenant',
-        'page' => 'Favorite',
-        'header' => 'Favorite',
-        //'back' => true
-    ]);
-})->name('dashboard.tenant.favorite');
+
 
 
 //Controller
+Route::get('/dashboard/favorite/index', [Favorite::class, 'index'])->name('dashboard.tenant.favorite');
+Route::get('/dashboard/favorite/removeFavorite/{postID}', [Favorite::class, 'removeFavorite']); 
+Route::get('/dashboard/favorite/addFavorite/{postID}', [Favorite::class, 'addFavorite']); 
 
-
-
+Route::get('/dashboard/favorite/test/{postID}', [Favorite::class, 'test']); //need remove
 
 
 
