@@ -41,10 +41,11 @@ return new class extends Migration
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
-        Schema::create('post_criterias', function (Blueprint $table) {
+        Schema::create('criterias', function (Blueprint $table) {
             $table->string('criteria_id')->primary();
             $table->string('name');
             $table->integer('selected_count');
+            $table->integer('post_count');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -204,6 +205,15 @@ return new class extends Migration
             $table->primary(['criteria_id', 'account_id']);
         });
 
+        Schema::create('post_criterias', function (Blueprint $table) {
+            $table->string('criteria_id');
+            $table->string('post_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+
+            $table->primary(['criteria_id', 'post_id']);
+        });
+
         Schema::create('favorites', function (Blueprint $table) {
             $table->string('post_id');
             $table->string('account_id');
@@ -309,8 +319,13 @@ return new class extends Migration
         });
 
         Schema::table('selected_criterias', function (Blueprint $table) {
-            $table->foreign('criteria_id')->references('criteria_id')->on('post_criterias');
+            $table->foreign('criteria_id')->references('criteria_id')->on('criterias');
             $table->foreign('account_id')->references('account_id')->on('accounts');
+        });
+
+        Schema::table('post_criterias', function (Blueprint $table) {
+            $table->foreign('criteria_id')->references('criteria_id')->on('criterias');
+            $table->foreign('post_id')->references('post_id')->on('room_rental_posts');
         });
 
         Schema::table('favorites', function (Blueprint $table) {
@@ -343,6 +358,7 @@ return new class extends Migration
         Schema::dropIfExists('maintenance_requests');
         Schema::dropIfExists('payments');
         Schema::dropIfExists('favorites');
+        Schema::dropIfExists('post_criterias');
         Schema::dropIfExists('selected_criterias');
         Schema::dropIfExists('group_users');
         Schema::dropIfExists('group_messages');
@@ -358,7 +374,7 @@ return new class extends Migration
         Schema::dropIfExists('ban_records');
         Schema::dropIfExists('group_chats');
         Schema::dropIfExists('chats');
-        Schema::dropIfExists('post_criterias');
+        Schema::dropIfExists('criterias');
         Schema::dropIfExists('contracts');
         Schema::dropIfExists('accounts');
     }

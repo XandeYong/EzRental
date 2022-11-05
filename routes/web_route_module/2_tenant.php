@@ -25,15 +25,6 @@ Route::get('/dashboard/tenant', function() {
 
 
 
-// Route::get('/dashboard/recommendation', function() {
-//     return view('dashboard/tenant/dashboard_recommendation', [
-//         'user' => 'Tenant',
-//         'page' => 'Recommendation',
-//         'header' => 'Recommendation Criteria',
-//         //'back' => 'url'
-//     ]);
-// })->name('dashboard.tenant.recommendation');
-
 Route::get('/dashboard/recommendation/select', function() {
     return view('dashboard/tenant/dashboard_recommendation_select', [
         'user' => 'Tenant',
@@ -42,6 +33,36 @@ Route::get('/dashboard/recommendation/select', function() {
         'back' => '/dashboard/recommendation'
     ]);
 })->name('dashboard.tenant.recommendation.select');
+
+
+Route::get('/dashboard/current_renting_record', function() {
+    return view('dashboard/tenant/dashboard_rentingrecord_list', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Current Renting Record List',
+        //'back' => ''
+    ]);
+})->name('dashboard.tenant.current_renting_record.list');
+
+
+Route::get('/dashboard/past_renting_record', function() {
+    return view('dashboard/tenant/dashboard_rentingrecord_list', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Past Renting Record List',
+        //'back' => ''
+    ]);
+})->name('dashboard.tenant.past_renting_record.list');
+
+
+Route::get('/dashboard/current_renting_record/record', function() {
+    return view('dashboard/tenant/dashboard_currentrentingrecord', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Current Renting Record',
+        'back' => '/dashboard/current_renting_record'
+    ]);
+})->name('dashboard.tenant.current_renting_record');
 
 
 //Controller

@@ -1,42 +1,4 @@
 
-
-
-<?php
-//Establishing Connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "unipress";
-
-//Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-//Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-//Query
-$sql_category = "SELECT category_id, category FROM category 
-                WHERE status='show' 
-                ORDER BY datetime ASC";
-
-$sql_news = "SELECT N.news_id, N.title FROM news N, category CA, subcategory S
-            WHERE N.status = 'show' 
-            AND CA.status = 'show' 
-            AND S.status = 'show' 
-            AND N.subcategory_id = S.subcategory_id 
-            AND N.category_id = CA.category_id 
-            ORDER BY N.datetime DESC LIMIT 3";
-
-
-
-//Executing Query
-$result_category = $conn->query($sql_category);
-$result_news = $conn->query($sql_news);
-
-?>
-
 <div class="sidenav-section col-12 col-lg-3">
     <div class="sidenav-item mb-3">
         <div class="item-header p-1 ps-3">

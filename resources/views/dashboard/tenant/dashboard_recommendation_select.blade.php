@@ -28,9 +28,9 @@
 
                         <form action="" method="post">
                             @if ($postCriterias->isEmpty())
-                            <label>
+                            <div class="text-center">
                                 <h3>There was no post criteria.</h3><br>
-                            </label>
+                            </div>
                             @else
 
                             <div class="border-1 rounded mt-3 mb-5 bg-light">
@@ -61,7 +61,7 @@
                             <div class="fixed-bottom-button">
                                 <input class="btn btn-lg btn-success me-sm-2 px-3 px-sm-5" type="submit" value="Submit">
                                 <a href="{{ route('dashboard.tenant.recommendation') }}">
-                                    <button class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
+                                    <button type="button" class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
                                 </a>
                             </div>
                         </div>

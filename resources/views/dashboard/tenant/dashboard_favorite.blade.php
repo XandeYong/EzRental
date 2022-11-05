@@ -24,9 +24,9 @@
 
                     {{-- Check is the favorite empty --}}
                     @if ($favoritePosts->isEmpty())
-                        <label>
+                        <div class="text-center">
                             <h3 >There was no favourite found.</h3>
-                        </label>
+                        </div>
                     @else
                             {{-- For loop records --}}
                             @foreach ($favoritePosts as $favoritePost)

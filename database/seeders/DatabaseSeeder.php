@@ -10,6 +10,7 @@ use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\Comment;
 use App\Models\Contract;
+use App\Models\Criteria;
 use App\Models\Favorite;
 use App\Models\GroupChat;
 use App\Models\GroupMessage;
@@ -35,7 +36,7 @@ class DatabaseSeeder extends Seeder
      * ID:
      *  Account: A1
      *  Contract: CT1
-     *  PostCriteria: PC1
+     *  Criteria: CTR1
      *  Chat: C1
      *  GroupChat: GC1
      *  BanRecord: BR1
@@ -49,12 +50,16 @@ class DatabaseSeeder extends Seeder
      *  PostImage: PI1
      *  ChatMessage: CM1
      *  GroupMessage: GM1
-     *  GroupUser: GU1
-     *  SelectedCriteria: SC1
-     *  Favorite: F1
      *  Payment: P1
      *  MaintenanceRequest: MR1
      *  MaintenanceImage: MI1
+     * 
+     * ID-less:
+     *  SelectedCriteria: SC
+     *  PostCriteria: PC
+     *  GroupUser: GU
+     *  Favorite: F
+     *  
      *
      * @return void
      */
@@ -251,52 +256,58 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
 
-        static $iPC = 1;
+        static $iCTR = 1;
 
-        $pc1 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr1 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'PV13',
-            'selected_count' => '1'
+            'selected_count' => 1,
+            'post_count' => 1
         ]);
         
         sleep(1);
 
-        $pc2 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr2 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'PV12',
-            'selected_count' => '0'
+            'selected_count' => 1,
+            'post_count' => 0
         ]);
         
         sleep(1);
 
-        $pc3 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr3 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'Fully Furnish',
-            'selected_count' => '1'
+            'selected_count' => 0,
+            'post_count' => 1
         ]);
         
         sleep(1);
 
-        $pc4 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr4 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'Master Room',
-            'selected_count' => '1'
+            'selected_count' => 0,
+            'post_count' => 0
         ]);
         
         sleep(1);
 
-        $pc5 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr5 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'Big Medium Room',
-            'selected_count' => '0'
+            'selected_count' => 0,
+            'post_count' => 0
         ]);
         
         sleep(1);
 
-        $pc6 = PostCriteria::create([
-            'criteria_id' => 'PC' . strval($iPC++),
+        $ctr6 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'Air Conditioner',
-            'selected_count' => '1'
+            'selected_count' => 0,
+            'post_count' => 0
         ]);
         
         sleep(1);
@@ -846,15 +857,32 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iSC = 1;
 
         $sc1 = SelectedCriteria::create([
-            'criteria_id' => $pc1->criteria_id,
+            'criteria_id' => $ctr1->criteria_id,
             'account_id' => $a5->account_id,
         ]);
         
         sleep(1);
 
         $sc2 = SelectedCriteria::create([
-            'criteria_id' => $pc2->criteria_id,
+            'criteria_id' => $ctr2->criteria_id,
             'account_id' => $a6->account_id,
+        ]);
+        
+        sleep(1);
+
+
+        static $iPC = 1;
+
+        $pc1 = PostCriteria::create([
+            'criteria_id' => $ctr1->criteria_id,
+            'post_id' => $rrp1->post_id,
+        ]);
+        
+        sleep(1);
+
+        $pc2 = PostCriteria::create([
+            'criteria_id' => $ctr3->criteria_id,
+            'post_id' => $rrp1->post_id,
         ]);
         
         sleep(1);

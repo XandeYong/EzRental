@@ -31,9 +31,9 @@
 
                             {{-- Check is the selectedCriterias empty --}}
                             @if ($selectedCriterias->isEmpty())
-                            <label>
+                            <div class="text-center">
                                 <h3>There was no selected criteria.</h3><br>
-                            </label>
+                            </div>
                             @else
                                 {{-- For loop records --}}
                                 @foreach ($selectedCriterias as $selectedCriteria)
