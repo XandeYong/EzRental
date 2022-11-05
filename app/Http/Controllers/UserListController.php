@@ -19,8 +19,8 @@ class UserListController extends Controller
 
         //get all userlist from database  
         $userList = DB::table('accounts')
-            ->where('role','!=','A')
-            ->where('role','!=','MA')
+            ->where('role', '!=', 'A')
+            ->where('role', '!=', 'MA')
             ->select('account_id', 'name', 'email', 'status')
             ->get();
 
@@ -32,32 +32,150 @@ class UserListController extends Controller
         ]);
     }
 
-    public function banuser(Request $request, $accountID)
+    public function filterUserList(Request $request, $filter)
     {
         $account = $request->session()->get('account');
         $user = $account->role;
 
-        
         //Decrypt the parameter
         try {
-            $accountID = Crypt::decrypt($accountID);
-            $status = Crypt::decrypt($status);
+            $filter = Crypt::decrypt($filter);
         } catch (DecryptException $ex) {
             abort('500', $ex->getMessage());
         }
+        if ($filter == "banned") {
+            //get all userlist from database with status banned  
+            $userList = DB::table('accounts')
+                ->where('role', '!=', 'A')
+                ->where('role', '!=', 'MA')
+                ->where('status', 'banned')
+                ->select('account_id', 'name', 'email', 'status')
+                ->get();
+        } else {
+            //get all userlist from database  with status not banned  
+            $userList = DB::table('accounts')
+                ->where('role', '!=', 'A')
+                ->where('role', '!=', 'MA')
+                ->where('status', '!=', 'banned')
+                ->select('account_id', 'name', 'email', 'status')
+                ->get();
+        }
+
+
+
+        return view('dashboard/admin/dashboard_userlist', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => $this->name,
+            'userList' => $userList
+        ]);
+    }
+
+    public function searchUser(Request $request)
+    {
+        //Laravel validation
+        $request->validate([
+            'accountId' => ['required', 'regex:/^[A|a]{1}[0-9]+$/']
+        ]);
+
+        $account = $request->session()->get('account');
+        $user = $account->role;
+
+        //get accountID from search field in User List 
+        $accountID = trim($request->input('accountId'));
+
+
+        //get all userlist from database  
+        $userList = DB::table('accounts')
+            ->where('role', '!=', 'A')
+            ->where('role', '!=', 'MA')
+            ->where('account_id', $accountID)
+            ->select('account_id', 'name', 'email', 'status')
+            ->get();
+
+        return view('dashboard/admin/dashboard_userlist', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => $this->name,
+            'userList' => $userList
+        ]);
+    }
+
+
+
+    public function banuser(Request $request)
+    {
+        //Laravel validation
+        $request->validate([
+            'duration' => ['required', 'numeric'],
+            'reason' => ['required']
+        ]);
+
+
+        //get accountID from search field in User List 
+        $accountID = trim($request->input('accountID'));
+        $reason = trim($request->input('reason'));
+        $duration = trim($request->input('duration'));
+
+         //getLatestOrderID
+         $latestBanRecordID = $this->getLatestBanRecordsID();
+
+         //make new orderID
+         $newBanRecordID = $this->banRecordID($latestBanRecordID);  
         
+
+        //update ban records in database
+        DB::table('ban_records')->insert([
+            'ban_id' => $newBanRecordID,
+            'reason' => $reason,
+            'duration' => $duration,
+            'status' => "banned",
+            'account_id' => $accountID
+        ]);     
+
+
         //update account status in database
         $updated = DB::table('accounts')
-        ->where('account_id', $accountID)
-        ->update(['status' => "banned"]);
+            ->where('account_id', $accountID)
+            ->update(['status' => "banned"]);
 
 
-        return redirect(route("dashboard.admin.userlist"));
-
+        //need sent email
+        return redirect(URL('/mail/sentBanMail/' . Crypt::encrypt($accountID) . "/" .  Crypt::encrypt($reason) . "/" . Crypt::encrypt($duration) ));
     }
 
+
+    public function getLatestBanRecordsID()
+    {
+        $banRecordID = DB::table('ban_records')
+            ->orderBy('created_at', 'desc')
+            ->select('ban_id')
+            ->get();
+
+        if ($banRecordID->isEmpty()) {
+            return "BR0";
+        }
+        return $banRecordID[0]->ban_id;
+    }
+
+    //add 1 to ID to make new ID 
+    private function banRecordID($value)
+    {
+        $result = substr($value, 2);
+
+        //parse result to int
+        $ans = ((int)$result) + 1;
+
+        //combine char and int into string
+        $result = "BR" . ((string)$ans);
+
+        return $result;
+    }
+
+
+
     public function unbanuser($accountID)
-    {   
+    {
         //Decrypt the parameter
         try {
             $accountID = Crypt::decrypt($accountID);
@@ -66,45 +184,24 @@ class UserListController extends Controller
         }
 
         //update account status in database
-        // $updated = DB::table('accounts')
-        // ->where('account_id', $accountID)
-        // ->update(['status' => "offline"]);
+        $updated = DB::table('accounts')
+            ->where('account_id', $accountID)
+            ->update(['status' => "offline"]);
 
-     
+        //update ban_records status in database
+        $updated = DB::table('ban_records')
+            ->where('account_id', $accountID)
+            ->update(['status' => "unbanned"]);
+
 
         //need sent email
-        return redirect(URL('/mail/sentUnbanmail/' . Crypt::encrypt($accountID)));
-
-        // $this->sendEmail($userDetails[0]->email, $message, "Your Account In EZRental Had Been Unbanned!");
-
-
-        
-
+        return redirect(URL('/mail/sentUnbanMail/' . Crypt::encrypt($accountID)));
     }
 
-    public function sendEmail($email, $message, $title)
-    {   
-
-        //  $to = $email; //correct
-         $to = "mcgallery21@gmail.com"; //need remove
-         $subject = $title;  
-         
-         $header = "From:ezrentalofficial@gmail.com \r\n";
-         $header .= "Cc:".$email." \r\n";
-         $header .= "MIME-Version: 1.0\r\n";
-         $header .= "Content-type: text/html\r\n";
-         
-         $retval = mail ($to, $subject, $message, $header);
-         
-         if( $retval == true ) {
-            session()->put('successMessage', 'Success to sent email to user.');
-         }else {
-            session()->put('failMessage', 'Fail to sent email to user.');
-         }
 
 
-    }
-    
+
+
 
 
 }

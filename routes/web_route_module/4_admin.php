@@ -54,12 +54,14 @@ Route::get('/dashboard/topselectioncriterialist/index', [TopSelectionCriteriaLis
 
 //UserListController
 Route::get('/dashboard/userlist/index', [UserListController::class, 'index'])->name('dashboard.admin.userlist');
+Route::get('/dashboard/userlist/filterUserList/{filter}', [UserListController::class, 'filterUserList']); 
+Route::post("/dashboard/userlist/searchUser", [UserListController::class, 'searchUser']);
 Route::get('/dashboard/userlist/unbanuser/{accountID}', [UserListController::class, 'unbanuser']); 
-Route::get('/dashboard/userlist/banuser/{accountID}/{status}', [UserListController::class, 'banuser']); 
+Route::get('/dashboard/userlist/banuser', [UserListController::class, 'banuser']); 
 
 //MailController
-Route::get('/mail/sentUnbanmail/{accountID}', [MailController::class, 'sentUnbanmail']);
-
+Route::get('/mail/sentUnbanMail/{accountID}', [MailController::class, 'sentUnbanMail']);
+Route::get('/mail/sentBanMail/{accountID}/{reason}/{duration}', [MailController::class, 'sentBanMail']);
 
 
 

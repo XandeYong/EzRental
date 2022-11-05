@@ -11,14 +11,17 @@ class BanMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $mailData;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mailData)
     {
         //
+        $this->mailData = $mailData;
     }
 
     /**
@@ -28,6 +31,7 @@ class BanMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->subject('Your Account In EZRental Had Been Banned!')
+                    ->view('emails/ban_email');
     }
 }

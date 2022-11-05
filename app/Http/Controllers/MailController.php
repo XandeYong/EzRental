@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BanMail;
 use App\Mail\UnbanMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,10 +35,42 @@ class MailController extends Controller
 
          
         // Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData));
-        Mail::to("mcgallery21@gmail.com")->send(new UnbanMail($mailData)); //need remove
+        Mail::to('mcgallery21@gmail.com')->send(new UnbanMail($mailData)); //need remove
            
 
-         dd("Email is sent successfully.");
+        return redirect(route("dashboard.admin.userlist"));
+
+    }
+
+    public function sentBanMail($accountID, $reason, $duration)
+    {
+        //Decrypt the parameter
+        try {
+            $accountID = Crypt::decrypt($accountID);
+            $reason = Crypt::decrypt($reason);
+            $duration = Crypt::decrypt($duration);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //get all userdetails from database  
+        $userDetails = DB::table('accounts')
+        ->where('account_id', $accountID)
+        ->select('name', 'email')
+        ->get();             
+        
+        $mailData = [
+            'name' => $userDetails[0]->name,
+            'reason' => $reason,
+            'duration' => $duration,
+            'dateTime' => date("Y/m/d h:i:s")
+        ];
+
+         
+        // Mail::to($userDetails[0]->email)->send(new BanMail($mailData));
+        Mail::to('mcgallery21@gmail.com')->send(new BanMail($mailData)); //need remove
+           
+
         return redirect(route("dashboard.admin.userlist"));
 
     }
