@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\TopSelectionCriteriaListController;
+use App\Http\Controllers\UserListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +50,16 @@ Route::get('/dashboard/admin/report', function() {
 //Controller
 //TopSelectionCriteriaListController
 Route::get('/dashboard/topselectioncriterialist/index', [TopSelectionCriteriaListController::class, 'index'])->name('dashboard.admin.topselectioncriterialist');
+
+
+//UserListController
+Route::get('/dashboard/userlist/index', [UserListController::class, 'index'])->name('dashboard.admin.userlist');
+Route::get('/dashboard/userlist/unbanuser/{accountID}', [UserListController::class, 'unbanuser']); 
+Route::get('/dashboard/userlist/banuser/{accountID}/{status}', [UserListController::class, 'banuser']); 
+
+//MailController
+Route::get('/mail/sentUnbanmail/{accountID}', [MailController::class, 'sentUnbanmail']);
+
 
 
 

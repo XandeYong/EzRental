@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +43,7 @@ Route::post("/dashboard/recommendation/updateSelectionCriteriaToDB", [Recommenda
 
 //need remove
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-
+Route::get('/dashboard/test', [TestController::class, 'test']); //need remove
 
 
 

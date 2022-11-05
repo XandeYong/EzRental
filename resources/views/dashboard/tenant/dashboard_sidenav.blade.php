@@ -36,7 +36,7 @@
                                 
     <div class="dropdownlist">
         <div id="current_renting_record" class="dd-item">
-            <a href="#" class="unselectable">
+            <a href="/dashboard/test" class="unselectable">
                 <h6>Current Renting Record</h6>
             </a>
         </div>
