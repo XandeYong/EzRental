@@ -22,7 +22,7 @@
 
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
-                    <label for=""> {{ $postID }}</label>
+                    <label for=""> {{  }}</label>
 
                 </div>
 

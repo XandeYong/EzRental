@@ -47,7 +47,7 @@
                                     </div>
     
                                     <div class="bg-white h-100 py-4 px-3 px-sm-4">
-                                        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href ='{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}';"></button> {{-- need edit to cover whole box and link to post page --}}
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href ='{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}';"></button> {{-- need edit to cover whole box --}}
                                     </div>
                 
                                 </div>

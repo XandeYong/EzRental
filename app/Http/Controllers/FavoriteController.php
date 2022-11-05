@@ -46,12 +46,7 @@ class FavoriteController extends Controller
             abort('500', $ex->getMessage());
         }
         
-        return view('dashboard/tenant/dashboard_test', [
-            'user' => "T",
-            'page' => $this->name,
-            'header' => $this->name,
-            'postID' => $postID
-        ]);
+        dd( $postID);
     }
 
     public function removeFavorite($postID) {

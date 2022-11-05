@@ -26,7 +26,9 @@
                             <h3><u>Select Filter Criteria List</u></h3>
                         </div>
 
-                        <form action="" method="post">
+                        <form action="/dashboard/recommendation/updateSelectionCriteriaToDB" method="post" onsubmit="return confirm('Are you sure you want to submit the selection?');">
+                            @csrf
+                                    
                             @if ($postCriterias->isEmpty())
                             <div class="text-center">
                                 <h3>There was no post criteria.</h3><br>
@@ -43,7 +45,7 @@
                                 
                                 <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="{{ $postCriteria->name }}" value="{{ $postCriteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $postCriteria->criteria_id)) checked @endif>
+                                        <input class="form-check-input" type="checkbox" name="criteria[]" value="{{ $postCriteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $postCriteria->criteria_id)) checked @endif>
                                         <label class="form-check-label" for="criteria">
                                             {{ $postCriteria->name }}
                                         </label>

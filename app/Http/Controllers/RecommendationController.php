@@ -12,17 +12,17 @@ class RecommendationController extends Controller
 
     public function index(Request $request)
     {
-        $account = $request->session()->get('account'); 
+        $account = $request->session()->get('account');
         $id = $account->account_id;
         $user = $account->role;
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
-        ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
-        ->where('selected_criterias.account_id', $id)
-        ->select('post_criterias.criteria_id', 'post_criterias.name')
-        ->get();
-        
+            ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
+            ->where('selected_criterias.account_id', $id)
+            ->select('post_criterias.criteria_id', 'post_criterias.name')
+            ->get();
+
 
         return view('dashboard/tenant/dashboard_recommendation', [
             'user' => $user,
@@ -30,27 +30,35 @@ class RecommendationController extends Controller
             'header' => 'Recommendation Criteria',
             'selectedCriterias' => $selectedCriterias
         ]);
-
     }
 
     public function getCriteriaList(Request $request)
     {
-        $account = $request->session()->get('account'); 
+        $account = $request->session()->get('account');
         $id = $account->account_id;
         $user = $account->role;
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
-        ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
-        ->where('selected_criterias.account_id', $id)
-        ->select('post_criterias.criteria_id')
-        ->get();
+            ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
+            ->where('selected_criterias.account_id', $id)
+            ->select('post_criterias.criteria_id', 'post_criterias.selected_count')
+            ->get();
 
         //get all post_criterias from database 
         $postCriterias = DB::table('post_criterias')
-        ->select('criteria_id', 'name')
-        ->get();        
-        
+            ->select('criteria_id', 'name')
+            ->get();
+
+        //Put session
+        if (session()->has('selectedCriterias')) {
+            session()->forget('selectedCriterias');
+        }
+        if (!$selectedCriterias->isEmpty()) {
+            $request->session()->put('selectedCriterias', $selectedCriterias);
+        }
+
+
 
         return view('dashboard/tenant/dashboard_recommendation_select', [
             'user' => $user,
@@ -60,10 +68,63 @@ class RecommendationController extends Controller
             'selectedCriterias' => $selectedCriterias,
             'postCriterias' => $postCriterias
         ]);
-
     }
 
+    public function updateSelectionCriteriaToDB(Request $request)
+    {
+
+        $account = $request->session()->get('account');
+        $id = $account->account_id;
+
+        //get collection from session
+        if (session()->has('selectedCriterias')) {
+            $selectedCriterias = $request->session()->get('selectedCriterias');
+            session()->forget('selectedCriterias');
+        }
+
+        //remove 1 from all selected_criteria counts
+        if (isset($selectedCriterias)) {
+            foreach ($selectedCriterias as $selectedCriteria) {
+                $updated = DB::table('post_criterias')
+                    ->where('criteria_id', $selectedCriteria->criteria_id)
+                    ->update(['selected_count' => $selectedCriteria->selected_count - 1]);
+            }
+        }
+
+        //Clear the tenant selected criteria
+        $deleted = DB::table('selected_criterias')
+            ->where('account_id', $id)
+            ->delete();
 
 
+        //Get checkbox array from post
+        $criterias = $_POST["criteria"];
 
+        if (count($criterias) != 0) {
+            //come here if there is something checked in form
+
+            for ($i = 0; $i < count($criterias); $i++) {
+
+                //add to database cause is checked
+                DB::table('selected_criterias')->insert([
+                    'account_id' => $id,
+                    'criteria_id' => $criterias[$i]
+                ]);
+
+                //get selected criterias counts from database 
+                $selectedCriteriaCount = DB::table('post_criterias')
+                ->where('criteria_id', $criterias[$i])
+                ->get();
+
+                //add 1 from all selected_criteria counts
+                $updated = DB::table('post_criterias')
+                ->where('criteria_id', $criterias[$i])
+                ->update(['selected_count' => $selectedCriteriaCount[0]->selected_count+1]);
+
+            }
+        }
+
+
+        return redirect(route("dashboard.tenant.recommendation"));
+    }
 }

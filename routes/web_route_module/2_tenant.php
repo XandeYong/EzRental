@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,17 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
-
-
-
-Route::get('/dashboard/recommendation/select', function() {
-    return view('dashboard/tenant/dashboard_recommendation_select', [
-        'user' => 'Tenant',
-        'page' => 'Recommendation',
-        'header' => 'Recommendation Criteria',
-        'back' => '/dashboard/recommendation'
-    ]);
-})->name('dashboard.tenant.recommendation.select');
 
 
 Route::get('/dashboard/current_renting_record', function() {
@@ -70,16 +60,18 @@ Route::get('/dashboard/current_renting_record/record', function() {
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
 Route::get('/dashboard/favorite/removeFavorite/{postID}', [FavoriteController::class, 'removeFavorite']); 
 Route::get('/dashboard/favorite/addFavorite/{postID}', [FavoriteController::class, 'addFavorite']); 
-Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
 
 //RecommendationController
 Route::get('/dashboard/recommendation/index', [RecommendationController::class, 'index'])->name('dashboard.tenant.recommendation');
 Route::get('/dashboard/recommendation/getCriteriaList', [RecommendationController::class, 'getCriteriaList']);
+Route::post("/dashboard/recommendation/updateSelectionCriteriaToDB", [RecommendationController::class, 'updateSelectionCriteriaToDB']);
+
+
 
 
 //need remove
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-
+Route::get('/dashboard/test', [TestController::class, 'test']); //need remove
 
 
 

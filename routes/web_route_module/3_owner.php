@@ -21,7 +21,9 @@ Route::get('/dashboard/owner', function() {
     return redirect(route('dashboard.profile'));
 })->name('dashboard.owner');
 
+
 //Controller
+
 
 
 

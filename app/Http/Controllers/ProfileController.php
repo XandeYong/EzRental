@@ -136,7 +136,7 @@ class ProfileController extends Controller
             $imageName = $id.".".$image->getClientOriginalExtension();
         }
 
-        //dob havent update
+
         //update profile in database
         $updated = DB::table('accounts')
             ->where('account_id', $id)
