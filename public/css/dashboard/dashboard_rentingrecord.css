@@ -1,3 +1,36 @@
 #carousel_post_image img {
     max-height: 300px;
 }
+
+#control_panel {
+    position: sticky;
+    top: 2%;
+}
+
+#payment {
+    height: 300px;
+}
+
+#payment_header {
+    height: 15%;
+}
+
+#payment_list {
+    height: 70%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#payment_button {
+    height: 15%;
+    padding: 0;
+}
+
+#payment_button input {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,0.13);
+
+}

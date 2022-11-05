@@ -89,6 +89,7 @@
                                         </p>
                                     </div>
 
+                                    {{-- sidebar --}}
                                     <div class="row mb-2">
                                         
                                         <div>
@@ -138,115 +139,78 @@
                             <div class="col-12 col-lg-4">
                                 
                                 <div class="sidenav-section">
-                                    <div class="sidenav-item mb-3">
+                                    <div id="control_panel" class="sidenav-item mb-3">
                                         <div class="item-header p-1 ps-3">
-                                            <h4>Search</h4>
+                                            <h4>Control Panel</h4>
                                         </div>
-                                        <div class="item-body">
-                                            <form action="./index.php" method="GET">
-                                                <div class="search d-flex p-3">
-                                                    <input class="form-control shadow-none" type="text" name="search" placeholder="Search" >
-                                                    <button class="btn btn-secondary shadow-none" type="submit">Go</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    <div class="sidenav-item mb-3">
-                                        <div class="item-header p-1 ps-3">
-                                            <h4>Sort</h4>
-                                        </div>
-
-                                        <div class="item-body container">
-                                            <div class="row px-3 py-2">
-
-                                                <div class="col mt-2">
-                                                    <button class="w-100 btn btn-sm btn-outline-dark">
-                                                        <i>Time</i>
+                                        <div class="item-body px-3 mb-2 mt-3">
+                                            <div class="mb-2">
+                                                <a href="">
+                                                    <button class="btn btn-outline-dark w-100">
+                                                        Maintenance Request
                                                     </button>
-                                                </div>
-                                                
-                                                <div class="col mt-2">
-                                                    <button class="w-100 btn btn-sm btn-outline-dark">
-                                                        <i>Price</i>
-                                                    </button>
-                                                </div>
-
-                                                <div class="col mt-2">
-                                                    <button class="w-100 btn btn-sm btn-outline-dark">
-                                                        <i>Newest</i>
-                                                    </button>
-                                                </div>
-
-                                                <div class="col mt-2">
-                                                    <button class="w-100 btn btn-sm btn-outline-dark">
-                                                        <i>Oldest</i>
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="sidenav-item mb-3">
-                                        <form action="">
-
-                                            <div class="item-header p-1 ps-3">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="">
-                                                        <h4>Filter</h4>
-                                                    </div>
-                                                    
-                                                    <div class="">
-                                                        <input class="btn btn-sm btn-outline-success" type="submit" value="Filter">
-                                                        <input class="btn btn-sm btn-outline-danger" type="reset" value="reset">
-                                                    </div>
-                                                </div>
+                                                </a>
                                             </div>
                                             
-                                            <div class="item-body container">
-                                                <div class="row px-3 py-2">
+                                            <div class="mb-2">
+                                                <a href="">
+                                                    <button class="btn btn-outline-dark w-100">
+                                                        Payment History
+                                                    </button>
+                                                </a>
+                                            </div>
 
-                                                        <div class="col-12">
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="checkbox" name="filter" value="Big" />
-                                                                <span class="ms-1">Master Room</span>
+                                            <div class="mb-2">
+                                                <a href="">
+                                                    <button class="btn btn-outline-dark w-100">
+                                                        Contract
+                                                    </button>
+                                                </a>
+                                            </div>
+
+                                            <div id="payment" class="card my-3">
+                                                <form action="" method="POST" class="h-100">
+
+                                                    <div class="container-fluid h-100">    
+                                                        <div class="row align-content-between h-100">
+
+                                                            <div id="payment_header" class="card-header text-center bg-danger">
+                                                                <h5 class="mb-0 text-light">
+                                                                    Due Payment
+                                                                </h5>
+                                                            </div>
+
+                                                            <div id="payment_list" class="col-12">
+                                                                <div class="border-1 rounded py-1 px-2 mx-3 my-2">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" name="payment[]" type="checkbox" value="">
+                                                                        <label class="form-check-label">
+                                                                            July Monthly Payment
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+            
+                                                                <div class="border-1 rounded py-1 px-2 mx-3 my-2">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" name="payment[]" type="checkbox" value="">
+                                                                        <label class="form-check-label">
+                                                                            Jun Monthly Payment
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            <div id="payment_button" class="col-12">
+                                                                <input class="card-footer btn btn-outline-danger" type="submit" value="Make Payment">
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="col-12">
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="checkbox" name="filter" value="Big" />
-                                                                <span class="ms-1">Big Medium Room</span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="checkbox" name="filter" value="Big" />
-                                                                <span class="ms-1">Small Room</span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="checkbox" name="filter" value="Big" />
-                                                                <span class="ms-1">Kitchen</span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="checkbox" name="filter" value="Big" />
-                                                                <span class="ms-1">Aircond</span>
-                                                            </div>
-                                                        </div>
-
-                                                    
-                                                </div>
+                                                    </div>
+                                                </form>
                                             </div>
 
-                                        </form>
+
+                                        </div>
                                     </div>
 
                                 </div>
