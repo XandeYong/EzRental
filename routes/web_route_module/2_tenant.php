@@ -46,13 +46,32 @@ Route::get('/dashboard/past_renting_record', function() {
 
 
 Route::get('/dashboard/current_renting_record/record', function() {
-    return view('dashboard/tenant/dashboard_currentrentingrecord', [
+    return view('dashboard/tenant/dashboard_rentingrecord', [
         'user' => 'Tenant',
         'page' => 'Renting Record',
         'header' => 'Current Renting Record',
         'back' => '/dashboard/current_renting_record'
     ]);
 })->name('dashboard.tenant.current_renting_record');
+
+// Payment
+Route::get('/dashboard/current_renting_record/record/payment_history', function() {
+    return view('dashboard/tenant/dashboard_payment_history', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Payment History',
+        'back' => '/dashboard/current_renting_record/record'
+    ]);
+})->name('dashboard.tenant.current_renting_record.payment_history');
+
+Route::get('/dashboard/current_renting_record/record/payment_history/payment_detail', function() {
+    return view('dashboard/tenant/dashboard_payment', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Payment Detail',
+        'back' => '/dashboard/current_renting_record/record/payment_history'
+    ]);
+})->name('dashboard.tenant.current_renting_record.payment_history.payment');
 
 
 //Controller

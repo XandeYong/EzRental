@@ -153,7 +153,7 @@
                                             </div>
                                             
                                             <div class="mb-2">
-                                                <a href="">
+                                                <a href="{{ route('dashboard.tenant.current_renting_record.payment_history') }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Payment History
                                                     </button>
