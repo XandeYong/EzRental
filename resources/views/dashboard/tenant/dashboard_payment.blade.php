@@ -35,35 +35,31 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row" class="w-25">Deposit</th>
-                                            <td class="bg-white">RM 1725</td>
+                                            <th scope="row" class="w-25">Payment ID</th>
+                                            <td class="bg-white">P1</td>
 
                                             <th scope="row" class="w-25">Payment date</th>
-                                            <td class="bg-white">1/5/2022</td>
+                                            <td class="bg-white w-25">1/5/2022</td>
                                             
                                         </tr>
                                         <tr>
-                                            <th scope="row" class="">Monthly Payment</th>
-                                            <td class="bg-white">RM 690</td>
+                                            <th scope="row" class="">Renting ID</th>
+                                            <td class="bg-white">R1</td>
 
                                             <th scope="row">Status</th>
                                             <td class="bg-white">Paid</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Condominium</th>
-                                            <td colspan="3" class="bg-white">PV 12</td>
+                                            <th scope="row">Payment Method</th>
+                                            <td colspan="3" class="bg-white">Paypal</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Floor</th>
-                                            <td colspan="3" class="bg-white">13</td>
+                                            <th scope="row">Payment Type</th>
+                                            <td colspan="3" class="bg-white">Monthly Payment</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">Unit</th>
-                                            <td colspan="3" class="bg-white">2</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Address</th>
-                                            <td colspan="3" class="bg-white">PV 12-13-2, Danua Kota</td>
+                                            <th scope="row">Amount</th>
+                                            <td colspan="3" class="bg-white">RM 690</td>
                                         </tr>
                                     </tbody>
                                 </table>
