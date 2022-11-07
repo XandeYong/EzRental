@@ -13,7 +13,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class MailController extends Controller
 {
     //
-    public function sentUnbanMail($accountID)
+    public function sentUnbanMail(Request $request, $accountID)
     {
         //Decrypt the parameter
         try {
@@ -33,16 +33,20 @@ class MailController extends Controller
             'dateTime' => date("Y/m/d h:i:s")
         ];
 
-         
-        // Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData));
-        Mail::to('mcgallery21@gmail.com')->send(new UnbanMail($mailData)); //need remove
-           
+
+        //check is email sent success
+        // if(Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData))){ //use this
+        if(Mail::to('mcgallery21@gmail.com')->send(new UnbanMail($mailData))){ //need remove
+            $request->session()->put('successMessage', 'Unban email sent success.');
+        }else{
+            $request->session()->put('failMessage', 'Unban email sent failed.');
+        }
 
         return redirect(route("dashboard.admin.userlist"));
 
     }
 
-    public function sentBanMail($accountID, $reason, $duration)
+    public function sentBanMail(Request $request, $accountID, $reason, $duration)
     {
         //Decrypt the parameter
         try {
@@ -66,10 +70,14 @@ class MailController extends Controller
             'dateTime' => date("Y/m/d h:i:s")
         ];
 
-         
-        // Mail::to($userDetails[0]->email)->send(new BanMail($mailData));
-        Mail::to('mcgallery21@gmail.com')->send(new BanMail($mailData)); //need remove
-           
+
+        //check is email sent success
+        // if(Mail::to($userDetails[0]->email)->send(new BanMail($mailData))){ //use this
+            if(Mail::to('mcgallery21@gmail.com')->send(new BanMail($mailData))){ //need remove
+                $request->session()->put('successMessage', 'Unban email sent success.');
+            }else{
+                $request->session()->put('failMessage', 'Unban email sent failed.');
+            }
 
         return redirect(route("dashboard.admin.userlist"));
 

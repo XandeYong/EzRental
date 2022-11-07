@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\RentingRecordController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,34 +27,6 @@ Route::get('/dashboard/tenant', function() {
 })->name('dashboard.tenant');
 
 
-Route::get('/dashboard/current_renting_record', function() {
-    return view('dashboard/tenant/dashboard_rentingrecord_list', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Current Renting Record List',
-        //'back' => ''
-    ]);
-})->name('dashboard.tenant.current_renting_record.list');
-
-
-Route::get('/dashboard/past_renting_record', function() {
-    return view('dashboard/tenant/dashboard_rentingrecord_list', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Past Renting Record List',
-        //'back' => ''
-    ]);
-})->name('dashboard.tenant.past_renting_record.list');
-
-
-Route::get('/dashboard/current_renting_record/record', function() {
-    return view('dashboard/tenant/dashboard_currentrentingrecord', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Current Renting Record',
-        'back' => '/dashboard/current_renting_record'
-    ]);
-})->name('dashboard.tenant.current_renting_record');
 
 
 //Controller
@@ -66,6 +40,15 @@ Route::get('/dashboard/recommendation/index', [RecommendationController::class, 
 Route::get('/dashboard/recommendation/getCriteriaList', [RecommendationController::class, 'getCriteriaList']);
 Route::post("/dashboard/recommendation/updateSelectionCriteriaToDB", [RecommendationController::class, 'updateSelectionCriteriaToDB']);
 
+//RentingRecordController
+Route::get('/dashboard/rentingrecord/index/{value}', [RentingRecordController::class, 'index'])->name('dashboard.tenant.rentingrecord');
+Route::get('/dashboard/rentingrecord/getrecordDetails/{rentingID}', [RentingRecordController::class, 'getrecordDetails']);
+
+
+//Payment
+
+Route::post('/dashboard/payment/makePayment', [PaymentController::class, 'makePayment']);
+Route::get('/dashboard/payment/paymentSuccess', [PaymentController::class, 'paymentSuccess']);
 
 
 
