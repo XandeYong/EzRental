@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EzRental | Payment History</title>
+    <title>EzRental | Maintenance Request History</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_index.css') }}">
@@ -24,28 +24,28 @@
 
                     {{-- Check is the renting record empty --}}
                     {{-- <div class="text-center">
-                        <h3 >There was no Payment found.</h3>
+                        <h3 >There was no Maintenance Request found.</h3>
                     </div> --}}
 
                     {{-- For loop records --}}
                     @for ($i = 0; $i < 100; $i++)
                         
-                        <a href="{{ route('dashboard.tenant.current_renting_record.payment_history.payment') }}" class="no-deco text-dark">
+                        <a href="{{ route('dashboard.tenant.current_renting_record.maintenance_request_history.maintenance_detail') }}" class="no-deco text-dark">
                             <div class="card mb-4">
-                                <div class="d-flex bg-color-powderblue align-items-center py-4">
+                                <div class="d-flex bg-color-burlywood align-items-center py-4">
                                     <div class="row me-auto px-3 w-100 align-items-center" >
                                         <div class="col-12 col-sm">
                                             <h3 class="mb-0">
-                                                May Monthly Payment
+                                                Toilet bulb burn out
                                             </h3>
                                         </div>
 
                                         <div class="col-12 col-sm">
                                             <h6 class="mb-0 text-sm-end pb-2">
-                                                Date: 1/5/2022
+                                                Date: 3/5/2022
                                             </h6>
                                             <h4 class="mb-0 text-sm-end">
-                                                Paid
+                                                Pending
                                             </h4>
                                         </div>
                                     </div>

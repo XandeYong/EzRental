@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | recommendation</title>
+    <title>EzRental | Payment</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
@@ -23,6 +23,8 @@
 
                     <div class="container-fluid mt-3 mb-5">
 
+                        @for ($i = 0; $i < 3; $i++)
+                            
                         <div class="row">
                             <div class="col-12">
                                 <table class="table table-bordered table-responsive table-light">
@@ -65,6 +67,8 @@
                                 </table>
                             </div>
                         </div>
+                        
+                        @endfor
 
                         
                     </div>

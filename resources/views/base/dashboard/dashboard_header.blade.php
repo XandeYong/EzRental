@@ -41,20 +41,32 @@
 
     @if (isset($header))
 
-    <div id="header-2" class="d-flex">
+    <div id="header-2" class="row align-items-center justify-content-center">
         
+        <div id="header-back" class="col-3 text-start">
         @if (isset($back))
-        <div id="header-back" class="position-absolute">
-            <h4 class="m-0 border-right-2">
-                <a class="text-decoration-none" href="{{ $back }}">
-                    <i class="ico-sm ico-chevron-left"></i>
-                </a>
-            </h4>
-        </div>
+            <div class="d-flex">
+                <h4 class="m-0 border-right-2">
+                    <a class="text-decoration-none" href="{{ $back }}">
+                        <i class="ico-sm ico-chevron-left"></i>
+                    </a>
+                </h4>
+            </div>
         @endif
+        </div>
 
-        <div id="header-title" class="mx-auto">
+        <div id="header-title" class="text-center mx-auto col-6">
             <h4 class="m-0">{{ $header }}</h4>
+        </div>
+
+        <div id="header-button" class="text-end col-3">
+        @if (isset($button))
+            <a href="">
+                <button class="btn btn-outline-success d-none d-lg-inline-block">
+                    Create Maintenance Request
+                </button>
+            </a>
+        @endif
         </div>
     </div>
 

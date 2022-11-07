@@ -145,7 +145,7 @@
                                         </div>
                                         <div class="item-body px-3 mb-2 mt-3">
                                             <div class="mb-2">
-                                                <a href="">
+                                                <a href="{{ route('dashboard.tenant.current_renting_record.maintenance_request_history') }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Maintenance Request
                                                     </button>

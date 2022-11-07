@@ -74,6 +74,27 @@ Route::get('/dashboard/current_renting_record/record/payment_history/payment_det
 })->name('dashboard.tenant.current_renting_record.payment_history.payment');
 
 
+//Maintenance Request
+Route::get('/dashboard/current_renting_record/record/mainteance_request_history', function() {
+    return view('dashboard/tenant/dashboard_maintenancerequest_history', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Maintenance History',
+        'back' => '/dashboard/current_renting_record/record',
+        'button' => '/dashboard/current_renting_record/record/maintenance_request_history/create_maintenance_request'
+    ]);
+})->name('dashboard.tenant.current_renting_record.maintenance_request_history');
+
+Route::get('/dashboard/current_renting_record/record/mainteance_request_history/maintenance_detail', function() {
+    return view('dashboard/tenant/dashboard_maintenancerequest', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Maintenance Detail',
+        'back' => '/dashboard/current_renting_record/record/maintenance_request_history'
+    ]);
+})->name('dashboard.tenant.current_renting_record.maintenance_request_history.maintenance_detail');
+
+
 //Controller
 //FavoriteControlle
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
