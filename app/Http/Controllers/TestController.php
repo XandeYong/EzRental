@@ -18,9 +18,9 @@ class TestController extends Controller
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
-            ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
+            ->join('criterias', 'criterias.criteria_id', '=', 'selected_criterias.criteria_id')
             ->where('selected_criterias.account_id', $id)
-            ->select('post_criterias.criteria_id', 'post_criterias.name')
+            ->select('criterias.criteria_id', 'criterias.name')
             ->get();
 
         if ($selectedCriterias->isEmpty()){

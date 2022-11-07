@@ -16,7 +16,7 @@ class TopSelectionCriteriaListController extends Controller
         $user = $account->role;
 
         //get topselectioncriterialist from database  
-        $topResults = DB::table('post_criterias')
+        $topResults = DB::table('criterias')
             ->orderBy('selected_count','DESC')
             ->select('name', 'selected_count')
             ->get();

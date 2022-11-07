@@ -5,12 +5,27 @@
     <title>EzRental | Current Renting Record</title>
     
     @include('../base/dashboard/dashboard_head')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_rentingrecord.css') }}">
     <link rel="stylesheet" href="{{asset('css/sidenav.css')}}">
 </head>
 
 <body>
-
+    {{-- For validate is at least one checkbox checked  --}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#makePayment').click(function() {
+              checked = $("input[type=checkbox]:checked").length;
+        
+              if(!checked) {
+                alert("You must check at least one payment checkbox.");
+                return false;
+              }
+        
+            });
+        });
+        
+        </script>
 
     @include('../base/dashboard/dashboard_sidebar')
 
@@ -30,33 +45,31 @@
                                 <div class="container-fluid">
                                     <div class="row mb-2">
 
+                                        {{-- Check is the rentingRecordImages empty --}}
+                                        @if ($rentingRecordImages->isEmpty())
+                                             <div class="text-center">
+                                             <h3>There was no images.</h3><br>
+                                             </div>
+                                        @else
+
+                                        {{-- image --}}
                                         <div id="carousel_post_image" class="carousel slide" data-bs-ride="true">
                                             <div class="carousel-indicators">
-                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to="0" class="active"
-                                                    aria-current="true" aria-label="Slide 1"></button>
-                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to="1"
-                                                    aria-label="Slide 2"></button>
-                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to="2"
-                                                    aria-label="Slide 3"></button>
-                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to="3"
-                                                    aria-label="Slide 4"></button>
+                                                {{-- For loop records --}}
+                                                @for ($i = 0; $i < count($rentingRecordImages); $i++)
+                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to={{ $i }}  @if ($i==0) class="active" @endif
+                                                    aria-current="true" aria-label="Slide " . {{ $i+1 }}></button>
+                                                @endfor
                                             </div>
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/condo.webp') }}" alt="Card image cap">
-                                                </div>
-        
-                                                <div class="carousel-item">
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/renting_post/PI1.png') }}" " alt="Card image cap">
-                                                </div>
-        
-                                                <div class="carousel-item">
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/renting_post/PI2.png') }}" " alt="Card image cap">
-                                                </div>
 
-                                                <div class="carousel-item">
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/renting_post/PI3.jpg') }}" " alt="Card image cap">
+                                            <div class="carousel-inner">
+                                                {{-- For loop records --}}
+                                                @for ($i = 0; $i < count($rentingRecordImages); $i++)
+                                                <div @if ($i==0) class="carousel-item active" @else class="carousel-item" @endif >
+                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/renting_post/'. $rentingRecordImages[$i]->image) }}" alt="{{ $rentingRecordImages[$i]->image }}">
                                                 </div>
+                                                @endfor
+
                                             </div>
                                             <button class="carousel-control-prev" type="button" data-bs-target="#carousel_post_image"
                                                 data-bs-slide="prev">
@@ -69,24 +82,14 @@
                                                 <span class="visually-hidden">Next</span>
                                             </button>
                                         </div>
+                                        @endif
 
                                     </div>
 
+                                    {{-- Description --}}
                                     <div class="row mb-3">
                                         <h5><u>Description:</u></h5>
-                                        <p>
-                                            Quos ab facilis et explicabo consequatur. 
-                                            Occaecati facere impedit tempore non at natus. 
-                                            Laboriosam distinctio suscipit nulla amet nesciunt quo quis. 
-                                            Dolor eum quia necessitatibus sequi officia nobis et saepe quo. 
-                                            Dolores similique ut est. Qui architecto facilis cupiditate commodi. 
-                                            Reprehenderit sit vel. Id sunt quia facilis mollitia dolore tempora vitae repellendus. 
-                                            Soluta reiciendis necessitatibus corrupti. Ipsam labore magni ut omnis. 
-                                            Est harum atque et magnam suscipit esse minus. 
-                                            Et minima rerum praesentium quas temporibus optio placeat inventore ut. 
-                                            Ad nisi nam id assumenda qui ea tenetur magni. 
-                                            Exercitationem eius officia aut sint quae quod laborum voluptate.
-                                        </p>
+                                        <p> {{ $rentingRecordDetails[0]->description }} </p>
                                     </div>
 
                                     {{-- sidebar --}}
@@ -103,28 +106,40 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
+                                                        <th scope="row" class="w-25">Post Title</th>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->title }}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th scope="row" class="w-25">Deposit</th>
-                                                        <td class="w-75">RM 1725</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->deposit_price }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Monthly Payment</th>
-                                                        <td class="w-75">RM 690</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->monthly_price }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Condominium</th>
-                                                        <td class="w-75">PV 12</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->condominium_name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Floor</th>
-                                                        <td class="w-75">13</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->floor }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Unit</th>
-                                                        <td class="w-75">2</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->unit }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Address</th>
-                                                        <td class="w-75">PV 12-13-2, Danua Kota</td>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->address }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Post Owner</th>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Renting Status</th>
+                                                        <td class="w-75">{{ $rentingRecordDetails[0]->status }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -168,9 +183,10 @@
                                                 </a>
                                             </div>
 
+                                            {{-- Payment --}}
                                             <div id="payment" class="card my-3">
-                                                <form action="" method="POST" class="h-100">
-
+                                                <form action="/dashboard/payment/makePayment" method="post" class="h-100" onsubmit="return confirm('Are you sure you want to make payment?');">
+                                                    @csrf
                                                     <div class="container-fluid h-100">    
                                                         <div class="row align-content-between h-100">
 
@@ -181,27 +197,33 @@
                                                             </div>
 
                                                             <div id="payment_list" class="col-12">
+                                                                        {{-- Check is the unpaidPayments empty --}}
+                                                                        @if ($unpaidPaymentsID->isEmpty())
+                                                                        <div class="border-1 rounded py-1 px-2 mx-3 my-2">
+                                                                        <div class="text-center">
+                                                                            <label class="form-check-label">
+                                                                                No Unpaid Payment
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                        @else
+                                                                   {{-- For loop records --}}
+                                                                   @for ($i = 0; $i < count($unpaidPaymentsID); $i++)
                                                                 <div class="border-1 rounded py-1 px-2 mx-3 my-2">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" name="payment[]" type="checkbox" value="">
-                                                                        <label class="form-check-label">
-                                                                            July Monthly Payment
-                                                                        </label>
+                                                                            <input class="form-check-input" name="payment[]" type="checkbox" value="{{ $unpaidPaymentsID[$i]->payment_id }}" >
+                                                                            <label class="form-check-label">
+                                                                                {{ $unpaidPaymentsName[$i] }}
+                                                                            </label>
                                                                     </div>
                                                                 </div>
-            
-                                                                <div class="border-1 rounded py-1 px-2 mx-3 my-2">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" name="payment[]" type="checkbox" value="">
-                                                                        <label class="form-check-label">
-                                                                            Jun Monthly Payment
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                                                @endfor
+                                                                @endif
+
                                                             </div>
                                                         
                                                             <div id="payment_button" class="col-12">
-                                                                <input class="card-footer btn btn-outline-danger" type="submit" value="Make Payment">
+                                                                <input class="card-footer btn btn-outline-danger" type="submit" id="makePayment" name="makePayment" value="Make Payment" @if ($unpaidPaymentsID->isEmpty()) disabled @endif>
                                                             </div>
                                                         </div>
                                                         

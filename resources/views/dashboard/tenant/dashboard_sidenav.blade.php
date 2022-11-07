@@ -36,13 +36,13 @@
                                 
     <div class="dropdownlist">
         <div id="current_renting_record" class="dd-item">
-            <a href="{{ route('dashboard.tenant.current_renting_record.list') }}" class="unselectable">
+            <a href="{{ route('dashboard.tenant.rentingrecord', ['value' => Crypt::encrypt('current')]) }}" class="unselectable">
                 <h6>Current Renting Record</h6>
             </a>
         </div>
         
         <div id="past_renting_record" class="dd-item">
-            <a href="{{ route('dashboard.tenant.past_renting_record.list') }}" class="unselectable">
+            <a href="{{ route('dashboard.tenant.rentingrecord', ['value' => Crypt::encrypt('past')]) }}" class="unselectable">
                 <h6>Past Renting Record</h6>
             </a>
         </div>

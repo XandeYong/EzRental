@@ -18,9 +18,9 @@ class RecommendationController extends Controller
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
-            ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
+            ->join('criterias', 'criterias.criteria_id', '=', 'selected_criterias.criteria_id')
             ->where('selected_criterias.account_id', $id)
-            ->select('post_criterias.criteria_id', 'post_criterias.name')
+            ->select('criterias.criteria_id', 'criterias.name')
             ->get();
 
 
@@ -40,13 +40,13 @@ class RecommendationController extends Controller
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
-            ->join('post_criterias', 'post_criterias.criteria_id', '=', 'selected_criterias.criteria_id')
+            ->join('criterias', 'criterias.criteria_id', '=', 'selected_criterias.criteria_id')
             ->where('selected_criterias.account_id', $id)
-            ->select('post_criterias.criteria_id', 'post_criterias.selected_count')
+            ->select('criterias.criteria_id', 'criterias.selected_count')
             ->get();
 
-        //get all post_criterias from database 
-        $postCriterias = DB::table('post_criterias')
+        //get all criterias from database 
+        $criterias = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
 
@@ -66,7 +66,7 @@ class RecommendationController extends Controller
             'header' => 'Recommendation Criteria',
             'back' => '/dashboard/recommendation/index',
             'selectedCriterias' => $selectedCriterias,
-            'postCriterias' => $postCriterias
+            'criterias' => $criterias
         ]);
     }
 
@@ -85,7 +85,7 @@ class RecommendationController extends Controller
         //remove 1 from all selected_criteria counts
         if (isset($selectedCriterias)) {
             foreach ($selectedCriterias as $selectedCriteria) {
-                $updated = DB::table('post_criterias')
+                $updated = DB::table('criterias')
                     ->where('criteria_id', $selectedCriteria->criteria_id)
                     ->update(['selected_count' => $selectedCriteria->selected_count - 1]);
             }
@@ -112,12 +112,12 @@ class RecommendationController extends Controller
                 ]);
 
                 //get selected criterias counts from database 
-                $selectedCriteriaCount = DB::table('post_criterias')
+                $selectedCriteriaCount = DB::table('criterias')
                 ->where('criteria_id', $criterias[$i])
                 ->get();
 
                 //add 1 from all selected_criteria counts
-                $updated = DB::table('post_criterias')
+                $updated = DB::table('criterias')
                 ->where('criteria_id', $criterias[$i])
                 ->update(['selected_count' => $selectedCriteriaCount[0]->selected_count+1]);
 
