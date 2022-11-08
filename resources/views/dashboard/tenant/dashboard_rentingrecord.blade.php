@@ -180,7 +180,7 @@
                                             </div>
 
                                             <div class="mb-2">
-                                                <a href="">
+                                                <a href="{{ route('dashboard.tenant.current_renting_record.contract') }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Contract
                                                     </button>
@@ -191,7 +191,7 @@
                                             <div id="payment" class="card my-3">
                                                 <form action="/dashboard/payment/makePayment" method="post" class="h-100" onsubmit="return confirm('Are you sure you want to make payment?');">
                                                     @csrf
-                                                    <div class="container-fluid h-100">    
+                                                    <div class="container-fluid h-100">
                                                         <div class="row align-content-between h-100">
 
                                                             <div id="payment_header" class="card-header text-center bg-danger">

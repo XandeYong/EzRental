@@ -60,6 +60,14 @@ Route::get('/dashboard/current_renting_record/record/maintenance_request_history
 })->name('dashboard.tenant.current_renting_record.maintenance_request_history.create_maintenance_request');
 
 //Contract
+Route::get('/dashboard/current_renting_record/record/contract', function() {
+    return view('dashboard/tenant/dashboard_contract', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Contract',
+        'back' => '/dashboard/current_renting_record/record'
+    ]);
+})->name('dashboard.tenant.current_renting_record.contract');
 
 
 
