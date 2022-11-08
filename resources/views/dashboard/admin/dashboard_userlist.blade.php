@@ -24,21 +24,23 @@
 
                     {{-- Code here --}}
                     <div class="col col-sm-10 col-md-8 col-lg-10">
-                        {{-- Display success message --}}
-                        @if (Session::has('successMessage'))
-                            <div class="alert alert-success">
-                                <strong> {{ session('successMessage') }} </strong>
-                            </div>
-                            <?php session()->forget('successMessage'); ?>
-                        @endif
+                                {{-- Display success message --}}
+                                @if (Session::has('successMessage'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong> {{ session('successMessage') }}</strong> 
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                    <?php session()->forget('successMessage'); ?>
+                                @endif
 
-                        {{-- Display fail message --}}
-                        @if (Session::has('failMessage'))
-                            <div class="alert alert-danger">
-                                <strong> {{ session('failMessage') }} </strong>
-                            </div>
-                            <?php session()->forget('failMessage'); ?>
-                        @endif
+                                {{-- Display fail message --}}
+                                @if (Session::has('failMessage'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong> {{ session('failMessage') }}</strong> 
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                      </div>
+                                    <?php session()->forget('failMessage'); ?>
+                                @endif
 
                         {{-- filter user list function --}}
                         <button class="btn btn-lg btn-danger px-3 px-sm-5" type="button"

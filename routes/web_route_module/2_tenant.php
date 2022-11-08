@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\RentalPostListController;
 use App\Http\Controllers\RentingRecordController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -26,38 +29,16 @@ Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
 
-
-
-// Payment
-Route::get('/dashboard/current_renting_record/record/payment_history', function() {
-    return view('dashboard/tenant/dashboard_payment_history', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Payment History',
-        'back' => '/dashboard/current_renting_record/record'
-    ]);
-})->name('dashboard.tenant.current_renting_record.payment_history');
-
-Route::get('/dashboard/current_renting_record/record/payment_history/payment_detail', function() {
-    return view('dashboard/tenant/dashboard_payment', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Payment Detail',
-        'back' => '/dashboard/current_renting_record/record/payment_history'
-    ]);
-})->name('dashboard.tenant.current_renting_record.payment_history.payment');
-
-
 //Maintenance Request
-Route::get('/dashboard/current_renting_record/record/maintenance_request_history', function() {
-    return view('dashboard/tenant/dashboard_maintenancerequest_history', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Maintenance History',
-        'back' => '/dashboard/current_renting_record/record',
-        'button' => '/dashboard/current_renting_record/record/maintenance_request_history/create_maintenance_request'
-    ]);
-})->name('dashboard.tenant.current_renting_record.maintenance_request_history');
+// Route::get('/dashboard/current_renting_record/record/mainteance_request_history', function() {
+//     return view('dashboard/tenant/dashboard_maintenancerequest_history', [
+//         'user' => 'Tenant',
+//         'page' => 'Renting Record',
+//         'header' => 'Maintenance History',
+//         'back' => '/dashboard/current_renting_record/record',
+//         'button' => '/dashboard/current_renting_record/record/maintenance_request_history/create_maintenance_request'
+//     ]);
+// })->name('dashboard.tenant.current_renting_record.maintenance_request_history');
 
 Route::get('/dashboard/current_renting_record/record/maintenance_request_history/maintenance_detail', function() {
     return view('dashboard/tenant/dashboard_maintenancerequest', [
@@ -96,10 +77,24 @@ Route::get('/dashboard/rentingrecord/getrecordDetails/{rentingID}', [RentingReco
 
 
 //Payment
-
+Route::get('/dashboard/payment/index/{rentingID}', [PaymentController::class, 'index'])->name('dashboard.tenant.payment');
+Route::get('/dashboard/payment/getPaymentDetails/{paymentID}', [PaymentController::class, 'getPaymentDetails']);
 Route::post('/dashboard/payment/makePayment', [PaymentController::class, 'makePayment']);
 Route::get('/dashboard/payment/paymentSuccess', [PaymentController::class, 'paymentSuccess']);
 
+
+//MailController
+Route::get('/mail/sentPaymentReceiptMail/{paymentDetails}/{paymentDetailsName}', [MailController::class, 'sentPaymentReceiptMail']);
+
+//MaintenanceRequestController
+Route::get('/dashboard/rentingrecord/maintenancerequest/index/{rentingID}', [MaintenanceRequestController::class, 'index'])->name('dashboard.tenant.maintenancerequest');
+Route::get('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/{maintenanceRequestID}', [MaintenanceRequestController::class, 'getMaintenanceRequestDetails']);
+
+
+
+
+//RentalPostListController
+Route::get('/dashboard/rentalpostlist/autoSearchMatchRecommendation', [RentalPostListController::class, 'autoSearchMatchRecommendation']); //let xande decide put where
 
 
 //need remove

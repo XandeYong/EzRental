@@ -88,19 +88,13 @@
     onApprove: (data, actions) => {
       return actions.order.capture().then(function(orderData) {
 
-        window.alert('Thank you for your payment. Receipt had sent to your email.');
+            const element = document.getElementById('paypal-button-container');
+            element.innerHTML = '<h3>Thank you for your payment. Receipt had sent to your email.</h3>';
+            window.alert('Thank you for your payment. Receipt had sent to your email.');
 
-        document.location.href ='/dashboard/payment/paymentSuccess';
+            document.location.href ='/dashboard/payment/paymentSuccess';
 
       });
-    },
-
-    //Cancel process
-    onCancel: function (data) {
-    // Show a cancel page, or return to renting record details page
-    // actions.redirect({{ URL('/dashboard/rentingrecord/getrecordDetails/'. Crypt::encrypt($renting_id)) }});
-      //  document.location.href = '/dashboard/rentingrecord/getrecordDetails/'+ Crypt::encrypt($renting_id); //notsure
-      
     }
 
 

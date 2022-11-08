@@ -115,11 +115,11 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Deposit</th>
-                                                        <td class="w-75">{{ $rentingRecordDetails[0]->deposit_price }}</td>
+                                                        <td class="w-75">RM {{ number_format($rentingRecordDetails[0]->deposit_price, 2) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Monthly Payment</th>
-                                                        <td class="w-75">{{ $rentingRecordDetails[0]->monthly_price }}</td>
+                                                        <td class="w-75">RM {{ number_format($rentingRecordDetails[0]->monthly_price, 2) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Condominium</th>
@@ -164,7 +164,7 @@
                                         </div>
                                         <div class="item-body px-3 mb-2 mt-3">
                                             <div class="mb-2">
-                                                <a href="{{ route('dashboard.tenant.current_renting_record.maintenance_request_history') }}">
+                                                <a href="{{ route('dashboard.tenant.maintenancerequest', ['rentingID' => Crypt::encrypt($rentingRecordDetails[0]->renting_id)]) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Maintenance Request
                                                     </button>
@@ -172,7 +172,7 @@
                                             </div>
                                             
                                             <div class="mb-2">
-                                                <a href="{{ route('dashboard.tenant.current_renting_record.payment_history') }}">
+                                                <a href="{{ route('dashboard.tenant.payment', ['rentingID' => Crypt::encrypt($rentingRecordDetails[0]->renting_id)]) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Payment History
                                                     </button>

@@ -17,7 +17,9 @@
                             <a href="{{url("/home")}}">Home</a>
                         </li>
                         <li class="px-2">
-                            <a href="{{url("/rental_post_list")}}">Rental Post</a>
+                            {{-- <a href="{{url("/rental_post_list")}}">Rental Post</a> --}}
+                            <a href="{{url("/dashboard/rentalpostlist/autoSearchMatchRecommendation")}}">Rental Post</a>
+                            
                         </li>
                         <li class="px-2">
                             <a href="{{url("/chat")}}">Chat</a>
