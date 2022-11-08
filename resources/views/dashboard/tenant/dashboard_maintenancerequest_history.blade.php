@@ -28,39 +28,41 @@
                     </div> --}}
                     {{-- Check is the maintenance request empty --}}
                     @if ($maintenanceRequests->isEmpty())
-                    <div class="text-center">
-                        <h3 >There was no maintenance request found.</h3>
-                    </div>
+                        <div class="text-center">
+                            <h3 >There was no maintenance request found.</h3>
+                        </div>
                     @else
 
-                    {{-- For loop records --}}
-                    @foreach ($maintenanceRequests as $maintenanceRequest)
-                        
-                        <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/'. Crypt::encrypt($maintenanceRequest->maintenance_id)) }}" class="no-deco text-dark">
-                            <div class="card mb-4">
-                                <div class="d-flex bg-color-burlywood align-items-center py-4">
-                                    <div class="row me-auto px-3 w-100 align-items-center" >
-                                        <div class="col-12 col-sm">
-                                            <h3 class="mb-0">
-                                                {{ $maintenanceRequest->title }}
-                                            </h3>
-                                        </div>
+                        {{-- For loop records --}}
+                        @foreach ($maintenanceRequests as $maintenanceRequest)
+                            
+                            <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/'. Crypt::encrypt($maintenanceRequest->maintenance_id)) }}" class="no-deco text-dark">
+                                <div class="card mb-4">
+                                    <div class="d-flex bg-color-burlywood align-items-center py-4">
+                                        <div class="row me-auto px-3 w-100 align-items-center" >
+                                            <div class="col-12 col-sm">
+                                                <h3 class="mb-0">
+                                                    {{ $maintenanceRequest->title }}
+                                                </h3>
+                                            </div>
 
-                                        <div class="col-12 col-sm">
-                                            <h6 class="mb-0 text-sm-end pb-2">
-                                                Date: {{ date('Y-m-d', strtotime($maintenanceRequest->created_at)) }}
-                                            </h6>
-                                            <h4 class="mb-0 text-sm-end">
-                                                {{ Str::ucfirst($maintenanceRequest->status) }}
-                                            </h4>
+                                            <div class="col-12 col-sm">
+                                                <h6 class="mb-0 text-sm-end pb-2">
+                                                    Date: {{ date('Y-m-d', strtotime($maintenanceRequest->created_at)) }}
+                                                </h6>
+                                                <h4 class="mb-0 text-sm-end">
+                                                    {{ Str::ucfirst($maintenanceRequest->status) }}
+                                                </h4>
+                                            </div>
                                         </div>
-                                    </div>
-                
-                                </div>
-                            </div>
-                        </a>
                     
-                    @endforeach
+                                    </div>
+                                </div>
+                            </a>
+                        
+                        @endforeach
+
+                    @endif
 
                     @if ($button)
 
