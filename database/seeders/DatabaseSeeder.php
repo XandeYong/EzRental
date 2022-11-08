@@ -214,8 +214,8 @@ Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sun
 Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
 
             'expired_date' => '2021-05-01',
-            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.jpg',
-            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.jpg',
+            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.png',
+            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.png',
             'deposit_price' => 1750,
             'monthly_price' => 700,
             'status' => 'expire',
@@ -760,7 +760,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $pi3 = PostImage::create([
             'post_image_id' => 'PI' . strval($iPI),
-            'image' => 'PI' . strval($iPI++) . '.png',
+            'image' => 'PI' . strval($iPI++) . '.jpg',
             'post_id' => $rrp3->post_id,
         ]);
         
@@ -768,7 +768,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $pi4 = PostImage::create([
             'post_image_id' => 'PI' . strval($iPI),
-            'image' => 'PI' . strval($iPI++) . '.png',
+            'image' => 'PI' . strval($iPI++) . '.jpeg',
             'post_id' => $rrp4->post_id,
         ]);
         
@@ -776,7 +776,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $pi5 = PostImage::create([
             'post_image_id' => 'PI' . strval($iPI),
-            'image' => 'PI' . strval($iPI++) . '.png',
+            'image' => 'PI' . strval($iPI++) . '.jpg',
             'post_id' => $rrp5->post_id,
         ]);
         
@@ -979,7 +979,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $mi1 = MaintenanceImage::create([
             'maintenance_image_id' => 'MI' . strval($iMI),
-            'image' => 'MI' . strval($iMI++) . '.png',     
+            'image' => 'MI' . strval($iMI++) . '.jpg',     
             'maintenance_id' => $mr1->maintenance_id,
         ]);
         

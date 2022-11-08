@@ -813,6 +813,10 @@
 
 
 /* util */
+.x-m-height-300 {
+    max-height: 300px;
+}
+
 
 
 /* Media */

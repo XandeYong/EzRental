@@ -67,14 +67,13 @@
                                 <h5><u>Proof:</u></h5>
 
                                 <div class="row">
-                                    @for ($i = 0; $i < 20; $i++)
-                                        
-                                    
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <img class="w-100 h-100 img-thumbnail img-fluid rounded x-image-modal" src="{{ asset('image/renting_post/PI1.png') }}" alt="">
-                                    </div>
 
+                                    @for ($i = 0; $i < 20; $i++)
+                                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                            <img class="w-100 img-thumbnail img-fluid rounded x-image-modal x-m-height-300" src="{{ asset('image/maintenance/MI1.jpg') }}" alt="">
+                                        </div>
                                     @endfor
+
                                 </div>
 
                             </div>
