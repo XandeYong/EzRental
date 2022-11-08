@@ -10,6 +10,7 @@ class TestController extends Controller
     //
     public $name = 'Test for Auto Search-Match Recommendation Function';
 
+    //Auto Search-Match Recommendation Function
     public function test(Request $request)
     {
         $account = $request->session()->get('account');

@@ -145,7 +145,7 @@ class ProfileController extends Controller
         if ($updated > 0 ) {
             $request->session()->put('successMessage', 'Profile update success.');
         } else {
-            $request->session()->put('failMessage', 'Profile update failed.');
+            $request->session()->put('failMessage', 'Profile update failed because nothing to change.');
         }
 
 

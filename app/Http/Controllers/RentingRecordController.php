@@ -88,6 +88,7 @@ class RentingRecordController extends Controller
         ->select('room_rental_posts.post_id', 'room_rental_posts.title', 'room_rental_posts.description', 'room_rental_posts.room_size', 'room_rental_posts.address', 'room_rental_posts.condominium_name', 'room_rental_posts.block', 'room_rental_posts.floor', 'room_rental_posts.unit', 'accounts.name', 'rentings.status', 'rentings.renting_id', 'rentings.contract_id', 'contracts.deposit_price', 'contracts.monthly_price')
         ->get();
 
+
         //get renting record post images from database 
         $rentingRecordImages = DB::table('post_images')
         ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'post_images.post_id')
@@ -105,7 +106,6 @@ class RentingRecordController extends Controller
 
         if (!$unpaidPaymentsID->isEmpty()){
             $unpaidPaymentsName=array();
-
 
             //get unpaid payment name
             foreach ($unpaidPaymentsID as $unpaidPaymentID){

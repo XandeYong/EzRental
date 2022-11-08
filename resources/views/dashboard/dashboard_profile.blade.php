@@ -29,17 +29,19 @@
                             <div class="row row-gap align-items-center">
                                 {{-- Display success message --}}
                                 @if (Session::has('successMessage'))
-                                    <div class="alert alert-success">
-                                        <strong> {{ session('successMessage') }} </strong>
-                                    </div>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong> {{ session('successMessage') }}</strong> 
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
                                     <?php session()->forget('successMessage'); ?>
                                 @endif
 
                                 {{-- Display fail message --}}
                                 @if (Session::has('failMessage'))
-                                    <div class="alert alert-danger">
-                                        <strong> {{ session('failMessage') }} </strong>
-                                    </div>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong> {{ session('failMessage') }}</strong> 
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                      </div>
                                     <?php session()->forget('failMessage'); ?>
                                 @endif
 

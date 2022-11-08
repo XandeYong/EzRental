@@ -20,7 +20,14 @@
                         <div class="col col-lg-8">
                             <div class="container-fluid mt-5 mt-lg-0">
 
-                                @for ($i = 0; $i < 5; $i++)
+                           {{-- Check is the roomRentalPostLists empty --}}
+                           @if ( count($roomRentalPostLists) == 0 )
+                           <div class="text-center">
+                               <h3>There was no room rental post.</h3><br>
+                           </div>
+                           @else
+                                {{-- For loop records --}}
+                                @for ($i=0; $i <count($roomRentalPostLists); $i++)
                                 <div class="row mb-3">
                                     <button class="item">
                                         <div class="container">
@@ -28,15 +35,15 @@
                                             <div class="row align-items-baseline">
                                                 <div class="col-8">
                                                     <div class="text-start">
-                                                        <h2>PV21 small room for rent</h3>
+                                                        <h2>{{ $roomRentalPostLists[$i]['title'] }}</h3>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>PV21-13-2</h4>
+                                                        <h4>{{ $roomRentalPostLists[$i]['condominium_name'] }}-{{ $roomRentalPostLists[$i]['block'] }}-{{ $roomRentalPostLists[$i]['floor'] }}-{{ $roomRentalPostLists[$i]['unit'] }}</h4>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>Small Room</h4>
+                                                        <h4>{{ $roomRentalPostLists[$i]['room_size'] }} Room</h4>
                                                     </div>
                                                 </div>
 
@@ -46,7 +53,7 @@
                                                     </div>
 
                                                     <div class="text-end c-teal">
-                                                        <h1>RM 690</h1>
+                                                        <h1>RM {{ number_format($roomRentalPostLists[$i]['monthly_price'], 2) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
@@ -55,6 +62,8 @@
                                     </button>
                                 </div>
                                 @endfor
+
+                             @endif   
 
                             </div>
 

@@ -117,10 +117,10 @@ class UserListController extends Controller
         $reason = trim($request->input('reason'));
         $duration = trim($request->input('duration'));
 
-         //getLatestOrderID
+         //getLatestBanRecordsID
          $latestBanRecordID = $this->getLatestBanRecordsID();
 
-         //make new orderID
+         //make new BanRecordsID
          $newBanRecordID = $this->banRecordID($latestBanRecordID);  
         
 
