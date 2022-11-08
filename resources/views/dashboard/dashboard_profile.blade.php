@@ -231,7 +231,7 @@
 
 
     @include('../base/dashboard/dashboard_script')
-    <script src="{{ asset('vendor/xande/animation.js') }}"></script>
+    <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
 
 </body>
 </html>

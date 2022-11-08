@@ -20,7 +20,7 @@
             <div id="content" class="row justify-content-center">
 
                 {{-- Code here --}}
-                <div class="col col-sm-10 col-md-8 col-lg-10">
+                <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
 
                     {{-- Check is the renting record empty --}}
                     {{-- <div class="text-center">
@@ -28,7 +28,7 @@
                     </div> --}}
 
                     {{-- For loop records --}}
-                    @for ($i = 0; $i < 100; $i++)
+                    @for ($i = 0; $i < 30; $i++)
                         
                         <a href="{{ route('dashboard.tenant.current_renting_record.maintenance_request_history.maintenance_detail') }}" class="no-deco text-dark">
                             <div class="card mb-4">
@@ -55,6 +55,18 @@
                         </a>
                     
                     @endfor
+
+                    @if ($button)
+
+                    <div class="d-flex justify-content-center d-block d-lg-none">
+                        <div class="fixed-bottom-button">
+                            <a href="{{ $button }}">
+                                <button class="btn btn-lg btn-success px-3 px-sm-5">Create Maintenance Request</button>
+                            </a>
+                        </div>
+                    </div>
+                        
+                    @endif
 
                 </div>
 

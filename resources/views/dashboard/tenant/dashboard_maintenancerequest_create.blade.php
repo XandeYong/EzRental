@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EzRental | Maintenance Request History</title>
+    <title>EzRental | Create Maintenance Request</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_index.css') }}">
@@ -22,39 +22,21 @@
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
 
-                    {{-- Check is the renting record empty --}}
-                    {{-- <div class="text-center">
-                        <h3 >There was no Maintenance Request found.</h3>
-                    </div> --}}
+                    <form>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="email" class="form-control" name="title" id="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="description" cols="30" rows="10" required></textarea>
+                        </div>
 
-                    {{-- For loop records --}}
-                    @for ($i = 0; $i < 100; $i++)
+                        <div class="text-center w-100">
+                            <input type="submit" class="btn btn-success w-50" value="Create" />
+                        </div>
                         
-                        <a href="{{ route('dashboard.tenant.current_renting_record.maintenance_request_history.maintenance_detail') }}" class="no-deco text-dark">
-                            <div class="card mb-4">
-                                <div class="d-flex bg-color-burlywood align-items-center py-4">
-                                    <div class="row me-auto px-3 w-100 align-items-center" >
-                                        <div class="col-12 col-sm">
-                                            <h3 class="mb-0">
-                                                Toilet bulb burn out
-                                            </h3>
-                                        </div>
-
-                                        <div class="col-12 col-sm">
-                                            <h6 class="mb-0 text-sm-end pb-2">
-                                                Date: 3/5/2022
-                                            </h6>
-                                            <h4 class="mb-0 text-sm-end">
-                                                Pending
-                                            </h4>
-                                        </div>
-                                    </div>
-                
-                                </div>
-                            </div>
-                        </a>
-                    
-                    @endfor
+                    </form>
 
                 </div>
 

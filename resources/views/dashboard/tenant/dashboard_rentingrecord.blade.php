@@ -47,8 +47,8 @@
 
                                         {{-- Check is the rentingRecordImages empty --}}
                                         @if ($rentingRecordImages->isEmpty())
-                                             <div class="text-center">
-                                             <h3>There was no images.</h3><br>
+                                             <div id="no_image" class="text-center">  
+                                                <img class="h-100 img-fluid img-thumbnail rounded" src="{{ asset('image/image_not_found.png') }}" alt="No image available">
                                              </div>
                                         @else
 
@@ -56,10 +56,12 @@
                                         <div id="carousel_post_image" class="carousel slide" data-bs-ride="true">
                                             <div class="carousel-indicators">
                                                 {{-- For loop records --}}
-                                                @for ($i = 0; $i < count($rentingRecordImages); $i++)
-                                                <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to={{ $i }}  @if ($i==0) class="active" @endif
-                                                    aria-current="true" aria-label="Slide " . {{ $i+1 }}></button>
-                                                @endfor
+                                                @if (count($rentingRecordImages) > 1)
+                                                    @for ($i = 0; $i < count($rentingRecordImages); $i++)
+                                                    <button type="button" data-bs-target="#carousel_post_image" data-bs-slide-to={{ $i }}  @if ($i==0) class="active" @endif
+                                                        aria-current="true" aria-label="Slide " . {{ $i+1 }}></button>
+                                                    @endfor
+                                                @endif
                                             </div>
 
                                             <div class="carousel-inner">
@@ -71,6 +73,7 @@
                                                 @endfor
 
                                             </div>
+                                            @if (count($rentingRecordImages) > 1)
                                             <button class="carousel-control-prev" type="button" data-bs-target="#carousel_post_image"
                                                 data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -81,6 +84,7 @@
                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Next</span>
                                             </button>
+                                            @endif
                                         </div>
                                         @endif
 

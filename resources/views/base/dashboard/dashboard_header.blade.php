@@ -43,7 +43,7 @@
 
     <div id="header-2" class="row align-items-center justify-content-center">
         
-        <div id="header-back" class="col-3 text-start">
+        <div id="header-back" class="col-1 col-sm-3 text-start">
         @if (isset($back))
             <div class="d-flex">
                 <h4 class="m-0 border-right-2">
@@ -55,13 +55,13 @@
         @endif
         </div>
 
-        <div id="header-title" class="text-center mx-auto col-6">
+        <div id="header-title" class="text-center mx-auto col-10 col-sm-6">
             <h4 class="m-0">{{ $header }}</h4>
         </div>
 
-        <div id="header-button" class="text-end col-3">
+        <div id="header-button" class="text-end col-1 col-sm-3">
         @if (isset($button))
-            <a href="">
+            <a href="{{ $button }}">
                 <button class="btn btn-outline-success d-none d-lg-inline-block">
                     Create Maintenance Request
                 </button>

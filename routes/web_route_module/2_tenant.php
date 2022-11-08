@@ -49,7 +49,7 @@ Route::get('/dashboard/current_renting_record/record/payment_history/payment_det
 
 
 //Maintenance Request
-Route::get('/dashboard/current_renting_record/record/mainteance_request_history', function() {
+Route::get('/dashboard/current_renting_record/record/maintenance_request_history', function() {
     return view('dashboard/tenant/dashboard_maintenancerequest_history', [
         'user' => 'Tenant',
         'page' => 'Renting Record',
@@ -59,7 +59,7 @@ Route::get('/dashboard/current_renting_record/record/mainteance_request_history'
     ]);
 })->name('dashboard.tenant.current_renting_record.maintenance_request_history');
 
-Route::get('/dashboard/current_renting_record/record/mainteance_request_history/maintenance_detail', function() {
+Route::get('/dashboard/current_renting_record/record/maintenance_request_history/maintenance_detail', function() {
     return view('dashboard/tenant/dashboard_maintenancerequest', [
         'user' => 'Tenant',
         'page' => 'Renting Record',
@@ -67,6 +67,16 @@ Route::get('/dashboard/current_renting_record/record/mainteance_request_history/
         'back' => '/dashboard/current_renting_record/record/maintenance_request_history'
     ]);
 })->name('dashboard.tenant.current_renting_record.maintenance_request_history.maintenance_detail');
+
+
+Route::get('/dashboard/current_renting_record/record/maintenance_request_history/create_maintenance_request', function() {
+    return view('dashboard/tenant/dashboard_maintenancerequest_create', [
+        'user' => 'Tenant',
+        'page' => 'Renting Record',
+        'header' => 'Create Maintenance Request',
+        'back' => '/dashboard/current_renting_record/record/maintenance_request_history'
+    ]);
+})->name('dashboard.tenant.current_renting_record.maintenance_request_history.create_maintenance_request');
 
 
 //Controller

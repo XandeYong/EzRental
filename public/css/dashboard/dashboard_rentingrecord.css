@@ -1,4 +1,4 @@
-#carousel_post_image img {
+#carousel_post_image img, #no_image {
     max-height: 300px;
 }
 
