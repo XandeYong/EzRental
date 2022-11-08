@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EzRental | Create Maintenance Request</title>
+    <title>EzRental | Maintenance Request Details</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_index.css') }}">
@@ -32,7 +32,7 @@
                                         <div class="card-title">
                                             <h5><u>Title:</u></h5>
                                             <p>
-                                                Toilet light bulb burn out
+                                                Toilet light bulb burn out 
                                             </p>
                                         </div>
 
