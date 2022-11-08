@@ -64,17 +64,16 @@ class MaintenanceRequestController extends Controller
             ->select('maintenance_requests.*', 'maintenance_images.maintenance_image_id', 'maintenance_images.image')
             ->get();
 
-        dd($maintenanceRequestDetails);
+        // dd($maintenanceRequestDetails);
 
 
-        //Display paymentDetails
-        // return view('dashboard/tenant/dashboard_paymentdetails', [
+        // //Display maintenanceRequestDetails
+        // return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
         //     'user' => $user,
         //     'page' => $this->name,
-        //     'header' => 'Payment Details',
-        //     'back' => "/dashboard/payment/index/" . Crypt::encrypt($paymentDetails[0]->renting_id),
-        //     'paymentDetails' => $paymentDetails,
-        //     'paymentDetailsName' => $paymentDetailsName
+        //     'header' => 'Maintenance Request Detail',
+        //     'back' => '/dashboard/rentingrecord/maintenancerequest/index/'. Crypt::encrypt($maintenanceRequestDetails[0]->renting_id),
+        //     'maintenanceRequestDetails' => $maintenanceRequestDetails
         // ]);
 
     }
