@@ -22,7 +22,7 @@ class UserListController extends Controller
             ->where('role', '!=', 'A')
             ->where('role', '!=', 'MA')
             ->select('account_id', 'name', 'email', 'status')
-            ->get();
+            ->get();   
 
         return view('dashboard/admin/dashboard_userlist', [
             'user' => $user,
@@ -191,6 +191,7 @@ class UserListController extends Controller
         //update ban_records status in database
         $updated = DB::table('ban_records')
             ->where('account_id', $accountID)
+            ->where('status', 'banned')
             ->update(['status' => "unbanned"]);
 
 

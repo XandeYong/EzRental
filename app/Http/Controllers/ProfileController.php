@@ -112,7 +112,7 @@ class ProfileController extends Controller
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
             'gender' => ['required', 'regex:/^[M|F]$/'],
             'dob' => ['required', 'date', 'before:13 years ago'],
-            'phoneNumber' => ['required', 'numeric', 'max:255'],
+            'phoneNumber' => ['required', 'numeric'],
             'email' => ['required', new EmailValidation, 'max:255']
         ]);
 

@@ -58,9 +58,9 @@ class MaintenanceRequestController extends Controller
                 'maintenanceRequests' => $maintenanceRequests
             ]);
         }
-
-
+        
     }
+
 
     public function getMaintenanceRequestDetails(Request $request, $maintenanceRequestID)
     {
