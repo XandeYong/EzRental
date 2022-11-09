@@ -11,7 +11,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "twbs/bootstrap": "^5.2"
+        "twbs/bootstrap": "^5.2",
+        "twbs/bootstrap-icons": "^1.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -40,8 +41,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@bootstrap"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

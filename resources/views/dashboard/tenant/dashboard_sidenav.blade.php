@@ -51,7 +51,7 @@
 
 <div id="rent_request" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.tenant.rent_request_list') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Rent Request</h5>
         </a>
@@ -60,7 +60,7 @@
 
 <div id="room_visit_appointment" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.tenant.room_visit_appointment_list') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Room Visit Appointment</h5>
         </a>

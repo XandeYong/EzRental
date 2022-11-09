@@ -3,6 +3,7 @@
 <script src="{{ asset("/js/dashboard/dashboard_master.js") }}"></script>
 
 
+
 @if (isset($page))
     <script>
         let page_str = "{{ $page }}"

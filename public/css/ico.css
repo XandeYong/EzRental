@@ -14,6 +14,8 @@
     margin-right: 10px;
 }
 
+/* Color */
+
 .ico-color-dashboard {
     filter: invert(99%) sepia(3%) saturate(289%) hue-rotate(303deg) brightness(115%) contrast(89%);
 }
@@ -49,6 +51,20 @@
 .ico-green {
     filter: invert(50%) sepia(57%) saturate(6632%) hue-rotate(70deg) brightness(92%) contrast(96%);
 }
+
+.ico-bright-green {
+    filter: invert(47%) sepia(78%) saturate(1493%) hue-rotate(95deg) brightness(116%) contrast(110%);
+}
+
+.ico-green-2 {
+    filter: invert(75%) sepia(51%) saturate(6782%) hue-rotate(103deg) brightness(94%) contrast(98%);
+}
+
+.ico-green-3 {
+    filter: invert(49%) sepia(25%) saturate(5202%) hue-rotate(111deg) brightness(93%) contrast(98%);
+}
+
+/* Icon */
 
 .ico-logo {
     background-image: url("../image/svg/logo.svg");
@@ -120,4 +136,8 @@
 
 .ico-arrow-right {
     background-image: url("../image/svg/arrow-right.svg");
+}
+
+.ico-check-lg {
+    background-image: url("../image/svg/check-lg.svg");
 }

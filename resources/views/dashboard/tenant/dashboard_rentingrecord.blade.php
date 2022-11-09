@@ -87,6 +87,7 @@
                                             @endif
                                         </div>
                                         @endif
+                                        <p><small class="text-secondary">POST ID: {{ $rentingRecordDetails[0]->post_id }}</small></p>
 
                                     </div>
 

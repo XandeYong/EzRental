@@ -50,6 +50,43 @@ Route::get('/dashboard/current_renting_record/record/contract', function() {
 })->name('dashboard.tenant.current_renting_record.contract');
 
 
+//Rent Request
+Route::get('/dashboard/rent_request_list', function() {
+    return view('dashboard/tenant/dashboard_rentrequest_list', [
+        'user' => 'Tenant',
+        'page' => 'Rent Request',
+        'header' => 'Rent Request List'
+    ]);
+})->name('dashboard.tenant.rent_request_list');
+
+Route::get('/dashboard/rent_request_list/rent_request', function() {
+    return view('dashboard/tenant/dashboard_rentrequest', [
+        'user' => 'Tenant',
+        'page' => 'Rent Request',
+        'header' => 'Rent Request',
+        'back' => '/dashboard/rent_request_list'
+    ]);
+})->name('dashboard.tenant.rent_request_list.rent_request');
+
+
+//Room Visit Appointment
+Route::get('/dashboard/room_visit_appointment_list', function() {
+    return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
+        'user' => 'Tenant',
+        'page' => 'Room Visit Appointment',
+        'header' => 'Room Visit Appointment List'
+    ]);
+})->name('dashboard.tenant.room_visit_appointment_list');
+
+Route::get('/dashboard/room_visit_appointment_list/room_visit_appointment', function() {
+    return view('dashboard/tenant/dashboard_roomvisitappointment', [
+        'user' => 'Tenant',
+        'page' => 'Room Visit Appointment',
+        'header' => 'Room Visit Appointment',
+        'back' => '/dashboard/room_visit_appointment_list'
+    ]);
+})->name('dashboard.tenant.room_visit_appointment_list.room_visit_appointment');
+
 
 //Controller
 //FavoriteControlle

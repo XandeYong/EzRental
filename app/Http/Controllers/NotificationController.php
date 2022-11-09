@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class NotificationController extends Controller
 {
     //
-    public $name = 'Renting Record';
+    public $name = 'Notification';
 
     public function index(Request $request)
     {
