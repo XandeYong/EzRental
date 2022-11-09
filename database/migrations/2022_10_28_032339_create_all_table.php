@@ -30,7 +30,7 @@ return new class extends Migration
 
         Schema::create('contracts', function (Blueprint $table) {
             $table->string('contract_id')->primary();
-            $table->longText('content');
+            $table->text('content');
             $table->date('expired_date')->nullable();
             $table->string('owner_signature')->nullable();
             $table->string('tenant_signature')->nullable();
@@ -68,7 +68,7 @@ return new class extends Migration
 
         Schema::create('ban_records', function (Blueprint $table) {
             $table->string('ban_id')->primary();
-            $table->text('reason');
+            $table->string('reason');
             $table->integer('duration');
             $table->string('status');
             $table->string('account_id');
@@ -79,7 +79,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->string('notification_id')->primary();
             $table->string('title');
-            $table->text('message');
+            $table->string('message');
             $table->string('type');
             $table->string('status');
             $table->string('account_id');
@@ -90,9 +90,9 @@ return new class extends Migration
         Schema::create('room_rental_posts', function (Blueprint $table) {
             $table->string('post_id')->primary();
             $table->string('title');
-            $table->mediumText('description');
+            $table->text('description');
             $table->string('room_size');
-            $table->text('address');
+            $table->string('address');
             $table->string('condominium_name')->unique();
             $table->string('block');
             $table->string('floor');
@@ -116,7 +116,7 @@ return new class extends Migration
         
         Schema::create('comments', function (Blueprint $table) {
             $table->string('comment_id')->primary();
-            $table->mediumText('message');
+            $table->string('message');
             $table->double('rating');
             $table->string('status');
             $table->string('account_id');
@@ -140,7 +140,7 @@ return new class extends Migration
         Schema::create('visit_appointments', function (Blueprint $table) {
             $table->string('appointment_id')->primary();
             $table->dateTime('datetime');
-            $table->text('note');
+            $table->string('note');
             $table->string('status');
             $table->string('post_id');
             $table->string('account_id');
@@ -151,7 +151,7 @@ return new class extends Migration
         Schema::create('negotiations', function (Blueprint $table) {
             $table->string('negotiation_id')->primary();
             $table->double('price');
-            $table->text('message');
+            $table->string('message');
             $table->string('status');
             $table->string('post_id');
             $table->string('account_id');
@@ -169,7 +169,7 @@ return new class extends Migration
                 
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->string('message_id')->primary();
-            $table->text('message');
+            $table->string('message');
             $table->string('sender_id');
             $table->string('receiver_id');
             $table->string('chat_id');
@@ -179,7 +179,7 @@ return new class extends Migration
 
         Schema::create('group_messages', function (Blueprint $table) {
             $table->string('group_message_id')->primary();
-            $table->text('message');
+            $table->string('message');
             $table->string('sender_id');
             $table->string('group_id');
             $table->timestamp('created_at')->useCurrent();
@@ -240,7 +240,7 @@ return new class extends Migration
         Schema::create('maintenance_requests', function (Blueprint $table) {
             $table->string('maintenance_id')->primary();
             $table->string('title');
-            $table->mediumText('description');
+            $table->text('description');
             $table->date('fullfill_date')->nullable();
             $table->string('status');
             $table->string('renting_id');
