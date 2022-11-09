@@ -181,7 +181,7 @@
                                             </div>
 
                                             <div class="mb-2">
-                                                <a href="{{ route('dashboard.tenant.current_renting_record.contract') }}">
+                                                <a href="{{ route('dashboard.tenant.contract', ['rentingID' => Crypt::encrypt($rentingRecordDetails[0]->renting_id)]) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Contract
                                                     </button>

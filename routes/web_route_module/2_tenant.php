@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaintenanceRequestController;
@@ -121,14 +122,17 @@ Route::get("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest
 Route::post("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequestToDB", [MaintenanceRequestController::class, 'createMaintenanceRequestToDB']);
 
 
-
 //RentalPostListController
 Route::get('/dashboard/rentalpostlist/autoSearchMatchRecommendation', [RentalPostListController::class, 'autoSearchMatchRecommendation']); //let xande decide put where
 
 
+//MaintenanceRequestController
+Route::get('/dashboard/rentingrecord/contract/index/{rentingID}', [ContractController::class, 'index'])->name('dashboard.tenant.contract');
+
+
 //need remove
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-Route::get('/dashboard/test', [TestController::class, 'test']); //need remove
+Route::get('/dashboard/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); //need remove
 
 
 

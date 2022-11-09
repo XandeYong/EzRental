@@ -143,7 +143,7 @@ class PaymentController extends Controller
 
         for ($i = 0; $i < count($payments); $i++) {
 
-            //get update payments details in database 
+            //update payments details in database 
             $updated = DB::table('payments')
                 ->where('payment_id', $payments[$i])
                 ->update(['status' => 'paid', 'paid_date' => date("Y-m-d")]);

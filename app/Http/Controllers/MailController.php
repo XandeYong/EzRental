@@ -75,9 +75,9 @@ class MailController extends Controller
         //check is email sent success
         // if(Mail::to($userDetails[0]->email)->send(new BanMail($mailData))){ //use this
             if(Mail::to('mcgallery21@gmail.com')->send(new BanMail($mailData))){ //need remove
-                $request->session()->put('successMessage', 'Unban email sent success.');
+                $request->session()->put('successMessage', 'Ban email sent success.');
             }else{
-                $request->session()->put('failMessage', 'Unban email sent failed.');
+                $request->session()->put('failMessage', 'Ban email sent failed.');
             }
 
         return redirect(route("dashboard.admin.userlist"));
