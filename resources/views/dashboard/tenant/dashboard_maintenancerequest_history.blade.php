@@ -22,10 +22,6 @@
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
 
-                    {{-- Check is the renting record empty --}}
-                    {{-- <div class="text-center">
-                        <h3 >There was no Maintenance Request found.</h3>
-                    </div> --}}
                     {{-- Check is the maintenance request empty --}}
                     @if ($maintenanceRequests->isEmpty())
                         <div class="text-center">
@@ -64,7 +60,7 @@
 
                     @endif
 
-                    @if ($button)
+                    @if (isset($button))
 
                     <div class="d-flex justify-content-center d-block d-lg-none">
                         <div class="fixed-bottom-button">

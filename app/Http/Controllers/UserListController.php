@@ -75,7 +75,7 @@ class UserListController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'accountId' => ['required', 'regex:/^[A|a]{1}[0-9]+$/']
+            'accountId' => ['required', 'regex:/^[A|a]{1}[0-9]+$/', 'max:255']
         ]);
 
         $account = $request->session()->get('account');
@@ -107,8 +107,8 @@ class UserListController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'duration' => ['required', 'numeric'],
-            'reason' => ['required']
+            'duration' => ['required', 'numeric', 'max:255'],
+            'reason' => ['required', 'max:255']
         ]);
 
 

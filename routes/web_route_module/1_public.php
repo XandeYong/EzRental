@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -144,5 +145,7 @@ Route::get("/dashboard/profile/editProfileIndex", [ProfileController::class, 'ed
 Route::post("/dashboard/profile/updateProfileInDatabase", [ProfileController::class, 'updateProfileInDatabase']);
 
 
+//NotificationConroller
+Route::get('/dashboard/notification/index', [NotificationController::class, 'index'])->name('dashboard.notification');
 
 

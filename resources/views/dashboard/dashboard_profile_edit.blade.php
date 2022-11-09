@@ -34,7 +34,7 @@
                                 <div class="row row-gap align-items-center">
 
                                     <div class="col-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 img-thumbnail py-3">
-                                        <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid rounded" alt="...">
+                                        <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid rounded" alt="{{ $profile[0]->image }}">
                                         <input type="hidden" name="oriImage" value={{ $profile[0]->image }} >
                                         <div class="pt-3 px-2">
                                             <input class="form-control text-center" type="file" name="image">
@@ -173,6 +173,9 @@
                                 <div id="edit_profile" class="row row-gap justify-content-center mt-1 mt-lg-2">
                                     <div class="col text-center">
                                         <input type="submit" class="edit-btn btn btn-lg btn-warning w-100" name="Edit Profile" value="Edit Profile" />
+                                        <a href="{{ URL('/dashboard/profile/index') }}">
+                                            <button type="button" class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
+                                        </a>
                                     </div>
                                 </div>
 

@@ -98,9 +98,6 @@ class PaymentController extends Controller
 
     public function makePayment(Request $request)
     {
-        $account = $request->session()->get('account');
-        $id = $account->account_id;
-
         //Get checkbox array from post
         $payments = $_POST["payment"];
         $payAmount = 0;
@@ -134,9 +131,6 @@ class PaymentController extends Controller
     public function paymentSuccess(Request $request)
     {
         $account = $request->session()->get('account');
-        $id = $account->account_id;
-        $user = $account->role;
-
 
         //Get payment id array from session
         if (session()->has('payments')) {
@@ -178,11 +172,11 @@ class PaymentController extends Controller
             //make new NotificationID
             $newNotificationID = $this->notificationID($latestNotificationID);
 
-            //add to database cause is checked
-            DB::table('notifications')->insert([
+            //add notification to database
+            $addNotification = DB::table('notifications')->insert([
                 'notification_id' => $newNotificationID,
                 'title' => "Payment received",
-                'message' => $account->name . " from <b>" . $paymentDetail[0]->title . "</b> have made " .  $paymentDetailName,
+                'message' => $account->name . " from <b>" . $paymentDetail[0]->title . "</b> have made " .  $paymentDetailName . ".",
                 'type' => "payment",
                 'status' => "unread",
                 'account_id' => $paymentDetail[0]->account_id

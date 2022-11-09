@@ -47,7 +47,7 @@
 
                                 <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                                     <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid img-thumbnail rounded"
-                                        alt="...">
+                                        alt="{{ $profile[0]->image }}">
                                 </div>
 
                                 <div class="col-12 col-lg-8">
