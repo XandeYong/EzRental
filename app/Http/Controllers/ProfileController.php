@@ -20,7 +20,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         //get profile data from database  
-        $account = $request->session()->get('account'); //session()->get('accountData')->account_id;
+        $account = $request->session()->get('account'); 
         $id = $account->account_id;
         $user = $account->role;
 
@@ -109,11 +109,11 @@ class ProfileController extends Controller
         //Laravel validation
         $request->validate([
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
             'gender' => ['required', 'regex:/^[M|F]$/'],
             'dob' => ['required', 'date', 'before:13 years ago'],
-            'phoneNumber' => ['required', 'numeric'],
-            'email' => ['required', new EmailValidation]
+            'phoneNumber' => ['required', 'numeric', 'max:255'],
+            'email' => ['required', new EmailValidation, 'max:255']
         ]);
 
 
