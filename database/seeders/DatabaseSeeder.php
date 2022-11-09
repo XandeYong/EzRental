@@ -987,7 +987,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $mi2 = MaintenanceImage::create([
             'maintenance_image_id' => 'MI' . strval($iMI),
-            'image' => 'MI' . strval($iMI++) . '.png',     
+            'image' => 'MI' . strval($iMI++) . '.jpg',     
             'maintenance_id' => $mr2->maintenance_id,
         ]);
         
