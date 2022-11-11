@@ -24,6 +24,11 @@ class PaymentController extends Controller
         $account = $request->session()->get('account');
         $user = $account->role;
 
+        //Remove payment id array from session
+        if (session()->has('payments')) {
+            session()->forget('payments');
+        }
+
         //get paid payment from database 
         $paidPayments = DB::table('payments')
             ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
@@ -135,7 +140,6 @@ class PaymentController extends Controller
         //Get payment id array from session
         if (session()->has('payments')) {
             $payments = $request->session()->get('payments');
-            // session()->forget('payments');
         }
 
         $paymentDetails = array();
@@ -146,7 +150,7 @@ class PaymentController extends Controller
             //update payments details in database 
             $updated = DB::table('payments')
                 ->where('payment_id', $payments[$i])
-                ->update(['status' => 'paid', 'paid_date' => date("Y-m-d")]);
+                ->update(['payment_method' => 'PayPal', 'status' => 'paid', 'paid_date' => date("Y-m-d")]);
 
             //get unpaid payment from database 
             $paymentDetail = DB::table('payments')
@@ -175,7 +179,7 @@ class PaymentController extends Controller
             //add notification to database
             $addNotification = DB::table('notifications')->insert([
                 'notification_id' => $newNotificationID,
-                'title' => "Payment received",
+                'title' => "Payment Received",
                 'message' => $account->name . " from <b>" . $paymentDetail[0]->title . "</b> have made " .  $paymentDetailName . ".",
                 'type' => "payment",
                 'status' => "unread",
@@ -192,9 +196,12 @@ class PaymentController extends Controller
     public function getLatestNotificationID()
     {
         $notificationID = DB::table('notifications')
-            ->orderBy('created_at', 'desc')
-            ->select('notification_id')
-            ->get();
+        ->select('notification_id')
+        ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
+        ->orderByDesc('notification_id')
+        ->distinct()
+        ->select('notification_id')
+        ->get();
 
         if ($notificationID->isEmpty()) {
             return "NTF0";

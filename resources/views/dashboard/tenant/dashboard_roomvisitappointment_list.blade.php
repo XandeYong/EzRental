@@ -21,33 +21,33 @@
                 {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
 
-                    {{-- Check is the maintenance request empty --}}
-                    @php $rentRequests = collect(); @endphp
-                    @if ($rentRequests->isEmpty())
+                    {{-- Check is the Room Visit Appointment Lists empty --}}
+                    {{-- @php $roomVisitAppointmentLists = collect(); @endphp --}}
+                    @if ($roomVisitAppointmentLists->isEmpty())
                         <div class="text-center">
-                            <h3 >There was no rent request found.</h3>
+                            <h3 >There was no room visit appointment found.</h3>
                         </div>
                     @else
 
                         {{-- For loop records --}}
-                        @foreach ($rentRequests as $rentRequest)
+                        @foreach ($roomVisitAppointmentLists as $roomVisitAppointmentList)
                             
-                            <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/'. Crypt::encrypt($rentRequest->maintenance_id)) }}" class="no-deco text-dark">
+                            <a href="{{ URL('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/'. Crypt::encrypt($roomVisitAppointmentList->appointment_id)) }}" class="no-deco text-dark">
                                 <div class="card mb-4">
                                     <div class="d-flex bg-color-burlywood align-items-center py-4">
                                         <div class="row me-auto px-3 w-100 align-items-center" >
                                             <div class="col-12 col-sm">
                                                 <h3 class="mb-0">
-                                                    {{ $rentRequest->title }}
+                                                    {{ $roomVisitAppointmentList->title }}
                                                 </h3>
                                             </div>
 
                                             <div class="col-12 col-sm">
                                                 <h6 class="mb-0 text-sm-end pb-2">
-                                                    Date: {{ date('Y-m-d', strtotime($rentRequest->created_at)) }}
+                                                    Date: {{ date('Y-m-d', strtotime($roomVisitAppointmentList->created_at)) }}
                                                 </h6>
                                                 <h4 class="mb-0 text-sm-end">
-                                                    {{ Str::ucfirst($rentRequest->status) }}
+                                                    {{ Str::ucfirst($roomVisitAppointmentList->status) }}
                                                 </h4>
                                             </div>
                                         </div>

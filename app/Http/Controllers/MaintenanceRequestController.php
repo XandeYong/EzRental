@@ -58,7 +58,6 @@ class MaintenanceRequestController extends Controller
                 'maintenanceRequests' => $maintenanceRequests
             ]);
         }
-        
     }
 
 
@@ -185,7 +184,10 @@ class MaintenanceRequestController extends Controller
     public function getLatestMaintenanceRequestID()
     {
         $maintenanceRequestID = DB::table('maintenance_requests')
-            ->orderBy('created_at', 'desc')
+            ->select('maintenance_id')
+            ->whereRaw("CHAR_LENGTH(maintenance_id) = (SELECT MAX(CHAR_LENGTH(maintenance_id)) from maintenance_requests)")
+            ->orderByDesc('maintenance_id')
+            ->distinct()
             ->select('maintenance_id')
             ->get();
 
@@ -212,7 +214,10 @@ class MaintenanceRequestController extends Controller
     public function getLatestNotificationID()
     {
         $notificationID = DB::table('notifications')
-            ->orderBy('created_at', 'desc')
+            ->select('notification_id')
+            ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
+            ->orderByDesc('notification_id')
+            ->distinct()
             ->select('notification_id')
             ->get();
 

@@ -22,7 +22,7 @@ class UserListController extends Controller
             ->where('role', '!=', 'A')
             ->where('role', '!=', 'MA')
             ->select('account_id', 'name', 'email', 'status')
-            ->get();   
+            ->get();
 
         return view('dashboard/admin/dashboard_userlist', [
             'user' => $user,
@@ -117,12 +117,12 @@ class UserListController extends Controller
         $reason = trim($request->input('reason'));
         $duration = trim($request->input('duration'));
 
-         //getLatestBanRecordsID
-         $latestBanRecordID = $this->getLatestBanRecordsID();
+        //getLatestBanRecordsID
+        $latestBanRecordID = $this->getLatestBanRecordsID();
 
-         //make new BanRecordsID
-         $newBanRecordID = $this->banRecordID($latestBanRecordID);  
-        
+        //make new BanRecordsID
+        $newBanRecordID = $this->banRecordID($latestBanRecordID);
+
 
         //update ban records in database
         DB::table('ban_records')->insert([
@@ -131,7 +131,7 @@ class UserListController extends Controller
             'duration' => $duration,
             'status' => "banned",
             'account_id' => $accountID
-        ]);     
+        ]);
 
 
         //update account status in database
@@ -141,14 +141,17 @@ class UserListController extends Controller
 
 
         //need sent email
-        return redirect(URL('/mail/sentBanMail/' . Crypt::encrypt($accountID) . "/" .  Crypt::encrypt($reason) . "/" . Crypt::encrypt($duration) ));
+        return redirect(URL('/mail/sentBanMail/' . Crypt::encrypt($accountID) . "/" .  Crypt::encrypt($reason) . "/" . Crypt::encrypt($duration)));
     }
 
 
     public function getLatestBanRecordsID()
     {
         $banRecordID = DB::table('ban_records')
-            ->orderBy('created_at', 'desc')
+            ->select('ban_id')
+            ->whereRaw("CHAR_LENGTH(ban_id) = (SELECT MAX(CHAR_LENGTH(ban_id)) from ban_records)")
+            ->orderByDesc('ban_id')
+            ->distinct()
             ->select('ban_id')
             ->get();
 
@@ -198,11 +201,4 @@ class UserListController extends Controller
         //need sent email
         return redirect(URL('/mail/sentUnbanMail/' . Crypt::encrypt($accountID)));
     }
-
-
-
-
-
-
-
 }

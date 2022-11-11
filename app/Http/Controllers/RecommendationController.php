@@ -98,7 +98,12 @@ class RecommendationController extends Controller
 
 
         //Get checkbox array from post
-        $criterias = $_POST["criteria"];
+        if(isset($_POST["criteria"])){
+            $criterias = $_POST["criteria"];
+        }else{
+            $criterias=array();
+        }
+
 
         if (count($criterias) != 0) {
             //come here if there is something checked in form

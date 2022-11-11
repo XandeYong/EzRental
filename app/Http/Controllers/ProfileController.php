@@ -134,6 +134,7 @@ class ProfileController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = $id.".".$image->getClientOriginalExtension();
+            $request->file('image')->move(public_path().'/image/account/', $imageName );
         }
 
 
