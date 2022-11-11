@@ -36,6 +36,10 @@
     filter: invert(58%) sepia(24%) saturate(990%) hue-rotate(307deg) brightness(91%) contrast(113%);
 }
 
+.ico-red-2 {
+    filter: invert(34%) sepia(66%) saturate(5103%) hue-rotate(337deg) brightness(91%) contrast(89%);
+}
+
 .ico-blue {
     filter: invert(55%) sepia(66%) saturate(443%) hue-rotate(154deg) brightness(103%) contrast(101%);
 }
@@ -62,6 +66,10 @@
 
 .ico-green-3 {
     filter: invert(49%) sepia(25%) saturate(5202%) hue-rotate(111deg) brightness(93%) contrast(98%);
+}
+
+.ico-golden {
+    filter: invert(90%) sepia(15%) saturate(5403%) hue-rotate(330deg) brightness(103%) contrast(102%);
 }
 
 /* Icon */
@@ -140,4 +148,12 @@
 
 .ico-check-lg {
     background-image: url("../image/svg/check-lg.svg");
+}
+
+.ico-lock-solid {
+    background-image: url("../image/svg/lock-solid.svg");
+}
+
+.ico-unlock-solid {
+    background-image: url("../image/svg/unlock-solid.svg");
 }

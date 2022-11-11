@@ -227,7 +227,7 @@ return new class extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->string('payment_id')->primary();
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
             $table->string('payment_type');
             $table->string('paid_date')->nullable();
             $table->double('amount');
