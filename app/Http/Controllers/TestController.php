@@ -196,18 +196,16 @@ class TestController extends Controller
                 $currentDate = date("Y-m-d");
 
                 //Check is current date exceed the due date need pay monthly rent
-                if ($currentDate >= $paymentDueDate) {
+                if ($currentDate == $paymentDueDate) {
                     //Get payment name
                     $date = strtotime($unpaidPaymentRecords[$i]->created_at);
                     $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
-
-                    
                     
                     //get room rental post details from database 
                     $roomRentalPost = DB::table('room_rental_posts')
                         ->join('rentings', 'rentings.post_id', '=', 'room_rental_posts.post_id')
                         ->where('rentings.renting_id', $unpaidPaymentRecords[$i]->renting_id)
-                        ->select('room_rental_posts.account_id', 'room_rental_posts.title')
+                        ->select('room_rental_posts.title')
                         ->get();
 
                     //sent reminder to tenant by add notification in database
@@ -227,6 +225,47 @@ class TestController extends Controller
                         'account_id' => $unpaidPaymentRecords[$i]->account_id
                     ]);
 
+                }
+            }
+        }
+    }
+
+    //Remind owner if tenant not paid the fees when due date arrived Function
+    public function autoReminderForOwner()
+    {
+
+        //get all unpaid payment record from database 
+        $unpaidPaymentRecords = DB::table('payments')
+            ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
+            ->where('payments.status', "unpaid")
+            ->select('payments.payment_id', 'payments.payment_type','payments.created_at', 'payments.renting_id', 'rentings.account_id')
+            ->get();
+
+        if (!$unpaidPaymentRecords->isEmpty()) {
+            for ($i = 0; $i < count($unpaidPaymentRecords); $i++) {
+
+                //Use payment created date 
+                $paymentCreatedDate = strtotime($unpaidPaymentRecords[$i]->created_at);
+                $paymentCreatedDate = date('Y-m-d', $paymentCreatedDate);
+
+                //get payment due date
+                $paymentDueDate = date('Y-m-d', strtotime($paymentCreatedDate . "+ 1 months"));
+
+                //get current date
+                $currentDate = date("Y-m-d");
+
+                //Check is current date exceed the due date need pay monthly rent
+                if ($currentDate == $paymentDueDate) {
+                    //Get payment name
+                    $date = strtotime($unpaidPaymentRecords[$i]->created_at);
+                    $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    
+                    //get room rental post details from database 
+                    $roomRentalPost = DB::table('room_rental_posts')
+                        ->join('rentings', 'rentings.post_id', '=', 'room_rental_posts.post_id')
+                        ->where('rentings.renting_id', $unpaidPaymentRecords[$i]->renting_id)
+                        ->select('room_rental_posts.account_id', 'room_rental_posts.title')
+                        ->get();
 
                     //sent reminder to owner by add notification in database
                     //getLatestNotificationID
@@ -249,7 +288,7 @@ class TestController extends Controller
                 }
             }
         }
-    }
+    }   
 
     public function getLatestNotificationID()
     {

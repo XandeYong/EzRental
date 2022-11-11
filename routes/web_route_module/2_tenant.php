@@ -106,7 +106,8 @@ Route::get('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/{roomV
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
 Route::get('/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); //need remove
 Route::get('/autoAddMonthlyPayment', [TestController::class, 'autoAddMonthlyPayment']); 
-Route::get('/autoReminder', [TestController::class, 'autoReminder']); 
+Route::get('/autoReminderForTenant', [TestController::class, 'autoReminderForTenant']); 
+Route::get('/autoReminderForOwner', [TestController::class, 'autoReminderForOwner']); 
 
 
 

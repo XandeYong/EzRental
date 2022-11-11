@@ -145,6 +145,16 @@ class ProfileController extends Controller
 
         if ($updated > 0 ) {
             $request->session()->put('successMessage', 'Profile update success.');
+
+            //get new account details
+            $newAccountDetails = DB::table('accounts')
+            ->where('account_id', $id)
+            ->first();
+
+            //Update account Session data
+            $newAccountDetails->password = "";
+            $request->session()->put('account', $newAccountDetails);
+
         } else {
             $request->session()->put('failMessage', 'Profile update failed because nothing to change.');
         }
