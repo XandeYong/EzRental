@@ -23,7 +23,12 @@
 
                     {{-- Code here --}}
                     <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
-
+                    {{-- Check is the notification lists empty --}}
+                    @if ($notificationLists->isEmpty())
+                        <div class="text-center">
+                            <h3 >There was no notification.</h3>
+                        </div>
+                    @else
                         @foreach ($notificationLists as $notificationList)
                             <div class="card mb-4">
                                 <div class="d-flex bg-color-powderblue align-items-center py-4">
@@ -52,7 +57,7 @@
                                 </div>
                             </div>
                         @endforeach
-
+                    @endif
                     </div>
 
                 </div>

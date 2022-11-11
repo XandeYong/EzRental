@@ -8,6 +8,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\RentalPostListController;
 use App\Http\Controllers\RentingRecordController;
+use App\Http\Controllers\RentRequestController;
+use App\Http\Controllers\RoomVisitAppointmentController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,63 +32,24 @@ Route::get('/dashboard/tenant', function() {
     return redirect(route("dashboard.profile"));
 })->name('dashboard.tenant');
 
-//Maintenance Request
-// Route::get('/dashboard/current_renting_record/record/maintenance_request_history/create_maintenance_request/{rentingID}', function() {
-//     return view('dashboard/tenant/dashboard_maintenancerequest_create', [
-//         'user' => 'Tenant',
-//         'page' => 'Renting Record',
-//         'header' => 'Create Maintenance Request',
-//         'back' => '/dashboard/rentingrecord/maintenancerequest/index/{rentingID}'
-//     ]);
-// })->name('dashboard.tenant.current_renting_record.maintenance_request_history.create_maintenance_request');
-
-//Contract
-Route::get('/dashboard/current_renting_record/record/contract', function() {
-    return view('dashboard/tenant/dashboard_contract', [
-        'user' => 'Tenant',
-        'page' => 'Renting Record',
-        'header' => 'Contract',
-        'back' => '/dashboard/current_renting_record/record'
-    ]);
-})->name('dashboard.tenant.current_renting_record.contract');
-
-
-//Rent Request
-Route::get('/dashboard/rent_request_list', function() {
-    return view('dashboard/tenant/dashboard_rentrequest_list', [
-        'user' => 'Tenant',
-        'page' => 'Rent Request',
-        'header' => 'Rent Request List'
-    ]);
-})->name('dashboard.tenant.rent_request_list');
-
-Route::get('/dashboard/rent_request_list/rent_request', function() {
-    return view('dashboard/tenant/dashboard_rentrequest', [
-        'user' => 'Tenant',
-        'page' => 'Rent Request',
-        'header' => 'Rent Request',
-        'back' => '/dashboard/rent_request_list'
-    ]);
-})->name('dashboard.tenant.rent_request_list.rent_request');
-
 
 //Room Visit Appointment
-Route::get('/dashboard/room_visit_appointment_list', function() {
-    return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
-        'user' => 'Tenant',
-        'page' => 'Room Visit Appointment',
-        'header' => 'Room Visit Appointment List'
-    ]);
-})->name('dashboard.tenant.room_visit_appointment_list');
+// Route::get('/dashboard/room_visit_appointment_list', function() {
+//     return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
+//         'user' => 'Tenant',
+//         'page' => 'Room Visit Appointment',
+//         'header' => 'Room Visit Appointment List'
+//     ]);
+// })->name('dashboard.tenant.room_visit_appointment_list');
 
-Route::get('/dashboard/room_visit_appointment_list/room_visit_appointment', function() {
-    return view('dashboard/tenant/dashboard_roomvisitappointment', [
-        'user' => 'Tenant',
-        'page' => 'Room Visit Appointment',
-        'header' => 'Room Visit Appointment',
-        'back' => '/dashboard/room_visit_appointment_list'
-    ]);
-})->name('dashboard.tenant.room_visit_appointment_list.room_visit_appointment');
+// Route::get('/dashboard/room_visit_appointment_list/room_visit_appointment', function() {
+//     return view('dashboard/tenant/dashboard_roomvisitappointment', [
+//         'user' => 'Tenant',
+//         'page' => 'Room Visit Appointment',
+//         'header' => 'Room Visit Appointment',
+//         'back' => '/dashboard/room_visit_appointment_list'
+//     ]);
+// })->name('dashboard.tenant.room_visit_appointment_list.room_visit_appointment');
 
 
 //Controller
@@ -129,11 +92,21 @@ Route::get('/dashboard/rentalpostlist/autoSearchMatchRecommendation', [RentalPos
 //MaintenanceRequestController
 Route::get('/dashboard/rentingrecord/contract/index/{rentingID}', [ContractController::class, 'index'])->name('dashboard.tenant.contract');
 
+//RentRequestController
+Route::get('/dashboard/rentrequest/index', [RentRequestController::class, 'index'])->name('dashboard.tenant.rentrequest');
+Route::get('/dashboard/rentrequest/getRentRequestDetails/{rentRequestID}', [RentRequestController::class, 'getRentRequestDetails']);
+
+//RoomVisitAppointmentController
+Route::get('/dashboard/roomvisitappointment/index', [RoomVisitAppointmentController::class, 'index'])->name('dashboard.tenant.roomvisitappointment');
+Route::get('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'getRoomVisitAppoitmentDetails']);
+
+
 
 //need remove
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-Route::get('/dashboard/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); //need remove
-
+Route::get('/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); //need remove
+Route::get('/autoAddMonthlyPayment', [TestController::class, 'autoAddMonthlyPayment']); 
+Route::get('/autoReminder', [TestController::class, 'autoReminder']); 
 
 
 
