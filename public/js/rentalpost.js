@@ -48,6 +48,35 @@ $(document).ready(function () {
             $(".rating-error").removeClass('d-none');
         }
     });
+
+    
+    //validation
+    $("#visit_appointment_button").click(function(e) {
+        if (access['appointment'] === "forbidden") {
+            $message = "You already have an on-going Appointment. \n"
+                     +"You can only have one on-going Appointment at a time."
+            window.alert($message);
+            e.preventDefault();
+        }
+    });
+
+    $("#negotiate_button").click(function(e) {
+        if (access['appointment'] === "forbidden") {
+            $message = "You already have an on-going Negotiattion session. \n"
+                     +"You can only have one on-going Negotiattion session at a time."
+            window.alert($message);
+            e.preventDefault();
+        }
+    });
+
+    $("#rent_button").click(function(e) {
+        if (access['appointment'] === "forbidden") {
+            $message = "You already have an on-going Rent request. \n"
+                     +"You can only have one on-going Rent request at a time."
+            window.alert($message);
+            e.preventDefault();
+        }
+    });
     
 
 });

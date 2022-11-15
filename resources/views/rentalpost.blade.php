@@ -502,6 +502,7 @@
 
     @if (session()->has('account'))
 
+    @if ($access['appointment'] != "forbidden")
     <!-- Visit Appointment Modal -->
     <div class="modal modal-lg fade" id="visit_appointment_modal" tabindex="-1" aria-labelledby="visit appointment modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -535,7 +536,9 @@
             </div>
         </div>
     </div>
+    @endif
 
+    @if ($access['negotiate'] != "forbidden")
     <!-- Negotiate Modal -->
     <div class="modal modal-lg fade" id="negotiate_modal" tabindex="-1" aria-labelledby="negotiate modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -574,8 +577,9 @@
             </div>
         </div>
     </div>
+    @endif
 
-
+    @if ($access['rent'] != "forbidden")
     <!-- Rent Modal -->
     <div class="modal modal-lg fade" id="rent_modal" tabindex="-1" aria-labelledby="rent modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -620,13 +624,20 @@
             </div>
         </div>
     </div>
-    
+    @endif
     @endif
 
+    <script>
+        var access = {!! json_encode($access) !!};
+    </script>
 
     @include('base/footer')
     @include('base/script')
     <script src="{{ asset('js/rentalpost.js') }}"></script>
+
+    
+    
+    @php dd($access); @endphp
 
 </body>
 </html>
