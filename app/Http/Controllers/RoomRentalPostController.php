@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\DB;
 
 class RoomRentalPostController extends Controller
 {
-    
-    function index($post_id) {
+
+    function index($post_id)
+    {
 
         $post = DB::table('room_rental_posts')
             ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
@@ -23,9 +24,9 @@ class RoomRentalPostController extends Controller
             ->where('room_rental_posts.post_id', $post_id)
             ->select(
                 'room_rental_posts.*',
-                'accounts.name', 
-                'contracts.contract_id', 
-                'contracts.deposit_price', 
+                'accounts.name',
+                'contracts.contract_id',
+                'contracts.deposit_price',
                 'contracts.monthly_price'
             )
             ->get();
@@ -48,15 +49,15 @@ class RoomRentalPostController extends Controller
             ->where('comments.status', 'show')
             ->orderBy('created_at')
             ->select(
-                'comments.*',  
+                'comments.*',
                 'accounts.name'
             )
             ->get();
-        
-        if(session()->has('account')) {
+
+        if (session()->has('account')) {
             $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
         } else {
-            
+
             $access = [
                 'comment' => 'forbidden',
                 'appointment' => 'forbidden',
@@ -74,7 +75,6 @@ class RoomRentalPostController extends Controller
             'comments' => $comments,
             'access' => $access
         ]);
-
     }
 
     // Validation 
@@ -90,27 +90,30 @@ class RoomRentalPostController extends Controller
     *    negotiate:   "allow", "forbidden"
     *    rent:        "allow", "forbidden"
     */
-    function validateAccess($post_id, $account_id) {
+    function validateAccess($post_id, $account_id)
+    {
 
         $comment = $this->validateComment($post_id, $account_id);
-
-        
+        $appointment = $this->validateAppointment($post_id, $account_id);
+        $negotiate = $this->validateNegotiate($post_id, $account_id);
+        $rent = $this->validateRentRequest($post_id, $account_id);
 
         return [
             'comment' => $comment,
-            'appointment' => 'true',
-            'negotiate' => 'true',
-            'rent' => 'true'
+            'appointment' => $appointment,
+            'negotiate' => $negotiate,
+            'rent' => $rent
         ];
     }
 
-    function validateComment($post_id, $account_id) {
+    function validateComment($post_id, $account_id)
+    {
         $comment = Comment::where('account_id', $account_id)
             ->where('post_id', $post_id)
             ->where('status', 'show')
             ->get();
-        
-        if($comment->isEmpty()) {
+
+        if ($comment->isEmpty()) {
             $check = Renting::where('account_id', $account_id)
                 ->where('post_id', $post_id)
                 ->where('status', 'expired')
@@ -125,11 +128,66 @@ class RoomRentalPostController extends Controller
         return $comment;
     }
 
-    
+    function validateAppointment($post_id, $account_id)
+    {
+        $appointment = DB::table('visit_appointments')
+            ->where('account_id', $account_id)
+            ->where('post_id', $post_id)
+            ->where('status', '!=', 'rejected')
+            ->where('status', '!=', 'canceled')
+            ->where('status', '!=', 'success')
+            ->get();
+
+        if ($appointment->isEmpty()) {
+            $appointment = "allow";
+        } else {
+            $appointment = "forbidden";
+        }
+
+        return $appointment;
+    }
+
+    function validateNegotiate($post_id, $account_id)
+    {
+        $negotiation = DB::table('negotiations')
+            ->where('account_id', $account_id)
+            ->where('post_id', $post_id)
+            ->where('status', '!=', 'accepted')
+            ->where('status', '!=', 'rejected')
+            ->where('status', '!=', 'canceled')
+            ->get();
+
+        if ($negotiation->isEmpty()) {
+            $negotiation = "allow";
+        } else {
+            $negotiation = "forbidden";
+        }
+
+        return $negotiation;
+    }
+
+    function validateRentRequest($post_id, $account_id)
+    {
+        $rent = DB::table('rent_requests')
+            ->where('account_id', $account_id)
+            ->where('post_id', $post_id)
+            ->where('status', 'pending')
+            ->get();
+
+        if ($rent->isEmpty()) {
+            $rent = "allow";
+        } else {
+            $rent = "forbidden";
+        }
+
+        return $rent;
+    }
+
     // Create Function
     // Visit Appointment
-    function createVisitAppointment(Request $request) {
-        
+    function createVisitAppointment(Request $request)
+    {
+
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
         $datetime = $request->input('datetime');
@@ -160,7 +218,7 @@ class RoomRentalPostController extends Controller
             ->select('account_id', 'title')->get();
 
         $title = 'You received a Visit Appointment';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has booked a visit appointment with you on "<b>' . $rrp[0]['title'] .'</b>".';
+        $message = '<b>' . session()->get('account')['name'] . '</b> has booked a visit appointment with you on "<b>' . $rrp[0]['title'] . '</b>".';
         $type = 'visit_appointment';
         $receiver = $rrp[0]['account_id'];
 
@@ -170,7 +228,8 @@ class RoomRentalPostController extends Controller
     }
 
     // Negotiation
-    function createNegotiation(Request $request) {
+    function createNegotiation(Request $request)
+    {
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
@@ -197,7 +256,7 @@ class RoomRentalPostController extends Controller
             ->select('account_id', 'title')->get();
 
         $title = 'You received a negotiation';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has started a negotiate session with you on "<b>' . $rrp[0]['title'] .'</b>".';
+        $message = '<b>' . session()->get('account')['name'] . '</b> has started a negotiate session with you on "<b>' . $rrp[0]['title'] . '</b>".';
         $type = 'negotiation';
         $receiver = $rrp[0]['account_id'];
 
@@ -208,14 +267,15 @@ class RoomRentalPostController extends Controller
 
 
     // Rent Request
-    function createRentRequest(Request $request) {
+    function createRentRequest(Request $request)
+    {
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $status = "pending";
-        
+
         $startDate = substr($startDate, 0, 10);
         $endDate = substr($endDate, 0, 10);
 
@@ -245,7 +305,7 @@ class RoomRentalPostController extends Controller
             ->select('account_id', 'title')->get();
 
         $title = 'You received a rent request';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has sent a rent request to you on "<b>' . $rrp[0]['title'] .'</b>".';
+        $message = '<b>' . session()->get('account')['name'] . '</b> has sent a rent request to you on "<b>' . $rrp[0]['title'] . '</b>".';
         $type = 'renting_request';
         $receiver = $rrp[0]['account_id'];
 
@@ -256,7 +316,8 @@ class RoomRentalPostController extends Controller
 
 
     // Comment
-    function createComment(Request $request) {
+    function createComment(Request $request)
+    {
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
@@ -283,7 +344,7 @@ class RoomRentalPostController extends Controller
             ->select('account_id', 'title')->get();
 
         $title = 'You have received a Comment on a rental post';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has leave a rating and comment on your "<b>' . $rrp[0]['title'] .'</b>".';
+        $message = '<b>' . session()->get('account')['name'] . '</b> has leave a rating and comment on your "<b>' . $rrp[0]['title'] . '</b>".';
         $type = 'comment';
         $receiver = $rrp[0]['account_id'];
 
@@ -292,8 +353,9 @@ class RoomRentalPostController extends Controller
         return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id, '#comment_section']));
     }
 
-    
-    function updateComment(Request $request) {
+
+    function updateComment(Request $request)
+    {
 
         $post_id = $request->input('id');
         $comment_id = $request->input('cid');
@@ -312,7 +374,7 @@ class RoomRentalPostController extends Controller
             ->select('account_id', 'title')->get();
 
         $title = 'Someone has updated their comment in your rental post';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has updated a rating and comment on your "<b>' . $rrp[0]['title'] .'</b>".';
+        $message = '<b>' . session()->get('account')['name'] . '</b> has updated a rating and comment on your "<b>' . $rrp[0]['title'] . '</b>".';
         $type = 'comment';
         $receiver = $rrp[0]['account_id'];
 
@@ -322,7 +384,8 @@ class RoomRentalPostController extends Controller
     }
 
 
-    function deleteComment($comment_id) {
+    function deleteComment($comment_id)
+    {
 
         $post_id = Comment::find($comment_id)->post()->get()[0]['post_id'];
         $status = "hide";
@@ -337,7 +400,8 @@ class RoomRentalPostController extends Controller
 
 
     //Custom fucntion
-    function createID($model, $idName, $idCodeLength) {
+    function createID($model, $idName, $idCodeLength)
+    {
         $newID = $model::select($idName)
             ->orderByDesc('created_at')
             ->first()->$idName;
@@ -350,7 +414,8 @@ class RoomRentalPostController extends Controller
     }
 
 
-    function notify($title, $message, $type, $receiver) {
+    function notify($title, $message, $type, $receiver)
+    {
 
         $notification_id = $this->createID(Notification::class, 'notification_id', 3);
 
@@ -362,7 +427,7 @@ class RoomRentalPostController extends Controller
             'status' => 'unread',
             'account_id' => $receiver
         ];
-        
+
         Notification::insert($insert);
     }
 }
