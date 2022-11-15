@@ -35,6 +35,7 @@ class TestController extends Controller
                 $unbannedDate = date('Y-m-d', strtotime($date . "+" . $banRecords[$i]->duration . " days"));
 
                 //get current date
+                date_default_timezone_set("Asia/Kuala_Lumpur");
                 $currentDate = date("Y-m-d");
 
                 if ($currentDate >= $unbannedDate) {
@@ -112,6 +113,7 @@ class TestController extends Controller
                 }
 
                 //get current date
+                date_default_timezone_set("Asia/Kuala_Lumpur");
                 $currentDate = date("Y-m-d");
 
                 //Check is current date exceed the date need pay monthly rent
@@ -139,7 +141,7 @@ class TestController extends Controller
 
     public function getLatestPaymentID()
     {
-            $paymentID = DB::table('payments')
+        $paymentID = DB::table('payments')
             ->select('payment_id')
             ->whereRaw("CHAR_LENGTH(payment_id) = (SELECT MAX(CHAR_LENGTH(payment_id)) from payments)")
             ->orderByDesc('payment_id')
@@ -177,7 +179,7 @@ class TestController extends Controller
         $unpaidPaymentRecords = DB::table('payments')
             ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
             ->where('payments.status', "unpaid")
-            ->select('payments.payment_id', 'payments.payment_type','payments.created_at', 'payments.renting_id', 'rentings.account_id')
+            ->select('payments.payment_id', 'payments.payment_type', 'payments.created_at', 'payments.renting_id', 'rentings.account_id')
             ->get();
 
         if (!$unpaidPaymentRecords->isEmpty()) {
@@ -193,6 +195,7 @@ class TestController extends Controller
                 $paymentDueDate = date('Y-m-d', strtotime($paymentDueDate . "- 3 days"));
 
                 //get current date
+                date_default_timezone_set("Asia/Kuala_Lumpur");
                 $currentDate = date("Y-m-d");
 
                 //Check is current date exceed the due date need pay monthly rent
@@ -200,7 +203,7 @@ class TestController extends Controller
                     //Get payment name
                     $date = strtotime($unpaidPaymentRecords[$i]->created_at);
                     $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
-                    
+
                     //get room rental post details from database 
                     $roomRentalPost = DB::table('room_rental_posts')
                         ->join('rentings', 'rentings.post_id', '=', 'room_rental_posts.post_id')
@@ -219,12 +222,11 @@ class TestController extends Controller
                     $addNotification = DB::table('notifications')->insert([
                         'notification_id' => $newNotificationID,
                         'title' => "Payment Reminder",
-                        'message' => "You have not make <b>". $paymentName . "</b> for <b>" . $roomRentalPost[0]->title . "</b>.",
+                        'message' => "You have not make <b>" . $paymentName . "</b> for <b>" . $roomRentalPost[0]->title . "</b>.",
                         'type' => "payment",
                         'status' => "unread",
                         'account_id' => $unpaidPaymentRecords[$i]->account_id
                     ]);
-
                 }
             }
         }
@@ -238,7 +240,7 @@ class TestController extends Controller
         $unpaidPaymentRecords = DB::table('payments')
             ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
             ->where('payments.status', "unpaid")
-            ->select('payments.payment_id', 'payments.payment_type','payments.created_at', 'payments.renting_id', 'rentings.account_id')
+            ->select('payments.payment_id', 'payments.payment_type', 'payments.created_at', 'payments.renting_id', 'rentings.account_id')
             ->get();
 
         if (!$unpaidPaymentRecords->isEmpty()) {
@@ -252,6 +254,7 @@ class TestController extends Controller
                 $paymentDueDate = date('Y-m-d', strtotime($paymentCreatedDate . "+ 1 months"));
 
                 //get current date
+                date_default_timezone_set("Asia/Kuala_Lumpur");
                 $currentDate = date("Y-m-d");
 
                 //Check is current date exceed the due date need pay monthly rent
@@ -259,7 +262,7 @@ class TestController extends Controller
                     //Get payment name
                     $date = strtotime($unpaidPaymentRecords[$i]->created_at);
                     $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
-                    
+
                     //get room rental post details from database 
                     $roomRentalPost = DB::table('room_rental_posts')
                         ->join('rentings', 'rentings.post_id', '=', 'room_rental_posts.post_id')
@@ -278,28 +281,26 @@ class TestController extends Controller
                     $addNotification = DB::table('notifications')->insert([
                         'notification_id' => $newNotificationID,
                         'title' => "Payment Reminder",
-                        'message' => "You have not receive <b>". $paymentName . "</b> for <b>" . $roomRentalPost[0]->title . "</b>.",
+                        'message' => "You have not receive <b>" . $paymentName . "</b> for <b>" . $roomRentalPost[0]->title . "</b>.",
                         'type' => "payment",
                         'status' => "unread",
                         'account_id' => $roomRentalPost[0]->account_id
                     ]);
-
-
                 }
             }
         }
-    }   
+    }
 
     public function getLatestNotificationID()
     {
-            $notificationID = DB::table('notifications')
+        $notificationID = DB::table('notifications')
             ->select('notification_id')
             ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
             ->orderByDesc('notification_id')
             ->distinct()
             ->select('notification_id')
             ->get();
-    
+
         if ($notificationID->isEmpty()) {
             return "NTF0";
         }
@@ -319,4 +320,54 @@ class TestController extends Controller
 
         return $result;
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Auto check is approved visit appointment already over 
+    public function autoCheckRoomVisitAppointment(Request $request)
+    {
+
+        //get room visit appointment details from database 
+        $roomVisitAppointments = DB::table('visit_appointments')
+            ->where('status', 'approved')
+            ->select('appointment_id', 'datetime')
+            ->get(); 
+
+        if (!$roomVisitAppointments->isEmpty()) {
+            for ($i = 0; $i < count($roomVisitAppointments); $i++) {
+
+                //get current date time in Malaysia
+                date_default_timezone_set("Asia/Kuala_Lumpur");
+                $currentDate = date("Y-m-d H:i:s");
+
+                if ($currentDate >= $roomVisitAppointments[$i]->datetime) {
+                    //update room visit appoitment status in database 
+                    $updated = DB::table('visit_appointments')
+                        ->where('appointment_id', $roomVisitAppointments[$i]->appointment_id)
+                        ->update(['status' => "success"]);
+                } 
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

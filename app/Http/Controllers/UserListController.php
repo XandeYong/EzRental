@@ -75,7 +75,7 @@ class UserListController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'accountId' => ['required', 'regex:/^[A|a]{1}[0-9]+$/', 'max:255']
+            'accountId' => ['required', 'max:255']
         ]);
 
         $account = $request->session()->get('account');

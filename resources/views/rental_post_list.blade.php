@@ -35,15 +35,15 @@
                                             <div class="row align-items-baseline">
                                                 <div class="col-8">
                                                     <div class="text-start">
-                                                        <h2>{{ $roomRentalPostLists[$i]['title'] }}</h3>
+                                                        <h2>{{ $roomRentalPostLists[$i]->title }}</h3>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>{{ $roomRentalPostLists[$i]['condominium_name'] }}-{{ $roomRentalPostLists[$i]['block'] }}-{{ $roomRentalPostLists[$i]['floor'] }}-{{ $roomRentalPostLists[$i]['unit'] }}</h4>
+                                                        <h4>{{ $roomRentalPostLists[$i]->condominium_name }}-{{ $roomRentalPostLists[$i]->block }}-{{ $roomRentalPostLists[$i]->floor }}-{{ $roomRentalPostLists[$i]->unit }}</h4>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>{{ $roomRentalPostLists[$i]['room_size'] }} Room</h4>
+                                                        <h4>{{ $roomRentalPostLists[$i]->room_size }} Room</h4>
                                                     </div>
                                                 </div>
 
@@ -53,7 +53,7 @@
                                                     </div>
 
                                                     <div class="text-end c-teal">
-                                                        <h1>RM {{ number_format($roomRentalPostLists[$i]['monthly_price'], 2) }}</h1>
+                                                        <h1>RM {{ number_format($roomRentalPostLists[$i]->monthly_price, 2) }}</h1>
                                                     </div>
                                                 </div>
                                             </div>
