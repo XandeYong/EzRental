@@ -99,14 +99,20 @@ Route::get('/dashboard/rentrequest/getRentRequestDetails/{rentRequestID}', [Rent
 //RoomVisitAppointmentController
 Route::get('/dashboard/roomvisitappointment/index', [RoomVisitAppointmentController::class, 'index'])->name('dashboard.tenant.roomvisitappointment');
 Route::get('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'getRoomVisitAppoitmentDetails']);
+Route::get('/dashboard/roomvisitappointment/approveAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'approveAppointment']);
+Route::get('/dashboard/roomvisitappointment/rejectAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'rejectAppointment']);
+Route::get('/dashboard/roomvisitappointment/cancelAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'cancelAppointment']);
+
 
 
 
 //need remove
 Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-Route::get('/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); //need remove
+Route::get('/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); 
 Route::get('/autoAddMonthlyPayment', [TestController::class, 'autoAddMonthlyPayment']); 
-Route::get('/autoReminder', [TestController::class, 'autoReminder']); 
+Route::get('/autoReminderForTenant', [TestController::class, 'autoReminderForTenant']); 
+Route::get('/autoReminderForOwner', [TestController::class, 'autoReminderForOwner']); 
+Route::get('/autoCheckRoomVisitAppointment', [TestController::class, 'autoCheckRoomVisitAppointment']); 
 
 
 

@@ -5,11 +5,16 @@
             <h4>Search</h4>
         </div>
         <div class="item-body">
-            <form action="./index.php" method="GET">
+            <form action="/rentalpostlist/searchRentalPost" method="POST">
+                @csrf
                 <div class="search d-flex p-3">
-                    <input class="form-control shadow-none" type="text" name="search" placeholder="Search" >
+                    <input class="form-control shadow-none" type="text" name="search" placeholder="Search" required>
                     <button class="btn btn-secondary shadow-none" type="submit">Go</button>
+
                 </div>
+                @if($errors->has('search'))
+                <span class="c-red-error">*{{ $errors->first('search') }}</span>
+                @endif
             </form>
         </div>
     </div>

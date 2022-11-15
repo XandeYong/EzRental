@@ -38,7 +38,7 @@ class RentalPostListController extends Controller
 
             //if got selected criteria then display filtered post list
             for ($i = count($selectedCriteriasArray); $i > 0; $i--) {
-                
+
                 //Get all the unique combination based on size
                 $comparePair = $this->allSubsets($selectedCriteriasArray, $i);
 
@@ -96,7 +96,6 @@ class RentalPostListController extends Controller
             'header' => $this->name,
             'roomRentalPostLists' => $roomRentalPostLists
         ]);
-
     }
 
 
@@ -106,7 +105,7 @@ class RentalPostListController extends Controller
     {
         $temp = array();
         $i = 0;
-        $x =0;
+        $x = 0;
         $key_array = array();
 
         foreach ($array as $val) {
@@ -121,7 +120,6 @@ class RentalPostListController extends Controller
                 $x++;
             }
             $i++;
-            
         }
         return $temp;
     }
@@ -148,5 +146,36 @@ class RentalPostListController extends Controller
             }
         }
         return $subsets;
+    }
+
+
+    public function searchRentalPost(Request $request)
+    {
+        $account = $request->session()->get('account');
+        $user = $account->role;
+
+        //Laravel validation
+        $data = $request->validate([
+            'search' => ['required', 'max:255', 'string', 'regex:/^[RRP|rrp]{3}[0-9]+$/'] ]);
+
+        //get search from search field in retal post list page
+        $search = trim($request->input('search'));
+
+
+        //get all room_rental_posts from database  
+        $roomRentalPostLists = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.contract_id', '=', 'room_rental_posts.contract_id')
+            ->where('room_rental_posts.post_id', $search)
+            ->where('room_rental_posts.status', 'available')
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
+
+
+        return view('rental_post_list', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => $this->name,
+            'roomRentalPostLists' => $roomRentalPostLists
+        ]);
     }
 }
