@@ -635,9 +635,5 @@
     @include('base/script')
     <script src="{{ asset('js/rentalpost.js') }}"></script>
 
-    
-    
-    @php dd($access); @endphp
-
 </body>
 </html>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | Recommendation</title>
+    <title>EzRental | Select Recommendation</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">

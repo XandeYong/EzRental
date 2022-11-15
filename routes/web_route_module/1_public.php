@@ -127,7 +127,6 @@ Route::get('/login_portal/login/admin', function () {
 // Logout
 //----------
 
-
 Route::get('/logout', function () {
     DB::table('accounts')
         ->where('account_id', session()->get('account')['account_id'])
