@@ -3,6 +3,8 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomRentalPostController;
+use App\Http\Controllers\RoomRentalPostListController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +32,7 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::get('/rental_post_list', function () {
-    return view('rental_post_list');
+    return view('rentalpost_list');
 })->name('rental_post_list');
 
 Route::get('/chat', function () {
@@ -148,4 +150,44 @@ Route::post("/dashboard/profile/updateProfileInDatabase", [ProfileController::cl
 //NotificationConroller
 Route::get('/dashboard/notification/index', [NotificationController::class, 'index'])->name('dashboard.notification');
 
+
+//Room Rental Post List
+Route::get('/rental_post_list', [
+    RoomRentalPostListController::class, 'index'
+])->name('rental_post_list');
+
+//Room Rental Post
+Route::get('/rental_post_list/rental_post/{post_id}', [
+    RoomRentalPostController::class, 'index'
+])->name('rental_post_list.rental_post');
+
+
+Route::post('/rental_post_list/rental_post/create_visit_appointment', [
+    RoomRentalPostController::class, 'createVisitAppointment'
+])->name('rental_post_list.rental_post.create_visit_appointment');
+
+
+Route::post('/rental_post_list/rental_post/create_negotiation', [
+    RoomRentalPostController::class, 'createNegotiation'
+])->name('rental_post_list.rental_post.create_negotiation');
+
+
+Route::post('/rental_post_list/rental_post/create_rent_request', [
+    RoomRentalPostController::class, 'createRentRequest'
+])->name('rental_post_list.rental_post.create_rent_request');
+
+
+Route::post('/rental_post_list/rental_post/create_comment', [
+    RoomRentalPostController::class, 'createComment'
+])->name('rental_post_list.rental_post.create_comment');
+
+
+Route::post('/rental_post_list/rental_post/update_comment', [
+    RoomRentalPostController::class, 'updateComment'
+])->name('rental_post_list.rental_post.update_comment');
+
+
+Route::get('/rental_post_list/rental_post/delete_comment/{comment_id}', [
+    RoomRentalPostController::class, 'deleteComment'
+])->name('rental_post_list.rental_post.delete_comment');
 

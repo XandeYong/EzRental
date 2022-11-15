@@ -26,8 +26,8 @@ class RentalPostListController extends Controller
             ->get();
 
 
-        //Define a array variable to store all room rental post    
-        $roomRentalPostLists = array();
+        //Define a collection variable to store all room rental post
+        $roomRentalPostLists = collect();
 
         if (!$selectedCriterias->isEmpty()) {
             //Change selectedCriterias collection to array
@@ -45,7 +45,7 @@ class RentalPostListController extends Controller
                 for ($h = 0; $h < count($comparePair); $h++) {
 
                     $rentalPost = DB::table('room_rental_posts')
-                        ->join('contracts', 'contracts.contract_id', '=', 'room_rental_posts.contract_id')
+                        ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                         ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
                         ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
                         ->join('selected_criterias', 'selected_criterias.criteria_id', '=', 'criterias.criteria_id')
@@ -65,7 +65,7 @@ class RentalPostListController extends Controller
                         ->get();
 
                     if (!$rentalPost->isEmpty()) {
-                        array_push($roomRentalPostLists,  $rentalPost[0]);
+                        $roomRentalPostLists->add($rentalPost[0]);
                     }
                 }
             }
@@ -73,24 +73,24 @@ class RentalPostListController extends Controller
 
         //get all random post list
         $allRentalPost = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.contract_id', '=', 'room_rental_posts.contract_id')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
 
         if (!$allRentalPost->isEmpty()) {
             for ($i = 0; $i < count($allRentalPost); $i++) {
-                array_push($roomRentalPostLists, $allRentalPost[$i]);
+                $roomRentalPostLists->add($allRentalPost[$i]);
             }
         }
 
         if (count($roomRentalPostLists) != 0) {
-            //Remove duplicate object in array
-            $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
+            //Remove duplicate object in collection
+            $roomRentalPostLists = $roomRentalPostLists->unique('post_id');
         }
 
 
-        return view('rental_post_list', [
+        return view('rentalpost_list', [
             'user' => $user,
             'page' => $this->name,
             'header' => $this->name,

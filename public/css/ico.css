@@ -157,3 +157,11 @@
 .ico-unlock-solid {
     background-image: url("../image/svg/unlock-solid.svg");
 }
+
+.ico-star {
+    background-image: url("../image/svg/star.svg");
+}
+
+.ico-star-fill {
+    background-image: url("../image/svg/star-fill.svg");
+}

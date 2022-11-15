@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EzRental | Payment</title>
+    <title>EzRental | Room Visit Appointment Detail</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
@@ -62,6 +62,25 @@
                         </div>
                         
                         @endfor
+
+                        @if ($roomVisitAppointmentDetails[0]->status == "rescheduled")
+                        <div class="row mt-5">
+                            <form class="col-12" action="" method="post">
+
+                                <input hidden type="hidden" name="id" value="{{ $roomVisitAppointmentDetails[0]->appointment_id }}">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-lg-4">
+                                        <input class="btn btn-lg btn-primary w-100" type="submit" name="approve" value="Approve">
+                                    </div>
+                                    
+                                    <div class="col-12 col-lg-4">
+                                        <input class="btn btn-lg btn-warning w-100" type="submit" name="reject" value="Reject">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        @endif
 
                         
                     </div>

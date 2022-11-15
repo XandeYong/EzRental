@@ -35,13 +35,13 @@ class DatabaseSeeder extends Seeder
      * 
      * ID:
      *  Account: A1
-     *  Contract: CT1
      *  Criteria: CTR1
      *  Chat: C1
      *  GroupChat: GC1
      *  BanRecord: BR1
      *  Notification: NTF1
      *  RoomRentalPost: RRP1
+     *  Contract: CT1
      *  Renting: R1
      *  Comment: CMT1
      *  RentRequest: RR1
@@ -184,73 +184,6 @@ class DatabaseSeeder extends Seeder
             'image' => 'profile.png',
             'status' => 'banned',
             'role' => 'T',
-        ]);
-        
-        sleep(1);
-
-
-        static $iCT = 1;
-
-        $ct1 = Contract::create([
-            'contract_id' => 'CT' . strval($iCT),
-            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
-Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
-Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
-
-            'expired_date' => '2023-04-28',
-            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.jpg',
-            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.jpg',
-            'deposit_price' => 2250,
-            'monthly_price' => 900,
-            'status' => 'active',
-        ]);
-        
-        sleep(1);
-
-        $ct2 = Contract::create([
-            'contract_id' => 'CT' . strval($iCT),
-            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
-Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
-Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
-
-            'expired_date' => '2021-05-01',
-            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.png',
-            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.png',
-            'deposit_price' => 1750,
-            'monthly_price' => 700,
-            'status' => 'expire',
-        ]);
-        
-        sleep(1);
-        
-        $ct3 = Contract::create([
-            'contract_id' => 'CT' . strval($iCT++),
-            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
-Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
-Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
-
-            'expired_date' => null,
-            'owner_signature' => null,
-            'tenant_signature' => null,
-            'deposit_price' => 1250,
-            'monthly_price' => 500,
-            'status' => 'inactive',
-        ]);
-        
-        sleep(1);
-
-        $ct4 = Contract::create([
-            'contract_id' => 'CT' . strval($iCT++),
-            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
-Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
-Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
-
-            'expired_date' => null,
-            'owner_signature' => null,
-            'tenant_signature' => null,
-            'deposit_price' => 1550,
-            'monthly_price' => 600,
-            'status' => 'expire',
         ]);
         
         sleep(1);
@@ -415,7 +348,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'floor' => '3A',
             'unit' => 10,
             'status' => 'available',
-            'contract_id' => $ct3->contract_id,
             'account_id' => $a2->account_id
         ]);
         
@@ -432,7 +364,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'floor' => '16',
             'unit' => 66,
             'status' => 'reserve',
-            'contract_id' => $ct1->contract_id,
             'account_id' => $a4->account_id
         ]);
         
@@ -449,7 +380,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'floor' => '17',
             'unit' => 70,
             'status' => 'renting',
-            'contract_id' => $ct1->contract_id,
             'account_id' => $a2->account_id
         ]);
         
@@ -466,7 +396,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'floor' => '1',
             'unit' => 2,
             'status' => 'archived',
-            'contract_id' => $ct2->contract_id,
             'account_id' => $a4->account_id
         ]);
         
@@ -483,8 +412,95 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'floor' => '1',
             'unit' => 3,
             'status' => 'archived',
-            'contract_id' => $ct4->contract_id,
             'account_id' => $a2->account_id
+        ]);
+        
+        sleep(1);
+
+
+        static $iCT = 1;
+
+        $ct1 = Contract::create([
+            'contract_id' => 'CT' . strval($iCT++),
+            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
+Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
+Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
+
+            'expired_date' => null,
+            'owner_signature' => null,
+            'tenant_signature' => null,
+            'deposit_price' => 2250,
+            'monthly_price' => 900,
+            'status' => 'inactive',
+            'post_id' => $rrp1->post_id
+        ]);
+        
+        sleep(1);
+
+        $ct2 = Contract::create([
+            'contract_id' => 'CT' . strval($iCT++),
+            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
+Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
+Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
+
+            'expired_date' => null,
+            'owner_signature' => null,
+            'tenant_signature' => null,
+            'deposit_price' => 1750,
+            'monthly_price' => 700,
+            'status' => 'inactive',
+            'post_id' => $rrp2->post_id
+        ]);
+        
+        sleep(1);
+        
+        $ct3 = Contract::create([
+            'contract_id' => 'CT' . strval($iCT),
+            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
+Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
+Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
+
+            'expired_date' => '2023-04-28',
+            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.png',
+            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.png',
+            'deposit_price' => 1250,
+            'monthly_price' => 500,
+            'status' => 'active',
+            'post_id' => $rrp3->post_id
+        ]);
+        
+        sleep(1);
+
+        $ct4 = Contract::create([
+            'contract_id' => 'CT' . strval($iCT),
+            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
+Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
+Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
+
+            'expired_date' => '2021-05-01',
+            'owner_signature' => 'CT' . strval($iCT) . '_O_sign.png',
+            'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.png',
+            'deposit_price' => 1550,
+            'monthly_price' => 600,
+            'status' => 'expire',
+            'post_id' => $rrp4->post_id
+        ]);
+        
+        sleep(1);
+
+        $ct5 = Contract::create([
+            'contract_id' => 'CT' . strval($iCT++),
+            'content' => 'Sed quia minima nesciunt. Vero consequatur est labore dignissimos maiores blanditiis tempora. Id quisquam dolor laboriosam omnis. Voluptate blanditiis voluptatem.
+Quo ut soluta laborum consequatur quam et deleniti. At ullam blanditiis nam. Sunt iste cumque porro qui asperiores animi officia et. Illum sit et natus in consequatur tempore. Et doloribus rerum quis alias vel officia. 
+Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae reprehenderit laborum ex maxime sequi voluptatem minima.',
+
+            'expired_date' => null,
+            'owner_signature' => null,
+            'tenant_signature' => null,
+            'deposit_price' => 1550,
+            'monthly_price' => 600,
+            'status' => 'expire',
+            'post_id' => $rrp5->post_id
         ]);
         
         sleep(1);
@@ -496,7 +512,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'renting_id' => 'R' . strval($iR++),
             'account_id' => $a3->account_id,
             'post_id' => $rrp3->post_id,
-            'contract_id' => $ct1->contract_id,
+            'contract_id' => $ct3->contract_id,
             'status' => 'active',
         ]);
         
@@ -506,7 +522,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'renting_id' => 'R' . strval($iR++),
             'account_id' => $a4->account_id,
             'post_id' => $rrp4->post_id,
-            'contract_id' => $ct2->contract_id,
+            'contract_id' => $ct4->contract_id,
             'status' => 'expired',
         ]);
         
@@ -516,7 +532,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         static $iCMT = 1;
 
         $cmt1 = Comment::create([
-            'comment_id' => 'R' . strval($iCMT++),
+            'comment_id' => 'CMT' . strval($iCMT++),
             'message' => 'It was quite dirty.',
             'rating' => 3.0,
             'status' => 'show',
@@ -527,7 +543,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $cmt1 = Comment::create([
-            'comment_id' => 'R' . strval($iCMT++),
+            'comment_id' => 'CMT' . strval($iCMT++),
             'message' => 'Not bad.',
             'rating' => 4.0,
             'status' => 'hide',

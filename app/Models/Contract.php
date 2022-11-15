@@ -12,5 +12,9 @@ class Contract extends Model
     protected $primaryKey = 'contract_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public function post() {
+        return $this->belongsTo(RoomRentalPost::class, 'post_id');
+    }
    
 }

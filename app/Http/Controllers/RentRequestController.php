@@ -50,7 +50,12 @@ class RentRequestController extends Controller
         $rentRequestDetails = DB::table('rent_requests')
             ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rent_requests.post_id')
             ->where('rent_requests.rent_request_id', $rentRequestID)
-            ->select('rent_requests.rent_request_id', 'rent_requests.price', 'rent_requests.rent_date_start', 'rent_requests.rent_date_end', 'rent_requests.status', 'rent_requests.created_at', 'room_rental_posts.title')
+            ->select('rent_requests.rent_request_id', 'rent_requests.post_id', 'rent_requests.price', 'rent_requests.rent_date_start', 'rent_requests.rent_date_end', 'rent_requests.status', 'rent_requests.created_at', 'room_rental_posts.title')
+            ->get();
+
+        $contract = DB::table('contracts')
+            ->where('post_id', $rentRequestDetails[0]->post_id)
+            ->where('status', 'inactive')
             ->get();
 
 
@@ -60,7 +65,8 @@ class RentRequestController extends Controller
             'page' => $this->name,
             'header' => 'Rent Request Details',
             'back' => '/dashboard/rentrequest/index',
-            'rentRequestDetails' => $rentRequestDetails
+            'rentRequestDetails' => $rentRequestDetails,
+            'contract' => $contract
         ]);
 
     }

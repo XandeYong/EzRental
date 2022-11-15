@@ -86,7 +86,7 @@ Route::post("/dashboard/rentingrecord/maintenancerequest/createMaintenanceReques
 
 
 //RentalPostListController
-Route::get('/dashboard/rentalpostlist/autoSearchMatchRecommendation', [RentalPostListController::class, 'autoSearchMatchRecommendation']); //let xande decide put where
+Route::get('/rental_post_list/recommend', [RentalPostListController::class, 'autoSearchMatchRecommendation'])->name('rental_post_list.recommend');
 
 
 //MaintenanceRequestController

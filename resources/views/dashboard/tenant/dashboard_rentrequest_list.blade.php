@@ -22,7 +22,6 @@
                 <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
 
                     {{-- Check is the rent request empty --}}
-                    {{-- @php $rentRequestLists = collect(); @endphp --}}
                     @if ($rentRequestLists->isEmpty())
                         <div class="text-center">
                             <h3 >There was no rent request found.</h3>

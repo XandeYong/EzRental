@@ -12,5 +12,13 @@ class Comment extends Model
     protected $primaryKey = 'comment_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public function owner() {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
+
+    public function post() {
+        return $this->belongsTo(RoomRentalPost::class, 'post_id');
+    }
    
 }

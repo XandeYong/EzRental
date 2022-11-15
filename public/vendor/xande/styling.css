@@ -504,6 +504,9 @@
 .border-radius-24px {
     border-radius: 24px;
 }
+.border-round {
+    border-radius: 50%;
+}
 
 
 /* border - style */

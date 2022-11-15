@@ -45,8 +45,8 @@
                                 
                                 <div class="col-12 col-md-4 col-lg-3 col-xl-3 px-3 py-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="criteria[]" value="{{ $criteria->criteria_id }}" id="criteria" @if ($selectedCriterias->contains('criteria_id', $criteria->criteria_id)) checked @endif>
-                                        <label class="form-check-label" for="criteria">
+                                        <input class="form-check-input" id="{{ $criteria->name }}" type="checkbox" name="criteria[]" value="{{ $criteria->criteria_id }}" @if ($selectedCriterias->contains('criteria_id', $criteria->criteria_id)) checked @endif>
+                                        <label class="form-check-label" for="{{ $criteria->name }}">
                                             {{ $criteria->name }}
                                         </label>
                                       </div>

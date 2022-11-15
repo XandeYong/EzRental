@@ -37,7 +37,8 @@
                                             <h4 class="mb-0">
                                                 {{ $notificationList->title }}
                                             </h4>
-                                            <p class="x-text-overflow-ellipsis">{!! $notificationList->message !!}</p>
+                                            <hr>
+                                            <p class="">{!! $notificationList->message !!}</p>
                                         </div>
 
                                         <div class="col-12 col-lg-3 text-sm-end">

@@ -18,25 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('gender');
             $table->date('dob');
-            $table->integer('mobile_number');
+            $table->string('mobile_number');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image');
             $table->string('status');
             $table->string('role');
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-        });
-
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->string('contract_id')->primary();
-            $table->text('content');
-            $table->date('expired_date')->nullable();
-            $table->string('owner_signature')->nullable();
-            $table->string('tenant_signature')->nullable();
-            $table->double('deposit_price');
-            $table->double('monthly_price');
-            $table->string('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -98,8 +85,21 @@ return new class extends Migration
             $table->string('floor');
             $table->integer('unit');
             $table->string('status');
-            $table->string('contract_id');
             $table->string('account_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        });
+
+        Schema::create('contracts', function (Blueprint $table) {
+            $table->string('contract_id')->primary();
+            $table->text('content');
+            $table->date('expired_date')->nullable();
+            $table->string('owner_signature')->nullable();
+            $table->string('tenant_signature')->nullable();
+            $table->double('deposit_price');
+            $table->double('monthly_price');
+            $table->string('status');
+            $table->string('post_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -140,7 +140,7 @@ return new class extends Migration
         Schema::create('visit_appointments', function (Blueprint $table) {
             $table->string('appointment_id')->primary();
             $table->dateTime('datetime');
-            $table->string('note');
+            $table->string('note')->nullable()->default("");
             $table->string('status');
             $table->string('post_id');
             $table->string('account_id');
@@ -151,7 +151,7 @@ return new class extends Migration
         Schema::create('negotiations', function (Blueprint $table) {
             $table->string('negotiation_id')->primary();
             $table->double('price');
-            $table->string('message');
+            $table->string('message')->nullable()->default("");
             $table->string('status');
             $table->string('post_id');
             $table->string('account_id');
@@ -268,8 +268,11 @@ return new class extends Migration
         });
 
         Schema::table('room_rental_posts', function (Blueprint $table) {
-            $table->foreign('contract_id')->references('contract_id')->on('contracts');
             $table->foreign('account_id')->references('account_id')->on('accounts');
+        });
+
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->foreign('post_id')->references('post_id')->on('room_rental_posts');
         });
 
         Schema::table('rentings', function (Blueprint $table) {
@@ -369,13 +372,13 @@ return new class extends Migration
         Schema::dropIfExists('rent_requests');
         Schema::dropIfExists('comments');
         Schema::dropIfExists('rentings');
+        Schema::dropIfExists('contracts');
         Schema::dropIfExists('room_rental_posts');
         Schema::dropIfExists('notifications');
         Schema::dropIfExists('ban_records');
         Schema::dropIfExists('group_chats');
         Schema::dropIfExists('chats');
         Schema::dropIfExists('criterias');
-        Schema::dropIfExists('contracts');
         Schema::dropIfExists('accounts');
     }
 

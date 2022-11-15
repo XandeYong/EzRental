@@ -30,21 +30,25 @@
                     @else
                             {{-- For loop records --}}
                             @foreach ($favoritePosts as $favoritePost)
+
+
                             <div class="card mb-4">
                                 <div class="d-flex bg-warning align-items-center">
-                                    <div class="row me-auto px-3 w-100 align-items-center" onclick="window.location.href ='{{ URL('/dashboard/favorite/test/' . Crypt::encrypt($favoritePost->post_id)) }}';"> {{-- need edit to cover whole box and link to post page --}}
-                                        <div class="col-12 col-sm">
-                                            <h3 class="mb-0">
-                                                {{ $favoritePost->title }}
-                                            </h3>
+                                    <a class="w-100 me-auto no-deco text-dark" href="{{ URL('/rental_post_list/rental_post/' . $favoritePost->post_id) }}">
+                                        <div class="row me-auto px-3 w-100 align-items-center">
+                                            <div class="col-12 col-sm">
+                                                <h3 class="mb-0">
+                                                    {{ $favoritePost->title }}
+                                                </h3>
+                                            </div>
+        
+                                            <div class="col-12 col-sm">
+                                                <h4 class="mb-0 text-sm-end">
+                                                    {{ $favoritePost->status }}
+                                                </h4>
+                                            </div>
                                         </div>
-    
-                                        <div class="col-12 col-sm">
-                                            <h4 class="mb-0 text-sm-end">
-                                                {{ $favoritePost->status }}
-                                            </h4>
-                                        </div>
-                                    </div>
+                                    </a>
     
                                     <div class="bg-white h-100 py-4 px-3 px-sm-4">
                                         <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href ='{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}';"></button> {{-- need edit to cover whole box --}}
@@ -52,6 +56,9 @@
                 
                                 </div>
                             </div>
+
+
+                            
                             @endforeach
 
                     @endif

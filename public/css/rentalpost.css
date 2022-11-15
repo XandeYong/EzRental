@@ -1,0 +1,88 @@
+#comment_container {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+
+#comment_header {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background-color: rgb(247, 247, 247);
+}
+
+#post_comment_body {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.post-user-comment {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.post-user-comment-updated-at {
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+
+/* Rating star */
+.rating-group {
+    display: inline-flex;
+}
+
+.rating__icon {
+    pointer-events: none;
+}
+
+.rating__input {
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+.rating__input--none {
+    display: none
+}
+
+.rating__label {
+    cursor: pointer;
+    padding: 0 0.1em;
+    font-size: 2rem;
+}
+
+.rating__icon--star-initial {
+    color: #ddd !important;
+}
+
+.rating__icon--star {
+    color: orange;
+}
+
+.rating__input:checked~.rating__label .rating__icon--star {
+    color: #ddd;
+}
+
+.rating-group:hover .rating__label .rating__icon--star {
+    color: orange;
+}
+
+.rating__input:hover~.rating__label .rating__icon--star {
+    color: #ddd;
+}
+
+
+/* Rating Star (display) */
+.rating-group-d {
+    display: inline-flex;
+}
+
+.rating__label-sm-d {
+    padding: 0 0.1em;
+    font-size: 1rem;
+}
+
+.rating-orange {
+    color: orange;
+}
+
+.rating-grey {
+    color: #ddd;
+}
