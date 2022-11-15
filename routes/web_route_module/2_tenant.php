@@ -6,7 +6,6 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecommendationController;
-use App\Http\Controllers\RentalPostListController;
 use App\Http\Controllers\RentingRecordController;
 use App\Http\Controllers\RentRequestController;
 use App\Http\Controllers\RoomVisitAppointmentController;
@@ -83,10 +82,6 @@ Route::get('/dashboard/rentingrecord/maintenancerequest/index/{rentingID}', [Mai
 Route::get('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/{maintenanceRequestID}', [MaintenanceRequestController::class, 'getMaintenanceRequestDetails']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest/{rentingID}", [MaintenanceRequestController::class, 'createMaintenanceRequest']);
 Route::post("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequestToDB", [MaintenanceRequestController::class, 'createMaintenanceRequestToDB']);
-
-
-//RentalPostListController
-Route::get('/rental_post_list/recommend', [RentalPostListController::class, 'autoSearchMatchRecommendation'])->name('rental_post_list.recommend');
 
 
 //MaintenanceRequestController

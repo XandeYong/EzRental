@@ -5,7 +5,6 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
-use App\Http\Controllers\RentalPostListController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -152,12 +151,14 @@ Route::post("/dashboard/profile/updateProfileInDatabase", [ProfileController::cl
 Route::get('/dashboard/notification/index', [NotificationController::class, 'index'])->name('dashboard.notification');
 
 
-//RentalPostListController
-Route::post("/rentalpostlist/searchRentalPost", [RentalPostListController::class, 'searchRentalPost']);
 //Room Rental Post List
 Route::get('/rental_post_list', [
     RoomRentalPostListController::class, 'index'
 ])->name('rental_post_list');
+
+Route::post("/rental_postl_ist/search", [RentalPostListController::class, 'searchRentalPost']);
+Route::get('/rental_post_list/recommend', [RoomRentalPostListController::class, 'autoSearchMatchRecommendation'])->name('rental_post_list.recommend');
+
 
 //Room Rental Post
 Route::get('/rental_post_list/rental_post/{post_id}', [

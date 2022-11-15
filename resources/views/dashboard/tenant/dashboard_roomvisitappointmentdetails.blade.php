@@ -75,38 +75,28 @@
                                 </table>
                             </div>
                         </div>
-                        @if ($roomVisitAppointmentDetails[0]->status == "rescheduled" && session()->get('account')->role=="T")
-                        <a href="{{ url('/dashboard/roomvisitappointment/approveAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-warning w-100">Appove</a>
-                        <a href="{{ url('/dashboard/roomvisitappointment/rejectAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-warning w-100">Reject</a>
-                        @elseif ($roomVisitAppointmentDetails[0]->status == "pending" && session()->get('account')->role=="O")
-                        <a href="{{ url('/dashboard/roomvisitappointment/approveAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-warning w-100">Appove</a>
-                        <a href="{{ url('/dashboard/roomvisitappointment/rejectAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-warning w-100">Reject</a>
-                        @endif
 
-                        @if ($roomVisitAppointmentDetails[0]->status == "approved")
-                        <a href="{{ url('/dashboard/roomvisitappointment/cancelAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-warning w-100">Cancel</a>
-                        @endif
-                        
-                        @endfor
+                        <div class="row mt-5 justify-content-center">
+                            
+                            @if (($roomVisitAppointmentDetails[0]->status == "rescheduled" &&  session()->get('account')->role == "T")
+                            || ($roomVisitAppointmentDetails[0]->status == "pending" && session()->get('account')->role == "O"))
 
-                        @if ($roomVisitAppointmentDetails[0]->status == "rescheduled")
-                        <div class="row mt-5">
-                            <form class="col-12" action="" method="post">
+                            <div class="col-12 col-lg-4">
+                                <a href="{{ url('/dashboard/roomvisitappointment/approveAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-lg btn-primary w-100">Appove</a>
+                            </div>
+                            
+                            <div class="col-12 col-lg-4">
+                                <a href="{{ url('/dashboard/roomvisitappointment/rejectAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-lg btn-warning w-100">Reject</a>
+                            </div>
+                            
+                            @elseif ($roomVisitAppointmentDetails[0]->status == "approved")
 
-                                <input hidden type="hidden" name="id" value="{{ $roomVisitAppointmentDetails[0]->appointment_id }}">
-                                <div class="row justify-content-center">
-                                    <div class="col-12 col-lg-4">
-                                        <input class="btn btn-lg btn-primary w-100" type="submit" name="approve" value="Approve">
-                                    </div>
-                                    
-                                    <div class="col-12 col-lg-4">
-                                        <input class="btn btn-lg btn-warning w-100" type="submit" name="reject" value="Reject">
-                                    </div>
-                                </div>
+                            <div class="col-12 col-lg-12">
+                                <a href="{{ url('/dashboard/roomvisitappointment/cancelAppointment/' . Crypt::encrypt($roomVisitAppointmentDetails[0]->appointment_id)) }}" class="btn btn-lg btn-warning w-100">Cancel</a>
+                            </div>
 
-                            </form>
+                            @endif
                         </div>
-                        @endif
 
                         
                     </div>

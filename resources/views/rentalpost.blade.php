@@ -83,7 +83,7 @@
                                                 @if (!$criterias->isEmpty())
                                                     <div>
                                                     @foreach ($criterias as $criteria)
-                                                            <span class="btn bg-light border-dark m-1"> {{ $criteria->name }} </span>
+                                                        <span class="btn bg-light border-dark m-1 cursor-default"> {{ $criteria->name }} </span>
                                                     @endforeach
                                                     </div>        
                                                 @endif
@@ -169,6 +169,10 @@
                                                                     $route = "";
                                                                     $form = "d-none";
                                                                     $button = "";
+                                                                    $comment_guide = "Please login to leave a comment.";
+                                                                    if (session()->has('account')) {
+                                                                        $comment_guide = "You can only leave a comment if you rented this post once before.";
+                                                                    }
                                                                     
                                                                     $cid = "";
                                                                     $rating = "";
@@ -252,7 +256,7 @@
                                                                 @else 
                                                                     <div class="post-comment-body p-3">
                                                                         <h5 class="text-center border-1 rounded py-3 bg-danger text-white">
-                                                                            You can only leave a comment if you rented this post once before.
+                                                                            {{ $comment_guide }}
                                                                         </h5>
                                                                     </div>
                                                                 @endif

@@ -52,8 +52,18 @@ class RoomRentalPostController extends Controller
                 'accounts.name'
             )
             ->get();
-
-        $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
+        
+        if(session()->has('account')) {
+            $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
+        } else {
+            
+            $access = [
+                'comment' => 'forbidden',
+                'appointment' => 'forbidden',
+                'negotiate' => 'forbidden',
+                'rent' => 'forbidden'
+            ];
+        }
 
         return view('rentalpost', [
             'back' => "rental_post_list",

@@ -5,7 +5,7 @@
             <h4>Search</h4>
         </div>
         <div class="item-body">
-            <form action="/rentalpostlist/searchRentalPost" method="POST">
+            <form action="/rental_post_list/search" method="POST">
                 @csrf
                 <div class="search d-flex p-3">
                     <input class="form-control shadow-none" type="text" name="search" placeholder="Search" required>
