@@ -417,7 +417,11 @@ class RoomRentalPostController extends Controller
     function notify($title, $message, $type, $receiver)
     {
 
-        $notification_id = $this->createID(Notification::class, 'notification_id', 3);
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
+
+        //make new NotificationID
+        $notification_id = $this->notificationID($latestNotificationID);
 
         $insert = [
             'notification_id' => $notification_id,
@@ -430,4 +434,37 @@ class RoomRentalPostController extends Controller
 
         Notification::insert($insert);
     }
+
+    public function getLatestNotificationID()
+    {
+        $notificationID = DB::table('notifications')
+            ->select('notification_id')
+            ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
+            ->orderByDesc('notification_id')
+            ->distinct()
+            ->select('notification_id')
+            ->get();
+
+        if ($notificationID->isEmpty()) {
+            return "NTF0";
+        }
+        return $notificationID[0]->notification_id;
+    }
+
+    //add 1 to ID to make new ID 
+    private function notificationID($value)
+    {
+        $result = substr($value, 3);
+
+        //parse result to int
+        $ans = ((int)$result) + 1;
+
+        //combine char and int into string
+        $result = "NTF" . ((string)$ans);
+
+        return $result;
+    }
+
+
+
 }
