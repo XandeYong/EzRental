@@ -7,13 +7,12 @@
 @if (isset($page))
     <script>
         let page_str = "{{ $page }}"
-        console.log(page_str);
         page_str = page_str.replace(/ /gi, "_");
         page_str = page_str.toLowerCase();
-        
-        console.log(page_str);
 
         $page = $("#" + page_str);
         $page.addClass("active");
+
+        $page.find(".ico-sidebar").addClass('ico-golden');
     </script>
 @endif

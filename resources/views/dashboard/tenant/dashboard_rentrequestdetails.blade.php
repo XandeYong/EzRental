@@ -136,23 +136,14 @@
 
 
                         {{-- Guidance --}}
-                        @if ($rentRequestDetails[0]->status == 'success' )
-                            <div class="row mt-5">
-                                <div class="row justify-content-center">
-                                    <div class="alert alert-secondary" role="alert">
-                                        Reminder: Tenant need to pay the deposit.
-                                    </div>
-                                </div>
-                            </div>
-                        @elseif ($rentRequestDetails[0]->status == 'expired')
+                        @if ($rentRequestDetails[0]->status == 'expired')
                         <div class="row mt-5">
                             <div class="row justify-content-center">
                                 <div class="alert alert-secondary" role="alert">
-                                    Guidance: This rent request is expired because owner did not response in a given time.
+                                    Guidance: This rent request is expired because the request didn't complete in time.
                                 </div>
                             </div>
                         </div>
-
                         @endif
 
 

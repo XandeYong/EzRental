@@ -505,13 +505,19 @@
                                                                 Negotiate
                                                             </button>
                                                         </div>
-
+                                                        
                                                         <div class="mb-2">
-                                                            <button type="button" id="rent_button"
-                                                                class="btn btn-outline-dark w-100"
-                                                                data-bs-toggle="modal" data-bs-target="#rent_modal">
+                                                            <button type="button" id="rent_button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#rent_modal">
                                                                 Rent
                                                             </button>
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <a href="">
+                                                                <button type="button" id="rent_button" class="btn btn-outline-dark w-100">
+                                                                    Favorite
+                                                                </button>
+                                                            </a>
                                                         </div>
                                                     @endif
 

@@ -128,12 +128,14 @@ Route::get('/login_portal/login/admin', function () {
 //----------
 
 Route::get('/logout', function () {
-    DB::table('accounts')
-        ->where('account_id', session()->get('account')['account_id'])
-        ->update(['status' => "offline"]);
+    if (session()->has('account')) {
+        DB::table('accounts')
+            ->where('account_id', session()->get('account')['account_id'])
+            ->update(['status' => "offline"]);
 
-    session()->forget('account');
-    session()->forget('access_message');
+        session()->forget('account');
+        session()->forget('access_message');
+    }
     return redirect(route("home"));
 })->name('logout');
 

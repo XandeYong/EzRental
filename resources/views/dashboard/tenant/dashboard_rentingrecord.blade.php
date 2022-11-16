@@ -5,27 +5,11 @@
     <title>EzRental | Current Renting Record</title>
     
     @include('../base/dashboard/dashboard_head')
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_rentingrecord.css') }}">
     <link rel="stylesheet" href="{{asset('css/sidenav.css')}}">
 </head>
 
 <body>
-    {{-- For validate is at least one checkbox checked  --}}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#makePayment').click(function() {
-              checked = $("input[type=checkbox]:checked").length;
-        
-              if(!checked) {
-                alert("You must check at least one payment checkbox.");
-                return false;
-              }
-        
-            });
-        });
-        
-        </script>
 
     @include('../base/dashboard/dashboard_sidebar')
 
@@ -256,6 +240,22 @@
     </div>
 
     @include('../base/dashboard/dashboard_script')
+
+    {{-- For validate is at least one checkbox checked  --}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#makePayment').click(function() {
+                checked = $("input[type=checkbox]:checked").length;
+        
+                if(!checked) {
+                    alert("You must check at least one payment checkbox.");
+                    return false;
+                }
+                
+            });
+        });
+        
+    </script>
 
 </body>
 

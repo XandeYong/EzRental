@@ -61,7 +61,7 @@ $(document).ready(function () {
     });
 
     $("#negotiate_button").click(function(e) {
-        if (access['appointment'] === "forbidden") {
+        if (access['negotiate'] === "forbidden") {
             $message = "You already have an on-going Negotiattion session. \n"
                      +"You can only have one on-going Negotiattion session at a time."
             window.alert($message);
@@ -70,14 +70,13 @@ $(document).ready(function () {
     });
 
     $("#rent_button").click(function(e) {
-        if (access['appointment'] === "forbidden") {
+        if (access['rent'] === "forbidden") {
             $message = "You already have an on-going Rent request. \n"
                      +"You can only have one on-going Rent request at a time."
             window.alert($message);
             e.preventDefault();
         }
     });
-    
 
 });
 

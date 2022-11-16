@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RoomRentalPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -28,6 +29,31 @@ class RoomRentalPostListController extends Controller
             'roomRentalPostLists' => $rrpList,
             'criteriaLists' => $criteriaLists
         ]);
+    }
+
+    public function ownerIndex() {
+        
+        $header = 'Room Rental Post List';
+        $page = 'Room Rental Post';
+        $user = session()->get('account')['role'];
+        $account_id = session()->get('account')['account_id'];
+
+        $rrpList = DB::table('room_rental_posts')
+            ->where('room_rental_posts.account_id', $account_id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('dashboard/owner/dashboard_rentalpost_list', [
+            'user' => $user,
+            'page' => $page,
+            'header' => $header,
+            'button' => [
+                'name' => 'Create Room Rental Post',
+                'link' => '/dashboard/room_rental_post_list/create_room_rental_post'
+            ],
+            'posts' => $rrpList
+        ]);
+        
     }
 
     //Auto Search-Match Recommendation Function

@@ -286,6 +286,10 @@
     border-color: black;
 }
 
+.border-black-t-1 {
+    border-color: rgba(0,0,0,0.1);
+}
+
 .border-red {
     border-color: red;
 }
@@ -418,31 +422,54 @@
 }
 
 .border-1-colorless {
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.border-2-colorless {
+    border-width: 2px;
+    border-style: solid;
+}
+
+.border-3-colorless {
+    border-width: 3px;
+    border-style: solid;
 }
 
 .border-1 {
-    border: 1px solid black;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
 }
 
 .border-2 {
-    border: 2px solid black;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
 }
 
 .border-3 {
-    border: 3px solid black;
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
 }
 
 .border-5 {
-    border: 5px solid black;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black;
 }
 
 .border-8 {
     border-width: 8px;
+    border-style: solid;
+    border-color: black;
 }
 
 .border-10-double {
-    border: 10px double black;
+    border-width: 10px;
+    border-style: double;
+    border-color: black;
 }
 
 .border-2-error {
@@ -470,6 +497,10 @@
 }
 
 /* border - dashed */
+
+.border-top-3-dashed {
+    border-top: 3px dashed black;
+}
 
 .border-top-5-dashed {
     border-top: 5px dashed black;

@@ -34,6 +34,13 @@ $(document).ready(function () {
         e.preventDefault();
     }); 
 
+    $("#sidebar .navlist-item").click(function (e) {
+        if (!$(this).children().hasClass('dropdownlist')) {
+            $(this).find('a')[0].click();
+        }
+    });
+
+
     $("#sidebar .navlist-item-title").click(function (e) {
         $(this).siblings().slideToggle();
         $chevron = $(this).children().children(".ico-chevron");
