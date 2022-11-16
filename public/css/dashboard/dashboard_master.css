@@ -84,6 +84,7 @@
 
     #sidebar .navlist-item {
         min-height: 3rem;
+        cursor: pointer;
     }
 
         #sidebar .navlist-item .navlist-item-title {

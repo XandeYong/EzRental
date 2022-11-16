@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Contract;
 use App\Models\Negotiation;
 use App\Models\Notification;
 use App\Models\Renting;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 class RoomRentalPostController extends Controller
 {
 
+    // Public
     function index($post_id)
     {
 
@@ -237,7 +239,7 @@ class RoomRentalPostController extends Controller
         $message = $request->input('message');
         $status = "tenant_offer";
 
-        $negotiation_id = $this->createID("Negotiation", "negotiation_id", 3);
+        $negotiation_id = $this->createID(Negotiation::class, "negotiation_id", 3);
 
         $insert = [
             'negotiation_id' => $negotiation_id,
@@ -386,7 +388,6 @@ class RoomRentalPostController extends Controller
 
     function deleteComment($comment_id)
     {
-
         $post_id = Comment::find($comment_id)->post()->get()[0]['post_id'];
         $status = "hide";
 
@@ -398,13 +399,118 @@ class RoomRentalPostController extends Controller
         return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id, '#comment_section']));
     }
 
+    
+
+    //Owner 
+    function ownerIndex($post_id)
+    {
+
+        $post = DB::table('room_rental_posts')
+            ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->where('room_rental_posts.post_id', $post_id)
+            ->select(
+                'room_rental_posts.*',
+                'accounts.name',
+                'contracts.contract_id',
+                'contracts.deposit_price',
+                'contracts.monthly_price'
+            )
+            ->first();
+
+        $images = RoomRentalPost::findOrFail($post_id)
+            ->images()->get();
+
+        $criterias = RoomRentalPost::findOrFail($post_id)
+            ->criterias()->get();
+
+        $contract = RoomRentalPost::findOrFail($post_id)
+            ->contracts()
+            ->where('status', 'inactive')
+            ->get();
+
+        $comments = DB::table('comments')
+            ->join('accounts', 'accounts.account_id', '=', 'comments.account_id')
+            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'comments.post_id')
+            ->where('room_rental_posts.post_id', $post_id)
+            ->where('comments.status', 'show')
+            ->orderBy('created_at')
+            ->select(
+                'comments.*',
+                'accounts.name'
+            )
+            ->get();
+
+        return view('dashboard/owner/dashboard_rentalpost', [
+            'back' => "/dashboard/room_rental_post_list",
+            'post' => $post,
+            'images' => $images,
+            'criterias' => $criterias,
+            'contract' => $contract,
+            'comments' => $comments,
+        ]);
+    }
+
+    //Create Room Rental Post
+    function createPost(Request $request) {
+
+        // Room rental post
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $condominium_name = $request->input('condominium');
+        $room_size = $request->input('size');
+        $block = $request->input('block');
+        $floor = $request->input('floor');
+        $unit = $request->input('unit');
+        $address = $request->input('address');
+
+        // Contract
+        $content = $request->input('content');
+        $deposit_price = $request->input('deposit');
+        $monthly_price = $request->input('monthly');
+
+        $post_id = $this->createID(RoomRentalPost::class, "post_id", 3);
+        $account_id = session()->get('account')['account_id'];
+
+        $rrp = [
+            'post_id' => $post_id,
+            'title' => $title,
+            'description' => $description,
+            'room_size' => $room_size,
+            'address' => $address,
+            'condominium_name' => $condominium_name,
+            'block' => $block,
+            'floor' => $floor,
+            'unit' => $unit,
+            'status' => "available",
+            'account_id' => $account_id
+        ];
+
+        
+        $contract_id = $this->createID(RoomRentalPost::class, "post_id", 3);
+
+        $contract = [
+            'contract_id' => $contract_id,
+            'content' => $content,
+            'deposit_price' => $deposit_price,
+            'monthly_price' => $monthly_price,
+            'status' => 'inactive',
+            'post_id' => $post_id
+        ];
+
+        RoomRentalPost::insert($rrp);
+        Contract::insert($contract);
+
+        return redirect(route('dashboard.owner.room_rental_post_list'));
+    }
+
 
     //Custom fucntion
-    function createID($model, $idName, $idCodeLength)
+    function createID($model, $idCol, $idCodeLength)
     {
-        $newID = $model::select($idName)
+        $newID = $model::select($idCol)
             ->orderByDesc('created_at')
-            ->first()->$idName;
+            ->first()->$idCol;
 
         $id_code = substr($newID, 0, $idCodeLength);
         $id = intval(substr($newID, $idCodeLength) + 1);

@@ -11,13 +11,13 @@
             <div id="account">
                 <div id="account-icon">
                     <a id="account-frame" href="#" class="" >
-                        <img class="unselectable" src="{{ asset("/image/account/" . Session::get('account')['image']) }}" alt="img">
+                        <img class="unselectable" src="{{ asset("/image/account/" . session()->get('account')['image']) }}" alt="img">
                     </a>
 
                     <div id="account-dropdown" class="hide">
                         <div id="account-dropdown-box">
                             <div id="account-header" class="account-box">
-                                <h6 id="account-name">{{ Session::get('account')['name']; }}</h6>
+                                <h6 id="account-name">{{ session()->get('account')['name']; }}</h6>
                             </div>
                             <div id="account-body" class="account-box">
                                 <a href="/">
@@ -47,7 +47,7 @@
         @if (isset($back))
             <div class="d-flex">
                 <h4 class="m-0 border-right-2">
-                    <a class="text-decoration-none" href="{{ $back }}">
+                    <a class="text-decoration-none" href="{{ $back }}" title="Back to previous page">
                         <i class="ico-sm ico-chevron-left"></i>
                     </a>
                 </h4>
@@ -61,9 +61,9 @@
 
         <div id="header-button" class="text-end col-1 col-sm-3">
         @if (isset($button))
-            <a href="{{ $button }}">
+            <a href="{{ $button['link'] }}">
                 <button class="btn btn-outline-success d-none d-lg-inline-block">
-                    Create Maintenance Request
+                    {{ $button['name'] }}
                 </button>
             </a>
         @endif

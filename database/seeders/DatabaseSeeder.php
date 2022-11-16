@@ -341,7 +341,7 @@ class DatabaseSeeder extends Seeder
             'post_id' => 'RRP' . strval($iRRP++),
             'title' => 'PV13 small room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
-            'room_size' => 'Small',
+            'room_size' => 'small',
             'address' => 'G16,PV13 Platinum Lake Condominium, 9, Jalan Danau Saujana 1, Setapak, 53300 Kuala Lumpur',
             'condominium_name' => 'PV13',
             'block' => 'A',
@@ -355,9 +355,9 @@ class DatabaseSeeder extends Seeder
 
         $rrp2 = RoomRentalPost::create([
             'post_id' => 'RRP' . strval($iRRP++),
-            'title' => 'PV15 medium room for rent',
+            'title' => 'PV15 small medium room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
-            'room_size' => "Medium",
+            'room_size' => "small medium",
             'address' => 'PV15 Platinum Lake Condominium, Taman Danau Kota, 53300 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur',
             'condominium_name' => 'PV15',
             'block' => 'A',
@@ -371,9 +371,9 @@ class DatabaseSeeder extends Seeder
 
         $rrp3 = RoomRentalPost::create([
             'post_id' => 'RRP' . strval($iRRP++),
-            'title' => 'PV16 medium room for rent',
+            'title' => 'PV16 big medium room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
-            'room_size' => "Medium",
+            'room_size' => "big medium",
             'address' => '2, Jalan Danau Saujana, Taman Danau Kota, 53000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur',
             'condominium_name' => 'PV16',
             'block' => 'A',
@@ -387,9 +387,9 @@ class DatabaseSeeder extends Seeder
 
         $rrp4 = RoomRentalPost::create([
             'post_id' => 'RRP' . strval($iRRP++),
-            'title' => 'PV18 big room for rent',
+            'title' => 'PV18 master room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
-            'room_size' => "Big",
+            'room_size' => "master",
             'address' => 'Jalan Langkawi, Taman Setapak, 53000 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur',
             'condominium_name' => 'PV18',
             'block' => 'A',
@@ -405,7 +405,7 @@ class DatabaseSeeder extends Seeder
             'post_id' => 'RRP' . strval($iRRP++),
             'title' => 'PV12 small room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
-            'room_size' => "Small",
+            'room_size' => "small",
             'address' => 'Jalan Langkawi, Taman Danau Kota, 53100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur',
             'condominium_name' => 'PV12',
             'block' => 'A',

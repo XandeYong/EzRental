@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RoomRentalPostController;
+use App\Http\Controllers\RoomRentalPostListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +24,28 @@ Route::get('/dashboard/owner', function() {
 })->name('dashboard.owner');
 
 
-//Controller
+// Room Rental Post List
+Route::get('/dashboard/room_rental_post_list', [
+    RoomRentalPostListController::class, 'ownerIndex'
+])->name('dashboard.owner.room_rental_post.list');
 
 
+// Room Rental Post
+Route::get('/dashboard/room_rental_post_list/room_rental_post/{post_id}', [
+    RoomRentalPostController::class, 'ownerIndex'
+])->name('dashboard.owner.room_rental_post');
+
+Route::get('/dashboard/room_rental_post_list/create_room_rental_post', function() {
+    return view('dashboard/owner/dashboard_rentalpost_create', [
+        'page' => 'Room Rental Post',
+        'header' => 'Create Room Rental Post',
+        'back' => '/dashboard/room_rental_post_list'
+    ]);
+})->name('dashboard.owner.room_rental_post.create_form');
+
+Route::post('/dashboard/room_rental_post_list/create_room_rental_post/create', [
+    RoomRentalPostController::class, 'createPost'
+])->name('dashboard.owner.room_rental_post.create_form.create');
 
 
 

@@ -417,6 +417,14 @@
                                                             Rent
                                                         </button>
                                                     </div>
+
+                                                    <div class="mb-2">
+                                                        <a href="">
+                                                            <button type="button" id="rent_button" class="btn btn-outline-dark w-100">
+                                                                Favorite
+                                                            </button>
+                                                        </a>
+                                                    </div>
                                                     @endif
         
                                                 </div>

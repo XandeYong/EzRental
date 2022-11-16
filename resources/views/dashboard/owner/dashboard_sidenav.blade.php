@@ -7,16 +7,16 @@
     </div>
 </div>
 
-<div id="manage_room_rental_post" class="row navlist-item">
+<div id="room_rental_post" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.owner.room_rental_post.list') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Room Rental Post</h5>
         </a>
     </div>
 </div>
 
-<div id="subcategory" class="row navlist-item">
+<div id="digital_contract" class="row navlist-item">
     <div class="navlist-item-title">
         <a href="#" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div id="posts" class="row navlist-item">
+<div id="rent_request" class="row navlist-item">
     <div class="navlist-item-title">
         <a href="#" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
