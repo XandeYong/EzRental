@@ -32,25 +32,6 @@ Route::get('/dashboard/tenant', function() {
 })->name('dashboard.tenant');
 
 
-//Room Visit Appointment
-// Route::get('/dashboard/room_visit_appointment_list', function() {
-//     return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
-//         'user' => 'Tenant',
-//         'page' => 'Room Visit Appointment',
-//         'header' => 'Room Visit Appointment List'
-//     ]);
-// })->name('dashboard.tenant.room_visit_appointment_list');
-
-// Route::get('/dashboard/room_visit_appointment_list/room_visit_appointment', function() {
-//     return view('dashboard/tenant/dashboard_roomvisitappointment', [
-//         'user' => 'Tenant',
-//         'page' => 'Room Visit Appointment',
-//         'header' => 'Room Visit Appointment',
-//         'back' => '/dashboard/room_visit_appointment_list'
-//     ]);
-// })->name('dashboard.tenant.room_visit_appointment_list.room_visit_appointment');
-
-
 //Controller
 //FavoriteControlle
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');

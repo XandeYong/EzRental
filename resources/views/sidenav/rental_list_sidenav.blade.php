@@ -34,26 +34,30 @@
             <div class="row px-3 py-2">
 
                 <div class="col mt-2">
-                    <button class="w-100 btn btn-sm btn-outline-dark">
-                        <i>Time</i>
+                    <button class="w-100 btn btn-sm btn-outline-dark" type="button"
+                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('latest')]  ) }}';" >
+                        <i>Latest</i>
                     </button>
                 </div>
                 
                 <div class="col mt-2">
-                    <button class="w-100 btn btn-sm btn-outline-dark">
-                        <i>Price</i>
-                    </button>
-                </div>
-
-                <div class="col mt-2">
-                    <button class="w-100 btn btn-sm btn-outline-dark">
-                        <i>Newest</i>
-                    </button>
-                </div>
-
-                <div class="col mt-2">
-                    <button class="w-100 btn btn-sm btn-outline-dark">
+                    <button class="w-100 btn btn-sm btn-outline-dark" type="button"
+                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('oldest')]  ) }}';">
                         <i>Oldest</i>
+                    </button>
+                </div>
+
+                <div class="col mt-2">
+                    <button class="w-100 btn btn-sm btn-outline-dark" type="button"
+                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('high price')]  ) }}';">
+                        <i>High Price</i>
+                    </button>
+                </div>
+
+                <div class="col mt-2">
+                    <button class="w-100 btn btn-sm btn-outline-dark" type="button"
+                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('low price')]  ) }}';">
+                        <i>Low Price</i>
                     </button>
                 </div>
 

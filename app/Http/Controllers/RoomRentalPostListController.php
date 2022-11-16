@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class RoomRentalPostListController extends Controller
 {
@@ -16,6 +18,7 @@ class RoomRentalPostListController extends Controller
             ->where('room_rental_posts.status', 'available')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
+
 
         return view('rentalpost_list', [
             'roomRentalPostLists' => $rrpList
@@ -37,8 +40,8 @@ class RoomRentalPostListController extends Controller
             ->get();
 
 
-        //Define a collection variable to store all room rental post
-        $roomRentalPostLists = collect();
+        //Define a array variable to store all room rental post    
+        $roomRentalPostLists = array();
 
         if (!$selectedCriterias->isEmpty()) {
             //Change selectedCriterias collection to array
@@ -76,7 +79,7 @@ class RoomRentalPostListController extends Controller
                         ->get();
 
                     if (!$rentalPost->isEmpty()) {
-                        $roomRentalPostLists->add($rentalPost[0]);
+                        array_push($roomRentalPostLists,  $rentalPost[0]);
                     }
                 }
             }
@@ -91,19 +94,23 @@ class RoomRentalPostListController extends Controller
 
         if (!$allRentalPost->isEmpty()) {
             for ($i = 0; $i < count($allRentalPost); $i++) {
-                $roomRentalPostLists->add($allRentalPost[$i]);
+                array_push($roomRentalPostLists, $allRentalPost[$i]);
             }
         }
 
         if (count($roomRentalPostLists) != 0) {
-            //Remove duplicate object in collection
-            $roomRentalPostLists = $roomRentalPostLists->unique('post_id');
+            //Remove duplicate object in array
+            $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
         }
 
+
+        //Converting an array -> stdClass/Object
+        $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
 
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists
         ]);
+
     }
 
 
@@ -159,7 +166,6 @@ class RoomRentalPostListController extends Controller
 
     public function searchRentalPost(Request $request)
     {
-
         //get search from search field in retal post list page
         $search = trim($request->input('search'));
 
@@ -178,27 +184,75 @@ class RoomRentalPostListController extends Controller
                 //get all room_rental_posts from database  with title
                 $roomRentalPostLists = DB::table('room_rental_posts')
                     ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-                    ->where('room_rental_posts.title',  'LIKE', '%'.$search.'%') 
+                    ->where('room_rental_posts.title',  'LIKE', '%' . $search . '%')
                     ->where('room_rental_posts.status', 'available')
                     ->select('room_rental_posts.*', 'contracts.monthly_price')
                     ->get();
             }
-
         } else {
 
             $errorMessage = "*Input cannot be more than 255 characters!";
             $request->session()->put('errorMessage', $errorMessage);
-            
+
             return back()->withInput();
         }
 
         return view('rental_post_list', [
             'roomRentalPostLists' => $roomRentalPostLists
         ]);
-
     }
 
-   
+    public function sortRentalPost($sort)
+    {
+        //Decrypt the parameter
+        try {
+            $sort = Crypt::decrypt($sort);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //Get room rental post list based on sort
+        if ($sort == "latest") {
+
+            $roomRentalPostLists = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->orderBy('room_rental_posts.created_at', 'desc')
+            ->where('room_rental_posts.status', 'available')
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
+
+        }elseif($sort == "oldest"){
+
+            $roomRentalPostLists = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->orderBy('room_rental_posts.created_at')
+            ->where('room_rental_posts.status', 'available')
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
+
+        }elseif($sort == "high price"){
+
+            $roomRentalPostLists = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->orderBy('contracts.monthly_price', 'desc')
+            ->where('room_rental_posts.status', 'available')
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
+
+        }elseif($sort == "low price"){
+
+            $roomRentalPostLists = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->orderBy('contracts.monthly_price')
+            ->where('room_rental_posts.status', 'available')
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
 
 
+        }
+    
+        return view('rentalpost_list', [
+            'roomRentalPostLists' => $roomRentalPostLists
+        ]);
+    }
 }
