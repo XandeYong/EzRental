@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 class RoomRentalPostListController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
 
         $rrpList = DB::table('room_rental_posts')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
@@ -19,7 +20,6 @@ class RoomRentalPostListController extends Controller
         return view('rentalpost_list', [
             'roomRentalPostLists' => $rrpList
         ]);
-
     }
 
     //Auto Search-Match Recommendation Function
@@ -159,30 +159,46 @@ class RoomRentalPostListController extends Controller
 
     public function searchRentalPost(Request $request)
     {
-        $account = $request->session()->get('account');
-        $user = $account->role;
-
-        //Laravel validation
-        $data = $request->validate([
-            'search' => ['required', 'max:255', 'string', 'regex:/^[RRP|rrp]{3}[0-9]+$/'] ]);
 
         //get search from search field in retal post list page
         $search = trim($request->input('search'));
 
 
-        //get all room_rental_posts from database  
-        $roomRentalPostLists = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.contract_id', '=', 'room_rental_posts.contract_id')
-            ->where('room_rental_posts.post_id', $search)
-            ->where('room_rental_posts.status', 'available')
-            ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
+        if (strlen($search) <= 255) {
 
+            //get all room_rental_posts from database with id
+            $roomRentalPostLists = DB::table('room_rental_posts')
+                ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                ->where('room_rental_posts.post_id', $search)
+                ->where('room_rental_posts.status', 'available')
+                ->select('room_rental_posts.*', 'contracts.monthly_price')
+                ->get();
+
+            if ($roomRentalPostLists->isEmpty()) {
+                //get all room_rental_posts from database  with title
+                $roomRentalPostLists = DB::table('room_rental_posts')
+                    ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                    ->where('room_rental_posts.title',  'LIKE', '%'.$search.'%') 
+                    ->where('room_rental_posts.status', 'available')
+                    ->select('room_rental_posts.*', 'contracts.monthly_price')
+                    ->get();
+            }
+
+        } else {
+
+            $errorMessage = "*Input cannot be more than 255 characters!";
+            $request->session()->put('errorMessage', $errorMessage);
+            
+            return back()->withInput();
+        }
 
         return view('rental_post_list', [
             'roomRentalPostLists' => $roomRentalPostLists
         ]);
+
     }
 
-    
+   
+
+
 }

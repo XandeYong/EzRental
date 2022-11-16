@@ -208,13 +208,6 @@
 
 
 
-                {{-- Display pop up message --}}
-                {{-- @if (Session::has('successMessage'))
-                    <script>
-                        alert({{ session('successMessage') }});
-                    </script>
-                @endif --}}
-
                 {{-- login success message --}}
                 @if(Session::has('login_message'))
                     <div id="login_message" class="message-popup">

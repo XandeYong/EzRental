@@ -66,9 +66,6 @@
                                             <input type="text" class="form-control" name="accountId" value="" placeholder="Search by account id" aria-describedby="search input field" required>
                                             <button class="btn btn-light btn-outline-danger" type="submit">Search</button>
                                         </div>
-                                        {{-- @if($errors->has('accountId'))
-                                            <span class="c-red-error">*{{ $errors->first('accountId') }}</span>
-                                        @endif --}}
                                         <?php if(Session::has('errorMessage')){ 
                                             $errorMessage=session()->get('errorMessage');
                                             $errorMessage=explode(",", $errorMessage); 

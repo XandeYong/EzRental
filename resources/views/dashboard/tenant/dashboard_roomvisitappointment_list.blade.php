@@ -22,7 +22,6 @@
                 <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
 
                     {{-- Check is the Room Visit Appointment Lists empty --}}
-                    {{-- @php $roomVisitAppointmentLists = collect(); @endphp --}}
                     @if ($roomVisitAppointmentLists->isEmpty())
                         <div class="text-center">
                             <h3 >There was no room visit appointment found.</h3>

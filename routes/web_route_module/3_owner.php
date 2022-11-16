@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MaintenanceRequestController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RentRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +25,13 @@ Route::get('/dashboard/owner', function() {
 
 
 //Controller
+//RentRequestController
+Route::get('/dashboard/rentrequest/approveRentRequest/{rentRequestID}', [RentRequestController::class, 'approveRentRequest']);
+Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequestController::class, 'rejectRentRequest']);
 
-
-
+//MaintenanceRequestController
+Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner', [MaintenanceRequestController::class, 'indexForOwner']);
+Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
+Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
 
 
