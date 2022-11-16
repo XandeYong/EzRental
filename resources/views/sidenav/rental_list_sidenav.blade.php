@@ -1,4 +1,3 @@
-
 <div class="sidenav-section col-12 col-lg-3">
     <div class="sidenav-item mb-3">
         <div class="item-header p-1 ps-3">
@@ -15,8 +14,7 @@
                 <?php if(Session::has('errorMessage')){ 
                     $errorMessage=session()->get('errorMessage');
                     ?>
-                <span
-                    class="c-red-error">  {{ $errorMessage }}</span><br>
+                <span class="c-red-error"> {{ $errorMessage }}</span><br>
                 <?php 
                 session()->forget('errorMessage');      
                     }         
@@ -35,28 +33,28 @@
 
                 <div class="col mt-2">
                     <button class="w-100 btn btn-sm btn-outline-dark" type="button"
-                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('latest')]  ) }}';" >
+                        onclick="window.location.href ='{{ route('rental_post_list.sort', ['sort' => Crypt::encrypt('latest')]) }}';">
                         <i>Latest</i>
                     </button>
                 </div>
-                
+
                 <div class="col mt-2">
                     <button class="w-100 btn btn-sm btn-outline-dark" type="button"
-                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('oldest')]  ) }}';">
+                        onclick="window.location.href ='{{ route('rental_post_list.sort', ['sort' => Crypt::encrypt('oldest')]) }}';">
                         <i>Oldest</i>
                     </button>
                 </div>
 
                 <div class="col mt-2">
                     <button class="w-100 btn btn-sm btn-outline-dark" type="button"
-                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('high price')]  ) }}';">
+                        onclick="window.location.href ='{{ route('rental_post_list.sort', ['sort' => Crypt::encrypt('high price')]) }}';">
                         <i>High Price</i>
                     </button>
                 </div>
 
                 <div class="col mt-2">
                     <button class="w-100 btn btn-sm btn-outline-dark" type="button"
-                    onclick="window.location.href ='{{ route('rental_post_list.sort' , ['sort' => Crypt::encrypt('low price')]  ) }}';">
+                        onclick="window.location.href ='{{ route('rental_post_list.sort', ['sort' => Crypt::encrypt('low price')]) }}';">
                         <i>Low Price</i>
                     </button>
                 </div>
@@ -73,53 +71,34 @@
                     <div class="">
                         <h4>Filter</h4>
                     </div>
-                    
+
                     <div class="">
                         <input class="btn btn-sm btn-outline-success" type="submit" value="Filter">
                         <input class="btn btn-sm btn-outline-danger" type="reset" value="reset">
                     </div>
                 </div>
             </div>
-            
+
             <div class="item-body container">
                 <div class="row px-3 py-2">
 
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="filter" value="Big" />
-                                <span class="ms-1">Master Room</span>
-                            </div>
+                    @if (count($criteriaLists) == 0)
+                        <div class="text-center">
+                            <h5>No criteria.</h5><br>
                         </div>
-                        
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="filter" value="Big" />
-                                <span class="ms-1">Big Medium Room</span>
+                    @else
+                        @for ($i = 0; $i < count($criteriaLists); $i++)
+                            <div class="col-12">
+                                <div class="d-flex align-items-center">
+                                    <input type="checkbox" name="filter[]" value="{{ $criteriaLists[$i]->criteria_id }}" />
+                                    <span class="ms-1">{{ $criteriaLists[$i]->name }}</span>
+                                </div>
                             </div>
-                        </div>
+                        @endfor
 
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="filter" value="Big" />
-                                <span class="ms-1">Small Room</span>
-                            </div>
-                        </div>
+                    @endif
 
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="filter" value="Big" />
-                                <span class="ms-1">Kitchen</span>
-                            </div>
-                        </div>
 
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="filter" value="Big" />
-                                <span class="ms-1">Aircond</span>
-                            </div>
-                        </div>
-
-                    
                 </div>
             </div>
 

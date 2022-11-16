@@ -19,9 +19,14 @@ class RoomRentalPostListController extends Controller
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
 
+        $criteriaLists = DB::table('criterias')
+            ->select('criteria_id', 'name')
+            ->get();
+
 
         return view('rentalpost_list', [
-            'roomRentalPostLists' => $rrpList
+            'roomRentalPostLists' => $rrpList,
+            'criteriaLists' => $criteriaLists
         ]);
     }
 
@@ -107,10 +112,14 @@ class RoomRentalPostListController extends Controller
         //Converting an array -> stdClass/Object
         $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
 
-        return view('rentalpost_list', [
-            'roomRentalPostLists' => $roomRentalPostLists
-        ]);
+        $criteriaLists = DB::table('criterias')
+        ->select('criteria_id', 'name')
+        ->get();
 
+        return view('rentalpost_list', [
+            'roomRentalPostLists' => $roomRentalPostLists,
+            'criteriaLists' => $criteriaLists
+        ]);
     }
 
 
@@ -215,44 +224,86 @@ class RoomRentalPostListController extends Controller
         if ($sort == "latest") {
 
             $roomRentalPostLists = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-            ->orderBy('room_rental_posts.created_at', 'desc')
-            ->where('room_rental_posts.status', 'available')
-            ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
-
-        }elseif($sort == "oldest"){
-
-            $roomRentalPostLists = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-            ->orderBy('room_rental_posts.created_at')
-            ->where('room_rental_posts.status', 'available')
-            ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
-
-        }elseif($sort == "high price"){
+                ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                ->orderBy('room_rental_posts.created_at', 'desc')
+                ->where('room_rental_posts.status', 'available')
+                ->select('room_rental_posts.*', 'contracts.monthly_price')
+                ->get();
+        } elseif ($sort == "oldest") {
 
             $roomRentalPostLists = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-            ->orderBy('contracts.monthly_price', 'desc')
-            ->where('room_rental_posts.status', 'available')
-            ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
-
-        }elseif($sort == "low price"){
+                ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                ->orderBy('room_rental_posts.created_at')
+                ->where('room_rental_posts.status', 'available')
+                ->select('room_rental_posts.*', 'contracts.monthly_price')
+                ->get();
+        } elseif ($sort == "high price") {
 
             $roomRentalPostLists = DB::table('room_rental_posts')
-            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-            ->orderBy('contracts.monthly_price')
-            ->where('room_rental_posts.status', 'available')
-            ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
+                ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                ->orderBy('contracts.monthly_price', 'desc')
+                ->where('room_rental_posts.status', 'available')
+                ->select('room_rental_posts.*', 'contracts.monthly_price')
+                ->get();
+        } elseif ($sort == "low price") {
 
-
+            $roomRentalPostLists = DB::table('room_rental_posts')
+                ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                ->orderBy('contracts.monthly_price')
+                ->where('room_rental_posts.status', 'available')
+                ->select('room_rental_posts.*', 'contracts.monthly_price')
+                ->get();
         }
-    
+
+        
+        $criteriaLists = DB::table('criterias')
+            ->select('criteria_id', 'name')
+            ->get();
+
         return view('rentalpost_list', [
-            'roomRentalPostLists' => $roomRentalPostLists
+            'roomRentalPostLists' => $roomRentalPostLists,
+            'criteriaLists' => $criteriaLists
         ]);
+    }
+
+
+
+    public function filterRentalPost()
+    {
+
+        //Get checkbox array from post
+        if(isset($_POST["filter"])){
+            $criterias = $_POST["filter"];
+        }else{
+            $criterias=array();
+        }
+
+
+        if (count($criterias) != 0) {
+            //come here if there is something checked in form
+
+            for ($i = 0; $i < count($criterias); $i++) {
+
+                //add to database cause is checked
+                DB::table('selected_criterias')->insert([
+                    'account_id' => $id,
+                    'criteria_id' => $criterias[$i]
+                ]);
+
+                //get selected criterias counts from database 
+                $selectedCriteriaCount = DB::table('criterias')
+                ->where('criteria_id', $criterias[$i])
+                ->get();
+
+                //add 1 from all selected_criteria counts
+                $updated = DB::table('criterias')
+                ->where('criteria_id', $criterias[$i])
+                ->update(['selected_count' => $selectedCriteriaCount[0]->selected_count+1]);
+
+            }
+        }
+
+
+        return redirect(route("dashboard.tenant.recommendation"));
     }
 }
