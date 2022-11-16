@@ -109,6 +109,22 @@
 
                         <hr>
 
+                        {{-- buttons --}}
+                        <div class="row mt-5 justify-content-center">
+                            
+                            @if (($maintenanceRequestDetails[0]->status == "pending" && session()->get('account')->role == "O"))
+
+                            <div class="col-12 col-lg-4">
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100">Appove</a>
+                            </div>
+                            
+                            <div class="col-12 col-lg-4">
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100">Reject</a>
+                            </div>
+
+                            @endif
+                        </div>
+
 
                     </div>
 

@@ -60,6 +60,29 @@ class MaintenanceRequestController extends Controller
         }
     }
 
+    public function indexForOwner(Request $request)
+    {
+        $account = $request->session()->get('account');
+        $id = $account->account_id;
+        $user = $account->role;
+
+        //get maintenance requests from database 
+        $maintenanceRequests = DB::table('maintenance_requests')
+            ->join('rentings', 'rentings.renting_id', '=', 'maintenance_requests.renting_id')
+            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rentings.post_id')
+            ->orderBy('maintenance_requests.created_at', 'desc')
+            ->where('room_rental_posts.account_id', $id)
+            ->select('maintenance_requests.*')
+            ->get();
+
+        return view('dashboard/tenant/dashboard_maintenancerequest_history', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => 'Maintenance Request History',
+            'maintenanceRequests' => $maintenanceRequests
+        ]);
+    }
+
 
     public function getMaintenanceRequestDetails(Request $request, $maintenanceRequestID)
     {
@@ -84,7 +107,8 @@ class MaintenanceRequestController extends Controller
             ->select('maintenance_images.image')
             ->get();
 
-        // //Display maintenanceRequestDetails
+        if($user=="T"){
+        // //Display maintenanceRequestDetails for Tenant
         return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
             'user' => $user,
             'page' => $this->name,
@@ -93,6 +117,19 @@ class MaintenanceRequestController extends Controller
             'maintenanceRequestDetails' => $maintenanceRequestDetails,
             'maintenanceRequestImages' => $maintenanceRequestImages
         ]);
+        }else{
+        // //Display maintenanceRequestDetails For Owner
+        return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => 'Maintenance Request Detail',
+            'back' => '/dashboard/rentingrecord/maintenancerequest/indexForOwner',
+            'maintenanceRequestDetails' => $maintenanceRequestDetails,
+            'maintenanceRequestImages' => $maintenanceRequestImages
+        ]);
+        }    
+
+
     }
 
     public function createMaintenanceRequest(Request $request, $rentingID)
@@ -179,6 +216,103 @@ class MaintenanceRequestController extends Controller
         }
 
         return redirect(URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($newMaintenanceRequestID)));
+    }
+
+
+    public function approveMaintenanceRequest(Request $request, $maintenanceRequestID)
+    {
+        //Decrypt the parameter
+        try {
+            $maintenanceRequestID = Crypt::decrypt($maintenanceRequestID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //update maintenance_requests status in database 
+        $updated = DB::table('maintenance_requests')
+            ->where('maintenance_id', $maintenanceRequestID)
+            ->update(['status' => "approved"]);
+
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
+
+        //make new NotificationID
+        $newNotificationID = $this->notificationID($latestNotificationID);
+
+        //need sent notification to tenant
+        //get tenant details from database 
+        $maintenanceRequest = DB::table('maintenance_requests')
+            ->join('rentings', 'rentings.renting_id', '=', 'maintenance_requests.renting_id')
+            ->where('maintenance_requests.maintenance_id', $maintenanceRequestID)
+            ->select('maintenance_requests.title', 'rentings.account_id')
+            ->get();
+
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Maintenance Request Approved",
+            'message' => "<b>" . $maintenanceRequest[0]->title . "</b> had been approved.",
+            'type' => "maintenance_request",
+            'status' => "unread",
+            'account_id' => $maintenanceRequest[0]->account_id
+        ]);
+
+
+        if ($addNotification > 0) {
+            $request->session()->put('successMessage', 'Maintenance request approved.');
+        } else {
+            $request->session()->put('failMessage', 'Maintenance request fail to approved.');
+        }
+
+        return redirect(URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequestID)));
+    }
+
+    public function rejectMaintenanceRequest(Request $request, $maintenanceRequestID)
+    {
+        //Decrypt the parameter
+        try {
+            $maintenanceRequestID = Crypt::decrypt($maintenanceRequestID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //update maintenance_requests status in database 
+        $updated = DB::table('maintenance_requests')
+            ->where('maintenance_id', $maintenanceRequestID)
+            ->update(['status' => "rejected"]);
+
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
+
+        //make new NotificationID
+        $newNotificationID = $this->notificationID($latestNotificationID);
+
+        //need sent notification to tenant
+        //get tenant details from database 
+        $maintenanceRequest = DB::table('maintenance_requests')
+            ->join('rentings', 'rentings.renting_id', '=', 'maintenance_requests.renting_id')
+            ->where('maintenance_requests.maintenance_id', $maintenanceRequestID)
+            ->select('maintenance_requests.title', 'rentings.account_id')
+            ->get();
+
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Maintenance Request Rejected",
+            'message' => "<b>" . $maintenanceRequest[0]->title . "</b> had been rejected.",
+            'type' => "maintenance_request",
+            'status' => "unread",
+            'account_id' => $maintenanceRequest[0]->account_id
+        ]);
+
+
+        if ($addNotification > 0) {
+            $request->session()->put('successMessage', 'Maintenance request rejected.');
+        } else {
+            $request->session()->put('failMessage', 'Maintenance request fail to rejected.');
+        }
+
+        return redirect(URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequestID)));
     }
 
     public function getLatestMaintenanceRequestID()

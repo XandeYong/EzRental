@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
+use App\Http\Controllers\MaintenanceRequestController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RentRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,10 @@ Route::get('/dashboard/owner', function() {
 Route::get('/dashboard/room_rental_post_list', [
     RoomRentalPostListController::class, 'ownerIndex'
 ])->name('dashboard.owner.room_rental_post.list');
+//Controller
+//RentRequestController
+Route::get('/dashboard/rentrequest/approveRentRequest/{rentRequestID}', [RentRequestController::class, 'approveRentRequest']);
+Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequestController::class, 'rejectRentRequest']);
 
 
 // Room Rental Post
@@ -47,5 +53,9 @@ Route::post('/dashboard/room_rental_post_list/create_room_rental_post/create', [
     RoomRentalPostController::class, 'createPost'
 ])->name('dashboard.owner.room_rental_post.create_form.create');
 
+//MaintenanceRequestController
+Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner', [MaintenanceRequestController::class, 'indexForOwner']);
+Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
+Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
 
 

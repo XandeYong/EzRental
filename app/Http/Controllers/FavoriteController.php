@@ -38,7 +38,6 @@ class FavoriteController extends Controller
     //need remove
     public function test($postID)
     {
-        
         //Decrypt the parameter
         try {
             $postID = Crypt::decrypt($postID);

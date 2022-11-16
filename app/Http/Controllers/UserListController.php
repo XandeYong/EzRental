@@ -73,11 +73,6 @@ class UserListController extends Controller
 
     public function searchUser(Request $request)
     {
-        //Laravel validation
-        // $request->validate([
-        //     'accountId' => ['required', 'max:255']
-        // ]);
-
         $account = $request->session()->get('account');
         $user = $account->role;
 
@@ -86,11 +81,10 @@ class UserListController extends Controller
 
 
         $pattern = "/^[A|a]{1}[0-9]+$/";
-        preg_match($pattern, $accountID);
+        
+        if (strlen($accountID) <= 255 && preg_match($pattern, $accountID)==1) {
 
-        if (strlen($accountID) <= 255 && preg_match($pattern, $accountID)) {
-
-        //get all userlist from database  
+        //get userlist from database  
         $userList = DB::table('accounts')
             ->where('role', '!=', 'A')
             ->where('role', '!=', 'MA')
@@ -100,21 +94,19 @@ class UserListController extends Controller
 
         } else {
             $errorMessage = "Error Message:";
-            $errorMessage .= ",*Input cannot be more than 255 characters!";
 
+            if(strlen($accountID) > 255){
+                $errorMessage .= ",*Input cannot be more than 255 characters!";
+            }
 
-            $pattern = "/^[A|a]{1}[0-9]+$/";
-            preg_match($pattern, $accountID);
-
-            if (preg_match($pattern, $accountID) == 0) {
+            if (preg_match($pattern, $accountID) != 1) {
                 $errorMessage .= ",*Invalid format!";
             }
 
             $request->session()->put('errorMessage', $errorMessage);
+            
+            return redirect(route('dashboard.admin.userlist'));
         }
-
-
-
 
         return view('dashboard/admin/dashboard_userlist', [
             'user' => $user,

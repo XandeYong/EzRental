@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Account;
 use App\Security\Encryption;
 use Illuminate\Http\Request;
 use App\Rules\EmailValidation;
@@ -147,8 +148,7 @@ class ProfileController extends Controller
             $request->session()->put('successMessage', 'Profile update success.');
 
             //get new account details
-            $newAccountDetails = DB::table('accounts')
-            ->where('account_id', $id)
+            $newAccountDetails = Account::where('account_id', $id)
             ->first();
 
             //Update account Session data

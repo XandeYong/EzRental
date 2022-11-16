@@ -157,8 +157,9 @@ Route::get('/rental_post_list', [
     RoomRentalPostListController::class, 'index'
 ])->name('rental_post_list');
 
-Route::post("/rental_postl_ist/search", [RentalPostListController::class, 'searchRentalPost']);
+Route::post("/rental_postl_ist/search", [RoomRentalPostListController::class, 'searchRentalPost']);
 Route::get('/rental_post_list/recommend', [RoomRentalPostListController::class, 'autoSearchMatchRecommendation'])->name('rental_post_list.recommend');
+Route::get('/rental_post_list/sort/{sort}', [RoomRentalPostListController::class, 'sortRentalPost'])->name('rental_post_list.sort');
 
 
 //Room Rental Post

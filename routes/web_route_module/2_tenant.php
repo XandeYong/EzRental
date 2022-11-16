@@ -32,23 +32,6 @@ Route::get('/dashboard/tenant', function() {
 })->name('dashboard.tenant');
 
 
-//Room Visit Appointment
-// Route::get('/dashboard/room_visit_appointment_list', function() {
-//     return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
-//         'page' => 'Room Visit Appointment',
-//         'header' => 'Room Visit Appointment List'
-//     ]);
-// })->name('dashboard.tenant.room_visit_appointment_list');
-
-// Route::get('/dashboard/room_visit_appointment_list/room_visit_appointment', function() {
-//     return view('dashboard/tenant/dashboard_roomvisitappointment', [
-//         'page' => 'Room Visit Appointment',
-//         'header' => 'Room Visit Appointment',
-//         'back' => '/dashboard/room_visit_appointment_list'
-//     ]);
-// })->name('dashboard.tenant.room_visit_appointment_list.room_visit_appointment');
-
-
 //Controller
 //FavoriteControlle
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
@@ -82,12 +65,16 @@ Route::get("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest
 Route::post("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequestToDB", [MaintenanceRequestController::class, 'createMaintenanceRequestToDB']);
 
 
-//MaintenanceRequestController
+//ContractController
 Route::get('/dashboard/rentingrecord/contract/index/{rentingID}', [ContractController::class, 'index'])->name('dashboard.tenant.contract');
+Route::post('/dashboard/rentingrequest/tenantSignContract', [ContractController::class, 'tenantSignContract']);
+
 
 //RentRequestController
 Route::get('/dashboard/rentrequest/index', [RentRequestController::class, 'index'])->name('dashboard.tenant.rentrequest');
 Route::get('/dashboard/rentrequest/getRentRequestDetails/{rentRequestID}', [RentRequestController::class, 'getRentRequestDetails']);
+Route::post('/dashboard/rentrequest/cancelRentRequest', [RentRequestController::class, 'cancelRentRequest']);
+
 
 //RoomVisitAppointmentController
 Route::get('/dashboard/roomvisitappointment/index', [RoomVisitAppointmentController::class, 'index'])->name('dashboard.tenant.roomvisitappointment');
@@ -106,6 +93,9 @@ Route::get('/autoAddMonthlyPayment', [TestController::class, 'autoAddMonthlyPaym
 Route::get('/autoReminderForTenant', [TestController::class, 'autoReminderForTenant']); 
 Route::get('/autoReminderForOwner', [TestController::class, 'autoReminderForOwner']); 
 Route::get('/autoCheckRoomVisitAppointment', [TestController::class, 'autoCheckRoomVisitAppointment']); 
+Route::get('/autoCheckRentRequest', [TestController::class, 'autoCheckRentRequest']); 
+
+
 
 
 

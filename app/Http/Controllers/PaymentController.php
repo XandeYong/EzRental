@@ -32,9 +32,8 @@ class PaymentController extends Controller
         //get paid payment from database 
         $paidPayments = DB::table('payments')
             ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
-            ->orderBy('payments.paid_date', 'desc')
+            ->orderBy('payments.created_at', 'desc')
             ->where('rentings.renting_id', $rentingID)
-            ->where('payments.status', "paid")
             ->select('payments.payment_id', 'payments.payment_type', 'payments.created_at', 'payments.paid_date', 'payments.status')
             ->get();
 

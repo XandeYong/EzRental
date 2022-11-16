@@ -44,7 +44,7 @@
 
                                         <div class="col-12 col-sm">
                                             <h6 class="mb-0 text-sm-end pb-2">
-                                                Date: {{ $paidPayments[$i]->paid_date }} 
+                                                Date: {{ date('Y-m-d', strtotime($paidPayments[$i]->created_at)) }}
                                             </h6>
                                             <h4 class="mb-0 text-sm-end">
                                                 {{ Str::ucfirst($paidPayments[$i]->status) }}

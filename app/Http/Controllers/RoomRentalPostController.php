@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Contract;
-use App\Models\Negotiation;
-use App\Models\Notification;
 use App\Models\Renting;
+use App\Models\Negotiation;
 use App\Models\RentRequest;
+use App\Models\Notification;
+use Illuminate\Http\Request;
 use App\Models\RoomRentalPost;
 use App\Models\VisitAppointment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class RoomRentalPostController extends Controller
 {
@@ -173,7 +174,10 @@ class RoomRentalPostController extends Controller
         $rent = DB::table('rent_requests')
             ->where('account_id', $account_id)
             ->where('post_id', $post_id)
-            ->where('status', 'pending')
+            ->where('status', '!=', 'expired')
+            ->where('status', '!=', 'rejected')
+            ->where('status', '!=', 'canceled')
+            ->where('status', '!=', 'success')
             ->get();
 
         if ($rent->isEmpty()) {
@@ -189,6 +193,12 @@ class RoomRentalPostController extends Controller
     // Visit Appointment
     function createVisitAppointment(Request $request)
     {
+        //Laravel validation
+        $request->validate([
+            'datetime' => ['required', 'after:1 hours'],
+            'note' => ['required', 'string', 'max:65535']
+        ]);
+
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
@@ -201,7 +211,7 @@ class RoomRentalPostController extends Controller
         $datetime = $date . " " . $time;
 
 
-        $appointment_id = $this->createID(VisitAppointment::class, "appointment_id", 3);
+        $appointment_id = $this->createID(VisitAppointment::class, "appointment_id", 2);
 
         $insert = [
             'appointment_id' => $appointment_id,
@@ -219,14 +229,20 @@ class RoomRentalPostController extends Controller
         $rrp = RoomRentalPost::findOrFail($post_id)
             ->select('account_id', 'title')->get();
 
-        $title = 'You received a Visit Appointment';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has booked a visit appointment with you on "<b>' . $rrp[0]['title'] . '</b>".';
+        $title = 'Room Visit Appointment Received';
+        $message = session()->get('account')['name'] . 'have created a room visit appointment for <b>' . $rrp[0]['title'] . '</b>.';
         $type = 'visit_appointment';
         $receiver = $rrp[0]['account_id'];
 
         $this->notify($title, $message, $type, $receiver);
 
-        return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id]));
+        if (count($rrp) > 0) {
+            $request->session()->put('successMessage', 'Visit appointment created.');
+        } else {
+            $request->session()->put('failMessage', 'Visit appointment fail to created.');
+        }
+
+        return redirect(URL('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/' . Crypt::encrypt($appointment_id)));
     }
 
     // Negotiation
@@ -257,8 +273,8 @@ class RoomRentalPostController extends Controller
         $rrp = RoomRentalPost::findOrFail($post_id)
             ->select('account_id', 'title')->get();
 
-        $title = 'You received a negotiation';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has started a negotiate session with you on "<b>' . $rrp[0]['title'] . '</b>".';
+        $title = 'Negotiation Received';
+        $message = session()->get('account')['name'] . 'have created a negotiation for <b>' . $rrp[0]['title'] . '</b>.';
         $type = 'negotiation';
         $receiver = $rrp[0]['account_id'];
 
@@ -271,6 +287,11 @@ class RoomRentalPostController extends Controller
     // Rent Request
     function createRentRequest(Request $request)
     {
+        //Laravel validation
+        $request->validate([
+            'start_date' => ['required', 'date', 'before:end_date'],
+            'end_date' => ['required', 'date', 'after:start_date']
+        ]);
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
@@ -306,14 +327,20 @@ class RoomRentalPostController extends Controller
         $rrp = RoomRentalPost::findOrFail($post_id)
             ->select('account_id', 'title')->get();
 
-        $title = 'You received a rent request';
-        $message = '<b>' . session()->get('account')['name'] . '</b> has sent a rent request to you on "<b>' . $rrp[0]['title'] . '</b>".';
+        $title = 'Renting Request Received';
+        $message = session()->get('account')['name'] . 'have created a renting request for <b>' . $rrp[0]['title'] . '</b>.';
         $type = 'renting_request';
         $receiver = $rrp[0]['account_id'];
 
         $this->notify($title, $message, $type, $receiver);
 
-        return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id]));
+        if (count($rrp) > 0) {
+            $request->session()->put('successMessage', 'Rent request created.');
+        } else {
+            $request->session()->put('failMessage', 'Rent request fail to created.');
+        }
+
+        return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rent_request_id)));
     }
 
 
@@ -570,7 +597,4 @@ class RoomRentalPostController extends Controller
 
         return $result;
     }
-
-
-
 }

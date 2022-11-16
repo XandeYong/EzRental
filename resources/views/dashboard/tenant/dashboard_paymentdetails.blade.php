@@ -42,7 +42,11 @@
                                             <td class="bg-white">{{ $paymentDetails[$i]->payment_id }}</td> 
 
                                             <th scope="row" class="w-25">Payment date</th>
+                                            @if(isset($paymentDetails[$i]->paid_date))
                                             <td class="bg-white w-25">{{ $paymentDetails[$i]->paid_date }}</td>
+                                            @else
+                                            <td colspan="3" class="bg-white">-</td>
+                                            @endif
                                             
                                         </tr>
                                         <tr>
@@ -54,7 +58,11 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">Payment Method</th>
+                                            @if(isset($paymentDetails[$i]->payment_method))
                                             <td colspan="3" class="bg-white">{{ $paymentDetails[$i]->payment_method }}</td>
+                                            @else
+                                            <td colspan="3" class="bg-white">-</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <th scope="row">Payment Type</th>

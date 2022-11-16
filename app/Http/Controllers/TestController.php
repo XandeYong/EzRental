@@ -331,7 +331,7 @@ class TestController extends Controller
         $roomVisitAppointments = DB::table('visit_appointments')
             ->where('status', 'approved')
             ->select('appointment_id', 'datetime')
-            ->get(); 
+            ->get();
 
         if (!$roomVisitAppointments->isEmpty()) {
             for ($i = 0; $i < count($roomVisitAppointments); $i++) {
@@ -345,20 +345,90 @@ class TestController extends Controller
                     $updated = DB::table('visit_appointments')
                         ->where('appointment_id', $roomVisitAppointments[$i]->appointment_id)
                         ->update(['status' => "success"]);
-                } 
+                }
             }
         }
-
     }
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Auto check is rent request already expired 
+    public function autoCheckRentRequest(Request $request)
+    {
+
+        //get room visit appointment details from database 
+        $rentRequests = DB::table('rent_requests')
+            ->where('status', 'pending')
+            ->orWhere('status', 'approved')
+            ->orWhere('status', 'signed')
+            ->select('rent_request_id', 'rent_date_start')
+            ->get();
+
+        if (!$rentRequests->isEmpty()) {
+            for ($i = 0; $i < count($rentRequests); $i++) {
+
+                //get current date time in Malaysia
+                date_default_timezone_set("Asia/Kuala_Lumpur");
+                $currentDate = date("Y-m-d");
+
+                if ($currentDate >= $rentRequests[$i]->rent_date_start) {
+                    //update rent request status in database 
+                    $updated = DB::table('rent_requests')
+                        ->where('rent_request_id', $rentRequests[$i]->rent_request_id)
+                        ->update(['status' => "expired"]);
+
+                    //getLatestNotificationID
+                    $latestNotificationID = $this->getLatestNotificationID();
+
+                    //make new NotificationID
+                    $newNotificationID = $this->notificationID($latestNotificationID);
+
+                    //get room rental post details from database 
+                    $roomRentalPost = DB::table('room_rental_posts')
+                        ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+                        ->where('rent_requests.rent_request_id', $rentRequests[$i]->rent_request_id)
+                        ->select('room_rental_posts.account_id', 'room_rental_posts.title')
+                        ->get();
 
 
+                    //need sent notification to owner
+                    //add notification to database
+                    $addNotification = DB::table('notifications')->insert([
+                        'notification_id' => $newNotificationID,
+                        'title' => "Renting Request Expired",
+                        'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                        'type' => "renting_request",
+                        'status' => "unread",
+                        'account_id' => $roomRentalPost[0]->account_id
+                    ]);
 
+                    //need sent notification to tenant
+                    //get tenant details from database 
+                    $rentRequest = DB::table('rent_requests')
+                        ->where('rent_request_id', $rentRequests[$i]->rent_request_id)
+                        ->select('account_id')
+                        ->get();
 
+                    //getLatestNotificationID
+                    $latestNotificationID = $this->getLatestNotificationID();
 
+                    //make new NotificationID
+                    $newNotificationID = $this->notificationID($latestNotificationID);
 
-
+                    //add notification to database
+                    $addNotification = DB::table('notifications')->insert([
+                        'notification_id' => $newNotificationID,
+                        'title' => "Renting Request Expired",
+                        'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                        'type' => "renting_request",
+                        'status' => "unread",
+                        'account_id' => $rentRequest[0]->account_id
+                    ]);
+                }
+            }
+        }
+    }
 
 
 

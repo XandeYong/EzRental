@@ -34,7 +34,7 @@
 
                             <div class="card mb-4">
                                 <div class="d-flex bg-warning align-items-center">
-                                    <a class="w-100 me-auto no-deco text-dark" href="{{ URL('/rental_post_list/rental_post/' . $favoritePost->post_id) }}">
+                                    <a class="w-100 me-auto no-deco text-dark" href="{{ route('rental_post_list.rental_post', ['post_id' => $favoritePost->post_id]) }}">
                                         <div class="row me-auto px-3 w-100 align-items-center">
                                             <div class="col-12 col-sm">
                                                 <h3 class="mb-0">

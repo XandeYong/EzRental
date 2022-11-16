@@ -27,7 +27,7 @@
 
 <div id="rent_request" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.tenant.rentrequest') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Rent Request</h5>
         </a>
@@ -36,7 +36,7 @@
 
 <div id="room_visit_appointment" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.tenant.roomvisitappointment') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Room Visit Appointment</h5>
         </a>
@@ -45,7 +45,7 @@
 
 <div id="maintainance_request" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="/dashboard/rentingrecord/maintenancerequest/indexForOwner" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Maintainance Request</h5>
         </a>
