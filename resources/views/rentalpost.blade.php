@@ -505,20 +505,34 @@
                                                                 Negotiate
                                                             </button>
                                                         </div>
-                                                        
+
                                                         <div class="mb-2">
-                                                            <button type="button" id="rent_button" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#rent_modal">
+                                                            <button type="button" id="rent_button"
+                                                                class="btn btn-outline-dark w-100"
+                                                                data-bs-toggle="modal" data-bs-target="#rent_modal">
                                                                 Rent
                                                             </button>
                                                         </div>
 
-                                                        <div class="mb-2">
-                                                            <a href="">
-                                                                <button type="button" id="rent_button" class="btn btn-outline-dark w-100">
-                                                                    Favorite
-                                                                </button>
-                                                            </a>
-                                                        </div>
+                                                        @if (Session::has('account'))
+                                                            @if (session()->get('account')->role == 'T')
+                                                                <div class="mb-2">
+                                                                    @if ($favorite->isEmpty())
+                                                                        <button type="button" id="favorite_button"
+                                                                            class="btn btn-outline-dark w-100"
+                                                                            onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('add')) }}';">
+                                                                            Favorite
+                                                                        </button>
+                                                                    @else
+                                                                        <button type="button" id="favorite_button"
+                                                                            class="btn btn-outline-dark w-100"
+                                                                            onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('remove')) }}';">
+                                                                            Unfavorite
+                                                                        </button>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        @endif
                                                     @endif
 
                                                 </div>
@@ -678,7 +692,8 @@
                                         <span class="input-group-text">RM</span>
                                         <input type="number" class="form-control hideArrow" name="price"
                                             id="negotiate_monthly_payment"
-                                            aria-label="Amount (to the nearest Ringgit)" value="0" min="1">
+                                            aria-label="Amount (to the nearest Ringgit)" value="0"
+                                            min="1">
                                         <span class="input-group-text">.00</span>
                                     </div>
                                 </div>
@@ -727,7 +742,6 @@
                                         <input type="number" class="form-control disabled hideArrow"
                                             value="{{ number_format($contract[0]->monthly_price, 2) }}" readonly
                                             disabled>
-                                        {{-- <span class="input-group-text">.00</span> --}}
                                     </div>
                                 </div>
 

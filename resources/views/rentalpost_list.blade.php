@@ -77,5 +77,21 @@
     @include('base/footer')
     @include('base/script')
 
+    {{-- For validate is filter at least one checkbox checked  --}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#filter').click(function() {
+                checked = $("input[type=checkbox]:checked").length;
+        
+                if(!checked) {
+                    alert("You must check at least one filter checkbox.");
+                    return false;
+                }
+                
+            });
+        });
+        
+    </script>
+
 </body>
 </html>

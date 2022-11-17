@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Contract;
 use App\Models\Renting;
+use App\Models\Contract;
 use App\Models\Negotiation;
 use App\Models\RentRequest;
 use App\Models\Notification;
@@ -13,6 +13,7 @@ use App\Models\RoomRentalPost;
 use App\Models\VisitAppointment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class RoomRentalPostController extends Controller
 {
@@ -57,8 +58,20 @@ class RoomRentalPostController extends Controller
             )
             ->get();
 
+
+
         if (session()->has('account')) {
             $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
+
+            $account = session()->get('account');
+            $id = $account->account_id; 
+    
+            $favorite = DB::table('favorites')
+            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'favorites.post_id')
+            ->where('favorites.account_id', $id)
+            ->where('room_rental_posts.post_id', $post_id)
+            ->select('room_rental_posts.post_id')
+            ->get();
         } else {
 
             $access = [
@@ -67,7 +80,11 @@ class RoomRentalPostController extends Controller
                 'negotiate' => 'forbidden',
                 'rent' => 'forbidden'
             ];
+
+            $favorite = collect();
         }
+
+
 
         return view('rentalpost', [
             'back' => "rental_post_list",
@@ -76,6 +93,7 @@ class RoomRentalPostController extends Controller
             'criterias' => $criterias,
             'contract' => $contract,
             'comments' => $comments,
+            'favorite' => $favorite,
             'access' => $access
         ]);
     }
@@ -426,7 +444,7 @@ class RoomRentalPostController extends Controller
         return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id, '#comment_section']));
     }
 
-    
+
 
     //Owner 
     function ownerIndex($post_id)
@@ -479,7 +497,8 @@ class RoomRentalPostController extends Controller
     }
 
     //Create Room Rental Post
-    function createPost(Request $request) {
+    function createPost(Request $request)
+    {
 
         // Room rental post
         $title = $request->input('title');
@@ -513,7 +532,7 @@ class RoomRentalPostController extends Controller
             'account_id' => $account_id
         ];
 
-        
+
         $contract_id = $this->createID(RoomRentalPost::class, "post_id", 3);
 
         $contract = [
@@ -597,4 +616,39 @@ class RoomRentalPostController extends Controller
 
         return $result;
     }
+
+
+
+    public function addOrRemoveFavorite($postID, $process) {
+
+        $account = session()->get('account'); 
+        $id = $account->account_id;
+
+        //Decrypt the parameter
+        try {
+            $postID = Crypt::decrypt($postID);
+            $process = Crypt::decrypt($process);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        if($process=="add"){
+            DB::table('favorites')->insert([
+                'account_id' => $id,
+                'post_id' => $postID
+            ]);
+        }else{
+            DB::table('favorites')
+            ->where('account_id', $id)
+            ->where('post_id', $postID)
+            ->delete();
+
+        }
+
+
+            return redirect(route('rental_post_list.rental_post', ['post_id' => $postID])); 
+
+    }
+
+    
 }

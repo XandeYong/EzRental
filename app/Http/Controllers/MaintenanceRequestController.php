@@ -46,7 +46,10 @@ class MaintenanceRequestController extends Controller
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
-                'button' => '/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest/' . Crypt::encrypt($rentingID),
+                'button' => [
+                    'name' => 'Create Maintenance Request',
+                    'link' => '/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest/' . Crypt::encrypt($rentingID)
+                ],
                 'maintenanceRequests' => $maintenanceRequests
             ]);
         } else {
@@ -107,29 +110,27 @@ class MaintenanceRequestController extends Controller
             ->select('maintenance_images.image')
             ->get();
 
-        if($user=="T"){
-        // //Display maintenanceRequestDetails for Tenant
-        return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
-            'user' => $user,
-            'page' => $this->name,
-            'header' => 'Maintenance Request Detail',
-            'back' => '/dashboard/rentingrecord/maintenancerequest/index/' . Crypt::encrypt($maintenanceRequestDetails[0]->renting_id),
-            'maintenanceRequestDetails' => $maintenanceRequestDetails,
-            'maintenanceRequestImages' => $maintenanceRequestImages
-        ]);
-        }else{
-        // //Display maintenanceRequestDetails For Owner
-        return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
-            'user' => $user,
-            'page' => $this->name,
-            'header' => 'Maintenance Request Detail',
-            'back' => '/dashboard/rentingrecord/maintenancerequest/indexForOwner',
-            'maintenanceRequestDetails' => $maintenanceRequestDetails,
-            'maintenanceRequestImages' => $maintenanceRequestImages
-        ]);
-        }    
-
-
+        if ($user == "T") {
+            // //Display maintenanceRequestDetails for Tenant
+            return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
+                'user' => $user,
+                'page' => $this->name,
+                'header' => 'Maintenance Request Detail',
+                'back' => '/dashboard/rentingrecord/maintenancerequest/index/' . Crypt::encrypt($maintenanceRequestDetails[0]->renting_id),
+                'maintenanceRequestDetails' => $maintenanceRequestDetails,
+                'maintenanceRequestImages' => $maintenanceRequestImages
+            ]);
+        } else {
+            // //Display maintenanceRequestDetails For Owner
+            return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
+                'user' => $user,
+                'page' => $this->name,
+                'header' => 'Maintenance Request Detail',
+                'back' => '/dashboard/rentingrecord/maintenancerequest/indexForOwner',
+                'maintenanceRequestDetails' => $maintenanceRequestDetails,
+                'maintenanceRequestImages' => $maintenanceRequestImages
+            ]);
+        }
     }
 
     public function createMaintenanceRequest(Request $request, $rentingID)
@@ -315,6 +316,69 @@ class MaintenanceRequestController extends Controller
         return redirect(URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequestID)));
     }
 
+    public function submitProofOfMaintenance(Request $request)
+    {
+        //Laravel validation
+        $request->validate([
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+        ]);
+
+
+            //get details from  View  
+            $image = $request->input('image');
+        $maintenanceRequestID = $request->input('maintenanceRequestID');
+
+        //getLatestMaintenanceImageID
+        $latestMaintenanceImageID = $this->getLatestMaintenanceImageID();
+
+        //make new MaintenanceImageID
+        $newMaintenanceImageID = $this->maintenanceImageID($latestMaintenanceImageID);
+
+        //get image name
+        $imageName = $newMaintenanceImageID . "." . $image->getClientOriginalExtension();
+        $request->file('image')->move(public_path() . '/image/account/', $imageName);
+
+        //stop here
+
+        //update maintenance_requests status in database 
+        $updated = DB::table('maintenance_requests')
+            ->where('maintenance_id', $maintenanceRequestID)
+            ->update(['status' => "rejected"]);
+
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
+
+        //make new NotificationID
+        $newNotificationID = $this->notificationID($latestNotificationID);
+
+        //need sent notification to tenant
+        //get tenant details from database 
+        $maintenanceRequest = DB::table('maintenance_requests')
+            ->join('rentings', 'rentings.renting_id', '=', 'maintenance_requests.renting_id')
+            ->where('maintenance_requests.maintenance_id', $maintenanceRequestID)
+            ->select('maintenance_requests.title', 'rentings.account_id')
+            ->get();
+
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Maintenance Request Rejected",
+            'message' => "<b>" . $maintenanceRequest[0]->title . "</b> had been rejected.",
+            'type' => "maintenance_request",
+            'status' => "unread",
+            'account_id' => $maintenanceRequest[0]->account_id
+        ]);
+
+
+        if ($addNotification > 0) {
+            $request->session()->put('successMessage', 'Maintenance request rejected.');
+        } else {
+            $request->session()->put('failMessage', 'Maintenance request fail to rejected.');
+        }
+
+        return redirect(URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequestID)));
+    }
+
     public function getLatestMaintenanceRequestID()
     {
         $maintenanceRequestID = DB::table('maintenance_requests')
@@ -371,6 +435,36 @@ class MaintenanceRequestController extends Controller
 
         //combine char and int into string
         $result = "NTF" . ((string)$ans);
+
+        return $result;
+    }
+
+    public function getLatestMaintenanceImageID()
+    {
+        $maintenanceImageID = DB::table('maintenance_images')
+            ->select('maintenance_image_id')
+            ->whereRaw("CHAR_LENGTH(maintenance_image_id) = (SELECT MAX(CHAR_LENGTH(maintenance_image_id)) from maintenance_images)")
+            ->orderByDesc('maintenance_image_id')
+            ->distinct()
+            ->select('maintenance_image_id')
+            ->get();
+
+        if ($maintenanceImageID->isEmpty()) {
+            return "MI0";
+        }
+        return $maintenanceImageID[0]->maintenance_image_id;
+    }
+
+    //add 1 to ID to make new ID 
+    private function maintenanceImageID($value)
+    {
+        $result = substr($value, 2);
+
+        //parse result to int
+        $ans = ((int)$result) + 1;
+
+        //combine char and int into string
+        $result = "MI" . ((string)$ans);
 
         return $result;
     }
