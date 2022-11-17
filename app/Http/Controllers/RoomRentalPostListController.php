@@ -351,7 +351,8 @@ class RoomRentalPostListController extends Controller
 
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists,
-            'criteriaLists' => $criteriaLists
+            'criteriaLists' => $criteriaLists,
+            'filters' => $filter
         ]);
 
     }

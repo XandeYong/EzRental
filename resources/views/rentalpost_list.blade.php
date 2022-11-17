@@ -89,6 +89,10 @@
                 }
                 
             });
+
+            $("#reset_filter").click(function (e) { 
+                $("#post_filter input").removeAttr("checked");
+            });
         });
         
     </script>

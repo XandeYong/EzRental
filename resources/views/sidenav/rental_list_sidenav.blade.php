@@ -75,12 +75,12 @@
                     <div class="">
                         <input class="btn btn-sm btn-outline-success" type="submit" value="Filter" id="filter"
                             name="filter">
-                        <input class="btn btn-sm btn-outline-danger" type="reset" value="reset">
+                        <input class="btn btn-sm btn-outline-danger" type="reset" value="Reset" id="reset_filter">
                     </div>
                 </div>
             </div>
 
-            <div class="item-body container">
+            <div id="post_filter" class="item-body container">
                 <div class="row px-3 py-2">
 
                     @if (count($criteriaLists) == 0)
@@ -88,17 +88,19 @@
                             <h5>No criteria.</h5><br>
                         </div>
                     @else
-                    @php
-                        if (isset($_POST['sector'])) $filters = $_POST['sector'];
-                        else {
-                            $filters = array();
-                        }
-                    @endphp
 
                         @for ($i = 0; $i < count($criteriaLists); $i++)
                             <div class="col-12">
                                 <div class="d-flex align-items-center">
-                                    <input type="checkbox" name="filter[]" value="{{ $criteriaLists[$i]->criteria_id }}" />
+                                    <input type="checkbox" name="filter[]" value="{{ $criteriaLists[$i]->criteria_id }}" 
+                                    @if (isset($filters))
+                                        @foreach ($filters as $criteriaID)
+                                            @if ($criteriaLists[$i]->criteria_id == $criteriaID)
+                                                checked
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                    />
                                     <span class="ms-1">{{ $criteriaLists[$i]->name }}</span>
                                 </div>
                             </div>
