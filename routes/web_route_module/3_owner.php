@@ -58,8 +58,9 @@ Route::post("/test/maintenance/upload", function(Request $request) {
 
 //MaintenanceRequestController
 Route::get('/dashboard/rentalpost/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
-Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
-Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
+Route::get("/dashboard/rentalpost/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}/{postID?}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
+Route::get("/dashboard/rentalpost/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}/{postID?}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
+Route::post("/dashboard/rentalpost/maintenancerequest/submitProofOfMaintenance", [MaintenanceRequestController::class, 'submitProofOfMaintenance']);
 
 
 //RentRequestController

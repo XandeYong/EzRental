@@ -32,8 +32,10 @@
                         @foreach ($maintenanceRequests as $maintenanceRequest)
                             @php
                                 if (isset($postID)) {
+                                    // access by owner
                                     $route = URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequest->maintenance_id) . '/' . Crypt::encrypt($postID));
                                 } else {
+                                    // access by tenant
                                     $route = URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequest->maintenance_id));
                                 }
                             @endphp
@@ -50,7 +52,7 @@
 
                                             <div class="col-12 col-sm">
                                                 <h6 class="mb-0 text-sm-end pb-2">
-                                                    Date:
+                                                    Date Created:
                                                     {{ date('Y-m-d', strtotime($maintenanceRequest->created_at)) }}
                                                 </h6>
                                                 <h4 class="mb-0 text-sm-end">
