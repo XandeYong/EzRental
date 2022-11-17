@@ -86,27 +86,7 @@
                         <div class="row">
                             <div class="col-12">
 
-                                @if ($maintenanceRequestDetails[0]->status == "pending" && session()->get("account")['role'] == "O")
-
-                                    <div class="container-fluid">
-                                        <div class="row g-3 justify-content-center">
-
-                                            <div class="col-12 col-lg-10">
-                                                <a href="">
-                                                    <button class="btn btn-primary w-100">Approve</button>
-                                                </a>
-                                            </div>
-
-                                            <div class="col-12 col-lg-10">
-                                                <a href="">
-                                                    <button class="btn btn-warning w-100">Reject</button>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                @elseif (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")["role"] == "T") || $maintenanceRequestDetails[0]->status == "success")
+                                @if (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")["role"] == "O") || $maintenanceRequestDetails[0]->status == "success")
 
                                     <h5><u>Proof:</u></h5>
 
@@ -166,12 +146,20 @@
                                         @endif
                                     </div>
 
-                                @else 
+                                @elseif ($maintenanceRequestDetails[0]->status != "pending")
+                                @php
+                                    $statusMessage = "Wait for owner reply";
+
+                                    if ($maintenanceRequestDetails[0]->status == "rejected") {
+                                        $statusMessage = "The owner has rejected your request";
+                                    }
+
+                                @endphp
                                 
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="col-10 text-center">
-                                            Wait for owner reply
+                                            {{ $statusMessage }}
                                         </div>
                                     </div>
                                 </div>
@@ -181,26 +169,30 @@
                             </div>
                         </div>
 
-                        <hr>
+                        @if (($maintenanceRequestDetails[0]->status == "pending" && session()->get('account')->role == "O"))
 
                         {{-- buttons --}}
-                        <div class="row mt-5 justify-content-center">
-                            
-                            @if (($maintenanceRequestDetails[0]->status == "pending" && session()->get('account')->role == "O"))
-
+                        <div class="row g-3 mt-5 justify-content-center">
+                    
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100" onclick="return confirm('Are you sure you want to approve the maintenance request?');">Appove</a>
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100" 
+                                    x-confirm="Are you sure you want to approve the maintenance request?">
+                                    Appove
+                                </a>
                             </div>
                             
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100" onclick="return confirm('Are you sure you want to reject the maintenance request?');">Reject</a>
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100" 
+                                    x-confirm="Are you sure you want to reject the maintenance request?">
+                                    Reject
+                                </a>
                             </div>
 
-                            @elseif(($maintenanceRequestDetails[0]->status == "approved" && session()->get('account')->role == "O"))
-                            {{-- submit proof of maintenance then after submit status become success --}}
-
-                            @endif
                         </div>
+
+                        @else
+                            <hr>
+                        @endif
 
 
                     </div>
