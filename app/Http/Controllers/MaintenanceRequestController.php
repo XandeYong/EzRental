@@ -42,7 +42,6 @@ class MaintenanceRequestController extends Controller
         //If renting status is expired then cannot create maintenance request
         if ($rentingStatus[0]->status == "active") {
             return view('dashboard/tenant/dashboard_maintenancerequest_history', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
@@ -54,7 +53,6 @@ class MaintenanceRequestController extends Controller
             ]);
         } else {
             return view('dashboard/tenant/dashboard_maintenancerequest_history', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
@@ -88,7 +86,6 @@ class MaintenanceRequestController extends Controller
                 ->get();
 
             return view('dashboard/tenant/dashboard_maintenancerequest_history', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'maintenanceRequests' => $maintenanceRequests
@@ -105,7 +102,6 @@ class MaintenanceRequestController extends Controller
                 ->get();
 
             return view('dashboard/tenant/dashboard_maintenancerequest_history', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
@@ -141,7 +137,6 @@ class MaintenanceRequestController extends Controller
         if ($user == "T") {
             //Display maintenanceRequestDetails for Tenant
             return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request Detail',
                 'back' => '/dashboard/rentingrecord/maintenancerequest/index/' . Crypt::encrypt($maintenanceRequestDetails[0]->renting_id),
@@ -158,7 +153,6 @@ class MaintenanceRequestController extends Controller
 
             //Display maintenanceRequestDetails For Owner
             return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
-                'user' => $user,
                 'page' => $this->name,
                 'header' => 'Maintenance Request Detail',
                 'back' => '/dashboard/rentingrecord/maintenancerequest/indexForOwner/' . Crypt::encrypt($roomRentalPost[0]->post_id),
@@ -183,7 +177,6 @@ class MaintenanceRequestController extends Controller
         $user = $account->role;
 
         return view('dashboard/tenant/dashboard_maintenancerequest_create', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Create Maintenance Request',
             'back' => '/dashboard/rentingrecord/maintenancerequest/index/' . Crypt::encrypt($rentingID),

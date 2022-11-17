@@ -37,7 +37,6 @@ class ProfileController extends Controller
             $age = 0;
         }
         return view('dashboard/dashboard_profile', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $this->name,
             'profile' => $profile,
@@ -95,7 +94,6 @@ class ProfileController extends Controller
             $dob = $profile[0]->dob;
 
         return view('dashboard/dashboard_profile_edit', [
-            'user' => $user,
             'page' => $this->name,
             'header' => "Edit Profile",
             'back' => "/dashboard/profile/index",

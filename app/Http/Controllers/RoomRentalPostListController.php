@@ -45,7 +45,6 @@ class RoomRentalPostListController extends Controller
             ->get();
 
         return view('dashboard/owner/dashboard_rentalpost_list', [
-            'user' => $user,
             'page' => $page,
             'header' => $header,
             'button' => [

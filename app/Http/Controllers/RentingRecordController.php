@@ -52,7 +52,6 @@ class RentingRecordController extends Controller
 
         
         return view('dashboard/tenant/dashboard_rentingrecord_list', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $header,
             'rentingRecords' => $rentingRecords
@@ -130,7 +129,6 @@ class RentingRecordController extends Controller
         
 
         return view('dashboard/tenant/dashboard_rentingrecord', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $header,
             'back' => "/dashboard/rentingrecord/index/" . Crypt::encrypt($status),

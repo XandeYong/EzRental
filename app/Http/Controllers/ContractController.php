@@ -33,7 +33,6 @@ class ContractController extends Controller
             ->get();
 
         return view('dashboard/tenant/dashboard_contract', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Contract',
             'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),

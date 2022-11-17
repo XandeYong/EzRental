@@ -36,7 +36,6 @@ class NotificationController extends Controller
 
 
         return view('/dashboard/dashboard_notification', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Notification',
             'notificationLists' => $notificationLists
