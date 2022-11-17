@@ -59,4 +59,5 @@ Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest
 //RentRequestController
 Route::get('/dashboard/rentrequest/approveRentRequest/{rentRequestID}', [RentRequestController::class, 'approveRentRequest']);
 Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequestController::class, 'rejectRentRequest']);
-
+Route::get('/dashboard/rentrequest/confirmRentRequest/{rentRequestID}', [RentRequestController::class, 'confirmRentRequest']);
+Route::get('/dashboard/rentrequest/cancelRentRequest/{rentRequestID}', [RentRequestController::class, 'cancelRentRequest']);

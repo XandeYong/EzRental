@@ -35,18 +35,6 @@ class FavoriteController extends Controller
         ]);
     }
 
-    //need remove
-    public function test($postID)
-    {
-        //Decrypt the parameter
-        try {
-            $postID = Crypt::decrypt($postID);
-        } catch (DecryptException $ex) {
-            abort('500', $ex->getMessage());
-        }
-        
-        dd( $postID);
-    }
 
     public function removeFavorite($postID) {
 
@@ -60,7 +48,6 @@ class FavoriteController extends Controller
             abort('500', $ex->getMessage());
         }
 
-
             DB::table('favorites')
             ->where('account_id', $id)
             ->where('post_id', $postID)
@@ -70,27 +57,6 @@ class FavoriteController extends Controller
 
     }
 
-    public function addFavorite($postID) {
-
-        $account = session()->get('account'); 
-        $id = $account->account_id;
-
-        //Decrypt the parameter
-        try {
-            $postID = Crypt::decrypt($postID);
-        } catch (DecryptException $ex) {
-            abort('500', $ex->getMessage());
-        }
-
-            DB::table('favorites')->insert([
-                'account_id' => $id,
-                'post_id' => $postID
-            ]);
-            
-
-            return redirect(route("dashboard.tenant.favorite")); //edit to route to post details
-
-    }
 
 
 }

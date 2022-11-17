@@ -115,12 +115,15 @@
                             @if (($maintenanceRequestDetails[0]->status == "pending" && session()->get('account')->role == "O"))
 
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100">Appove</a>
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100" onclick="return confirm('Are you sure you want to approve the maintenance request?');">Appove</a>
                             </div>
                             
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100">Reject</a>
+                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100" onclick="return confirm('Are you sure you want to reject the maintenance request?');">Reject</a>
                             </div>
+
+                            @elseif(($maintenanceRequestDetails[0]->status == "approved" && session()->get('account')->role == "O"))
+                            {{-- submit proof of maintenance then after submit status become success --}}
 
                             @endif
                         </div>

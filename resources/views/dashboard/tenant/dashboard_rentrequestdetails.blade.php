@@ -87,63 +87,77 @@
                             </div>
                         @endfor
 
-                        @if ($rentRequestDetails[0]->status == 'approved')
-                            <div class="row mt-5">
-                                <form class="col-12" action="/dashboard/rentrequest/cancelRentRequest/" method="post"
-                                    onsubmit="return confirm('Are you sure you want to cancel the rent request?');">
-                                    @csrf
-                                    <input hidden type="hidden" name="rentRequestID"
-                                        value="{{ $rentRequestDetails[0]->rent_request_id }}">
-                                    <div class="row justify-content-center">
-                                        <div class="col-12 col-lg-4">
-                                            <button type="button" class="btn btn-lg btn-primary w-100"
-                                                data-bs-toggle="modal" data-bs-target="#contract_modal">
-                                                Sign Contract
-                                            </button>
-                                        </div>
-
-                                        <div class="col-12 col-lg-4">
-                                            <input class="btn btn-lg btn-warning w-100" type="submit" name="cancel"
-                                                value="Cancel Request">
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        @endif
 
                         {{-- buttons --}}
                         <div class="row mt-5 justify-content-center">
-                            
-                            @if (($rentRequestDetails[0]->status == "pending" && session()->get('account')->role == "O"))
 
-                            <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentrequest/approveRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-primary w-100">Appove</a>
-                            </div>
-                            
-                            <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentrequest/rejectRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100">Reject</a>
-                            </div>
-                            
-                            @elseif ($rentRequestDetails[0]->status == "approved")
+                            @if ($rentRequestDetails[0]->status == 'pending' && session()->get('account')->role == 'O')
+                                <div class="col-12 col-lg-4">
+                                    <a href="{{ url('/dashboard/rentrequest/approveRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}"
+                                        class="btn btn-lg btn-primary w-100"
+                                        onclick="return confirm('Are you sure you want to approve the rent request?');">Appove</a>
+                                </div>
 
-                            <div class="col-12 col-lg-12">
-                                <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100">Cancel</a>
-                            </div>
+                                <div class="col-12 col-lg-4">
+                                    <a href="{{ url('/dashboard/rentrequest/rejectRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}"
+                                        class="btn btn-lg btn-warning w-100"
+                                        onclick="return confirm('Are you sure you want to reject the rent request?');">Reject</a>
+                                </div>
+                            @elseif ($rentRequestDetails[0]->status == 'approved' && session()->get('account')->role == 'T')
+                                <div class="row mt-5">
+                                        <div class="row justify-content-center">
+                                            <div class="col-12 col-lg-4">
+                                                <button type="button" class="btn btn-lg btn-primary w-100"
+                                                    data-bs-toggle="modal" data-bs-target="#contract_modal">
+                                                    Sign Contract
+                                                </button>
+                                            </div>
 
+                                            <div class="col-12 col-lg-4">
+                                                <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100"
+                                                    onclick="return confirm('Are you sure you want to cancel the rent request?');">Cancel</a>
+                                            </div>
+                                        </div>
+
+                                </div>
+                            @elseif ($rentRequestDetails[0]->status == 'approved' && session()->get('account')->role == 'O' || $rentRequestDetails[0]->status == 'signed' && session()->get('account')->role == 'T')
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-lg-4">
+                                        <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100"
+                                            onclick="return confirm('Are you sure you want to cancel the rent request?');">Cancel</a>
+                                    </div>
+                                </div>
+
+                            @elseif ($rentRequestDetails[0]->status == 'signed' && session()->get('account')->role == 'O')
+                                {{-- do process after tenant signed --}}
+
+                                    <div class="row justify-content-center">
+
+                                        <div class="col-12 col-lg-4">
+                                            <a href="{{ url('/dashboard/rentrequest/confirmRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-primary w-100"
+                                                onclick="return confirm('Are you sure you want to confirm the rent request?');">Confirm</a>
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100"
+                                                onclick="return confirm('Are you sure you want to cancel the rent request?');">Cancel</a>
+                                        </div>
+                                    </div>
                             @endif
                         </div>
 
 
                         {{-- Guidance --}}
                         @if ($rentRequestDetails[0]->status == 'expired')
-                        <div class="row mt-5">
-                            <div class="row justify-content-center">
-                                <div class="alert alert-secondary" role="alert">
-                                    Guidance: This rent request is expired because the request didn't complete in time.
+                            <div class="row mt-5">
+                                <div class="row justify-content-center">
+                                    <div class="alert alert-secondary" role="alert">
+                                        Guidance: This rent request is expired because the request didn't complete in
+                                        time.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
 
 
@@ -158,7 +172,8 @@
 
 
     <!-- Contract Modal -->
-    <form action="/dashboard/rentingrequest/tenantSignContract" method="POST" onsubmit="return confirm('Are you sure you want to sign the contract?');" enctype="multipart/form-data">
+    <form action="/dashboard/rentingrequest/tenantSignContract" method="POST"
+        onsubmit="return confirm('Are you sure you want to sign the contract?');" enctype="multipart/form-data">
         @csrf
         <div class="modal modal-lg fade" id="contract_modal" tabindex="-1" aria-labelledby="contract modal"
             aria-hidden="true">
@@ -166,7 +181,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">Contract</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
@@ -213,16 +229,18 @@
                                     </div>
 
                                     <input type="hidden" name="contractID" value="{{ $contract[0]->contract_id }}">
-                                    <input type="hidden" name="rentRequestID" value="{{ $rentRequestDetails[0]->rent_request_id }}">
+                                    <input type="hidden" name="rentRequestID"
+                                        value="{{ $rentRequestDetails[0]->rent_request_id }}">
 
                                     <div class="col-12 col-md-6 col-lg-5">
                                         <h6 class="pb-5"><u>Tenant Signature:</u></h6>
                                         <img class="img-fluid x-upload-image" src="" alt="">
                                         <hr class="mt-5">
-                                            <input class="x-input-image form-control text-center" type="file" name="sign" >
-                                            @if($errors->has('sign'))
-                                                <span class="c-red-error">*{{ $errors->first('sign') }}</span>
-                                            @endif
+                                        <input class="x-input-image form-control text-center" type="file"
+                                            name="sign">
+                                        @if ($errors->has('sign'))
+                                            <span class="c-red-error">*{{ $errors->first('sign') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +267,6 @@
         <?php
              }
              ?>
-
     </script>
 
     @include('../base/dashboard/dashboard_script')

@@ -1,16 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\MaintenanceRequestController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\RecommendationController;
-use App\Http\Controllers\RentingRecordController;
 use App\Http\Controllers\RentRequestController;
+use App\Http\Controllers\RentingRecordController;
+use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\RoomRentalPostController;
+use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\RoomVisitAppointmentController;
-use App\Http\Controllers\TestController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::get('/dashboard/tenant', function() {
 //FavoriteControlle
 Route::get('/dashboard/favorite/index', [FavoriteController::class, 'index'])->name('dashboard.tenant.favorite');
 Route::get('/dashboard/favorite/removeFavorite/{postID}', [FavoriteController::class, 'removeFavorite']); 
-Route::get('/dashboard/favorite/addFavorite/{postID}', [FavoriteController::class, 'addFavorite']); 
+
 
 //RecommendationController
 Route::get('/dashboard/recommendation/index', [RecommendationController::class, 'index'])->name('dashboard.tenant.recommendation');
@@ -73,7 +74,7 @@ Route::post('/dashboard/rentingrequest/tenantSignContract', [ContractController:
 //RentRequestController
 Route::get('/dashboard/rentrequest/index', [RentRequestController::class, 'index'])->name('dashboard.tenant.rentrequest');
 Route::get('/dashboard/rentrequest/getRentRequestDetails/{rentRequestID}', [RentRequestController::class, 'getRentRequestDetails']);
-Route::post('/dashboard/rentrequest/cancelRentRequest', [RentRequestController::class, 'cancelRentRequest']);
+
 
 
 //RoomVisitAppointmentController
@@ -84,6 +85,8 @@ Route::get('/dashboard/roomvisitappointment/rejectAppointment/{roomVisitAppointm
 Route::get('/dashboard/roomvisitappointment/cancelAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'cancelAppointment']);
 
 
+//Room Rental Post
+Route::get('/rental_post_list/rental_post/addOrRemoveFavorite/{postID}/{process}', [RoomRentalPostController::class, 'addOrRemoveFavorite']); 
 
 
 //need remove

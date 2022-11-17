@@ -4,7 +4,7 @@
             <h4>Search</h4>
         </div>
         <div class="item-body">
-            <form action="/rental_postl_ist/search" method="POST">
+            <form action="/rental_post_list/search" method="POST">
                 @csrf
                 <div class="search d-flex p-3">
                     <input class="form-control shadow-none" type="text" name="search" placeholder="Search" required>
@@ -64,8 +64,8 @@
     </div>
 
     <div class="sidenav-item mb-3">
-        <form action="">
-
+        <form action="/rental_post_list/filter" method="post">
+            @csrf
             <div class="item-header p-1 ps-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="">
@@ -73,7 +73,8 @@
                     </div>
 
                     <div class="">
-                        <input class="btn btn-sm btn-outline-success" type="submit" value="Filter">
+                        <input class="btn btn-sm btn-outline-success" type="submit" value="Filter" id="filter"
+                            name="filter">
                         <input class="btn btn-sm btn-outline-danger" type="reset" value="reset">
                     </div>
                 </div>
@@ -87,6 +88,13 @@
                             <h5>No criteria.</h5><br>
                         </div>
                     @else
+                    @php
+                        if (isset($_POST['sector'])) $filters = $_POST['sector'];
+                        else {
+                            $filters = array();
+                        }
+                    @endphp
+
                         @for ($i = 0; $i < count($criteriaLists); $i++)
                             <div class="col-12">
                                 <div class="d-flex align-items-center">
@@ -95,7 +103,6 @@
                                 </div>
                             </div>
                         @endfor
-
                     @endif
 
 

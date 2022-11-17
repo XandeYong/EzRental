@@ -80,6 +80,7 @@ class RentRequestController extends Controller
         ]);
     }
 
+
     public function approveRentRequest(Request $request, $rentRequestID)
     {
         //Decrypt the parameter
@@ -107,23 +108,23 @@ class RentRequestController extends Controller
             ->select('room_rental_posts.account_id', 'room_rental_posts.title')
             ->get();
 
-            //need sent notification to tenant
-            //get tenant details from database 
-            $rentRequest = DB::table('rent_requests')
-                ->where('rent_request_id', $rentRequestID)
-                ->select('account_id')
-                ->get();
+        //need sent notification to tenant
+        //get tenant details from database 
+        $rentRequest = DB::table('rent_requests')
+            ->where('rent_request_id', $rentRequestID)
+            ->select('account_id')
+            ->get();
 
-            //add notification to database
-            $addNotification = DB::table('notifications')->insert([
-                'notification_id' => $newNotificationID,
-                'title' => "Renting Request Approved",
-                'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been approved.",
-                'type' => "renting_request",
-                'status' => "unread",
-                'account_id' => $rentRequest[0]->account_id
-            ]);
-        
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Renting Request Approved",
+            'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been approved.",
+            'type' => "renting_request",
+            'status' => "unread",
+            'account_id' => $rentRequest[0]->account_id
+        ]);
+
 
         if ($addNotification > 0) {
             $request->session()->put('successMessage', 'Rent request approved.');
@@ -132,8 +133,6 @@ class RentRequestController extends Controller
         }
 
         return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rentRequestID)));
-
-
     }
 
     public function rejectRentRequest(Request $request, $rentRequestID)
@@ -163,23 +162,23 @@ class RentRequestController extends Controller
             ->select('room_rental_posts.account_id', 'room_rental_posts.title')
             ->get();
 
-            //need sent notification to tenant
-            //get tenant details from database 
-            $rentRequest = DB::table('rent_requests')
-                ->where('rent_request_id', $rentRequestID)
-                ->select('account_id')
-                ->get();
+        //need sent notification to tenant
+        //get tenant details from database 
+        $rentRequest = DB::table('rent_requests')
+            ->where('rent_request_id', $rentRequestID)
+            ->select('account_id')
+            ->get();
 
-            //add notification to database
-            $addNotification = DB::table('notifications')->insert([
-                'notification_id' => $newNotificationID,
-                'title' => "Renting Request Rejected",
-                'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been rejected.",
-                'type' => "renting_request",
-                'status' => "unread",
-                'account_id' => $rentRequest[0]->account_id
-            ]);
-        
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Renting Request Rejected",
+            'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been rejected.",
+            'type' => "renting_request",
+            'status' => "unread",
+            'account_id' => $rentRequest[0]->account_id
+        ]);
+
 
         if ($addNotification > 0) {
             $request->session()->put('successMessage', 'Rent request rejected.');
@@ -188,15 +187,16 @@ class RentRequestController extends Controller
         }
 
         return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rentRequestID)));
-
-
     }
 
-
-
-    public function cancelRentRequest(Request $request)
+    public function cancelRentRequest(Request $request, $rentRequestID)
     {
-        $rentRequestID = $request->input('rentRequestID');
+        //Decrypt the parameter
+        try {
+            $rentRequestID = Crypt::decrypt($rentRequestID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
 
         $account = $request->session()->get('account');
         $user = $account->role;
@@ -256,6 +256,149 @@ class RentRequestController extends Controller
         }
 
         return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rentRequestID)));
+    }
+
+    public function confirmRentRequest(Request $request, $rentRequestID)
+    {
+        //Decrypt the parameter
+        try {
+            $rentRequestID = Crypt::decrypt($rentRequestID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //update rent_requests status in database 
+        $updated = DB::table('rent_requests')
+            ->where('rent_request_id', $rentRequestID)
+            ->update(['status' => "success"]);
+
+        //get details from database 
+        $roomRentalPost = DB::table('rent_requests')
+            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rent_requests.post_id')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->select('rent_requests.account_id', 'rent_requests.price', 'room_rental_posts.post_id', 'room_rental_posts.title', 'contracts.contract_id')
+            ->get();
+
+
+        //Create new renting record in database
+        //getLatestRentingID
+        $latestRentingID = $this->getLatestRentingID();
+
+        //make new RentingID
+        $newRentingID = $this->rentingID($latestRentingID);
+
+        //Insert rentings in to database
+        DB::table('rentings')->insert([
+            'renting_id' => $newRentingID,
+            'account_id' => $roomRentalPost[0]->account_id,
+            'post_id' => $roomRentalPost[0]->post_id,
+            'contract_id' => $roomRentalPost[0]->contract_id,
+            'status' => "active"
+        ]);
+
+        //create new payment deposit in database
+        //getLatestPaymentID
+        $latestPaymentID = $this->getLatestPaymentID();
+
+        //make new PaymentID
+        $newPaymentID = $this->paymentID($latestPaymentID);
+
+        //Insert maintenance request in to database
+        DB::table('payments')->insert([
+            'payment_id' => $newPaymentID,
+            'payment_type' => 'Deposit',
+            'amount' => $roomRentalPost[0]->price,
+            'status' => "unpaid",
+            'renting_id' => $newRentingID
+        ]);
+
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
+
+        //make new NotificationID
+        $newNotificationID = $this->notificationID($latestNotificationID);
+
+
+        //need sent notification to tenant
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Renting Request Success",
+            'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been success.",
+            'type' => "renting_request",
+            'status' => "unread",
+            'account_id' => $roomRentalPost[0]->account_id
+        ]);
+
+
+        if ($addNotification > 0) {
+            $request->session()->put('successMessage', 'Rent request success.');
+        } else {
+            $request->session()->put('failMessage', 'Rent request fail to success.');
+        }
+
+        return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rentRequestID)));
+    }
+
+    public function getLatestRentingID()
+    {
+        $rentingID = DB::table('rentings')
+            ->select('renting_id')
+            ->whereRaw("CHAR_LENGTH(renting_id) = (SELECT MAX(CHAR_LENGTH(renting_id)) from rentings)")
+            ->orderByDesc('renting_id')
+            ->distinct()
+            ->select('renting_id')
+            ->get();
+
+        if ($rentingID->isEmpty()) {
+            return "R0";
+        }
+        return $rentingID[0]->renting_id;
+    }
+
+    //add 1 to ID to make new ID 
+    private function rentingID($value)
+    {
+        $result = substr($value, 1);
+
+        //parse result to int
+        $ans = ((int)$result) + 1;
+
+        //combine char and int into string
+        $result = "R" . ((string)$ans);
+
+        return $result;
+    }
+
+    public function getLatestPaymentID()
+    {
+        $paymentID = DB::table('payments')
+            ->select('payment_id')
+            ->whereRaw("CHAR_LENGTH(payment_id) = (SELECT MAX(CHAR_LENGTH(payment_id)) from payments)")
+            ->orderByDesc('payment_id')
+            ->distinct()
+            ->select('payment_id')
+            ->get();
+
+        if ($paymentID->isEmpty()) {
+            return "P0";
+        }
+        return $paymentID[0]->payment_id;
+    }
+
+    //add 1 to ID to make new ID 
+    private function paymentID($value)
+    {
+        $result = substr($value, 1);
+
+        //parse result to int
+        $ans = ((int)$result) + 1;
+
+        //combine char and int into string
+        $result = "P" . ((string)$ans);
+
+        return $result;
     }
 
 

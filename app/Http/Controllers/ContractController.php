@@ -46,7 +46,6 @@ class ContractController extends Controller
         //Laravel validation
         $request->validate([
             'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
-            // 'sign' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
         $account = $request->session()->get('account');

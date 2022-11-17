@@ -116,7 +116,6 @@ class PaymentController extends Controller
 
             $payAmount += $unpaidPaymentsAmount[0]->amount;
         }
-        $payAmount = 1.00;
 
         //Remove payment array from session
         if (session()->has('payments')) {

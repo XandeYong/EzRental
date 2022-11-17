@@ -31,8 +31,9 @@ class RoomRentalPostListController extends Controller
         ]);
     }
 
-    public function ownerIndex() {
-        
+    public function ownerIndex()
+    {
+
         $header = 'Room Rental Post List';
         $page = 'Room Rental Post';
         $user = session()->get('account')['role'];
@@ -53,7 +54,6 @@ class RoomRentalPostListController extends Controller
             ],
             'posts' => $rrpList
         ]);
-        
     }
 
     //Auto Search-Match Recommendation Function
@@ -139,8 +139,8 @@ class RoomRentalPostListController extends Controller
         $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
 
         $criteriaLists = DB::table('criterias')
-        ->select('criteria_id', 'name')
-        ->get();
+            ->select('criteria_id', 'name')
+            ->get();
 
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists,
@@ -281,7 +281,7 @@ class RoomRentalPostListController extends Controller
                 ->get();
         }
 
-        
+
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
@@ -296,40 +296,63 @@ class RoomRentalPostListController extends Controller
 
     public function filterRentalPost()
     {
-
         //Get checkbox array from post
-        if(isset($_POST["filter"])){
-            $criterias = $_POST["filter"];
-        }else{
-            $criterias=array();
+        if (isset($_POST["filter"])) {
+            $filter = $_POST["filter"];
+        } else {
+            $filter = array();
         }
 
 
-        if (count($criterias) != 0) {
+        //Define a array variable to store all room rental post    
+        $roomRentalPostLists = array();
+
+        if (count($filter) != 0) {
             //come here if there is something checked in form
+            for ($i = 0; $i < count($filter); $i++) {
 
-            for ($i = 0; $i < count($criterias); $i++) {
+                $rentalPosts = DB::table('room_rental_posts')
+                    ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+                    ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+                    ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
+                    ->where('criterias.criteria_id', $filter[$i])
+                    ->where('room_rental_posts.status', 'available')
+                    ->orderBy('room_rental_posts.created_at', 'desc')
+                    ->select('room_rental_posts.*', 'contracts.monthly_price')
+                    ->get();
 
-                //add to database cause is checked
-                DB::table('selected_criterias')->insert([
-                    'account_id' => $id,
-                    'criteria_id' => $criterias[$i]
-                ]);
-
-                //get selected criterias counts from database 
-                $selectedCriteriaCount = DB::table('criterias')
-                ->where('criteria_id', $criterias[$i])
-                ->get();
-
-                //add 1 from all selected_criteria counts
-                $updated = DB::table('criterias')
-                ->where('criteria_id', $criterias[$i])
-                ->update(['selected_count' => $selectedCriteriaCount[0]->selected_count+1]);
+                if (!$rentalPosts->isEmpty()) {
+                    foreach($rentalPosts as $rentalPost){
+                        array_push($roomRentalPostLists,  $rentalPost);
+                    }          
+                }
 
             }
         }
+        
 
+        if (count($roomRentalPostLists) != 0) {
+            //Remove duplicate object in array
+            $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
+        }
+        
 
-        return redirect(route("dashboard.tenant.recommendation"));
+        //Converting an array -> stdClass/Object
+        $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
+
+        //Sort desc based on room rental post created_at
+        usort($roomRentalPostLists, function($first,$second){
+            return $first->created_at < $second->created_at;
+        });
+
+        $criteriaLists = DB::table('criterias')
+            ->select('criteria_id', 'name')
+            ->get();
+
+        return view('rentalpost_list', [
+            'roomRentalPostLists' => $roomRentalPostLists,
+            'criteriaLists' => $criteriaLists
+        ]);
+
     }
 }
