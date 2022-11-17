@@ -134,7 +134,7 @@
 
                                                     <div class="row justify-content-center mt-5 mb-3">
                                                         <div class="col-10">
-                                                            <input class="btn btn-primary w-100" type="submit" value="Upload">
+                                                            <input class="btn btn-primary w-100" type="submit" value="Submit Proof Of Maintenance">
                                                         </div>
                                                     </div>
                                                 </div>
