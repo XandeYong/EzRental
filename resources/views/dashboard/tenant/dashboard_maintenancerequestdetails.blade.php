@@ -72,6 +72,9 @@
                                     <div class="card-body">
                                         <h5 class="card-title pe-2"><u>Status:</u></h5>
                                         <h2> {{ Str::ucfirst($maintenanceRequestDetails[0]->status) }}</h3>
+                                            
+                                        <h5 class="card-title pe-2 mt-2"><u>Updated Time:</u></h5>
+                                        <h5> {{ $maintenanceRequestDetails[0]->updated_at }}</h5>
                                     </div>
                                 </div>
 
@@ -83,26 +86,99 @@
                         <div class="row">
                             <div class="col-12">
 
-                                <h5><u>Proof:</u></h5>
+                                @if ($maintenanceRequestDetails[0]->status == "pending" && session()->get("account")['role'] == "O")
 
-                                <div class="row">
+                                    <div class="container-fluid">
+                                        <div class="row g-3 justify-content-center">
 
-                                    {{-- Check is the roomRentalPostLists empty --}}
-                                    @if (count($maintenanceRequestImages) == 0)
-                                        <div class="text-center">
-                                            <h3>There was no any image proof yet.</h3><br>
-                                        </div>
-                                    @else
-                                        {{-- For loop records --}}
-                                        @for ($i = 0; $i < count($maintenanceRequestImages); $i++)
-                                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                                <img class="w-100 img-thumbnail img-fluid rounded x-image-modal x-m-height-300"
-                                                    src="{{ asset('image/maintenance/' . $maintenanceRequestImages[$i]->image) }}"
-                                                    alt="{{ $maintenanceRequestImages[$i]->image }}">
+                                            <div class="col-12 col-lg-10">
+                                                <a href="">
+                                                    <button class="btn btn-primary w-100">Approve</button>
+                                                </a>
                                             </div>
-                                        @endfor
-                                    @endif
+
+                                            <div class="col-12 col-lg-10">
+                                                <a href="">
+                                                    <button class="btn btn-warning w-100">Reject</button>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                @elseif (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")["role"] == "T") || $maintenanceRequestDetails[0]->status == "success")
+
+                                    <h5><u>Proof:</u></h5>
+
+                                    <div id="proof_image" class="container-fluid mt-3">
+
+                                        @if ($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")['role'] == "O")
+
+                                            <form id="proof_form" class="x-form row" action="{{ url('/test/maintenance/upload') }}" method="post" enctype="multipart/form-data"
+                                                x-confirm="Are you sure you want to upload the proof?">
+                                                @csrf
+                                                <div class="container-fluid overflow-hidden">
+                                                    <div class="upload-image-container row gx-3 gy-4">
+
+                                                        <div class="upload-image-item col-12 col-lg-2">
+                                                            <div class="upload border-1 rounded p-2 text-center">
+                                                                <div class="image-delete text-end">
+                                                                    <button type="button" class="opacity-0 btn-close" disabled aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="image-container x-min-height-150 align-items-center d-flex mb-2">
+                                                                    <img class="upload-image img-thumbnail img-fluid rounded x-image-modal x-max-height-150 mx-auto" src="{{ asset('image/image_display.jpg') }}" alt="Image display here" title="your upload image display here.">
+                                                                </div>
+                                                                
+                                                                <input type="file" name="images[]" id="input_image" class="upload-input form-control form-control-sm" required>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row justify-content-center mt-5 mb-3">
+                                                        <div class="col-10">
+                                                            <input class="btn btn-primary w-100" type="submit" value="Upload">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+
+                                        @elseif ($maintenanceRequestDetails[0]->status == "success")
+                                            <div class="row">
+
+                                                {{-- Check is the roomRentalPostLists empty --}}
+                                                @if (count($maintenanceRequestImages) == 0)
+                                                    <div class="text-center">
+                                                        <h3>There was no any image proof yet.</h3><br>
+                                                    </div>
+                                                @else
+                                                    {{-- For loop records --}}
+                                                    @for ($i = 0; $i < count($maintenanceRequestImages); $i++)
+                                                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                                            <img class=" w-100 img-thumbnail img-fluid rounded x-image-modal x-max-height-300"
+                                                                src="{{ asset('image/maintenance/' . $maintenanceRequestImages[$i]->image) }}"
+                                                                alt="{{ $maintenanceRequestImages[$i]->image }}">
+                                                        </div>
+                                                    @endfor
+                                                @endif
+                                                
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                @else 
+                                
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 text-center">
+                                            Wait for owner reply
+                                        </div>
+                                    </div>
                                 </div>
+                                    
+                                @endif
 
                             </div>
                         </div>
@@ -137,12 +213,14 @@
 
     <div id="x-image-modal">
         <span class="close">&times;</span>
-        <img id="x-image" class="img-fluid">
+        <img id="x-image" class="img-fluid bg-color-white-t-20">
     </div>
 
 
     @include('../base/dashboard/dashboard_script')
     <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
+    <script src="{{ asset('js/dashboard/tenant/dashboard_maintenance.js') }}"></script>
+    <script src="{{ asset('vendor/xande/form.js') }}"></script>
 
 </body>
 

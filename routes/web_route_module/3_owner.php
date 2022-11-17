@@ -5,6 +5,7 @@ use App\Http\Controllers\RoomRentalPostListController;
 use App\Http\Controllers\MaintenanceRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RentRequestController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,10 @@ Route::post('/dashboard/room_rental_post_list/create_room_rental_post/create', [
     RoomRentalPostController::class, 'createPost'
 ])->name('dashboard.owner.room_rental_post.create_form.create');
 
-
+// test array maintenance image
+Route::post("/test/maintenance/upload", function(Request $request) {
+    dd($request->files->get('images'));
+});
 
 //MaintenanceRequestController
 Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner', [MaintenanceRequestController::class, 'indexForOwner']);

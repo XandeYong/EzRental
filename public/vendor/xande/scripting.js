@@ -12,7 +12,7 @@
 $(document).ready(function () {
     $( ".message-popup" ).fadeIn(400).delay(2000).fadeOut( 1600 );  
     
-    $(".x-image-modal").click(function (e) { 
+    $("body").delegate(".x-image-modal", "click", function (e) { 
         $imageModal = $("#x-image-modal");
         $image = $("#x-image-modal #x-image")
     
