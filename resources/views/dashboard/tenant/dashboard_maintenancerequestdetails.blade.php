@@ -141,8 +141,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </form>
 
                                         @elseif ($maintenanceRequestDetails[0]->status == "success")

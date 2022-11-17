@@ -9,7 +9,7 @@ $(document).ready(function () {
     });
 
     $("#rent_button").click(function (e) { 
-        var now = currentTime();
+        var now = currentTime(1);
         var later = currentTime(30);
 
         now = now.toJSON().slice(0,10);
