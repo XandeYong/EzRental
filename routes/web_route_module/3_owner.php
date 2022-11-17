@@ -3,6 +3,7 @@
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
 use App\Http\Controllers\MaintenanceRequestController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RentRequestController;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ Route::post("/test/maintenance/upload", function(Request $request) {
 });
 
 //MaintenanceRequestController
-Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner', [MaintenanceRequestController::class, 'indexForOwner']);
+Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
 
@@ -65,3 +66,13 @@ Route::get('/dashboard/rentrequest/approveRentRequest/{rentRequestID}', [RentReq
 Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequestController::class, 'rejectRentRequest']);
 Route::get('/dashboard/rentrequest/confirmRentRequest/{rentRequestID}', [RentRequestController::class, 'confirmRentRequest']);
 Route::get('/dashboard/rentrequest/cancelRentRequest/{rentRequestID}', [RentRequestController::class, 'cancelRentRequest']);
+
+
+
+//PaymentController
+Route::get('/dashboard/rentingrecord/payment/indexForOwner/{postID}', [PaymentController::class, 'indexForOwner']);
+
+
+
+
+

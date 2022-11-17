@@ -62,6 +62,57 @@ class PaymentController extends Controller
         ]);
     }
 
+    public function indexForOwner(Request $request, $postID)
+    {
+        //Decrypt the parameter
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $account = $request->session()->get('account');
+        $user = $account->role;
+
+        //Remove payment id array from session
+        if (session()->has('payments')) {
+            session()->forget('payments');
+        }
+
+        //get paid payment from database 
+        $paidPayments = DB::table('payments')
+            ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
+            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rentings.post_id')
+            ->orderBy('payments.created_at', 'desc')
+            ->where('room_rental_posts.post_id', $postID)
+            ->select('payments.payment_id', 'payments.payment_type', 'payments.created_at', 'payments.paid_date', 'payments.status', 'payments.renting_id')
+            ->get();
+
+        if (!$paidPayments->isEmpty()) {
+            $paidPaymentsName = array();
+
+            //get unpaid payment name
+            foreach ($paidPayments as $paidPayment) {
+                $date = strtotime($paidPayment->created_at);
+                $paidPaymentName = date('M', $date) . " " . $paidPayment->payment_type . " " . "Payment";
+
+                array_push($paidPaymentsName, $paidPaymentName);
+            }
+        } else {
+            $paidPaymentsName = null;
+        }
+
+
+        return view('dashboard/tenant/dashboard_payment_history', [
+            'user' => $user,
+            'page' => $this->name,
+            'header' => 'Payment History',
+            'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
+            'paidPayments' => $paidPayments,
+            'paidPaymentsName' => $paidPaymentsName
+        ]);
+    }
+
 
     public function getPaymentDetails(Request $request, $paymentID)
     {
