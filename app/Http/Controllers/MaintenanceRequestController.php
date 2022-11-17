@@ -88,7 +88,8 @@ class MaintenanceRequestController extends Controller
             return view('dashboard/tenant/dashboard_maintenancerequest_history', [
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
-                'maintenanceRequests' => $maintenanceRequests
+                'maintenanceRequests' => $maintenanceRequests,
+                'postID' => $postID
             ]);
         } else {
             //access from room rental post
@@ -105,20 +106,32 @@ class MaintenanceRequestController extends Controller
                 'page' => $this->name,
                 'header' => 'Maintenance Request History',
                 'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
-                'maintenanceRequests' => $maintenanceRequests
+                'maintenanceRequests' => $maintenanceRequests,
+                'postID' => $postID
             ]);
         }
     }
 
 
-    public function getMaintenanceRequestDetails(Request $request, $maintenanceRequestID)
+    public function getMaintenanceRequestDetails(Request $request, $maintenanceRequestID, $postID = "")
     {
-        //Decrypt the parameter
+        if ($postID != "") {
+            //Decrypt the parameter
+            try {
+                $maintenanceRequestID = Crypt::decrypt($maintenanceRequestID);
+                $postID = Crypt::decrypt($postID);
+            } catch (DecryptException $ex) {
+                abort('500', $ex->getMessage());
+            }
+        }else{
+                    //Decrypt the parameter
         try {
             $maintenanceRequestID = Crypt::decrypt($maintenanceRequestID);
         } catch (DecryptException $ex) {
             abort('500', $ex->getMessage());
         }
+        }
+
         $account = $request->session()->get('account');
         $user = $account->role;
 
@@ -144,22 +157,14 @@ class MaintenanceRequestController extends Controller
                 'maintenanceRequestImages' => $maintenanceRequestImages
             ]);
         } else {
-            //get maintenance requests from database 
-            $roomRentalPost = DB::table('room_rental_posts')
-                ->join('rentings', 'rentings.post_id', '=', 'room_rental_posts.post_id')
-                ->where('rentings.renting_id', $maintenanceRequestDetails[0]->renting_id)
-                ->select('room_rental_posts.post_id')
-                ->get();
-
             //Display maintenanceRequestDetails For Owner
             return view('dashboard/tenant/dashboard_maintenancerequestdetails', [
                 'page' => $this->name,
                 'header' => 'Maintenance Request Detail',
-                'back' => '/dashboard/rentingrecord/maintenancerequest/indexForOwner/' . Crypt::encrypt($roomRentalPost[0]->post_id),
+                'back' => '/dashboard/rentalpost/maintenancerequest/indexForOwner/' . Crypt::encrypt($postID),
                 'maintenanceRequestDetails' => $maintenanceRequestDetails,
                 'maintenanceRequestImages' => $maintenanceRequestImages
             ]);
-
         }
     }
 

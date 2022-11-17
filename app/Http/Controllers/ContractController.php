@@ -40,6 +40,33 @@ class ContractController extends Controller
         ]);
     }
 
+    public function indexForOwner(Request $request, $postID)
+    {
+        //Decrypt the parameter
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+
+        $account = $request->session()->get('account');
+        $user = $account->role;
+
+        //get contract details from database 
+        $contractDetails = DB::table('contracts')
+            ->where('post_id', $postID)
+            ->select('contracts.*')
+            ->get();
+
+        return view('dashboard/tenant/dashboard_contract', [
+            'page' => 'Room Rental Post List',
+            'header' => 'Contract',
+            'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
+            'contractDetails' => $contractDetails
+        ]);
+    }
+
     public function tenantSignContract(Request $request)
     {
         //Laravel validation

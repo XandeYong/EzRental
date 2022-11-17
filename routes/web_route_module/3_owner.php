@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
 use App\Http\Controllers\MaintenanceRequestController;
@@ -56,7 +57,7 @@ Route::post("/test/maintenance/upload", function(Request $request) {
 });
 
 //MaintenanceRequestController
-Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
+Route::get('/dashboard/rentalpost/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
 
@@ -70,8 +71,10 @@ Route::get('/dashboard/rentrequest/cancelRentRequest/{rentRequestID}', [RentRequ
 
 
 //PaymentController
-Route::get('/dashboard/rentingrecord/payment/indexForOwner/{postID}', [PaymentController::class, 'indexForOwner']);
+Route::get('/dashboard/rentalpost/payment/indexForOwner/{postID}', [PaymentController::class, 'indexForOwner']);
 
+//ContractController
+Route::get('/dashboard/rentalpost/contract/indexForOwner/{postID}', [ContractController::class, 'indexForOwner']);
 
 
 

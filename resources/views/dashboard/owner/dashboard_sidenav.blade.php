@@ -45,7 +45,7 @@
 
 <div id="maintainance_request" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/indexForOwner/' . Crypt::encrypt('RRP0')) }}" class="unselectable">
+        <a href="{{ URL('/dashboard/rentalpost/maintenancerequest/indexForOwner/' . Crypt::encrypt('RRP0')) }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Maintainance Request</h5>
         </a>

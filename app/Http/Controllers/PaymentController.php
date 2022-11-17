@@ -154,7 +154,7 @@ class PaymentController extends Controller
         return view('dashboard/tenant/dashboard_paymentdetails', [
             'page' => 'Room Rental Post',
             'header' => 'Payment Details',
-            'back' => "/dashboard/rentingrecord/payment/indexForOwner/" . Crypt::encrypt($paymentDetails[0]->post_id),
+            'back' => "/dashboard/rentalpost/payment/indexForOwner/" . Crypt::encrypt($paymentDetails[0]->post_id),
             'paymentDetails' => $paymentDetails,
             'paymentDetailsName' => $paymentDetailsName
         ]);

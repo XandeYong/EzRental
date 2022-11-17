@@ -61,7 +61,7 @@ Route::get('/mail/sentPaymentReceiptMail/{paymentDetails}/{paymentDetailsName}',
 
 //MaintenanceRequestController
 Route::get('/dashboard/rentingrecord/maintenancerequest/index/{rentingID}', [MaintenanceRequestController::class, 'index'])->name('dashboard.tenant.maintenancerequest');
-Route::get('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/{maintenanceRequestID}', [MaintenanceRequestController::class, 'getMaintenanceRequestDetails']);
+Route::get('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/{maintenanceRequestID}/{postID?}', [MaintenanceRequestController::class, 'getMaintenanceRequestDetails']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequest/{rentingID}", [MaintenanceRequestController::class, 'createMaintenanceRequest']);
 Route::post("/dashboard/rentingrecord/maintenancerequest/createMaintenanceRequestToDB", [MaintenanceRequestController::class, 'createMaintenanceRequestToDB']);
 
