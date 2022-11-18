@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $starClicked = false;
 
-    $("#visit_appointment_button, #visit_appointment_submit").click(function (e) { 
+    $("#visit_appointment_button").click(function (e) { 
         var now = currentTime();
 
         now = now.toISOString().slice(0,16);

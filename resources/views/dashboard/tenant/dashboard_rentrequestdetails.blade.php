@@ -93,9 +93,10 @@
 
                             @if ($rentRequestDetails[0]->status == 'pending' && session()->get('account')->role == 'O')
                                 <div class="col-12 col-lg-4">
-                                    <a href="{{ url('/dashboard/rentrequest/approveRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}"
-                                        class="btn btn-lg btn-primary w-100"
-                                        onclick="return confirm('Are you sure you want to approve the rent request?');">Appove</a>
+                                    <button type="button" class="btn btn-lg btn-primary w-100"
+                                        data-bs-toggle="modal" data-bs-target="#contract_modal">
+                                        Sign Contract
+                                    </button>
                                 </div>
 
                                 <div class="col-12 col-lg-4">
@@ -171,10 +172,31 @@
     </div>
 
 
-    @if ($rentRequestDetails[0]->status == 'approved' || $rentRequestDetails[0]->status == 'signed')
+    @if ($rentRequestDetails[0]->status == 'pending' || $rentRequestDetails[0]->status == 'approved' || $rentRequestDetails[0]->status == 'signed')
+    @php 
+        $url = "";
+        $user = "";
+        $confirm = "";
+        $t_sign = "";
+        $o_sign = "";
+
+        if (session()->get('account')['role'] == 'O') {
+            $url = URL("");
+            $user = "O";
+            $confirm = "are you sure you want to approve the rent request?";
+            $o_sign = "x-upload-image";
+        } else if (session()->get('account')['role'] == "T") {
+            $url = URL("/dashboard/rentingrequest/tenantSignContract");
+            $user = "T";
+            $confirm = "Are you sure you want to sign the contract?";
+            $t_sign = "x-upload-image";
+        }
+
+    @endphp
+
     <!-- Contract Modal -->
-    <form action="/dashboard/rentingrequest/tenantSignContract" method="POST"
-        onsubmit="return confirm('Are you sure you want to sign the contract?');" enctype="multipart/form-data">
+    <form action="{{ $url }}" method="POST"
+        onsubmit="return confirm({{ $confirm }});" enctype="multipart/form-data">
         @csrf
         <div class="modal modal-lg fade" id="contract_modal" tabindex="-1" aria-labelledby="contract modal"
             aria-hidden="true">
@@ -223,28 +245,36 @@
                             
                             <div class="container-fluid pt-5">
                                 <div class="row justify-content-between">
+                                    
+                                    <input type="hidden" name="contractID" value="{{ $contract[0]->contract_id }}">
+                                    <input type="hidden" name="rentRequestID" value="{{ $rentRequestDetails[0]->rent_request_id }}">
+                                        
                                     <div class="col-12 col-md-6 col-lg-5 mb-5 mb-lg-0">
                                         <h6 class="pb-5"><u>Owner Signature:</u></h6>
-                                        <img class="img-fluid"
-                                            src="{{ asset('image/contract/' . $contract[0]->owner_signature) }}"
-                                            alt="">
+                                        <img class="img-fluid {{ $o_sign }}" src="{{ asset('image/contract/' . $contract[0]->owner_signature) }}" alt="">
                                         <hr class="mt-5">
-                                    </div>
 
-                                    <input type="hidden" name="contractID" value="{{ $contract[0]->contract_id }}">
-                                    <input type="hidden" name="rentRequestID"
-                                        value="{{ $rentRequestDetails[0]->rent_request_id }}">
+                                        @if ($user == "O")
+                                            <input class="x-input-image form-control text-center" type="file" name="sign">
+                                            @if ($errors->has('sign'))
+                                                <span class="c-red-error">*{{ $errors->first('sign') }}</span>
+                                            @endif
+                                        @endif
+                                    </div>
 
                                     <div class="col-12 col-md-6 col-lg-5">
                                         <h6 class="pb-5"><u>Tenant Signature:</u></h6>
-                                        <img class="img-fluid x-upload-image" src="" alt="">
+                                        <img class="img-fluid {{ $t_sign }}" src="{{ asset('image/contract/' . $contract[0]->tenant_signature) }}" alt="">
                                         <hr class="mt-5">
-                                        <input class="x-input-image form-control text-center" type="file"
-                                            name="sign">
-                                        @if ($errors->has('sign'))
-                                            <span class="c-red-error">*{{ $errors->first('sign') }}</span>
+
+                                        @if ($user == "T")
+                                            <input class="x-input-image form-control text-center" type="file" name="sign">
+                                            @if ($errors->has('sign'))
+                                                <span class="c-red-error">*{{ $errors->first('sign') }}</span>
+                                            @endif
                                         @endif
                                     </div>
+
                                 </div>
                             </div>
                         </div>
