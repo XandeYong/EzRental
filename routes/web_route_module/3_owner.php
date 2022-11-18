@@ -65,8 +65,7 @@ Route::post("/dashboard/rentalpost/maintenancerequest/submitProofOfMaintenance",
 // Route::get('/dashboard/maintenancerequest/{postID}', [
 //     MaintenanceRequestController::class, 'getMaintenanceRequestDetails'
 // ]);
-
-
+//
 // Route::get('/dashboard/rentingrecord/maintenancerequest/{postID?}', [
 //     MaintenanceRequestController::class, 'indexForOwner'
 // ])->name('dashboard.owner.maintenance_history');
