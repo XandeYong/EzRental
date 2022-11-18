@@ -122,12 +122,14 @@ class UserListController extends Controller
             'duration' => ['required', 'numeric', 'max:255'],
             'reason' => ['required', 'max:255']
         ]);
-
+        
 
         //get accountID from search field in User List 
         $accountID = trim($request->input('accountID'));
         $reason = trim($request->input('reason'));
         $duration = trim($request->input('duration'));
+
+        dd($reason, $duration);
 
         //getLatestBanRecordsID
         $latestBanRecordID = $this->getLatestBanRecordsID();
