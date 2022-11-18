@@ -277,6 +277,68 @@ class RoomVisitAppointmentController extends Controller
     }
 
 
+    function editVisitAppointment(Request $request)
+    {
+        //Laravel validation
+        // $request->validate([
+        //     'datetime' => ['required', 'after:today'],
+        //     'note' => ['required', 'string', 'max:255']
+        // ]);
+
+        $request->validate([
+            'datetime' => ['required', 'after:today'],
+            'note' => ['required', 'string', 'max:3']
+        ]);
+
+        dd("heloo");
+
+
+        $account_id = session()->get('account')['account_id'];
+        $post_id = $request->input('id');
+        $datetime = $request->input('datetime');
+        $note = $request->input('note');
+        $status = "pending";
+
+        $date = substr($datetime, 0, 10);
+        $time = substr($datetime, -5) . ":00";
+        $datetime = $date . " " . $time;
+
+
+        $appointment_id = $this->createID(VisitAppointment::class, "appointment_id", 2);
+
+        $insert = [
+            'appointment_id' => $appointment_id,
+            'datetime' => $datetime,
+            'note' => $note,
+            'status' => $status,
+            'post_id' => $post_id,
+            'account_id' => $account_id
+        ];
+
+        VisitAppointment::create($insert);
+
+
+        // Notification
+        $rrp = RoomRentalPost::findOrFail($post_id)
+            ->select('account_id', 'title')->get();
+
+        $title = 'Room Visit Appointment Received';
+        $message = session()->get('account')['name'] . 'have created a room visit appointment for <b>' . $rrp[0]['title'] . '</b>.';
+        $type = 'visit_appointment';
+        $receiver = $rrp[0]['account_id'];
+
+        $this->notify($title, $message, $type, $receiver);
+
+        if (count($rrp) > 0) {
+            $request->session()->put('successMessage', 'Visit appointment created.');
+        } else {
+            $request->session()->put('failMessage', 'Visit appointment fail to created.');
+        }
+
+        return redirect(URL('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/' . Crypt::encrypt($appointment_id)));
+    }
+
+
     public function getLatestNotificationID()
     {
         $notificationID = DB::table('notifications')
