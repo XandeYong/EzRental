@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@if (isset($user))
+
+    <!DOCTYPE html>
+    <html lang="en">
 
 <head>
     <title>EzRental | Notification</title>

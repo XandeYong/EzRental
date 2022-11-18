@@ -38,7 +38,6 @@ class RentRequestController extends Controller
 
 
         return view('dashboard/tenant/dashboard_rentrequest_list', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Rent Request List',
             'rentRequestLists' => $rentRequestLists
@@ -71,7 +70,6 @@ class RentRequestController extends Controller
 
         //Display rentRequestDetails
         return view('dashboard/tenant/dashboard_rentrequestdetails', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Rent Request Details',
             'back' => '/dashboard/rentrequest/index',

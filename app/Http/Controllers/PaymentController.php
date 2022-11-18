@@ -53,7 +53,6 @@ class PaymentController extends Controller
 
 
         return view('dashboard/tenant/dashboard_payment_history', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Payment History',
             'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
@@ -88,6 +87,7 @@ class PaymentController extends Controller
             ->select('payments.payment_id', 'payments.payment_type', 'payments.created_at', 'payments.paid_date', 'payments.status', 'payments.renting_id')
             ->get();
 
+
         if (!$paidPayments->isEmpty()) {
             $paidPaymentsName = array();
 
@@ -104,10 +104,9 @@ class PaymentController extends Controller
 
 
         return view('dashboard/tenant/dashboard_payment_history', [
-            'user' => $user,
-            'page' => $this->name,
+            'page' => 'Room Rental Post',
             'header' => 'Payment History',
-            'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
+            'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
             'paidPayments' => $paidPayments,
             'paidPaymentsName' => $paidPaymentsName
         ]);
@@ -129,8 +128,9 @@ class PaymentController extends Controller
         $paymentDetails = DB::table('payments')
             ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
             ->where('payments.payment_id', $paymentID)
-            ->select('payments.*')
+            ->select('payments.*', 'rentings.post_id')
             ->get();
+
 
         $paymentDetailsName = array();
         //get payment name
@@ -139,15 +139,28 @@ class PaymentController extends Controller
         array_push($paymentDetailsName, $paymentDetailName);
 
 
-        //Display paymentDetails
+        if ($user == "T") {
+        //Display paymentDetails for tenant
         return view('dashboard/tenant/dashboard_paymentdetails', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Payment Details',
             'back' => "/dashboard/payment/index/" . Crypt::encrypt($paymentDetails[0]->renting_id),
             'paymentDetails' => $paymentDetails,
             'paymentDetailsName' => $paymentDetailsName
         ]);
+        } else {
+
+        //Display paymentDetails for owner
+        return view('dashboard/tenant/dashboard_paymentdetails', [
+            'page' => 'Room Rental Post',
+            'header' => 'Payment Details',
+            'back' => "/dashboard/rentalpost/payment/indexForOwner/" . Crypt::encrypt($paymentDetails[0]->post_id),
+            'paymentDetails' => $paymentDetails,
+            'paymentDetailsName' => $paymentDetailsName
+        ]);
+
+        }
+
     }
 
 
@@ -245,12 +258,12 @@ class PaymentController extends Controller
     public function getLatestNotificationID()
     {
         $notificationID = DB::table('notifications')
-        ->select('notification_id')
-        ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
-        ->orderByDesc('notification_id')
-        ->distinct()
-        ->select('notification_id')
-        ->get();
+            ->select('notification_id')
+            ->whereRaw("CHAR_LENGTH(notification_id) = (SELECT MAX(CHAR_LENGTH(notification_id)) from notifications)")
+            ->orderByDesc('notification_id')
+            ->distinct()
+            ->select('notification_id')
+            ->get();
 
         if ($notificationID->isEmpty()) {
             return "NTF0";

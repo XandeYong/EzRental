@@ -25,7 +25,6 @@ class UserListController extends Controller
             ->get();
 
         return view('dashboard/admin/dashboard_userlist', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $this->name,
             'userList' => $userList
@@ -64,7 +63,6 @@ class UserListController extends Controller
 
 
         return view('dashboard/admin/dashboard_userlist', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $this->name,
             'userList' => $userList
@@ -109,7 +107,6 @@ class UserListController extends Controller
         }
 
         return view('dashboard/admin/dashboard_userlist', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $this->name,
             'userList' => $userList

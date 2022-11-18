@@ -1,4 +1,4 @@
-@if (isset($user))
+
     <!DOCTYPE html>
     <html lang="en">
 
@@ -41,7 +41,7 @@
                                             <input class="x-input-image form-control text-center" type="file" name="image">
 
                                             @if($errors->has('image'))
-                                                <span class="c-red-error">*{{ $errors->first('image') }}</span>
+                                                <span class="c-red-error">*{{ $errors->all('image') }}</span>
                                             @endif
 
                                         </div>
@@ -203,8 +203,3 @@
     </body>
     </html>
     
-@else
-    <script>
-        window.location = "/";
-    </script>
-@endif

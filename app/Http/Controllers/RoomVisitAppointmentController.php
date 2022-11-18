@@ -37,7 +37,6 @@ class RoomVisitAppointmentController extends Controller
         }
 
         return view('dashboard/tenant/dashboard_roomvisitappointment_list', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Room Visit Appointment List',
             'roomVisitAppointmentLists' => $roomVisitAppointmentLists
@@ -65,7 +64,6 @@ class RoomVisitAppointmentController extends Controller
 
         //Display roomVisitAppointmentDetails
         return view('dashboard/tenant/dashboard_roomvisitappointmentdetails', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Room Visit Appointment Details',
             'back' => '/dashboard/roomvisitappointment/index',

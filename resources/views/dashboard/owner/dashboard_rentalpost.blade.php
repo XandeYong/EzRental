@@ -250,7 +250,7 @@
                                         </div>
                                         <div class="item-body px-3 mb-2 mt-3">
                                             <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
+                                                <a href="{{ URL('/dashboard/rentalpost/maintenancerequest/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Maintenance Request
                                                     </button>
@@ -258,7 +258,7 @@
                                             </div>
                                             
                                             <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/rentingrecord/payment/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
+                                                <a href="{{ URL('/dashboard/rentalpost/payment/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Payment History
                                                     </button>
@@ -266,7 +266,7 @@
                                             </div>
 
                                             <div class="mb-2">
-                                                <a href="{{ "" }}">
+                                                <a href="{{ URL('/dashboard/rentalpost/contract/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Contract
                                                     </button>

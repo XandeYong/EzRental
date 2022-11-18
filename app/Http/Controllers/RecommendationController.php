@@ -25,7 +25,6 @@ class RecommendationController extends Controller
 
 
         return view('dashboard/tenant/dashboard_recommendation', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Recommendation Criteria',
             'selectedCriterias' => $selectedCriterias
@@ -61,7 +60,6 @@ class RecommendationController extends Controller
 
 
         return view('dashboard/tenant/dashboard_recommendation_select', [
-            'user' => $user,
             'page' => $this->name,
             'header' => 'Recommendation Criteria',
             'back' => '/dashboard/recommendation/index',

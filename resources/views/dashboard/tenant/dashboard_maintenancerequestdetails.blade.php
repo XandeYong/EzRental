@@ -73,8 +73,8 @@
                                         <h5 class="card-title pe-2"><u>Status:</u></h5>
                                         <h2> {{ Str::ucfirst($maintenanceRequestDetails[0]->status) }}</h3>
                                             
-                                        <h5 class="card-title pe-2 mt-2"><u>Updated Time:</u></h5>
-                                        <h5> {{ $maintenanceRequestDetails[0]->updated_at }}</h5>
+                                        <h5 class="card-title pe-2 mt-2"><u>Updated At:</u></h5>
+                                        <h5> {{ date('Y-m-d h:i:s', strtotime($maintenanceRequestDetails[0]->updated_at)) }}</h5>
                                     </div>
                                 </div>
 
@@ -86,38 +86,55 @@
                         <div class="row">
                             <div class="col-12">
 
-                                @if (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")["role"] == "O") || $maintenanceRequestDetails[0]->status == "success")
+                                @if (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")->role == "O") || $maintenanceRequestDetails[0]->status == "success")
 
                                     <h5><u>Proof:</u></h5>
 
                                     <div id="proof_image" class="container-fluid mt-3">
 
-                                        @if ($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")['role'] == "O")
+                                        @if ($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")->role == "O")
 
-                                            <form id="proof_form" class="x-form row" action="{{ url('/test/maintenance/upload') }}" method="post" enctype="multipart/form-data"
-                                                x-confirm="Are you sure you want to upload the proof?">
+                                            <form id="proof_form" class="x-form row" action="{{ url('/dashboard/rentalpost/maintenancerequest/submitProofOfMaintenance') }}" method="post" enctype="multipart/form-data"
+                                                x-confirm="Are you sure you want to submit the proof of maintenance?">
                                                 @csrf
                                                 <div class="container-fluid overflow-hidden">
                                                     <div class="upload-image-container row gx-3 gy-4">
 
                                                         <div class="upload-image-item col-12 col-lg-2">
+                                                            
                                                             <div class="upload border-1 rounded p-2 text-center">
+
                                                                 <div class="image-delete text-end">
                                                                     <button type="button" class="opacity-0 btn-close" disabled aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="image-container x-min-height-150 align-items-center d-flex mb-2">
                                                                     <img class="upload-image img-thumbnail img-fluid rounded x-image-modal x-max-height-150 mx-auto" src="{{ asset('image/image_display.jpg') }}" alt="Image display here" title="your upload image display here.">
                                                                 </div>
-                                                                
+
                                                                 <input type="file" name="images[]" id="input_image" class="upload-input form-control form-control-sm" required>
                                                             </div>
+
                                                         </div>
 
                                                     </div>
+                                                    <input type="hidden" name="maintenanceRequestID" value={{ $maintenanceRequestDetails[0]->maintenance_id }} >
+                                                    @if (isset($postID))
+                                                    <input type="hidden" name="postID" value={{ $postID }} >
+                                                    @endif
+
+                                                    @if($errors->has('images.*'))
+                                                    <br>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <div class="c-red-error"><b>Error Message:</b></div>
+                                                        @foreach (array_unique($errors->all()) as $error)
+                                                        <div class="c-red-error">*{{ $error }}</div>
+                                                        @endforeach
+                                                    </div>
+                                                    @endif
 
                                                     <div class="row justify-content-center mt-5 mb-3">
                                                         <div class="col-10">
-                                                            <input class="btn btn-primary w-100" type="submit" value="Upload">
+                                                            <input class="btn btn-primary w-100" type="submit" value="Submit Proof Of Maintenance">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -151,11 +168,23 @@
                                     $statusMessage = "Wait for owner reply";
 
                                     if ($maintenanceRequestDetails[0]->status == "rejected") {
-                                        $statusMessage = "The owner has rejected your request";
+                                        $statusMessage = "The owner had rejected the maintenance request";
                                     }
 
                                 @endphp
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 text-center">
+                                            {{ $statusMessage }}
+                                        </div>
+                                    </div>
+                                </div>
                                 
+                                @elseif ($maintenanceRequestDetails[0]->status == "pending" && session()->get("account")->role == "T")
+
+                                @php
+                                    $statusMessage = "Wait for owner approval";
+                                @endphp
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="col-10 text-center">
@@ -175,14 +204,14 @@
                         <div class="row g-3 mt-5 justify-content-center">
                     
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-primary w-100" 
+                                <a href="{{ url('/dashboard/rentalpost/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-primary w-100" 
                                     x-confirm="Are you sure you want to approve the maintenance request?">
                                     Appove
                                 </a>
                             </div>
                             
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id)) }}" class="btn btn-lg btn-warning w-100" 
+                                <a href="{{ url('/dashboard/rentalpost/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-warning w-100" 
                                     x-confirm="Are you sure you want to reject the maintenance request?">
                                     Reject
                                 </a>

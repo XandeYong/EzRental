@@ -28,7 +28,6 @@ class FavoriteController extends Controller
         ->get();
         
         return view('dashboard/tenant/dashboard_favorite', [
-            'user' => $user,
             'page' => $this->name,
             'header' => $this->name,
             'favoritePosts' => $favoritePosts,

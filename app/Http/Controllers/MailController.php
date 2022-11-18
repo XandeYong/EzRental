@@ -119,7 +119,6 @@ class MailController extends Controller
 
         //Display paymentDetails
         return view('dashboard/tenant/dashboard_paymentdetails', [
-            'user' => $user,
             'page' => 'Renting Record',
             'header' => 'Payment Receipt',
             'back' => "/dashboard/payment/index/" . Crypt::encrypt($paymentDetails[0]->renting_id),

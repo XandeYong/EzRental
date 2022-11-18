@@ -129,7 +129,6 @@
 
                 </div>
 
-
             </div>
 
         </div>
@@ -152,5 +151,4 @@
     <script src="{{ asset('js/dashboard/dashboard_list.js') }}"></script>
 
 </body>
-
 </html>
