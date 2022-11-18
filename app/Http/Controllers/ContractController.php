@@ -98,7 +98,6 @@ class ContractController extends Controller
             ->update(['status' => 'signed']);
 
 
-
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
 
@@ -129,6 +128,36 @@ class ContractController extends Controller
         }
 
         return redirect(URL('/dashboard/rentrequest/getRentRequestDetails/' . Crypt::encrypt($rentRequestID)));
+    }
+
+    public function ownerSignContract(Request $request)
+    {
+        //Laravel validation
+        $request->validate([
+            'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+        ]);
+
+        $account = $request->session()->get('account');
+        $user = $account->role;
+
+        //get from View  
+        $imageName = $request->input('sign');
+        $contractID = $request->input('contractID');
+        $rentRequestID = $request->input('rentRequestID');
+
+
+        $image = $request->file('sign');
+        $imageName = $contractID . "_" . $user . "_sign." . $image->getClientOriginalExtension();
+        $request->file('sign')->move(public_path() . '/image/contract/', $imageName);
+
+        //update owner signature in database
+        $updated = DB::table('contracts')
+            ->where('contract_id', $contractID)
+            ->update(['owner_signature' => $imageName]);
+
+        //redirect to update rent request status to approved
+        return redirect(URL('/dashboard/rentrequest/approveRentRequest/' . Crypt::encrypt($rentRequestID)));
+
     }
 
 

@@ -26,14 +26,14 @@
                         onsubmit="return confirm('Are you sure you want to create maintenance request?');">
                         @csrf
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
+                            <label for="title" class="form-label">Title <span class="c-red">*</span></label>
                             <input type="text" class="form-control" name="title" id="title" required>
                             @if ($errors->has('title'))
                                 <span class="c-red-error">*{{ $errors->first('title') }}</span>
                             @endif
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">Description <span class="c-red">*</span></label>
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10" required></textarea>
                             @if ($errors->has('description'))
                                 <span class="c-red-error">*{{ $errors->first('description') }}</span>
@@ -44,12 +44,12 @@
 
                         <div class="row g-3 mt-5 justify-content-center">
                             <div class="col-12 col-lg-4">
-                                <input type="submit" class="btn btn-lg btn-success w-100" value="Create" />
+                                <input type="submit" class="btn btn-lg btn-primary w-100" value="Create" />
                             </div>
                             <div class="col-12 col-lg-4">
                                 <a
                                     href="{{ URL('/dashboard/rentingrecord/maintenancerequest/index/' . Crypt::encrypt($rentingID)) }}">
-                                    <button type="button" class="btn btn-lg btn-danger w-100">Cancel</button>
+                                    <button type="button" class="btn btn-lg btn-warning w-100">Cancel</button>
                                 </a>
                             </div>
                         </div>

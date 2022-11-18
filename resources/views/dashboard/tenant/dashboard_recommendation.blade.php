@@ -53,7 +53,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
                                 <a href="{{ URL('/dashboard/recommendation/getCriteriaList') }}">
-                                    <button class="btn btn-lg btn-success px-3 px-sm-5">Select Criteria</button>
+                                    <button class="btn btn-lg btn-primary px-3 px-sm-5">Select Criteria</button>
                                 </a>
                             </div>
                         </div>

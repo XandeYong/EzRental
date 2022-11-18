@@ -280,62 +280,62 @@ class RoomVisitAppointmentController extends Controller
     function editVisitAppointment(Request $request)
     {
         //Laravel validation
-        // $request->validate([
-        //     'datetime' => ['required', 'after:today'],
-        //     'note' => ['required', 'string', 'max:255']
-        // ]);
-
         $request->validate([
-            'datetime' => ['required', 'after:today'],
-            'note' => ['required', 'string', 'max:3']
+            'datetime' => ['required', 'after:1 hour'],
+            'note' => ['required', 'string', 'max:255']
         ]);
 
-        dd("heloo");
+        //get from session
+        $account = $request->session()->get('account');
+        $user = $account->role;
 
-
-        $account_id = session()->get('account')['account_id'];
-        $post_id = $request->input('id');
+        //get from edit visit appoitment form
         $datetime = $request->input('datetime');
         $note = $request->input('note');
-        $status = "pending";
+        $roomVisitAppointmentID = $request->input('roomVisitAppointmentID');
+
 
         $date = substr($datetime, 0, 10);
-        $time = substr($datetime, -5) . ":00";
+        $time = substr($datetime, -8);
         $datetime = $date . " " . $time;
 
 
-        $appointment_id = $this->createID(VisitAppointment::class, "appointment_id", 2);
+        //Update visit appointment
+        $updated = DB::table('visit_appointments')
+            ->where('appointment_id', $roomVisitAppointmentID)
+            ->update(['datetime' => $datetime, 'note' => $note, 'status' => "rescheduled"]);
 
-        $insert = [
-            'appointment_id' => $appointment_id,
-            'datetime' => $datetime,
-            'note' => $note,
-            'status' => $status,
-            'post_id' => $post_id,
-            'account_id' => $account_id
-        ];
+        //sent notification to tenant
+        //getLatestNotificationID
+        $latestNotificationID = $this->getLatestNotificationID();
 
-        VisitAppointment::create($insert);
+        //make new NotificationID
+        $newNotificationID = $this->notificationID($latestNotificationID);
 
+        //get room rental post details from database 
+        $roomRentalPost = DB::table('room_rental_posts')
+            ->join('visit_appointments', 'visit_appointments.post_id', '=', 'room_rental_posts.post_id')
+            ->where('visit_appointments.appointment_id', $roomVisitAppointmentID)
+            ->select('visit_appointments.account_id', 'room_rental_posts.title')
+            ->get();
 
-        // Notification
-        $rrp = RoomRentalPost::findOrFail($post_id)
-            ->select('account_id', 'title')->get();
+        //add notification to database
+        $addNotification = DB::table('notifications')->insert([
+            'notification_id' => $newNotificationID,
+            'title' => "Room Visit Appointment Edited",
+            'message' => "Visit Appointment for <b>" . $roomRentalPost[0]->title . "</b> had been edited.",
+            'type' => "visit_appointment",
+            'status' => "unread",
+            'account_id' => $roomRentalPost[0]->account_id
+        ]);
 
-        $title = 'Room Visit Appointment Received';
-        $message = session()->get('account')['name'] . 'have created a room visit appointment for <b>' . $rrp[0]['title'] . '</b>.';
-        $type = 'visit_appointment';
-        $receiver = $rrp[0]['account_id'];
-
-        $this->notify($title, $message, $type, $receiver);
-
-        if (count($rrp) > 0) {
-            $request->session()->put('successMessage', 'Visit appointment created.');
+        if ($addNotification > 0) {
+            $request->session()->put('successMessage', 'Visit appointment edited.');
         } else {
-            $request->session()->put('failMessage', 'Visit appointment fail to created.');
+            $request->session()->put('failMessage', 'Visit appointment fail to edited.');
         }
 
-        return redirect(URL('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/' . Crypt::encrypt($appointment_id)));
+        return redirect(URL('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/' . Crypt::encrypt($roomVisitAppointmentID)));
     }
 
 

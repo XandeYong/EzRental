@@ -137,22 +137,22 @@
                         x-confirm="Are you sure you want to update this visit appointment?">
                         @csrf
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5">Visit Appointment</h1>
+                            <h1 class="modal-title fs-5">Edit Visit Appointment</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="hidden" name="id" value="{{ $roomVisitAppointmentDetails[0]->appointment_id }}">
+                            <input type="hidden" name="roomVisitAppointmentID" value="{{ $roomVisitAppointmentDetails[0]->appointment_id }}">
                             <div class="mb-3">
-                                <label for="visit_appointment_datetime" class="form-label">Date & Time</label>
-                                <input type="datetime-local" class="form-control" name="datetime"
-                                    id="visit_appointment_datetime" value="{{ $roomVisitAppointmentDetails[0]->datetime }}" @if(old('datetime') != null && (!$errors->has('datetime'))) value="{{ old('datetime') }}" @endif required>
+                                <label for="visit_appointment_datetime" class="form-label">Date & Time <span class="c-red">*</span></label>
+                                <input type="datetime-local" class="form-control" name="datetime" value="@if(old('datetime') != null && (!$errors->has('datetime'))){{ old('datetime') }}@else{{ $roomVisitAppointmentDetails[0]->datetime }}@endif"
+                                    id="visit_appointment_datetime" required>
                                 @if ($errors->has('datetime'))
                                     <span class="c-red-error">*{{ $errors->first('datetime') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">
-                                <label for="visit_appointment_note" class="form-label">Note</label>
+                                <label for="visit_appointment_note" class="form-label">Note <span class="c-red">*</span></label>
                                 <textarea class="form-control" name="note" id="visit_appointment_note" placeholder="Leave a message..."
                                     rows="3" maxlength="255">@if(old('note') != null && (!$errors->has('note'))){{ old('note') }}@else{{ $roomVisitAppointmentDetails[0]->note }}@endif</textarea>
                                 @if ($errors->has('note'))
@@ -164,7 +164,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>
-                            <button id="visit_appointment_submit" type="submit" class="btn btn-primary">Update Appointment</button>
+                            <button type="submit" class="btn btn-primary">Edit Appointment</button>
                         </div>
                     </form>
 
@@ -175,6 +175,18 @@
 
     @include('../base/dashboard/dashboard_script')
     <script src="{{ asset('js/dashboard/dashboard_visitappointment.js') }}"></script>
+
+    <script>
+        <?php
+          if ($errors->has('datetime') || $errors->has('note')){
+                 ?>
+        $(document).ready(function() {
+            $('#edit_modal').modal('show')
+        });
+        <?php
+                 }
+                 ?>
+    </script>
 
 </body>
 

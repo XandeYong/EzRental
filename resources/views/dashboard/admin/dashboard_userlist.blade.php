@@ -155,14 +155,14 @@
                                         onsubmit="return confirm('Are you sure you want to ban this user?');">
                                         @csrf
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5">Ban Form</h1>
+                                            <h1 class="modal-title fs-5">Ban User Form</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
 
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label class="form-label">Duration:</label>
+                                                <label class="form-label">Duration: <span class="c-red">*</span></label>
                                                 <input type="text" placeholder="Enter Days" name="duration" @if(old('duration') != null && (!$errors->has('duration'))) value="{{ old('duration') }}" @endif
                                                     class="form-control" required>
                                                 @if ($errors->has('duration'))
@@ -171,7 +171,7 @@
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label">Reason:</label>
+                                                <label class="form-label">Reason: <span class="c-red">*</span></label>
                                                 <textarea class="form-control" name="reason" id="negotiate_message" placeholder="Enter Reason for ban the user"
                                                     rows="3" maxlength="255" required>@if(old('reason') != null && (!$errors->has('reason'))){{ old('reason') }}@endif</textarea>
                                                 @if ($errors->has('reason'))

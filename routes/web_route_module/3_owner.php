@@ -78,7 +78,8 @@ Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequ
 Route::get('/dashboard/rentrequest/confirmRentRequest/{rentRequestID}', [RentRequestController::class, 'confirmRentRequest']);
 Route::get('/dashboard/rentrequest/cancelRentRequest/{rentRequestID}', [RentRequestController::class, 'cancelRentRequest']);
 
-
+//ContractController
+Route::post('/dashboard/rentingrequest/ownerSignContract', [ContractController::class, 'ownerSignContract']);
 
 //PaymentController
 Route::get('/dashboard/rentalpost/payment/indexForOwner/{postID}', [PaymentController::class, 'indexForOwner']);

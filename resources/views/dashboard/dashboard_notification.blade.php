@@ -1,4 +1,4 @@
-@if (isset($user))
+
 
     <!DOCTYPE html>
     <html lang="en">

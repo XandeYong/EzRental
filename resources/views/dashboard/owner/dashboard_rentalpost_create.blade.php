@@ -161,9 +161,9 @@
 
                     <div class="col-12 col-lg-10">
                         <div class="text-center w-100 mt-5">
-                            <input type="submit" class="btn btn-success px-3 px-sm-5 me-3" value="Create" />
+                            <input type="submit" class="btn btn-primary px-3 px-sm-5 me-3" value="Create" />
                             <a href="{{ route('dashboard.owner.room_rental_post.list') }}" x-confirm="Confirm exit?">
-                                <button type="button" class="btn btn-danger px-3 px-sm-5 ms-3">Cancel</button>
+                                <button type="button" class="btn btn-warning px-3 px-sm-5 ms-3">Cancel</button>
                             </a>
                         </div>
                     </div>

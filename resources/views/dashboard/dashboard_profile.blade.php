@@ -158,7 +158,7 @@
                                             <div class="card-body">
                                                 <div class="row row-gap align-items-center">
                                                     <div class="col-12 col-lg-3">
-                                                        <label>New Password: </label>
+                                                        <label>New Password <span class="c-red">*</span></label>
                                                     </div>
                                                     <div class="col-12 col-lg-9">
                                                         <input type="password" name="newPassword"
@@ -168,7 +168,7 @@
 
                                                 <div class="row row-gap align-items-center">
                                                     <div class="col-12 col-lg-3">
-                                                        <label>Old Password: </label>
+                                                        <label>Old Password <span class="c-red">*</span></label>
                                                     </div>
                                                     <div class="col-12 col-lg-9">
                                                         <input type="password" name="oldPassword"

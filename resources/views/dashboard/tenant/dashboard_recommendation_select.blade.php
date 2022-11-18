@@ -61,9 +61,9 @@
 
                         <div class="d-flex justify-content-center">
                             <div class="fixed-bottom-button">
-                                <input class="btn btn-lg btn-success me-sm-2 px-3 px-sm-5" type="submit" value="Submit">
+                                <input class="btn btn-lg btn-primary me-sm-2 px-3 px-sm-5" type="submit" value="Submit">
                                 <a href="{{ route('dashboard.tenant.recommendation') }}">
-                                    <button type="button" class="btn btn-lg btn-danger px-3 px-sm-5">Cancel</button>
+                                    <button type="button" class="btn btn-lg btn-warning px-3 px-sm-5">Cancel</button>
                                 </a>
                             </div>
                         </div>
