@@ -23,7 +23,7 @@ class TopSelectionCriteriaListController extends Controller
 
 
         return view('dashboard/admin/dashboard_topselectioncriterialist', [
-            'page' => $this->name,
+            'page' => 'Report',
             'header' => $this->name,
             'topResults' => $topResults
         ]);

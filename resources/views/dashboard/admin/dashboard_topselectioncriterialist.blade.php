@@ -31,26 +31,29 @@
                             <h3>There was no selection criteria.</h3>
                         </label>
                         @else
-                            <table>
-                                <tr>
-                                    <th>
-                                        <h3>Criteria</h3>
-                                    </th>
-                                    <th>
-                                        <h3 class="text-align-second-column">Number of Tenants Selected</h3>
-                                    </th>
-                                </tr>
-                                {{-- For loop 3 records --}}
-                                @foreach ($topResults as $topResult)
-                                <tr>
-                                    <td><label>{{ $topResult->name }}</label></td>
-                                    <td class="text-align-second-column"><label>{{ $topResult->selected_count }}</label></td>
-                                </tr>
-                                @endforeach
 
-                            </table>
+                            <div class="table-design">
+                                <table>
+                                    <tr>
+                                        <th>
+                                            <h3>Criteria</h3>
+                                        </th>
+                                        <th>
+                                            <h3 class="text-align-second-column">Number of Tenants Selected</h3>
+                                        </th>
+                                    </tr>
+                                    {{-- For loop 3 records --}}
+                                    @foreach ($topResults as $topResult)
+                                    <tr>
+                                        <td><label>{{ $topResult->name }}</label></td>
+                                        <td class="text-align-second-column"><label>{{ $topResult->selected_count }}</label></td>
+                                    </tr>
+                                    @endforeach
 
-                            @endif
+                                </table>
+                            </div>
+                            
+                        @endif
 
                         </div>
 

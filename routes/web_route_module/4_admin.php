@@ -26,7 +26,6 @@ Route::get('/dashboard/admin', function() {
 
 Route::get('/dashboard/admin/report', function() {
     return view('dashboard/admin/dashboard_report', [
-        'user' => 'Admin',
         'page' => 'Report',
         'header' => 'Report'
     ]);

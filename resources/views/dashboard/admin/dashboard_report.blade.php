@@ -20,13 +20,15 @@
 
             <div id="content" class="row">
                 
-                {{-- Code here --}}
-                <div class="col justify-content-center">
+                <div class="col-12 col-lg-10 justify-content-center">
 
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <button type="button" class="report-button" onclick="window.location='{{ route('dashboard.admin.topselectioncriterialist') }}'">Top Selection Criteria List</button>
+                                <a href="{{ route('dashboard.admin.topselectioncriterialist') }}">
+                                    <button type="button" class="report-button">Top Selection Criteria List</button>
+                                </a>
+                                
                             </div>
                         </div>
                     </div>
