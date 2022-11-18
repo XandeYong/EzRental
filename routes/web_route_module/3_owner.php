@@ -56,7 +56,15 @@ Route::post("/test/maintenance/upload", function(Request $request) {
 });
 
 //MaintenanceRequestController
-Route::get('/dashboard/rentingrecord/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
+Route::get('/dashboard/maintenancerequest/{postID}', [
+    MaintenanceRequestController::class, 'getMaintenanceRequestDetails'
+]);
+
+
+Route::get('/dashboard/rentingrecord/maintenancerequest/{postID?}', [
+    MaintenanceRequestController::class, 'indexForOwner'
+])->name('dashboard.owner.maintenance_history');
+
 Route::get("/dashboard/rentingrecord/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
 Route::get("/dashboard/rentingrecord/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
 

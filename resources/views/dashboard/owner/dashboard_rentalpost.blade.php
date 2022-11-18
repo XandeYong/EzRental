@@ -104,8 +104,8 @@
 
                                     <div id="rental_info" class="row mb-2">
                                         
-                                        <div>
-                                            <table class="table table-bordered table-responsive-sm table-light">
+                                        <div class="table-responsive-sm">
+                                            <table class="table table-bordered table-light">
                                                 <thead class="table-info">
                                                     <tr>
                                                         <th scope="col" colspan="3">

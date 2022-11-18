@@ -1,14 +1,14 @@
 $(document).ready(function () {
     $starClicked = false;
 
-    $("#visit_appointment_button").click(function (e) { 
-        var now = currentTime();
+    $("#visit_appointment_button, #visit_appointment_submit").click(function (e) { 
+        var now = currentTime(1);
 
         now = now.toISOString().slice(0,16);
         $("#visit_appointment_datetime").attr("min", now);
     });
 
-    $("#rent_button").click(function (e) { 
+    $("#rent_button, #rent_submit").click(function (e) { 
         var now = currentTime(1);
         var later = currentTime(30);
 

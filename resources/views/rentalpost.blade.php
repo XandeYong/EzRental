@@ -117,8 +117,8 @@
 
                                             <div id="rental_info" class="row mb-2">
 
-                                                <div>
-                                                    <table class="table table-bordered table-responsive-sm table-light">
+                                                <div class="table-responsive-sm">
+                                                    <table class="table table-bordered table-light">
                                                         <thead class="table-info">
                                                             <tr>
                                                                 <th scope="col" colspan="3">
@@ -570,29 +570,31 @@
                             {{ $contract[0]->content }}
                         </p>
 
-                        <table class="table table-bordered table-responsive table-light mb-5">
-                            <thead class="table-info">
-                                <tr>
-                                    <th scope="col" colspan="2">
-                                        <h6><u>Contract Information</u></h6>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row" class="w-25">Expired date</th>
-                                    <td class="bg-white">-</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Deposit Payment</th>
-                                    <td class="bg-white">RM {{ number_format($contract[0]->deposit_price, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Monthly Payment</th>
-                                    <td class="bg-white">RM {{ number_format($contract[0]->monthly_price, 2) }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-light mb-5">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th scope="col" colspan="2">
+                                            <h6><u>Contract Information</u></h6>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="w-25">Expired date</th>
+                                        <td class="bg-white">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Deposit Payment</th>
+                                        <td class="bg-white">RM {{ number_format($contract[0]->deposit_price, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Monthly Payment</th>
+                                        <td class="bg-white">RM {{ number_format($contract[0]->monthly_price, 2) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div class="container-fluid pt-5">
                             <div class="row justify-content-between">
@@ -659,7 +661,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Create Appointment</button>
+                                <button id="visit_appointment_submit" type="submit" class="btn btn-primary">Create Appointment</button>
                             </div>
                         </form>
 
@@ -707,7 +709,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Create Negotiation</button>
+                                <button id="negotiate_submit" type="submit" class="btn btn-primary">Create Negotiation</button>
                             </div>
                         </form>
 
@@ -767,7 +769,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Create Rent Request</button>
+                                <button id="rent_submit" type="submit" class="btn btn-primary">Create Rent Request</button>
                             </div>
                         </form>
 

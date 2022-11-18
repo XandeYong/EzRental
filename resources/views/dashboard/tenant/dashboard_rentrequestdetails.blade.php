@@ -46,8 +46,8 @@
                         {{-- For loop records --}}
                         @for ($i = 0; $i < count($rentRequestDetails); $i++)
                             <div class="row">
-                                <div class="col-12">
-                                    <table class="table table-bordered table-responsive table-light">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-bordered table-light">
                                         <tbody>
                                             <tr>
                                                 <th scope="row" class="w-25">Request ID</th>
@@ -105,19 +105,19 @@
                                 </div>
                             @elseif ($rentRequestDetails[0]->status == 'approved' && session()->get('account')->role == 'T')
                                 <div class="row mt-5">
-                                        <div class="row justify-content-center">
-                                            <div class="col-12 col-lg-4">
-                                                <button type="button" class="btn btn-lg btn-primary w-100"
-                                                    data-bs-toggle="modal" data-bs-target="#contract_modal">
-                                                    Sign Contract
-                                                </button>
-                                            </div>
-
-                                            <div class="col-12 col-lg-4">
-                                                <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100"
-                                                    onclick="return confirm('Are you sure you want to cancel the rent request?');">Cancel</a>
-                                            </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-12 col-lg-4">
+                                            <button type="button" class="btn btn-lg btn-primary w-100"
+                                                data-bs-toggle="modal" data-bs-target="#contract_modal">
+                                                Sign Contract
+                                            </button>
                                         </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <a href="{{ url('/dashboard/rentrequest/cancelRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-warning w-100"
+                                                onclick="return confirm('Are you sure you want to cancel the rent request?');">Cancel</a>
+                                        </div>
+                                    </div>
 
                                 </div>
                             @elseif ($rentRequestDetails[0]->status == 'approved' && session()->get('account')->role == 'O' || $rentRequestDetails[0]->status == 'signed' && session()->get('account')->role == 'T')
@@ -171,6 +171,7 @@
     </div>
 
 
+    @if ($rentRequestDetails[0]->status == 'approved' || $rentRequestDetails[0]->status == 'signed')
     <!-- Contract Modal -->
     <form action="/dashboard/rentingrequest/tenantSignContract" method="POST"
         onsubmit="return confirm('Are you sure you want to sign the contract?');" enctype="multipart/form-data">
@@ -192,32 +193,34 @@
                                 {{ $contract[0]->content }}
                             </p>
 
-                            <table class="table table-bordered table-responsive table-light mb-5">
-                                <thead class="table-info">
-                                    <tr>
-                                        <th scope="col" colspan="2">
-                                            <h6><u>Contract Information</u></h6>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row" class="w-25">Expired date</th>
-                                        <td class="bg-white">-</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Deposit Payment</th>
-                                        <td class="bg-white">RM {{ number_format($contract[0]->deposit_price, 2) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Monthly Payment</th>
-                                        <td class="bg-white">RM {{ number_format($contract[0]->monthly_price, 2) }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-light mb-5">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th scope="col" colspan="2">
+                                                <h6><u>Contract Information</u></h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" class="w-25">Expired date</th>
+                                            <td class="bg-white">-</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Deposit Payment</th>
+                                            <td class="bg-white">RM {{ number_format($contract[0]->deposit_price, 2) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Monthly Payment</th>
+                                            <td class="bg-white">RM {{ number_format($contract[0]->monthly_price, 2) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
                             <div class="container-fluid pt-5">
                                 <div class="row justify-content-between">
                                     <div class="col-12 col-md-6 col-lg-5 mb-5 mb-lg-0">
@@ -255,6 +258,7 @@
             </div>
         </div>
     </form>
+    @endif
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>

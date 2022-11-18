@@ -33,29 +33,31 @@
                                     {{ $contractDetails[0]->content }}
                                 </p>
 
-                                <table class="table table-bordered table-responsive table-light mb-5">
-                                    <thead class="table-info">
-                                        <tr>
-                                            <th scope="col" colspan="2">
-                                                <h6><u>Contract Information</u></h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row" class="w-25">Expired date</th>
-                                            <td class="bg-white">{{ $contractDetails[0]->expired_date }}</td> 
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Deposit Payment</th>
-                                            <td class="bg-white">RM {{ number_format($contractDetails[0]->deposit_price, 2) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Monthly Payment</th>
-                                            <td class="bg-white">RM {{ number_format($contractDetails[0]->monthly_price, 2) }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-light mb-5">
+                                        <thead class="table-info">
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h6><u>Contract Information</u></h6>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row" class="w-25">Expired date</th>
+                                                <td class="bg-white">{{ $contractDetails[0]->expired_date }}</td> 
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Deposit Payment</th>
+                                                <td class="bg-white">RM {{ number_format($contractDetails[0]->deposit_price, 2) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Monthly Payment</th>
+                                                <td class="bg-white">RM {{ number_format($contractDetails[0]->monthly_price, 2) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
     
                                 <div class="container-fluid pt-5">
                                     <div class="row justify-content-between">

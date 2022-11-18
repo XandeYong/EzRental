@@ -146,7 +146,7 @@
                                         @endif
                                     </div>
 
-                                @elseif ($maintenanceRequestDetails[0]->status != "pending")
+                                @elseif ($maintenanceRequestDetails[0]->status != "approved" && session()->get('account')['role'] == "T")
                                 @php
                                     $statusMessage = "Wait for owner reply";
 
@@ -213,7 +213,6 @@
     @include('../base/dashboard/dashboard_script')
     <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
     <script src="{{ asset('js/dashboard/tenant/dashboard_maintenance.js') }}"></script>
-    <script src="{{ asset('vendor/xande/form.js') }}"></script>
 
 </body>
 

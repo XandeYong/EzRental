@@ -1,3 +1,13 @@
+/*
+*  
+*  Custom form control using Jquery
+*
+*  @Author: Xande Yong
+*  All right Reserved to @Xande_Yong
+*  Credit to @Xande_Yong when using this js
+*
+*/
+
 $(document).ready(function () {
     
     $(".x-form").submit(function (e) { 
@@ -57,6 +67,7 @@ function formValidation(e) {
             }
 
             validation = false;
+            alert("Some input field cannot be leave empty.");
             e.preventDefault();
         }
     });

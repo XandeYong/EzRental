@@ -63,20 +63,22 @@ class MaintenanceRequestController extends Controller
         }
     }
 
-    public function indexForOwner(Request $request, $postID)
+    public function indexForOwner(Request $request, $postID = "")
     {
         //Decrypt the parameter
-        try {
-            $postID = Crypt::decrypt($postID);
-        } catch (DecryptException $ex) {
-            abort('500', $ex->getMessage());
+        if ($postID != "") {
+            try {
+                $postID = Crypt::decrypt($postID);
+            } catch (DecryptException $ex) {
+                abort('500', $ex->getMessage());
+            }
         }
 
         $account = $request->session()->get('account');
         $id = $account->account_id;
         $user = $account->role;
 
-        if ($postID == "RRP0") {
+        if ($postID == "") {
             //access from side navigation bar
             //get maintenance requests from database 
             $maintenanceRequests = DB::table('maintenance_requests')

@@ -27,8 +27,8 @@
                         @for ($i = 0; $i < count($paymentDetails); $i++)
                             
                         <div class="row">
-                            <div class="col-12">
-                                <table class="table table-bordered table-responsive table-light">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-bordered table-light">
                                     <thead class="table-info">
                                         <tr>
                                             <th scope="col" colspan="4">

@@ -31,6 +31,12 @@
 
                         {{-- For loop records --}}
                         @foreach ($maintenanceRequests as $maintenanceRequest)
+
+                            @php
+                                // if(isset($postID)) {
+                                //     $route = "dashboard.owner.maintenance_history, []"
+                                // }
+                            @endphp
                             
                             <a href="{{ URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/'. Crypt::encrypt($maintenanceRequest->maintenance_id)) }}" class="no-deco text-dark">
                                 <div class="card mb-4">

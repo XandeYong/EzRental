@@ -33,7 +33,7 @@ class RoomRentalPostListController extends Controller
 
     public function ownerIndex()
     {
-
+        
         $header = 'Room Rental Post List';
         $page = 'Room Rental Post';
         $user = session()->get('account')['role'];

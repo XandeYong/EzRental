@@ -1,27 +1,24 @@
+@php
+    $email = "";
+    $password = "";
 
-@if (isset($user))
+    if ($user == "Tenant") {
+        $email = "Kailey@gmail.com";
+        $password = "Vruqm3C6j4";
 
-    @php
-        $email = "";
-        $password = "";
+    } else if ($user == "Owner") {
+        $email = "tmoss2@gmail.com";
+        $password = "ObJc0pVXUEIg";
+        
+    } else if ($user == "Admin") {
+        $email = "pbrandt1@gmail.com";
+        $password = "I0pVObJcKH";
 
-        if ($user == "Tenant") {
-            $email = "Kailey@gmail.com";
-            $password = "Vruqm3C6j4";
-
-        } else if ($user == "Owner") {
-            $email = "tmoss2@gmail.com";
-            $password = "ObJc0pVXUEIg";
-            
-        } else if ($user == "Admin") {
-            $email = "pbrandt1@gmail.com";
-            $password = "I0pVObJcKH";
-
-        } else if ($user == "Master") {
-            $email = "jonstrosin@gmail.com";
-            $password = "KLEIgoXUKD";
-        }
-    @endphp
+    } else if ($user == "Master") {
+        $email = "jonstrosin@gmail.com";
+        $password = "KLEIgoXUKD";
+    }
+@endphp
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,7 +99,3 @@
 
 </body>
 </html>
-
-@else
-    <script>window.location = "/";</script>
-@endif
