@@ -163,7 +163,7 @@
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label class="form-label">Duration:</label>
-                                                <input type="text" placeholder="Enter Days" name="duration"
+                                                <input type="text" placeholder="Enter Days" name="duration" @if(old('duration') != null && (!$errors->has('duration'))) value="{{ old('duration') }}" @endif
                                                     class="form-control" required>
                                                 @if ($errors->has('duration'))
                                                     <span class="c-red-error">*{{ $errors->first('duration') }}</span>
@@ -173,12 +173,12 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Reason:</label>
                                                 <textarea class="form-control" name="reason" id="negotiate_message" placeholder="Enter Reason for ban the user"
-                                                    rows="3" maxlength="255" required></textarea>
+                                                    rows="3" maxlength="255" required>@if(old('reason') != null && (!$errors->has('reason'))){{ old('reason') }}@endif</textarea>
                                                 @if ($errors->has('reason'))
                                                     <span class="c-red-error">*{{ $errors->first('reason') }}</span>
                                                 @endif
                                             </div>
-                                            <input type="hidden" id="accountID" name="accountID" value="">
+                                            <input type="hidden" id="accountID" name="accountID" value="{{ old('accountID') }}">
                                         </div>
 
                                         <div class="modal-footer">
