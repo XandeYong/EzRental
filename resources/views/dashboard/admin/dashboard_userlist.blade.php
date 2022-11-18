@@ -162,7 +162,7 @@
 
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label class="form-label">Duration: <?php echo $i;?></label>
+                                                <label class="form-label">Duration:</label>
                                                 <input type="text" placeholder="Enter Days" name="duration"
                                                     class="form-control" required>
                                                 @if ($errors->has('duration'))
