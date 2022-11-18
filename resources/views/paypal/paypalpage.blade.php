@@ -3,19 +3,15 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @include('base.head')
     <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}">
     <link rel="stylesheet" href="{{ asset("/css/paypal/paypal.css")}}">
-    <link rel="stylesheet" href="{{ asset("/css/styling.css")}}">
-
-    {{-- <link href="/content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/content/vendor/fontawesome5/css/all.min.css" rel="stylesheet"> --}}
 
     <!-- Include the PayPal JavaScript SDK; -->
     <script src="https://www.paypal.com/sdk/js?client-id=ASGYj9RiBQZu2Onbe54GUBNVPkFUFv5ffVeWPm4s7YZEdW9b5qTyHXbFYvBfoO2IOgrS0J8BCYYNHaM1&currency=MYR&disable-funding=credit,card"></script>
 </head>
 <body>
 
-{{-- From here get from C# --}}
     <form id="form1" runat="server">
         <div>
             <div id="smart-button-container">
@@ -25,8 +21,10 @@
                             <div class="col-sm-8 content-1">
                                 <div class="d-flex justify-content-center">
                                     <div class="back">
-                                        {{-- <asp:HyperLink ID="hlBack" CssClass="hlBack btn btn-outline-dark fs-20px" Text='<i class="fas fa-angle-left mr-1 c-hyperlink"></i>Back' NavigateUrl="/view/PaymentPage.aspx" runat="server" /> --}}
-                                        <a href="{{ URL('/dashboard/rentingrecord/getrecordDetails/'. Crypt::encrypt($renting_id)) }}" class="hlBack btn btn-outline-dark fs-20px"><i class="fas fa-angle-left mr-1 c-hyperlink"></i>Back</a>
+                                        <a href="{{ URL('/dashboard/rentingrecord/getrecordDetails/'. Crypt::encrypt($renting_id)) }}" class="hlBack btn btn-outline-dark fs-20px align-items-center d-inline-flex">
+                                            <i class="ico ico-sm ico-chevron-left"></i>
+                                            Back
+                                        </a>
                                     </div>
                                     <div class="title">
                                         <h1>PayPal Payment</h1>
@@ -44,11 +42,10 @@
                                 </div>
                                 <hr />
                                 <!-- Set up a container element for the button -->
-                                <div id="paypal-button-container" class="d-flex justify-content-center"></div>
+                                <div id="paypal-button-container" class="text-center"></div>
                             </div>
 
                         </div>
-                        
                         
                     </div>
                 </div>
@@ -56,7 +53,6 @@
         </div>
 
     </form>
-{{-- stop here --}}
 
 {{-- Paypal start here --}}
 <script>
