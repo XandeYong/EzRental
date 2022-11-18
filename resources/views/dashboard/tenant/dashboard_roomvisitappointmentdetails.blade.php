@@ -133,7 +133,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
-                    <form action="" method="POST" class="x-form"
+                    <form action="/dashboard/roomvisitappointment/editVisitAppointment" method="POST" class="x-form"
                         x-confirm="Are you sure you want to update this visit appointment?">
                         @csrf
                         <div class="modal-header">
@@ -146,7 +146,7 @@
                             <div class="mb-3">
                                 <label for="visit_appointment_datetime" class="form-label">Date & Time</label>
                                 <input type="datetime-local" class="form-control" name="datetime"
-                                    id="visit_appointment_datetime" value="{{ $roomVisitAppointmentDetails[0]->datetime }}" required>
+                                    id="visit_appointment_datetime" value="{{ $roomVisitAppointmentDetails[0]->datetime }}" @if(old('datetime') != null && (!$errors->has('datetime'))) value="{{ old('datetime') }}" @endif required>
                                 @if ($errors->has('datetime'))
                                     <span class="c-red-error">*{{ $errors->first('datetime') }}</span>
                                 @endif
@@ -154,7 +154,7 @@
                             <div class="mb-3">
                                 <label for="visit_appointment_note" class="form-label">Note</label>
                                 <textarea class="form-control" name="note" id="visit_appointment_note" placeholder="Leave a message..."
-                                    rows="3" maxlength="255">{{ $roomVisitAppointmentDetails[0]->note }}</textarea>
+                                    rows="3" maxlength="255">@if(old('note') != null && (!$errors->has('note'))){{ old('note') }}@else{{ $roomVisitAppointmentDetails[0]->note }}@endif</textarea>
                                 @if ($errors->has('note'))
                                     <span class="c-red-error">*{{ $errors->first('note') }}</span>
                                 @endif

@@ -8,6 +8,7 @@ use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RentRequestController;
+use App\Http\Controllers\RoomVisitAppointmentController;
 use Illuminate\Http\Request;
 
 /*
@@ -143,5 +144,7 @@ Route::post('/dashboard/contract_list/{contractID}/edit_form/edit', [
 //Route::get('/dashboard/rentalpost/contract/indexForOwner/{postID}', [ContractController::class, 'indexForOwner']);
 
 
+//RoomVisitAppointmentController
+Route::post('/dashboard/roomvisitappointment/editVisitAppointment', [RoomVisitAppointmentController::class, 'editVisitAppointment']);
 
 
