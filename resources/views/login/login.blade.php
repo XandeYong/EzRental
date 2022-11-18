@@ -3,8 +3,8 @@
     $password = "";
 
     if ($user == "Tenant") {
-        $email = "Kailey@gmail.com";
-        $password = "Vruqm3C6j4";
+        $email = "vjanton6@gmail.com";
+        $password = "DxiKRnJrLc";
 
     } else if ($user == "Owner") {
         $email = "tmoss2@gmail.com";

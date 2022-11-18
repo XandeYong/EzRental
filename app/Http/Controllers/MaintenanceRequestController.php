@@ -77,7 +77,7 @@ class MaintenanceRequestController extends Controller
         $id = $account->account_id;
         $user = $account->role;
 
-        if ($postID == "") {
+        if ($postID == "RRP0") {
             //access from side navigation bar
             //get maintenance requests from database 
             $maintenanceRequests = DB::table('maintenance_requests')

@@ -163,12 +163,20 @@
                                         @endif
                                     </div>
 
-                                @elseif ($maintenanceRequestDetails[0]->status != "approved" && session()->get('account')['role'] == "T")
+                                @elseif ($maintenanceRequestDetails[0]->status != "pending" || ($maintenanceRequestDetails[0]->status != "pending" && session()->get('account')['role'] == "O"))
                                 @php
-                                    $statusMessage = "Wait for owner reply";
+                                    $statusMessage = "Wait for owner approval";
 
                                     if ($maintenanceRequestDetails[0]->status == "rejected") {
-                                        $statusMessage = "The owner had rejected the maintenance request";
+                                        $user = "The owner";
+                                        if (session()->get('account')['role'] == "O") {
+                                            $user = "You";
+                                        }
+
+                                        $statusMessage = $user . " had rejected the maintenance request";
+
+                                    } else if ($maintenanceRequestDetails[0]->status == "approved") {
+                                        $statusMessage = "Wait for owner to upload prove";
                                     }
 
                                 @endphp
