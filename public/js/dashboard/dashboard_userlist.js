@@ -1,10 +1,8 @@
-// pop out form for fill banned reasons
-function openForm(accountID) {
-    document.getElementById('accountID').value = accountID;
-  document.getElementById("banForm").style.display = "block";
+$(document).ready(function () {
   
-};
+	$(".btn-ban").click(function (e) { 
+		var id = $(this).attr('account-id');
+		$("#accountID").val(id);
+	});
 
-function closeForm() {
-  document.getElementById("banForm").style.display = "none";
-};
+});

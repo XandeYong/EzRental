@@ -128,8 +128,8 @@
                                                                     onclick="return confirm('Are you sure you want to unban this user?');"><i
                                                                         class="ico-sm ico-unlock-solid ico-golden m-0"></i></a>
                                                             @else
-                                                                <button class="btn" title="ban"
-                                                                    data-bs-toggle="modal" data-bs-target="#ban_modal">
+                                                                <button class="btn btn-ban" title="ban"
+                                                                    data-bs-toggle="modal" data-bs-target="#ban_modal" account-id="{{ $userList[$i]->account_id }}">
                                                                     <i class="ico-sm ico-lock-solid ico-red-2 m-0"></i>
                                                                 </button>
                                                             @endif
@@ -178,9 +178,7 @@
                                                     <span class="c-red-error">*{{ $errors->first('reason') }}</span>
                                                 @endif
                                             </div>
-                                            <input type="hidden" id="accountID" name="accountID" value="A4">
-                                            {{-- need remove value --}}
-
+                                            <input type="hidden" id="accountID" name="accountID" value="">
                                         </div>
 
                                         <div class="modal-footer">
@@ -194,9 +192,7 @@
                             </div>
                         </div>
 
-
                     </div>
-
 
                 </div>
 
@@ -206,9 +202,8 @@
 
 
         @include('../base/dashboard/dashboard_script')
-        <script src="{{ asset('js/dashboard/dashboard_list.js') }}"></script>
+        <script src="{{ asset('js/dashboard/dashboard_userlist.js') }}"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
             <?php
                     if ($errors->has('duration') || $errors->has('reason')){
