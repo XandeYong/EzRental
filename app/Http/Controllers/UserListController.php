@@ -91,14 +91,14 @@ class UserListController extends Controller
             ->get();
 
         } else {
-            $errorMessage = "Error Message:";
+            $errorMessage = "";
 
             if(strlen($accountID) > 255){
-                $errorMessage .= ",*Input cannot be more than 255 characters!";
+                $errorMessage .= "*Input cannot be more than 255 characters!,";
             }
 
             if (preg_match($pattern, $accountID) != 1) {
-                $errorMessage .= ",*Invalid format!";
+                $errorMessage .= "*Invalid format!,";
             }
 
             $request->session()->put('errorMessage', $errorMessage);
@@ -122,14 +122,12 @@ class UserListController extends Controller
             'duration' => ['required', 'numeric', 'max:255'],
             'reason' => ['required', 'max:255']
         ]);
-        
 
         //get accountID from search field in User List 
         $accountID = trim($request->input('accountID'));
         $reason = trim($request->input('reason'));
         $duration = trim($request->input('duration'));
 
-        dd($reason, $duration);
 
         //getLatestBanRecordsID
         $latestBanRecordID = $this->getLatestBanRecordsID();
