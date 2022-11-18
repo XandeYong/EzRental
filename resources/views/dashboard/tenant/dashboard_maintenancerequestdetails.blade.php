@@ -126,9 +126,9 @@
                                                     <br>
                                                     <div class="alert alert-danger" role="alert">
                                                         <div class="c-red-error"><b>Error Message:</b></div>
-                                                    @foreach ($errors->all() as $error)
-                                                    <div class="c-red-error">*{{ $error }}</div>
-                                                    @endforeach
+                                                        @foreach (array_unique($errors->all()) as $error)
+                                                        <div class="c-red-error">*{{ $error }}</div>
+                                                        @endforeach
                                                     </div>
                                                     @endif
 

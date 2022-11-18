@@ -358,9 +358,12 @@ class MaintenanceRequestController extends Controller
     public function submitProofOfMaintenance(Request $request)
     {
         //Laravel validation
-        $request->validate([
-            'images.*' => ['required', 'distinct', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
-        ]);
+        $request->validate([ // 1st array is field rules
+            'images.*' =>'required|distinct|image|mimes:jpeg,png,jpg|max:2048'
+          ], [ ], 
+          [ // 3rd array is the fields custom name
+            'images.*' => 'image'
+          ]);
 
         //get details from  View  
         $images = $request->file('images');

@@ -1,4 +1,4 @@
-@if (isset($user))
+
 
     <!DOCTYPE html>
     <html lang="en">
@@ -156,8 +156,4 @@
     </body>
 
     </html>
-@else
-    <script>
-        window.location = "/";
-    </script>
-@endif
+
