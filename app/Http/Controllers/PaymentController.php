@@ -70,9 +70,6 @@ class PaymentController extends Controller
             abort('500', $ex->getMessage());
         }
 
-        $account = $request->session()->get('account');
-        $user = $account->role;
-
         //Remove payment id array from session
         if (session()->has('payments')) {
             session()->forget('payments');
@@ -106,7 +103,7 @@ class PaymentController extends Controller
         return view('dashboard/tenant/dashboard_payment_history', [
             'page' => 'Room Rental Post',
             'header' => 'Payment History',
-            'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
+            'back' => "/dashboard/room_rental_post_list/" . Crypt::encrypt($postID),
             'paidPayments' => $paidPayments,
             'paidPaymentsName' => $paidPaymentsName
         ]);

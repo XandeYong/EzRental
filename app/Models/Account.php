@@ -12,5 +12,13 @@ class Account extends Model
     protected $primaryKey = 'account_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public function contracts() {
+        return $this->hasManyThrough(
+            Contract::class, RoomRentalPost::class,
+            'account_id', 'post_id',
+            'account_id', 'post_id'
+        );
+    }
     
 }

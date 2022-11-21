@@ -15,7 +15,7 @@
         <div class="container-fluid">
             @include('base/navbar')
 
-            <div id="content" class="pt-5 ">
+            <div id="content" class="pt-5">
                 <div class="container mb-5">
                     <div class="row mt-lg-5 justify-content-center">
 
@@ -112,7 +112,7 @@
                                             {{-- Description --}}
                                             <div id="description" class="row mb-3">
                                                 <h5><u>Description:</u></h5>
-                                                <p> {{ $post[0]->description }} </p>
+                                                <p> {!! nl2br(e($post[0]->description)) !!} </p>
                                             </div>
 
                                             <div id="rental_info" class="row mb-2">
@@ -237,16 +237,16 @@
                                                                             <input type="hidden" name="cid"
                                                                                 value="{{ $cid }}">
                                                                             <div class="mb-3">
-                                                                                <label class="form-label">Rating<span
-                                                                                        class="c-crimson">*</span></label>
+                                                                                <label class="form-label">
+                                                                                    Rating<span class="c-crimson">*</span>
+                                                                                </label>
 
                                                                                 <div>
                                                                                     <div class="rating-group">
                                                                                         <label aria-label="1 star"
                                                                                             class="rating__label"
                                                                                             for="rating3-1">
-                                                                                            <i
-                                                                                                class="rating__icon rating__icon--star rating__icon--star-initial fa fa-star"></i>
+                                                                                            <i class="rating__icon rating__icon--star rating__icon--star-initial fa fa-star"></i>
                                                                                         </label>
                                                                                         <input class="rating__input"
                                                                                             name="rating"
@@ -258,8 +258,7 @@
                                                                                         <label aria-label="2 stars"
                                                                                             class="rating__label"
                                                                                             for="rating3-2">
-                                                                                            <i
-                                                                                                class="rating__icon rating__icon--star rating__icon--star-initial fa fa-star"></i>
+                                                                                            <i class="rating__icon rating__icon--star rating__icon--star-initial fa fa-star"></i>
                                                                                         </label>
                                                                                         <input class="rating__input"
                                                                                             name="rating"
@@ -315,7 +314,7 @@
                                                                                     class="form-label">Comment<span
                                                                                         class="c-crimson">*</span></label>
                                                                                 <textarea class="form-control" id="comment" name="message" placeholder="Leave a comment..." rows="3"
-                                                                                    maxlength="255" required>{{ $comment }}</textarea>
+                                                                                    maxlength="255" required>{!! nl2br(e($comment)) !!}</textarea>
                                                                             </div>
                                                                             <div class="mb-3 text-end">
                                                                                 @if ($access['comment'] instanceof \Illuminate\Support\Collection)
@@ -391,7 +390,7 @@
                                                                                 <hr />
                                                                                 <div class="p-u-c-body">
                                                                                     <div class="comment">
-                                                                                        <p>{{ $comment->message }}</p>
+                                                                                        <p>{!! nl2br(e($comment->message)) !!}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -567,7 +566,7 @@
                     <div class="card-text pt-3 pb-5">
                         <h6><u>Content:</u></h6>
                         <p class="mb-5">
-                            {{ $contract[0]->content }}
+                            {!! nl2br(e($contract[0]->content)) !!}
                         </p>
 
                         <div class="table-responsive">
@@ -591,6 +590,10 @@
                                     <tr>
                                         <th scope="row">Monthly Payment</th>
                                         <td class="bg-white">RM {{ number_format($contract[0]->monthly_price, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Contract Status</th>
+                                        <td class="bg-white">{{ Str::ucfirst($contract[0]->status) }}</td>
                                     </tr>
                                 </tbody>
                             </table>

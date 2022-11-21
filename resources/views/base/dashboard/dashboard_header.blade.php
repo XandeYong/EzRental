@@ -61,8 +61,17 @@
 
         <div id="header-button" class="text-end col-1 col-sm-3">
         @if (isset($button))
-            <a href="{{ $button['link'] }}">
-                <button class="btn btn-outline-success d-none d-lg-inline-block">
+            @php
+                $href = "href=" . $button['link'];
+                if (isset($button['status']) && $button['status'] == "disabled") {
+                    $href = "";
+                } else {
+                    $button['status'] = "";
+                }
+            @endphp
+
+            <a {{ $href }}>
+                <button class="btn btn-outline-primary d-none d-lg-inline-block" {{ $button['status'] }}>
                     {{ $button['name'] }}
                 </button>
             </a>

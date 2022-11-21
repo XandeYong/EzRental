@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -36,33 +38,6 @@ class ContractController extends Controller
             'page' => $this->name,
             'header' => 'Contract',
             'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
-            'contractDetails' => $contractDetails
-        ]);
-    }
-
-    public function indexForOwner(Request $request, $postID)
-    {
-        //Decrypt the parameter
-        try {
-            $postID = Crypt::decrypt($postID);
-        } catch (DecryptException $ex) {
-            abort('500', $ex->getMessage());
-        }
-
-
-        $account = $request->session()->get('account');
-        $user = $account->role;
-
-        //get contract details from database 
-        $contractDetails = DB::table('contracts')
-            ->where('post_id', $postID)
-            ->select('contracts.*')
-            ->get();
-
-        return view('dashboard/tenant/dashboard_contract', [
-            'page' => 'Room Rental Post List',
-            'header' => 'Contract',
-            'back' => "/dashboard/room_rental_post_list/room_rental_post/" . $postID,
             'contractDetails' => $contractDetails
         ]);
     }
@@ -132,6 +107,186 @@ class ContractController extends Controller
     }
 
 
+    // Owner Dashboard
+    public function contractList($postID = "") { 
+        $contract = '';
+        $contracts = '';
+        $return = [
+            'page' => 'Room Rental Post',
+            'header' => 'Contract List',
+            'back' => "/dashboard/room_rental_post_list/$postID",
+            'contract' => '',
+            'expiredContracts' => '',
+            'postID' => $postID
+        ];
+
+        if(!empty($postID)) {  
+            try {
+                $postID = Crypt::decrypt($postID);
+            } catch (DecryptException $ex) {
+                abort('500', $ex->getMessage());
+            }
+
+            $contracts = DB::table('contracts')
+                ->where('post_id', $postID)
+                ->select('contracts.*')
+                ->get();
+        
+            foreach ($contracts as $i => $c) {
+                if ($c->status == "inactive" || $c->status == "active") {
+                    $contract = $c;
+                    $contracts->forget($i);
+                }
+            }
+
+        } else {
+            $accountID = session()->get('account')['account_id'];
+            $contracts = Account::find($accountID)
+                ->contracts()
+                ->orderByDesc('created_at')
+                ->get();
+
+            unset($return['back']);
+            $return['page'] = 'Digital Contract';
+        }
+        
+        $return['contract'] = $contract;
+        $return['expiredContracts'] = $contracts;
+        
+        return view('dashboard/owner/dashboard_contract_list', $return);
+
+    }
+
+    public function ownerIndex($postID = "", $contractID = "")
+    {
+        if(empty($contractID)) {
+            $contractID = $postID;
+            $postID = '';
+        }
+
+        $back = "/dashboard/contract_list";
+        $button = [
+            'name' => 'Edit Contract',
+            'link' => "/dashboard/contract_list/$contractID/edit_form",
+            'status' => 'disabled'
+        ];
+
+        $return = [
+            'page' => 'Digital Contract',
+            'header' => 'Contract',
+            'back' => $back,
+            'button' => $button,
+            'contractDetails' => '',
+            'postID' => $postID
+        ];
+
+        //Decrypt the parameter
+        try {
+            if(!empty($postID)) {
+                $return['page'] = 'Room Rental Post';
+                $return['button']['link'] = "/dashboard/room_rental_post_list/$postID/contract_list/$contractID/edit_form";
+                $return['back'] = "/dashboard/room_rental_post_list/$postID/contract_list";
+                $postID = Crypt::decrypt($postID);
+            }
+            $contractID = Crypt::decrypt($contractID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $contract = Contract::where('contract_id', $contractID)
+            ->get();
+        $return['contractDetails'] = $contract;
+
+        if ($contract[0]->status == "inactive") {
+            unset($return['button']['status']);
+        } else {
+            $return['button']['link'] = '';
+        }
+
+        return view('dashboard/tenant/dashboard_contract', $return);
+    }
+
+    public function editContractForm($postID = "", $contractID = "")
+    {
+        if(empty($contractID)) {
+            $contractID = $postID;
+            $postID = '';
+        }
+
+        $back = "/dashboard/contract_list/$contractID";
+        
+        $return = [
+            'page' => 'Digital Contract',
+            'header' => 'Contract',
+            'back' => $back,
+            'contract' => '',
+            'postID' => $postID
+        ];
+
+        //Decrypt the parameter
+        try {
+            if(!empty($postID)) {
+                $back = "/dashboard/room_rental_post_list/$postID/contract_list/$contractID";
+                $postID = Crypt::decrypt($postID);
+            }
+            $contractID = Crypt::decrypt($contractID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        //get contract details from database 
+        $contract = Contract::find($contractID);
+        $return['contract'] = $contract;
+
+        return view('dashboard/owner/dashboard_contract_edit', $return);
+    }
+
+    public function updateContract(Request $request, $postID = "", $contractID = "")
+    {
+        
+        $content = $request->input('content');
+        $deposit = $request->input('deposit');
+        $monthly = $request->input('monthly');
+
+        if (empty($contractID)) {
+            $contractID = $postID;
+            $postID = '';
+        }
+
+        try {
+            $contractID = Crypt::decrypt($contractID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $contract = Contract::find($contractID);
+        $contract->content = $content;
+        $contract->deposit_price = $deposit;
+        $contract->monthly_price = $monthly;
+
+        $contract->save();
+
+
+
+        if (empty($postID)) {
+            $param = [
+                'contractID' => Crypt::encrypt($contract->contract_id)
+            ];
+            $route = route('dashboard.owner.contract', $param);
+        } else {
+            $param = [
+                'postID' => Crypt::encrypt($contract->post_id),
+                'contractID' => Crypt::encrypt($contract->contract_id)
+            ];
+            $route = route('dashboard.owner.room_rental_post.contract', $param);
+        }
+
+        return redirect($route);
+    }
+
+
+
+    // Function
     public function getLatestNotificationID()
     {
         $notificationID = DB::table('notifications')

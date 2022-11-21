@@ -94,7 +94,7 @@
 
                                         @if ($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")->role == "O")
 
-                                            <form id="proof_form" class="x-form row" action="{{ url('/dashboard/rentalpost/maintenancerequest/submitProofOfMaintenance') }}" method="post" enctype="multipart/form-data"
+                                            <form id="proof_form" class="x-form row" action="{{ url('/dashboard/room_rental_post/maintenance_request/submitProofOfMaintenance') }}" method="post" enctype="multipart/form-data"
                                                 x-confirm="Are you sure you want to submit the proof of maintenance?">
                                                 @csrf
                                                 <div class="container-fluid overflow-hidden">
@@ -212,14 +212,14 @@
                         <div class="row g-3 mt-5 justify-content-center">
                     
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentalpost/maintenancerequest/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-primary w-100" 
+                                <a href="{{ url('/dashboard/room_rental_post/maintenance_request/approveMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-primary w-100" 
                                     x-confirm="Are you sure you want to approve the maintenance request?">
                                     Appove
                                 </a>
                             </div>
                             
                             <div class="col-12 col-lg-4">
-                                <a href="{{ url('/dashboard/rentalpost/maintenancerequest/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-warning w-100" 
+                                <a href="{{ url('/dashboard/room_rental_post/maintenance_request/rejectMaintenanceRequest/' . Crypt::encrypt($maintenanceRequestDetails[0]->maintenance_id) . '/' . Crypt::encrypt($postID)) }}" class="btn btn-lg btn-warning w-100" 
                                     x-confirm="Are you sure you want to reject the maintenance request?">
                                     Reject
                                 </a>

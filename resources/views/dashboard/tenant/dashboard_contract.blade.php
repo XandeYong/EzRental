@@ -30,8 +30,15 @@
                             <div class="card-text pt-3 pb-5">
                                 <h6><u>Content:</u></h6>
                                 <p class="mb-5">
-                                    {{ $contractDetails[0]->content }}
+                                    {!! nl2br(e($contractDetails[0]->content)) !!}
                                 </p>
+
+                                @php
+                                    $expiredDate = $contractDetails[0]->expired_date;
+                                    if (empty($contractDetails[0]->expired_date)) {
+                                        $expiredDate = '-';
+                                    }
+                                @endphp
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-light mb-5">
@@ -45,7 +52,7 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row" class="w-25">Expired date</th>
-                                                <td class="bg-white">{{ $contractDetails[0]->expired_date }}</td> 
+                                                <td class="bg-white">{{ $expiredDate }}</td> 
                                             </tr>
                                             <tr>
                                                 <th scope="row">Deposit Payment</th>
@@ -54,6 +61,10 @@
                                             <tr>
                                                 <th scope="row">Monthly Payment</th>
                                                 <td class="bg-white">RM {{ number_format($contractDetails[0]->monthly_price, 2) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Contract Status</th>
+                                                <td class="bg-white">{{ Str::ucfirst($contractDetails[0]->status) }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -64,11 +75,13 @@
                                         <div class="col-12 col-md-6 col-lg-5 mb-5 mb-lg-0">
                                             <h6><u>Owner Signature:</u></h6>
                                             <img class="img-fluid border-bottom-3" src="{{ asset('image/contract/'. $contractDetails[0]->owner_signature) }}" alt="">
+                                            <hr class="mt-5">
                                         </div>
     
                                         <div class="col-12 col-md-6 col-lg-5">
                                             <h6><u>Tenant Signature:</u></h6>
                                             <img class="img-fluid border-bottom-3" src="{{ asset('image/contract/'. $contractDetails[0]->tenant_signature) }}" alt="">
+                                            <hr class="mt-5">
                                         </div>
                                     </div>
                                 </div>

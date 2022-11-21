@@ -447,13 +447,25 @@ class RoomRentalPostController extends Controller
 
 
     //Owner 
-    function ownerIndex($post_id)
+    function ownerIndex($postID)
     {
+        $button = [
+            'name' => 'Edit Post',
+            'link' => "/dashboard/room_rental_post_list/$postID/edit_form",
+            'status' => ''
+        ];
+
+
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
 
         $post = DB::table('room_rental_posts')
             ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-            ->where('room_rental_posts.post_id', $post_id)
+            ->where('room_rental_posts.post_id', $postID)
             ->select(
                 'room_rental_posts.*',
                 'accounts.name',
@@ -463,13 +475,13 @@ class RoomRentalPostController extends Controller
             )
             ->first();
 
-        $images = RoomRentalPost::findOrFail($post_id)
+        $images = RoomRentalPost::findOrFail($postID)
             ->images()->get();
 
-        $criterias = RoomRentalPost::findOrFail($post_id)
+        $criterias = RoomRentalPost::findOrFail($postID)
             ->criterias()->get();
 
-        $contract = RoomRentalPost::findOrFail($post_id)
+        $contract = RoomRentalPost::findOrFail($postID)
             ->contracts()
             ->where('status', 'inactive')
             ->get();
@@ -477,7 +489,7 @@ class RoomRentalPostController extends Controller
         $comments = DB::table('comments')
             ->join('accounts', 'accounts.account_id', '=', 'comments.account_id')
             ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'comments.post_id')
-            ->where('room_rental_posts.post_id', $post_id)
+            ->where('room_rental_posts.post_id', $postID)
             ->where('comments.status', 'show')
             ->orderBy('created_at')
             ->select(
@@ -486,8 +498,17 @@ class RoomRentalPostController extends Controller
             )
             ->get();
 
+        $status = "disabled";
+        if ($post->status == "available") {
+            $status = "";
+        } 
+        $button['status'] = $status;
+
         return view('dashboard/owner/dashboard_rentalpost', [
-            'back' => "/dashboard/room_rental_post_list",
+            'page' => 'Room Rental Post',
+            'header' => 'Room Rental Post',
+            'back' => '/dashboard/room_rental_post_list',
+            'button' => $button,
             'post' => $post,
             'images' => $images,
             'criterias' => $criterias,
@@ -533,7 +554,7 @@ class RoomRentalPostController extends Controller
         ];
 
 
-        $contract_id = $this->createID(RoomRentalPost::class, "post_id", 3);
+        $contract_id = $this->createID(Contract::class, "contract_id", 2);
 
         $contract = [
             'contract_id' => $contract_id,
@@ -547,7 +568,63 @@ class RoomRentalPostController extends Controller
         RoomRentalPost::insert($rrp);
         Contract::insert($contract);
 
-        return redirect(route('dashboard.owner.room_rental_post_list'));
+        return redirect(route('dashboard.owner.room_rental_post.list'));
+    }
+
+    //Display Edit Post Form
+    function editPostForm($postID = "")
+    {
+        $back = "/dashboard/room_rental_post_list/$postID";
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $rrp = RoomRentalPost::find($postID);
+
+        $return = [
+            'page' => 'Room Rental Post',
+            'header' => 'Edit Room Rental Post',
+            'back' => $back,
+            'post' => $rrp
+        ];
+
+        return view('/dashboard/owner/dashboard_rentalpost_edit', $return);
+    }
+
+    //Update Room Rental Post
+    function updatePost(Request $request, $postID = "")
+    {
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $condominium_name = $request->input('condominium');
+        $room_size = $request->input('size');
+        $block = $request->input('block');
+        $floor = $request->input('floor');
+        $unit = $request->input('unit');
+        $address = $request->input('address');
+
+        
+        $post = RoomRentalPost::find($postID);
+        $post->title = $title;
+        $post->description = $description;
+        $post->condominium_name = $condominium_name;
+        $post->room_size = $room_size;
+        $post->block = $block;
+        $post->floor = $floor;
+        $post->unit = $unit;
+        $post->address = $address;
+
+        $post->save();
+
+        return redirect(route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($postID)]));
     }
 
 

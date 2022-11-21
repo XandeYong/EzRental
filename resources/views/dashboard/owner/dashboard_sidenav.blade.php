@@ -18,7 +18,7 @@
 
 <div id="digital_contract" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="#" class="unselectable">
+        <a href="{{ route('dashboard.owner.contract.list') }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
             <h5>Digital Contract</h5>
         </a>
@@ -43,11 +43,11 @@
     </div>
 </div>
 
-<div id="maintainance_request" class="row navlist-item">
+<div id="maintenance_request" class="row navlist-item">
     <div class="navlist-item-title">
-        <a href="{{ URL('/dashboard/rentalpost/maintenancerequest/indexForOwner/' . Crypt::encrypt('RRP0')) }}" class="unselectable">
+        <a href="{{ URL('/dashboard/room_rental_post/maintenance_request/' . Crypt::encrypt('RRP0')) }}" class="unselectable">
             <i class="ico-sm ico-sidebar ico-list-task"></i>
-            <h5>Maintainance Request</h5>
+            <h5>Maintenance Request</h5>
         </a>
     </div>
 </div>

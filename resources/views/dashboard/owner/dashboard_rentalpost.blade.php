@@ -98,8 +98,13 @@
 
                                     {{-- Description --}}
                                     <div id="description" class="row mb-3">
-                                        <h5><u>Description:</u></h5>
-                                        <p> {{ $post->description }} </p>
+                                        <div class="col-12">
+                                            <h5><u>Description:</u></h5>
+                                            <p class="bg-light rounded border-black-t-1 border-1 p-2">
+                                                {!! nl2br(e($post->description)) !!}
+                                            </p>
+                                        </div>
+                                        
                                     </div>
 
                                     <div id="rental_info" class="row mb-2">
@@ -211,7 +216,7 @@
                                                                 <hr/>
                                                                 <div class="p-u-c-body">
                                                                     <div class="comment">
-                                                                        <p>{{ $comment->message }}</p>
+                                                                        <p>{!! nl2br(e($comment->message)) !!}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -248,9 +253,10 @@
                                         <div class="item-header p-1 ps-3">
                                             <h4>Control Panel</h4>
                                         </div>
+
                                         <div class="item-body px-3 mb-2 mt-3">
                                             <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/rentalpost/maintenancerequest/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
+                                                <a href="{{ URL('/dashboard/room_rental_post/maintenance_request/' . Crypt::encrypt($post->post_id)) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Maintenance Request
                                                     </button>
@@ -266,19 +272,14 @@
                                             </div>
 
                                             <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/rentalpost/contract/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
+                                                <a href="{{ route('dashboard.owner.room_rental_post.contract.list', ['postID' => Crypt::encrypt($post->post_id)]) }}">
                                                     <button class="btn btn-outline-dark w-100">
                                                         Contract
                                                     </button>
                                                 </a>
                                             </div>
-
-                                            
-
-
                                         </div>
                                     </div>
-
                                 </div>
 
                             </div>

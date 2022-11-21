@@ -49,7 +49,7 @@ class RoomRentalPostListController extends Controller
             'header' => $header,
             'button' => [
                 'name' => 'Create Room Rental Post',
-                'link' => '/dashboard/room_rental_post_list/create_room_rental_post'
+                'link' => '/dashboard/room_rental_post_list/create_room_rental_post',
             ],
             'posts' => $rrpList
         ]);

@@ -28,17 +28,17 @@
                     @else
                         @foreach ($posts as $post)
                             
-                            <a href="{{ route('dashboard.owner.room_rental_post', ['post_id' => $post->post_id]) }}" class="no-deco text-dark">
+                            <a href="{{ route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($post->post_id)]) }}" class="no-deco text-dark">
                                 <div class="card mb-4">
                                     <div class="d-flex bg-color-powderblue rounded align-items-center py-4">
                                         <div class="row me-auto px-3 w-100 align-items-center" >
-                                            <div class="col-12 col-sm">
+                                            <div class="col-12 col-sm col-lg-9">
                                                 <h3 class="mb-0">
                                                     {{ $post->title }}
                                                 </h3>
                                             </div>
 
-                                            <div class="col-12 col-sm">
+                                            <div class="col-12 col-sm col-lg-3">
                                                 <h6 class="mb-0 text-sm-end pb-2">
                                                     Date: {{ date('Y-m-d', strtotime($post->created_at)) }}
                                                 </h6>

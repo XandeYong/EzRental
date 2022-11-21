@@ -35,7 +35,7 @@ Route::get('/dashboard/room_rental_post_list', [
 ])->name('dashboard.owner.room_rental_post.list');
 
 // Room Rental Post
-Route::get('/dashboard/room_rental_post_list/room_rental_post/{post_id}', [
+Route::get('/dashboard/room_rental_post_list/{postID}', [
     RoomRentalPostController::class, 'ownerIndex'
 ])->name('dashboard.owner.room_rental_post');
 
@@ -51,27 +51,53 @@ Route::post('/dashboard/room_rental_post_list/create_room_rental_post/create', [
     RoomRentalPostController::class, 'createPost'
 ])->name('dashboard.owner.room_rental_post.create_form.create');
 
-// test array maintenance image
-Route::post("/test/maintenance/upload", function(Request $request) {
-    dd($request->files->get('images'));
-});
+Route::get('/dashboard/room_rental_post_list/{postID}/edit_form', [
+    RoomRentalPostController::class, 'editPostForm'
+])->name('dashboard.owner.room_rental_post.edit_form');
 
-//MaintenanceRequestController
-Route::get('/dashboard/rentalpost/maintenancerequest/indexForOwner/{postID}', [MaintenanceRequestController::class, 'indexForOwner']);
-Route::get("/dashboard/rentalpost/maintenancerequest/approveMaintenanceRequest/{maintenanceRequestID}/{postID?}", [MaintenanceRequestController::class, 'approveMaintenanceRequest']);
-Route::get("/dashboard/rentalpost/maintenancerequest/rejectMaintenanceRequest/{maintenanceRequestID}/{postID?}", [MaintenanceRequestController::class, 'rejectMaintenanceRequest']);
-Route::post("/dashboard/rentalpost/maintenancerequest/submitProofOfMaintenance", [MaintenanceRequestController::class, 'submitProofOfMaintenance']);
-
-// Route::get('/dashboard/maintenancerequest/{postID}', [
-//     MaintenanceRequestController::class, 'getMaintenanceRequestDetails'
-// ]);
-//
-// Route::get('/dashboard/rentingrecord/maintenancerequest/{postID?}', [
-//     MaintenanceRequestController::class, 'indexForOwner'
-// ])->name('dashboard.owner.maintenance_history');
+Route::post('/dashboard/room_rental_post_list/{postID}/edit_form.edit', [
+    RoomRentalPostController::class, 'updatePost'
+])->name('dashboard.owner.room_rental_post.edit_form.edit');
 
 
-//RentRequestController
+    //Contract Controller inside RRP
+    Route::get('/dashboard/room_rental_post_list/{postID}/contract_list/', [
+        ContractController::class, 'contractList'
+    ])->name('dashboard.owner.room_rental_post.contract.list');
+    
+    Route::get('/dashboard/room_rental_post_list/{postID}/contract_list/{contractID}', [
+        ContractController::class, 'ownerIndex'
+    ])->name('dashboard.owner.room_rental_post.contract');
+    
+    Route::get('/dashboard/room_rental_post_list/{postID}/contract_list/{contractID}/edit_form', [
+        ContractController::class, 'editContractForm'
+    ])->name('dashboard.owner.room_rental_post.contract.edit_form');
+    
+    Route::post('/dashboard/room_rental_post_list/{postID}/contract_list/{contractID}/edit_form/edit', [
+        ContractController::class, 'updateContract'
+    ])->name('dashboard.owner.room_rental_post.contract.edit_form.edit');
+    
+
+//Maintenance Request Controller
+Route::get('/dashboard/room_rental_post/maintenance_request/{postID}', [
+    MaintenanceRequestController::class, 'indexForOwner'
+]);
+
+Route::get("/dashboard/room_rental_post/maintenance_request/approveMaintenanceRequest/{maintenanceRequestID}/{postID?}", [
+    MaintenanceRequestController::class, 'approveMaintenanceRequest'
+]);
+
+Route::get("/dashboard/room_rental_post/maintenance_request/rejectMaintenanceRequest/{maintenanceRequestID}/{postID?}", [
+    MaintenanceRequestController::class, 'rejectMaintenanceRequest'
+]);
+
+Route::post("/dashboard/room_rental_post/maintenance_request/submitProofOfMaintenance", [
+    MaintenanceRequestController::class, 'submitProofOfMaintenance'
+]);
+
+
+
+//Rent Request Controller
 Route::get('/dashboard/rentrequest/approveRentRequest/{rentRequestID}', [RentRequestController::class, 'approveRentRequest']);
 Route::get('/dashboard/rentrequest/rejectRentRequest/{rentRequestID}', [RentRequestController::class, 'rejectRentRequest']);
 Route::get('/dashboard/rentrequest/confirmRentRequest/{rentRequestID}', [RentRequestController::class, 'confirmRentRequest']);
@@ -79,11 +105,29 @@ Route::get('/dashboard/rentrequest/cancelRentRequest/{rentRequestID}', [RentRequ
 
 
 
-//PaymentController
-Route::get('/dashboard/rentalpost/payment/indexForOwner/{postID}', [PaymentController::class, 'indexForOwner']);
+//Payment Controller
+Route::get('/dashboard/rentalpost/payment/indexForOwner/{postID}', [
+    PaymentController::class, 'indexForOwner'
+]);
 
-//ContractController
-Route::get('/dashboard/rentalpost/contract/indexForOwner/{postID}', [ContractController::class, 'indexForOwner']);
+//Contract Controller
+Route::get('/dashboard/contract_list', [
+    ContractController::class, 'contractList'
+])->name('dashboard.owner.contract.list');
+
+Route::get('/dashboard/contract_list/{contractID}', [
+    ContractController::class, 'ownerIndex'
+])->name('dashboard.owner.contract');
+
+Route::get('/dashboard/contract_list/{contractID}/edit_form', [
+    ContractController::class, 'editContractForm'
+])->name('dashboard.owner.contract.edit_form');
+
+Route::post('/dashboard/contract_list/{contractID}/edit_form/edit', [
+    ContractController::class, 'updateContract'
+])->name('dashboard.owner.contract.edit_form.edit');
+
+//Route::get('/dashboard/rentalpost/contract/indexForOwner/{postID}', [ContractController::class, 'indexForOwner']);
 
 
 
