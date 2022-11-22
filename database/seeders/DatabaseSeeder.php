@@ -762,6 +762,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'post_image_id' => 'PI' . strval($iPI),
             'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp1->post_id,
+            'status' => 'show'
         ]);
         
         sleep(1);
@@ -770,6 +771,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'post_image_id' => 'PI' . strval($iPI),
             'image' => 'PI' . strval($iPI++) . '.png',
             'post_id' => $rrp2->post_id,
+            'status' => 'show'
         ]);
         
         sleep(1);
@@ -778,6 +780,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'post_image_id' => 'PI' . strval($iPI),
             'image' => 'PI' . strval($iPI++) . '.jpg',
             'post_id' => $rrp3->post_id,
+            'status' => 'show'
         ]);
         
         sleep(1);
@@ -786,6 +789,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'post_image_id' => 'PI' . strval($iPI),
             'image' => 'PI' . strval($iPI++) . '.jpeg',
             'post_id' => $rrp4->post_id,
+            'status' => 'show'
         ]);
         
         sleep(1);
@@ -794,6 +798,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'post_image_id' => 'PI' . strval($iPI),
             'image' => 'PI' . strval($iPI++) . '.jpg',
             'post_id' => $rrp5->post_id,
+            'status' => 'show'
         ]);
         
         sleep(1);

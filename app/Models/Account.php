@@ -13,6 +13,10 @@ class Account extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'accounts';
+    public static $idCode = 'A';
+    public static $idColumn = 'account_id';
+
     public function contracts() {
         return $this->hasManyThrough(
             Contract::class, RoomRentalPost::class,

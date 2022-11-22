@@ -13,4 +13,8 @@ class RentRequest extends Model
     public $incrementing = false;
     protected $keyType = 'string';
    
+    public static $tableName = 'rent_requests';
+    public static $idCode = 'RR';
+    public static $idColumn = 'rent_request_id';
+
 }

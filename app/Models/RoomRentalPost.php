@@ -13,6 +13,10 @@ class RoomRentalPost extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'room_rental_posts';
+    public static $idCode = 'RRP';
+    public static $idColumn = 'post_id';
+
     public function owner() {
         return $this->belongsTo(Account::class, 'account_id');
     }

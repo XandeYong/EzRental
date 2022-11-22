@@ -100,7 +100,7 @@
                                                 <div class="container-fluid overflow-hidden">
                                                     <div class="upload-image-container row gx-3 gy-4">
 
-                                                        <div class="upload-image-item col-12 col-lg-2">
+                                                        <div class="upload-image-item col-12 col-lg-3">
                                                             
                                                             <div class="upload border-1 rounded p-2 text-center">
 

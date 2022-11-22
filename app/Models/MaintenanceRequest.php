@@ -12,5 +12,9 @@ class MaintenanceRequest extends Model
     protected $primaryKey = 'maintenance_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'maintenance_requests';
+    public static $idCode = 'MR';
+    public static $idColumn = 'maintenance_id';
    
 }

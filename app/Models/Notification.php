@@ -12,5 +12,9 @@ class Notification extends Model
     protected $primaryKey = 'notification_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'notifications';
+    public static $idCode = 'NTF';
+    public static $idColumn = 'notification_id';
    
 }

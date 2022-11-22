@@ -8,6 +8,7 @@ use App\Models\Contract;
 use App\Models\Negotiation;
 use App\Models\RentRequest;
 use App\Models\Notification;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 use App\Models\RoomRentalPost;
 use App\Models\VisitAppointment;
@@ -229,7 +230,7 @@ class RoomRentalPostController extends Controller
         $datetime = $date . " " . $time;
 
 
-        $appointment_id = $this->createID(VisitAppointment::class, "appointment_id", 2);
+        $appointment_id = $this->generateID(VisitAppointment::class);
 
         $insert = [
             'appointment_id' => $appointment_id,
@@ -273,7 +274,7 @@ class RoomRentalPostController extends Controller
         $message = $request->input('message');
         $status = "tenant_offer";
 
-        $negotiation_id = $this->createID(Negotiation::class, "negotiation_id", 3);
+        $negotiation_id = $this->generateID(Negotiation::class);
 
         $insert = [
             'negotiation_id' => $negotiation_id,
@@ -320,7 +321,7 @@ class RoomRentalPostController extends Controller
         $startDate = substr($startDate, 0, 10);
         $endDate = substr($endDate, 0, 10);
 
-        $rent_request_id = $this->createID(RentRequest::class, "rent_request_id", 2);
+        $rent_request_id = $this->generateID(RentRequest::class);
 
         $price = RoomRentalPost::findOrFail($post_id)
             ->contracts()
@@ -372,7 +373,7 @@ class RoomRentalPostController extends Controller
         $message = $request->input('message');
         $status = "show";
 
-        $comment_id = $this->createID(Comment::class, "comment_id", 3);
+        $comment_id = $this->generateID(Comment::class);
 
         $insert = [
             'comment_id' => $comment_id,
@@ -476,7 +477,7 @@ class RoomRentalPostController extends Controller
             ->first();
 
         $images = RoomRentalPost::findOrFail($postID)
-            ->images()->get();
+            ->images()->where('status', 'show')->get();
 
         $criterias = RoomRentalPost::findOrFail($postID)
             ->criterias()->get();
@@ -536,7 +537,7 @@ class RoomRentalPostController extends Controller
         $deposit_price = $request->input('deposit');
         $monthly_price = $request->input('monthly');
 
-        $post_id = $this->createID(RoomRentalPost::class, "post_id", 3);
+        $post_id = $this->generateID(RoomRentalPost::class);
         $account_id = session()->get('account')['account_id'];
 
         $rrp = [
@@ -554,7 +555,7 @@ class RoomRentalPostController extends Controller
         ];
 
 
-        $contract_id = $this->createID(Contract::class, "contract_id", 2);
+        $contract_id = $this->generateID(Contract::class);
 
         $contract = [
             'contract_id' => $contract_id,
@@ -582,25 +583,89 @@ class RoomRentalPostController extends Controller
         }
 
         $rrp = RoomRentalPost::find($postID);
+        $pi = RoomRentalPost::find($postID)->images()->where('status', 'show')->get();
 
         $return = [
             'page' => 'Room Rental Post',
             'header' => 'Edit Room Rental Post',
             'back' => $back,
-            'post' => $rrp
+            'post' => $rrp,
+            'postImages' => $pi
         ];
 
         return view('/dashboard/owner/dashboard_rentalpost_edit', $return);
     }
 
     //Update Room Rental Post
-    function updatePost(Request $request, $postID = "")
+    function updatePost(Request $request, $postID)
     {
         try {
             $postID = Crypt::decrypt($postID);
         } catch (DecryptException $ex) {
             abort('500', $ex->getMessage());
         }
+
+        /* Image */
+
+        //Laravel validation
+        $request->validate([ // 1st array is field rules
+            'images.*' =>'required|distinct|image|mimes:jpeg,png,jpg|max:2048'
+          ], [ ], 
+          [ // 3rd array is the fields custom name
+            'images.*' => 'image'
+          ]);
+
+        $images = $request->file('images');
+        $saved_images = $request->input('saved_images');
+        $db_images = RoomRentalPost::find($postID)->images()->get();
+
+        if (!$db_images->isEmpty() && !empty($saved_images)) {
+            foreach ($db_images as $i => $image) {
+                foreach ($saved_images as $j => $v) {
+                    if ($v == $image->post_image_id) {
+                        $db_images->pull($i);
+                    }
+                }
+            }
+        }
+
+        $images = collect($images);
+        while ($image = $images->shift()) {
+            if (!$db_images->isEmpty()) {
+                $postImage = $db_images->shift();
+                $postImageID = $postImage->post_image_id;
+            } else {
+                $postImageID = $this->generateID(PostImage::class);
+            }
+
+            $imageName = $postImageID . "." . $image->getClientOriginalExtension();
+            $image->move(public_path() . '/image/post/', $imageName);
+
+            if (isset($postImage)) {
+                $postImage->image = $imageName;
+                $postImage->status = 'show';
+                $postImage->save();
+
+            } else {
+                $insert = [
+                    'post_image_id' => $postImageID,
+                    'image' => $imageName,
+                    'post_id' => $postID,
+                    'status' => 'show'
+                ];
+
+                PostImage::insert($insert);
+            }
+        }
+
+        if (!$db_images->isEmpty()) {
+            foreach ($db_images as $image) {
+                $image->status = "hide";
+                $image->save();
+            }
+        }
+
+        // End Image
 
         $title = $request->input('title');
         $description = $request->input('description');
@@ -629,15 +694,27 @@ class RoomRentalPostController extends Controller
 
 
     //Custom fucntion
-    function createID($model, $idCol, $idCodeLength)
+    function generateID($model)
     {
-        $newID = $model::select($idCol)
-            ->orderByDesc('created_at')
-            ->first()->$idCol;
+        $table = $model::$tableName;
+        $idCol = $model::$idColumn;
+        $idCode = $model::$idCode;
+        $idCodeLength = strlen($idCode);
 
-        $id_code = substr($newID, 0, $idCodeLength);
-        $id = intval(substr($newID, $idCodeLength) + 1);
-        $newID = $id_code . $id;
+        $newID = $model::select($idCol)
+            ->whereRaw("CHAR_LENGTH($idCol) = (SELECT MAX(CHAR_LENGTH($idCol)) from $table)")
+            ->orderByDesc($idCol)
+            ->distinct()
+            ->first();
+            
+        if (empty($newID)) {
+            return $idCode . '1';
+        } else {
+            $newID = $newID->$idCol;
+            $idCode = substr($newID, 0, $idCodeLength);
+            $id = intval(substr($newID, $idCodeLength) + 1);
+            $newID = $idCode . $id;
+        }
 
         return $newID;
     }
@@ -726,6 +803,5 @@ class RoomRentalPostController extends Controller
             return redirect(route('rental_post_list.rental_post', ['post_id' => $postID])); 
 
     }
-
     
 }

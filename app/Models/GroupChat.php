@@ -12,5 +12,9 @@ class GroupChat extends Model
     protected $primaryKey = 'group_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'group_chats';
+    public static $idCode = 'GC';
+    public static $idColumn = 'group_id';
    
 }

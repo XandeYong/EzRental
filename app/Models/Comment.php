@@ -13,6 +13,10 @@ class Comment extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'comments';
+    public static $idCode = 'CMT';
+    public static $idColumn = 'comment_id';
+
     public function owner() {
         return $this->belongsTo(Account::class, 'account_id');
     }

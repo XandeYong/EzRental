@@ -12,5 +12,9 @@ class Chat extends Model
     protected $primaryKey = 'chat_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'chats';
+    public static $idCode = 'C';
+    public static $idColumn = 'chat_id';
    
 }

@@ -13,4 +13,8 @@ class Criteria extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'criterias';
+    public static $idCode = 'CTR';
+    public static $idColumn = 'criteria_id';
+
 }

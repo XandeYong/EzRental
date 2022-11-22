@@ -13,6 +13,10 @@ class VisitAppointment extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'visit_appointments';
+    public static $idCode = 'VA';
+    public static $idColumn = 'appointment_id';
+
     protected $fillable = [
         'appointment_id', 'datetime', 'note', 'status', 'post_id', 'account_id'
     ];

@@ -13,8 +13,12 @@ class PostImage extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public static $tableName = 'post_images';
+    public static $idCode = 'PI';
+    public static $idColumn = 'post_image_id';
+
     public function post() {
         return $this->belongsTo(RoomRentalPost::class, 'post_id');
     }
-   
+
 }

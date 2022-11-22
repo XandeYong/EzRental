@@ -163,6 +163,7 @@ return new class extends Migration
             $table->string('post_image_id')->primary();
             $table->string('image');
             $table->string('post_id');
+            $table->string('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -52,7 +52,7 @@
                                                 {{-- For loop records --}}
                                                 @for ($i = 0; $i < count($rentingRecordImages); $i++)
                                                 <div @if ($i==0) class="carousel-item active" @else class="carousel-item" @endif >
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/renting_post/'. $rentingRecordImages[$i]->image) }}" alt="{{ $rentingRecordImages[$i]->image }}">
+                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/post/'. $rentingRecordImages[$i]->image) }}" alt="{{ $rentingRecordImages[$i]->image }}">
                                                 </div>
                                                 @endfor
 

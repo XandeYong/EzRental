@@ -12,5 +12,9 @@ class BanRecord extends Model
     protected $primaryKey = 'ban_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'ban_records';
+    public static $idCode = 'BR';
+    public static $idColumn = 'ban_id';
    
 }

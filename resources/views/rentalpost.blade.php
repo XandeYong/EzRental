@@ -63,7 +63,7 @@
                                                                 <div
                                                                     @if ($i == 0) class="carousel-item active" @else class="carousel-item" @endif>
                                                                     <img class="card-img-top img-fluid img-thumbnail rounded"
-                                                                        src="{{ asset('image/renting_post/' . $images[$i]->image) }}"
+                                                                        src="{{ asset('image/post/' . $images[$i]->image) }}"
                                                                         alt="{{ $images[$i]->image }}">
                                                                 </div>
                                                             @endfor

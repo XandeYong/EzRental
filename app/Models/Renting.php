@@ -13,4 +13,8 @@ class Renting extends Model
     public $incrementing = false;
     protected $keyType = 'string';
    
+    public static $tableName = 'rentings';
+    public static $idCode = 'R';
+    public static $idColumn = 'renting_id';
+
 }

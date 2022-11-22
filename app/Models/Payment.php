@@ -12,5 +12,9 @@ class Payment extends Model
     protected $primaryKey = 'payment_id';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public static $tableName = 'payments';
+    public static $idCode = 'P';
+    public static $idColumn = 'payment_id';
    
 }
