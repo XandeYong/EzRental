@@ -213,7 +213,7 @@ class RoomRentalPostController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'datetime' => ['required', 'after:24hours'],
+            'datetime' => ['required', 'after:today'],
             'note' => ['required', 'string', 'max:3']
         ]);
 

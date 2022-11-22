@@ -171,7 +171,7 @@
     </div>
 
 
-    @if ($rentRequestDetails[0]->status == 'pending' || $rentRequestDetails[0]->status == 'approved')
+    @if ($rentRequestDetails[0]->status == 'pending' || $rentRequestDetails[0]->status == 'approved' || $rentRequestDetails[0]->status == 'signed')
     @php 
         $url = "";
         $user = "";
