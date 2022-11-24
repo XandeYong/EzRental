@@ -32,7 +32,7 @@ class RentingRecordController extends Controller
         ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rentings.post_id')
         ->where('rentings.account_id', $id)
         ->where('rentings.status', "active")
-        ->select('room_rental_posts.title', 'rentings.renting_id')
+        ->select('room_rental_posts.title', 'rentings.renting_id', 'rentings.created_at')
         ->get();
         
         $header="Current Renting Record";
@@ -43,7 +43,7 @@ class RentingRecordController extends Controller
          ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rentings.post_id')
          ->where('rentings.account_id', $id)
          ->where('rentings.status', "expired")
-         ->select('room_rental_posts.title', 'rentings.renting_id')
+         ->select('room_rental_posts.title', 'rentings.renting_id', 'rentings.created_at')
          ->get();
         
         $header="Past Renting Record";
@@ -95,6 +95,12 @@ class RentingRecordController extends Controller
         ->select('post_images.image')
         ->get();    
 
+        $rentingRecordCriterias = DB::table('criterias')
+        ->join('post_criterias', 'post_criterias.criteria_id', '=', 'criterias.criteria_id')
+        ->where('post_criterias.post_id', '=', $rentingRecordDetails[0]->post_id)
+        ->select('criterias.name')
+        ->get();
+
         //get unpaid payment from database 
         $unpaidPaymentsID = DB::table('payments')
         ->join('rentings', 'rentings.renting_id', '=', 'payments.renting_id')
@@ -134,6 +140,7 @@ class RentingRecordController extends Controller
             'back' => "/dashboard/rentingrecord/index/" . Crypt::encrypt($status),
             'rentingRecordDetails' => $rentingRecordDetails,
             'rentingRecordImages' => $rentingRecordImages,
+            'rentingRecordCriterias' => $rentingRecordCriterias,
             'unpaidPaymentsID' => $unpaidPaymentsID,
             'unpaidPaymentsName' => $unpaidPaymentsName,
         ]);

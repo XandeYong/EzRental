@@ -2,7 +2,7 @@
     max-height: 300px;
 }
 
-#control_panel {
+.sidenav-container {
     position: sticky;
     top: 2%;
 }

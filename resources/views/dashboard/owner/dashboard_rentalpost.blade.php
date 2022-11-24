@@ -21,15 +21,14 @@
             @include('../base/dashboard/dashboard_header')
 
             <div id="content" class="row justify-content-center">
-
-                {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12 col-lg-8 mt-5 mt-lg-0">
 
+                            <div class="col-12 col-lg-8 mt-5 mt-lg-0">
                                 <div class="container-fluid">
+
                                     <div class="row mb-3">
                                         <h1><u>{{ $post->title }}</u></h1>
                                     </div>
@@ -59,7 +58,7 @@
 
                                                 @for ($i = 0; $i < count($images); $i++)
                                                 <div @if ($i==0) class="carousel-item active" @else class="carousel-item" @endif >
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/post/'. $images[$i]->image) }}" alt="{{ $images[$i]->image }}">
+                                                    <img class="x-image-modal card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/post/'. $images[$i]->image) }}" alt="{{ $images[$i]->image }}">
                                                 </div>
                                                 @endfor
 
@@ -84,16 +83,25 @@
 
                                     {{-- Criterias --}}
                                     <div id="criteria" class="row mb-3">
-                                        <h5><u>Criterias:</u></h5>
+                                        <div class="col-12">
+                                            <h5><u>Criterias:</u></h5>
 
-                                        @if (!$criterias->isEmpty())
-                                            <div>
-                                            @foreach ($criterias as $criteria)
-                                                <span class="btn bg-light border-dark m-1 cursor-default"> {{ $criteria->name }} </span>
-                                            @endforeach
-                                            </div>        
-                                        @endif
-
+                                            @if (!$criterias->isEmpty())
+                                                <div>
+                                                    @foreach ($criterias as $criteria)
+                                                        <span class="btn bg-light border-dark m-1 cursor-default">
+                                                            {{ $criteria->name }} 
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @else 
+                                                <div>
+                                                    <span class="btn bg-light border-dark cursor-default w-100 text-start">
+                                                        There is no criteria being selected.
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     {{-- Description --}}
@@ -130,6 +138,10 @@
                                                     <tr>
                                                         <th scope="row" class="w-25">Monthly Payment</th>
                                                         <td class="w-75">RM {{ number_format($post->monthly_price, 2) }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Room Size</th>
+                                                        <td class="w-75">{{ ucfirst(trans($post->room_size)) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Condominium</th>
@@ -247,54 +259,112 @@
 
                             {{-- sidebar --}}
                             <div class="col-12 col-lg-4">
-                                
                                 <div class="sidenav-section">
-                                    <div id="control_panel" class="sidenav-item mb-3">
-                                        <div class="item-header p-1 ps-3">
-                                            <h4>Control Panel</h4>
+                                    <div class="sidenav-container">
+
+                                        <div id="control_panel" class="sidenav-item mb-4">
+                                            <div class="item-header p-1 ps-3">
+                                                <h4>Control Panel</h4>
+                                            </div>
+    
+                                            <div class="item-body px-3 pb-2 pt-3">
+                                                <div class="mb-2">
+                                                    <a href="{{ URL('/dashboard/room_rental_post/maintenance_request/' . Crypt::encrypt($post->post_id)) }}">
+                                                        <button class="btn btn-outline-dark w-100">
+                                                            Maintenance Request
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                                
+                                                <div class="mb-2">
+                                                    <a href="{{ URL('/dashboard/rentalpost/payment/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
+                                                        <button class="btn btn-outline-dark w-100">
+                                                            Payment History
+                                                        </button>
+                                                    </a>
+                                                </div>
+    
+                                                <div class="mb-2">
+                                                    <a href="{{ route('dashboard.owner.room_rental_post.contract.list', ['postID' => Crypt::encrypt($post->post_id)]) }}">
+                                                        <button class="btn btn-outline-dark w-100">
+                                                            Contract
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="item-body px-3 mb-2 mt-3">
-                                            <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/room_rental_post/maintenance_request/' . Crypt::encrypt($post->post_id)) }}">
-                                                    <button class="btn btn-outline-dark w-100">
-                                                        Maintenance Request
-                                                    </button>
-                                                </a>
-                                            </div>
-                                            
-                                            <div class="mb-2">
-                                                <a href="{{ URL('/dashboard/rentalpost/payment/indexForOwner/' . Crypt::encrypt($post->post_id)) }}">
-                                                    <button class="btn btn-outline-dark w-100">
-                                                        Payment History
-                                                    </button>
-                                                </a>
+                                        <div id="setting" class="sidenav-item mb-3">
+                                            <div class="item-header p-1 ps-3">
+                                                <h4>Setting</h4>
                                             </div>
 
-                                            <div class="mb-2">
-                                                <a href="{{ route('dashboard.owner.room_rental_post.contract.list', ['postID' => Crypt::encrypt($post->post_id)]) }}">
-                                                    <button class="btn btn-outline-dark w-100">
-                                                        Contract
-                                                    </button>
-                                                </a>
+                                            @php
+                                                if ($post->status == 'available') {
+                                                    $param = ['postID' => Crypt::encrypt($post->post_id)];
+
+                                                    $criteriaRoute = 'href=' . route('dashboard.owner.room_rental_post.criteria', $param);
+                                                    $editRoute = 'href=' . route('dashboard.owner.room_rental_post.edit_form', $param);
+                                                    $deleteRoute = 'href=' . route('dashboard.owner.room_rental_post.delete', $param);
+                                                        
+                                                    $criteriaTitle = "Edit this post's criteria.";
+                                                    $editTitle = 'Edit this post.';
+                                                    $deleteTitle = 'Delete this post.';
+                                                    
+                                                } else {
+                                                    $status = 'disabled';
+                                                }
+                                            @endphp
+    
+                                            <div class="item-body px-3 pb-2 pt-3">
+                                                
+                                                <div class="mb-2">
+                                                    <a {{ $criteriaRoute ?? '' }} title="{{ $criteriaTitle ?? 'Only post with "available" status can edit its criteria.' }}">
+                                                        <button class="btn btn-outline-info w-100" {{ $status ?? '' }}>
+                                                            Criteria
+                                                        </button>
+                                                    </a>
+                                                </div>
+
+                                                <div class="mb-2">
+                                                    <a {{ $editRoute ?? '' }} title="{{ $editTitle ?? 'Only post with "available" status can be edit.' }}">
+                                                        <button class="btn btn-outline-primary w-100" {{ $status ?? '' }}>
+                                                            Edit Post
+                                                        </button>
+                                                    </a>
+                                                </div>
+    
+                                                <div class="mb-2">
+                                                    <a {{ $deleteRoute ?? ''}} title="{{ $deleteTitle ?? 'Only post with "available" status can be delete.' }}" x-confirm="Are you sure you want to delete this room rental post?">
+                                                        <button class="btn btn-outline-danger w-100" {{ $status ?? '' }}>
+                                                            Delete Post
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                                
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
-
                             </div>
 
                         </div>
                     </div>
 
                 </div>
-
             </div>
 
         </div>
     </div>
 
+    <div id="x-image-modal">
+        <span class="close">&times;</span>
+        <img id="x-image" class="img-fluid bg-color-white-t-20">
+    </div>
+
     @include('../base/dashboard/dashboard_script')
+    <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
 
 </body>
 

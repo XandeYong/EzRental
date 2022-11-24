@@ -34,7 +34,7 @@
                                 <div class="row row-gap align-items-center">
 
                                     <div class="col-12 col-lg-5 col-xl-4 mb-3 mb-lg-0 img-thumbnail py-3 text-center">
-                                        <img class="x-upload-image img-fluid rounded" src="/image/account/{{ $profile[0]->image }}" alt="{{ $profile[0]->image }}">
+                                        <img class="x-image-modal x-upload-image img-fluid rounded" src="/image/account/{{ $profile[0]->image }}" alt="{{ $profile[0]->image }}">
                                         <input type="hidden" name="oriImage" value={{ $profile[0]->image }} >
 
                                         <div class="pt-3 px-2">
@@ -195,6 +195,11 @@
                 </div>
 
             </div>
+        </div>
+
+        <div id="x-image-modal">
+            <span class="close">&times;</span>
+            <img id="x-image" class="img-fluid bg-color-white-t-20">
         </div>
 
         @include('../base/dashboard/dashboard_script')

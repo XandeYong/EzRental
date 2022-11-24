@@ -52,6 +52,18 @@ Route::get('/base/dashboard', function () {
     return view('/dashboard/dashboard_index');
 })->name('base.dashboard');
 
+Route::get('/test/reset_password', function () {
+    $email = 'gadala3838@rubeshi.com';
+    $key = 'P9cIYd8LstiP1pKu8gVMEtOACor2QgOccLHGONukQ1pRMwPsUp3OWQaQO0r9ItqWeYGYtjDgGjz8wjO4JO7WJDihWiJQUH9KKLZ0PV6AeYVVdpDn6hmjUYVU3fxUhDYhJFHIUxuWxgoK07cpkGqhAAyahNvx1IMfoyCMjsnBOiN72tTaJomYdZAZsQ2M9k8zw1LDkYdQoSUPE1P9tJmWdvo8QyhelErpswHiAQrU5XorPJp0EaXRsD3nPI8jB4V';
+    
+    session()->put('reset_password_key', $key);
+
+    $return = [
+        'email' => $email
+    ];
+    return view('/login/reset_password', $return);
+});
+
 
 
 //==========================================================================================================

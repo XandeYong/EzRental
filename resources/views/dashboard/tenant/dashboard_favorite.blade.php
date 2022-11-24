@@ -28,38 +28,58 @@
                             <h3 >There was no favourite found.</h3>
                         </div>
                     @else
-                            {{-- For loop records --}}
-                            @foreach ($favoritePosts as $favoritePost)
 
+                        {{-- For loop records --}}
+                        @foreach ($favoritePosts as $favoritePost)
 
-                            <div class="card mb-4">
-                                <div class="d-flex bg-warning align-items-center">
-                                    <a class="w-100 me-auto no-deco text-dark" href="{{ route('rental_post_list.rental_post', ['post_id' => $favoritePost->post_id]) }}">
-                                        <div class="row me-auto px-3 w-100 align-items-center">
+                        @php
+                            $color = 'text-primary';
+                            if ($favoritePost->status == 'renting' || $favoritePost->status == 'reserve') {
+                                $color = 'text-danger';
+                            }
+                        @endphp
+
+                        <div class="card mb-4 bg-warning">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <a href="{{ route('rental_post_list.rental_post', ['post_id' => $favoritePost->post_id]) }}" class="col-9 col-sm-10 col-lg-11 text-dark no-deco">
+                                        <div class="row pt-2 pb-1">
+                                            <h6 class="mb-0 text-sm-start pb-0 pb-sm-2 opacity-50">
+                                                {{ $favoritePost->post_id }}
+                                            </h6>
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-12 col-sm">
                                                 <h3 class="mb-0">
                                                     {{ $favoritePost->title }}
                                                 </h3>
                                             </div>
-        
+
                                             <div class="col-12 col-sm">
-                                                <h4 class="mb-0 text-sm-end">
-                                                    {{ $favoritePost->status }}
+                                                <h4 class="mb-0 text-sm-end {{ $color }}">
+                                                    {{ ucfirst(trans($favoritePost->status)) }}
                                                 </h4>
                                             </div>
                                         </div>
+                                        
+                                        <div class="row py-3"></div>
                                     </a>
-    
-                                    <div class="bg-white h-100 py-4 px-3 px-sm-4">
-                                        <button type="button" class="btn-close" aria-label="Close" onclick="window.location.href ='{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}';"></button> {{-- need edit to cover whole box --}}
-                                    </div>
-                
+
+                                    <a href="{{ URL('/dashboard/favorite/removeFavorite/' .  Crypt::encrypt($favoritePost->post_id)) }}" class="col-3 col-sm-2 col-lg-1 text-center text-dark no-deco btn btn-outline-danger border-radius-left-0 bg-light">
+                                        <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                            <h3 class="m-0">
+                                                &#10005;
+                                            </h3>
+                                        </div>
+                                    </a>
+
                                 </div>
                             </div>
+                        </div>
 
-
-                            
-                            @endforeach
+                        @endforeach
 
                     @endif
 

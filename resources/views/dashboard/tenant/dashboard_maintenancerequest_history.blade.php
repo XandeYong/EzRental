@@ -38,30 +38,48 @@
                                     // access by tenant
                                     $route = URL('/dashboard/rentingrecord/maintenancerequest/getMaintenanceRequestDetails/' . Crypt::encrypt($maintenanceRequest->maintenance_id));
                                 }
+
+                                $color = 'text-primary';
+                                if ($maintenanceRequest->status == 'rejected') {
+                                    $color = 'text-danger';
+                                } else if ($maintenanceRequest->status == 'success') {
+                                    $color = 'text-success';
+                                }
                             @endphp
 
                             <a href="{{ $route }}" class="no-deco text-dark">
-                                <div class="card mb-4">
-                                    <div class="d-flex bg-color-burlywood align-items-center py-4">
-                                        <div class="row me-auto px-3 w-100 align-items-center">
-                                            <div class="col-12 col-sm">
+                                <div class="card container mb-4 bg-color-burlywood py-4">
+                                    <div class="row px-2">
+
+                                        <div class="col-12 col-sm-6 col-lg-8">
+                                            <div class="row">
+                                                <h6 class="mb-0 text-sm-start pb-0 pb-sm-2 opacity-50">
+                                                    {{ $maintenanceRequest->maintenance_id }}
+                                                </h6>
+
                                                 <h3 class="mb-0">
                                                     {{ $maintenanceRequest->title }}
                                                 </h3>
                                             </div>
+                                        </div>
 
-                                            <div class="col-12 col-sm">
-                                                <h6 class="mb-0 text-sm-end pb-2">
-                                                    Date Created:
-                                                    {{ date('Y-m-d', strtotime($maintenanceRequest->created_at)) }}
+                                        <div class="col-12 col-sm-6 col-lg-4">
+                                            <div class="row h-100">
+                                                <h6 class="mb-0 h-25 text-sm-end pb-2">
+                                                    Date Created: {{ date('Y-m-d', strtotime($maintenanceRequest->created_at)) }}
                                                 </h6>
-                                                <h4 class="mb-0 text-sm-end">
-                                                    {{ Str::ucfirst($maintenanceRequest->status) }}
-                                                </h4>
+
+                                                <div class="h-auto mt-2 mt-sm-0 mt-lg-2">
+                                                    <h4 class="my-sm-auto text-sm-end {{ $color }}">
+                                                        {{ Str::ucfirst($maintenanceRequest->status) }}
+                                                    </h4>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 
                                     </div>
+                                    <div class="row py-sm-2"></div>
                                 </div>
                             </a>
                         @endforeach

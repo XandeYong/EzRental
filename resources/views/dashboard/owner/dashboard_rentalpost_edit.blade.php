@@ -67,19 +67,19 @@
                                     <select class="form-select x-form-required" name="size" id="input_size" aria-label="Select room size" required>
                                         @foreach ($options as $option)
                                             @php
-                                                $checked = '';
+                                                $selected = '';
                                                 if (old('size') !== null) {
                                                     if (old('size') == $option) {
-                                                        $checked = 'checked';
+                                                        $selected = 'selected';
                                                     }
                                                 } else {
                                                     if ($post->room_size == $option) {
-                                                        $checked = 'checked';
+                                                        $selected = 'selected';
                                                     } 
                                                 }
                                             @endphp
 
-                                            <option {{ $checked }} value="{{ $option }}">{{ Str::title($option) . ' Room' }}</option>
+                                            <option {{ $selected }} value="{{ $option }}">{{ Str::title($option) . ' Room' }}</option>
                                         @endforeach
                                     </select>         
                                                     

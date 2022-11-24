@@ -450,12 +450,6 @@ class RoomRentalPostController extends Controller
     //Owner 
     function ownerIndex($postID)
     {
-        $button = [
-            'name' => 'Edit Post',
-            'link' => "/dashboard/room_rental_post_list/$postID/edit_form",
-            'status' => ''
-        ];
-
 
         try {
             $postID = Crypt::decrypt($postID);
@@ -499,17 +493,10 @@ class RoomRentalPostController extends Controller
             )
             ->get();
 
-        $status = "disabled";
-        if ($post->status == "available") {
-            $status = "";
-        } 
-        $button['status'] = $status;
-
         return view('dashboard/owner/dashboard_rentalpost', [
             'page' => 'Room Rental Post',
             'header' => 'Room Rental Post',
             'back' => '/dashboard/room_rental_post_list',
-            'button' => $button,
             'post' => $post,
             'images' => $images,
             'criterias' => $criterias,
@@ -692,6 +679,20 @@ class RoomRentalPostController extends Controller
         return redirect(route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($postID)]));
     }
 
+    function deletePost($postID) {
+        try {
+            $postID = Crypt::decrypt($postID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $post = RoomRentalPost::find($postID);
+        $post->status = 'archived';
+        $post->save();
+
+        return redirect(route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($postID)]));
+    }
+
 
     //Custom fucntion
     function generateID($model)
@@ -799,9 +800,7 @@ class RoomRentalPostController extends Controller
 
         }
 
-
-            return redirect(route('rental_post_list.rental_post', ['post_id' => $postID])); 
-
+        return redirect(route('rental_post_list.rental_post', ['post_id' => $postID])); 
     }
     
 }

@@ -6,10 +6,14 @@ use App\Mail\BanMail;
 use App\Mail\UnbanMail;
 use Illuminate\Http\Request;
 use App\Mail\PaymentReceiptMail;
+use App\Mail\ResetPasswordMail;
+use App\Models\Account;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class MailController extends Controller
 {
@@ -126,6 +130,39 @@ class MailController extends Controller
             'paymentDetailsName' => $paymentDetailsName
         ]);
 
+    }
+
+
+    public function sendResetPassword(Request $request, $accountID)
+    {
+        try {
+            $accountID = Crypt::decrypt($accountID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $host = $request->getHttpHost();
+        $account = Account::find($accountID);
+        $account->reset_password = Str::random(255);
+        $account->save();
+
+        $url = "$host/reset_password/$account->email/$account->reset_password";
+
+        $datetime = Carbon::now();
+        $date = $datetime->toDateString();
+        $time = $datetime->toTimeString();
+
+        $mailData = [
+            'name' => $account->name,
+            'email' => $account->email,
+            'url' => $url,
+            'date' => $date,
+            'time' => $time
+        ];
+        
+        Mail::to($account->email)->send(new ResetPasswordMail($mailData));
+
+        return redirect(route('login.portal'));
     }
 
 

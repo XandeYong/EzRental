@@ -32,27 +32,43 @@
                                         <div class="container">
 
                                             <div class="row align-items-baseline">
-                                                <div class="col-8">
+                                                <div class="col-7 col-lg-8">
                                                     <div class="text-start">
-                                                        <h2>{{ $roomRentalPostLists[$i]->title }}</h3>
+                                                        <h2 class="x-text-overflow-ellipsis">{{ $roomRentalPostLists[$i]->title }}</h3>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>{{ $roomRentalPostLists[$i]->condominium_name }}-{{ $roomRentalPostLists[$i]->block }}-{{ $roomRentalPostLists[$i]->floor }}-{{ $roomRentalPostLists[$i]->unit }}</h4>
+                                                        <h4 class="x-text-overflow-ellipsis">{{ $roomRentalPostLists[$i]->condominium_name }}-{{ $roomRentalPostLists[$i]->block }}-{{ $roomRentalPostLists[$i]->floor }}-{{ $roomRentalPostLists[$i]->unit }}</h4>
                                                     </div>
 
                                                     <div class="text-start c-teal">
-                                                        <h4>{{ $roomRentalPostLists[$i]->room_size }} Room</h4>
+                                                        <h4 class="x-text-overflow-ellipsis">{{ ucfirst(trans($roomRentalPostLists[$i]->room_size)) }} Room</h4>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-4">
+                                                <div class="col-5 col-lg-4">
                                                     <div class="text-end">
                                                         <h5>Monthly Payment:</h5>
                                                     </div>
 
                                                     <div class="text-end c-teal">
                                                         <h1>RM {{ number_format($roomRentalPostLists[$i]->monthly_price, 2) }}</h1>
+                                                    </div>
+                                                </div>
+
+                                                <div id="criteria_list" class="col-12 mt-2">
+                                                    <div class="container">
+                                                        <div class="row border-1 p-1 rounded">
+                                                            <div class="col-12 x-scrollbar-x text-dark p-1 rounded">
+                                                                <div class="p-1">
+
+                                                                    @for ($j = 0; $j < 50; $j++)
+                                                                    <span class="text-capitalize border-1 py-1 px-2 me-2 rounded">test</span>
+                                                                    @endfor
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

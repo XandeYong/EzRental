@@ -1,3 +1,7 @@
+#carousel_post_image img, #no_image {
+    max-height: 300px;
+}
+
 #comment_container {
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 3px;

@@ -25,7 +25,7 @@
 <head>
     <title>EzRental | Login</title>
     @include('base/head')
-    <link rel="stylesheet" href="{{asset('/css/admin_login.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/login.css')}}">
 </head>
 <body>
     
@@ -87,6 +87,12 @@
                         </h5>
                     </div>
                     @endif
+
+                    <div class="row justify-content-center mt-5 text-center">
+                        <h5>Forget your password? 
+                            <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#forget_password_modal">Reset here</button>
+                        </h5>
+                    </div>
                     
                 </div>
             </div>
@@ -94,8 +100,44 @@
         </div>
     </div>
 
+    <!-- Forget Password Modal -->
+    <div class="modal modal-lg fade" id="forget_password_modal" tabindex="-1" aria-labelledby="forget password modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form class="x-form" action="{{ route('login.portal.forget_password') }}" method="POST"
+                    x-alert="Please check your email for password reset link.">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Request a password reset</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="forget_email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" name="forget_email" id="forget_email" placeholder="Enter your email address here...">
+                            @if ($errors->has('forget_email'))
+                                <span class="c-red-error">*{{ $errors->first('forget_email') }}</span>
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button id="rent_submit" type="submit" class="btn btn-primary">Reset Password</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
     @include('base/footer')
     @include('base/script')
+
 
 </body>
 </html>

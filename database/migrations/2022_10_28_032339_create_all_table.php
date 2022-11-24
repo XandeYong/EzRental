@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('status');
             $table->string('role');
+            $table->string('reset_password')->nullable()->default("");
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

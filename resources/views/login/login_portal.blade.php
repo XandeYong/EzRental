@@ -4,7 +4,7 @@
     <title>EzRental | Login Portal</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     @include('base/head')
-    <link rel="stylesheet" href="{{asset("/css/login.css")}}">
+    <link rel="stylesheet" href="{{asset("/css/login_portal.css")}}">
 </head>
 <body>
     

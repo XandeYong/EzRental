@@ -26,12 +26,12 @@
                                     <div class="col-12 col-lg-8 mt-5 mt-lg-0">
 
                                         <div class="container-fluid">
-                                            <div class="row mb-3">
+                                            <div class="row">
                                                 <h1><u>{{ $post[0]->title }}</u></h1>
                                             </div>
 
                                             {{-- Images --}}
-                                            <div id="image" class="row mb-2">
+                                            <div id="image" class="row pt-5">
 
                                                 @if ($images->isEmpty())
                                                     <div id="no_image" class="text-center">
@@ -62,7 +62,7 @@
                                                             @for ($i = 0; $i < count($images); $i++)
                                                                 <div
                                                                     @if ($i == 0) class="carousel-item active" @else class="carousel-item" @endif>
-                                                                    <img class="card-img-top img-fluid img-thumbnail rounded"
+                                                                    <img class="x-image-modal card-img-top img-fluid img-thumbnail rounded"
                                                                         src="{{ asset('image/post/' . $images[$i]->image) }}"
                                                                         alt="{{ $images[$i]->image }}">
                                                                 </div>
@@ -89,36 +89,46 @@
 
                                                     </div>
                                                 @endif
-                                                <p><small class="text-secondary">POST ID:
-                                                        {{ $post[0]->post_id }}</small></p>
-
+                                                <p><small class="text-secondary">POST ID: {{ $post[0]->post_id }}</small></p>
                                             </div>
 
                                             {{-- Criterias --}}
-                                            <div id="criteria" class="row mb-3">
-                                                <h5><u>Criterias:</u></h5>
+                                            <div id="criteria" class="row pt-5">
+                                                <div class="col-12">
+                                                    <h5><u>Criterias:</u></h5>
 
-                                                @if (!$criterias->isEmpty())
-                                                    <div>
-                                                        @foreach ($criterias as $criteria)
-                                                            <span class="btn bg-light border-dark m-1 cursor-default">
-                                                                {{ $criteria->name }} </span>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-
+                                                    @if (!$criterias->isEmpty())
+                                                        <div>
+                                                            @foreach ($criterias as $criteria)
+                                                                <span class="btn bg-light border-dark m-1 cursor-default">
+                                                                    {{ $criteria->name }} 
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    @else 
+                                                        <div>
+                                                            <span class="btn bg-light border-dark cursor-default w-100 text-start">
+                                                                There is no criteria being selected.
+                                                            </span>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
 
                                             {{-- Description --}}
-                                            <div id="description" class="row mb-3">
-                                                <h5><u>Description:</u></h5>
-                                                <p> {!! nl2br(e($post[0]->description)) !!} </p>
+                                            <div id="description" class="row pt-5">    
+                                                <div class="col-12">
+                                                    <h5><u>Description:</u></h5>
+                                                    <p class="bg-light rounded border-black-t-1 border-1 p-2">
+                                                        {!! nl2br(e($post[0]->description)) !!}
+                                                    </p>
+                                                </div>
                                             </div>
 
-                                            <div id="rental_info" class="row mb-2">
-
+                                            <div id="rental_info" class="row pt-5">
                                                 <div class="table-responsive-sm">
                                                     <table class="table table-bordered table-light">
+                                                        
                                                         <thead class="table-info">
                                                             <tr>
                                                                 <th scope="col" colspan="3">
@@ -126,6 +136,7 @@
                                                                 </th>
                                                             </tr>
                                                         </thead>
+
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row" class="w-25">Post Title</th>
@@ -144,9 +155,12 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <th scope="row" class="w-25">Room Size</th>
+                                                                <td class="w-75">{{ ucfirst(trans($post[0]->room_size)) }}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <th scope="row" class="w-25">Condominium</th>
-                                                                <td class="w-75">{{ $post[0]->condominium_name }}
-                                                                </td>
+                                                                <td class="w-75">{{ $post[0]->condominium_name }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="w-25">Floor</th>
@@ -166,19 +180,15 @@
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="w-25">Post Status</th>
-                                                                <td class="w-75 text-capitalize">{{ $post[0]->status }}
-                                                                </td>
+                                                                <td class="w-75 text-capitalize">{{ $post[0]->status }}</td>
                                                             </tr>
                                                         </tbody>
+
                                                     </table>
                                                 </div>
-
                                             </div>
 
-
-
-
-                                            <div id="comment_section" class="row my-5">
+                                            <div id="comment_section" class="row pt-5 mb-5">
                                                 <div class="col-12">
 
                                                     <div id="comment_container">
@@ -486,7 +496,7 @@
                                                         </button>
                                                     </div>
 
-                                                    @if (session()->has('account'))
+                                                    @if (session()->has('account') && session()->get('account')['role'] == 'T')
                                                         <div class="mb-2">
                                                             <button type="button" id="visit_appointment_button"
                                                                 class="btn btn-outline-dark w-100"
@@ -513,25 +523,21 @@
                                                             </button>
                                                         </div>
 
-                                                        @if (Session::has('account'))
-                                                            @if (session()->get('account')->role == 'T')
-                                                                <div class="mb-2">
-                                                                    @if ($favorite->isEmpty())
-                                                                        <button type="button" id="favorite_button"
-                                                                            class="btn btn-outline-dark w-100"
-                                                                            onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('add')) }}';">
-                                                                            Favorite
-                                                                        </button>
-                                                                    @else
-                                                                        <button type="button" id="favorite_button"
-                                                                            class="btn btn-outline-dark w-100"
-                                                                            onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('remove')) }}';">
-                                                                            Unfavorite
-                                                                        </button>
-                                                                    @endif
-                                                                </div>
+                                                        <div class="mb-2">
+                                                            @if ($favorite->isEmpty())
+                                                                <button type="button" id="favorite_button"
+                                                                    class="btn btn-outline-dark w-100"
+                                                                    onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('add')) }}';">
+                                                                    Favorite
+                                                                </button>
+                                                            @else
+                                                                <button type="button" id="favorite_button"
+                                                                    class="btn btn-outline-dark w-100"
+                                                                    onclick="window.location.href ='{{ URL('/rental_post_list/rental_post/addOrRemoveFavorite/' . Crypt::encrypt($post[0]->post_id) . '/' . Crypt::encrypt('remove')) }}';">
+                                                                    Unfavorite
+                                                                </button>
                                                             @endif
-                                                        @endif
+                                                        </div>
                                                     @endif
 
                                                 </div>
@@ -622,7 +628,7 @@
         </div>
     </div>
 
-    @if (session()->has('account'))
+    @if (session()->has('account') && session()->get('account')['role'] == 'T')
 
         @if ($access['appointment'] != 'forbidden')
             <!-- Visit Appointment Modal -->
@@ -782,6 +788,11 @@
         @endif
     @endif
 
+    <div id="x-image-modal">
+        <span class="close">&times;</span>
+        <img id="x-image" class="img-fluid bg-color-white-t-20">
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         <?php
@@ -812,7 +823,9 @@
 
     @include('base/footer')
     @include('base/script')
+    <script src="{{ asset("/vendor/xande/scripting.js") }}"></script>
     <script src="{{ asset('js/rentalpost.js') }}"></script>
+
 
 </body>
 

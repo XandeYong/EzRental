@@ -286,6 +286,15 @@
     color: teal;
 }
 
+.c-gold-1 {
+    color: rgb(255 245 214);
+}
+
+.c-yellow-1 {
+    color: rgb(255 225 29);
+}
+
+
 /*hover color*/
 .hover-c-powderblue:hover {
     color: powderblue;
@@ -561,8 +570,14 @@
 .border-radius-24px {
     border-radius: 24px;
 }
+
 .border-round {
     border-radius: 50%;
+}
+
+.border-radius-left-0 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 
@@ -892,11 +907,47 @@
 /* Text */
 .x-text-overflow-ellipsis {
     white-space: nowrap;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
+/* scroll bar */
+.x-scrollbar-x::-webkit-scrollbar {
+    height: 10px;
+}
 
+.x-scrollbar-y::-webkit-scrollbar {
+    width: 20px;
+}
+
+.x-scrollbar-x::-webkit-scrollbar-track, .x-scrollbar-y::-webkit-scrollbar-track {
+    margin: 1px;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 10px;
+}
+
+.x-scrollbar-x::-webkit-scrollbar-thumb, .x-scrollbar-y::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 10px;
+}
+
+.x-scrollbar-x::-webkit-scrollbar-thumb:hover, .x-scrollbar-y::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0,0,0,0.6);
+}
+
+
+.x-scrollbar-x {
+    width: 100%;
+
+    display: flex;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.x-scrollbar-y {
+    white-space: wrap;
+    overflow-y: auto;
+}
 
 /* Media */
 

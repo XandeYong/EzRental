@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
 use App\Http\Controllers\MaintenanceRequestController;
@@ -39,7 +40,7 @@ Route::get('/dashboard/room_rental_post_list/{postID}', [
     RoomRentalPostController::class, 'ownerIndex'
 ])->name('dashboard.owner.room_rental_post');
 
-Route::get('/dashboard/room_rental_post_list/create_room_rental_post', function() {
+Route::get('/dashboard/room_rental_post/create_room_rental_post', function() {
     return view('dashboard/owner/dashboard_rentalpost_create', [
         'page' => 'Room Rental Post',
         'header' => 'Create Room Rental Post',
@@ -47,7 +48,7 @@ Route::get('/dashboard/room_rental_post_list/create_room_rental_post', function(
     ]);
 })->name('dashboard.owner.room_rental_post.create_form');
 
-Route::post('/dashboard/room_rental_post_list/create_room_rental_post/create', [
+Route::post('/dashboard/room_rental_post/create_room_rental_post/create', [
     RoomRentalPostController::class, 'createPost'
 ])->name('dashboard.owner.room_rental_post.create_form.create');
 
@@ -59,8 +60,11 @@ Route::post('/dashboard/room_rental_post_list/{postID}/edit_form.edit', [
     RoomRentalPostController::class, 'updatePost'
 ])->name('dashboard.owner.room_rental_post.edit_form.edit');
 
+Route::post('/dashboard/room_rental_post_list/{postID}/delete', [
+    RoomRentalPostController::class, 'deletePost'
+])->name('dashboard.owner.room_rental_post.delete');
 
-    //Contract Controller inside RRP
+    //Contract inside RRP
     Route::get('/dashboard/room_rental_post_list/{postID}/contract_list/', [
         ContractController::class, 'contractList'
     ])->name('dashboard.owner.room_rental_post.contract.list');
@@ -76,6 +80,15 @@ Route::post('/dashboard/room_rental_post_list/{postID}/edit_form.edit', [
     Route::post('/dashboard/room_rental_post_list/{postID}/contract_list/{contractID}/edit_form/edit', [
         ContractController::class, 'updateContract'
     ])->name('dashboard.owner.room_rental_post.contract.edit_form.edit');
+
+    //Criteria inside RRP
+    Route::get('/dashboard/room_rental_post_list/{postID}/criteria', [
+        CriteriaController::class, 'ownerIndex'
+    ])->name('dashboard.owner.room_rental_post.criteria');
+
+    Route::post('/dashboard/room_rental_post_list/{postID}/criteria/update', [
+        CriteriaController::class, 'updateCriteria'
+    ])->name('dashboard.owner.room_rental_post.criteria.update');
     
 
 //Maintenance Request Controller

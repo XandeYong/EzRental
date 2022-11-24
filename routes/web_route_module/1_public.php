@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomRentalPostController;
@@ -71,7 +72,13 @@ Route::get('/login_portal', function () {
     return view('/login/login_portal');
 })->name('login.portal');
 
-Route::post('/login_portal/login/account_login', [AccountController::class, 'login'])->name('login.portal.login');
+Route::post('/login_portal/login/account_login', [
+    AccountController::class, 'login'
+])->name('login.portal.login');
+
+Route::post('/login_portal/register/account_register', [
+    AccountController::class, 'register'
+])->name('login.portal.register');
 
 
 // Tenant
@@ -121,6 +128,22 @@ Route::get('/login_portal/login/admin', function () {
         'user' => 'Admin'
     ]);
 })->name('login.admin');
+
+//-----------------
+// Reset Password
+//-----------------
+
+Route::post('/login_portal/login/forget_password', [
+    AccountController::class, 'sendPasswordResetLink'
+])->name('login.portal.forget_password');
+
+Route::get('/reset_password/{email}/{key}', [
+    AccountController::class, 'resetPasswordForm'
+])->name('reset_password.form');
+
+Route::post('/reset_password/{email}/{key}/reset', [
+    AccountController::class, 'resetPassword'
+])->name('reset_password.form.reset');
 
 
 //----------
@@ -198,3 +221,8 @@ Route::get('/rental_post_list/rental_post/delete_comment/{comment_id}', [
     RoomRentalPostController::class, 'deleteComment'
 ])->name('rental_post_list.rental_post.delete_comment');
 
+
+// Mail
+Route::get('/mail/reset_password/{accountID}', [
+    MailController::class, 'sendResetPassword'
+])->name('mail.reset_password');

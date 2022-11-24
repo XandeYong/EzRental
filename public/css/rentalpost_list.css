@@ -2,6 +2,23 @@ body {
     background-color: rgb(75, 145, 143);
 }
 
+#criteria_list > .container, #criteria_list .row, #criteria_list .col-12, #criteria_list span  {
+    max-height: 100%;
+    height: 100%;
+}
+/* 
+#criteria_list .col-12 {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#criteria_list .d-flex {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+} */
+
 .item {
     padding: 12px 24px;
 

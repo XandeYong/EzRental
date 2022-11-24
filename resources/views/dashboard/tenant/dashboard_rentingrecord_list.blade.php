@@ -32,22 +32,35 @@
 
                     {{-- For loop records --}}
                     @foreach ($rentingRecords as $rentingRecord)
+                            
+                        <a href="{{ URL('/dashboard/rentingrecord/getrecordDetails/' . Crypt::encrypt($rentingRecord->renting_id)) }}" class="no-deco text-dark">
+                            <div class="card container mb-4 bg-color-burlywood py-4">
+                                <div class="row px-2">
 
-                    <a href="{{ URL('/dashboard/rentingrecord/getrecordDetails/' . Crypt::encrypt($rentingRecord->renting_id)) }}" class="no-deco text-dark">
-                        <div class="card mb-4">
-                            <div class="d-flex bg-warning align-items-center">
-                                
-                                <div class="row me-auto px-3 w-100 align-items-center">
-                                    <div class="col-12 col-sm py-4">
-                                        <h3 class="mb-0 text-dark">
-                                            {{ $rentingRecord->title }}
-                                        </h3>
+                                    <div class="col-12 col-sm-6 col-lg-8">
+                                        <div class="row">
+                                            <h6 class="mb-0 text-sm-start pb-0 pb-sm-2 opacity-50">
+                                                {{ $rentingRecord->renting_id }}
+                                            </h6>
+
+                                            <h3 class="mb-0">
+                                                {{ $rentingRecord->title }}
+                                            </h3>
+                                        </div>
                                     </div>
+
+                                    <div class="col-12 col-sm-6 col-lg-4">
+                                        <div class="row h-100">
+                                            <h6 class="mb-0 h-25 text-sm-end pb-2">
+                                                Date: {{ date('Y-m-d', strtotime($rentingRecord->created_at)) }}
+                                            </h6>
+                                        </div>
+                                    </div>
+
                                 </div>
-            
+                                <div class="row py-sm-2"></div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
 
                     @endforeach
 

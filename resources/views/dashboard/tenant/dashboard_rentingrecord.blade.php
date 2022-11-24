@@ -52,7 +52,7 @@
                                                 {{-- For loop records --}}
                                                 @for ($i = 0; $i < count($rentingRecordImages); $i++)
                                                 <div @if ($i==0) class="carousel-item active" @else class="carousel-item" @endif >
-                                                    <img class="card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/post/'. $rentingRecordImages[$i]->image) }}" alt="{{ $rentingRecordImages[$i]->image }}">
+                                                    <img class="x-image-modal card-img-top img-fluid img-thumbnail rounded" src="{{ asset('image/post/'. $rentingRecordImages[$i]->image) }}" alt="{{ $rentingRecordImages[$i]->image }}">
                                                 </div>
                                                 @endfor
 
@@ -73,6 +73,29 @@
                                         @endif
                                         <p><small class="text-secondary">POST ID: {{ $rentingRecordDetails[0]->post_id }}</small></p>
 
+                                    </div>
+
+                                    {{-- Criterias --}}
+                                    <div id="criteria" class="row mb-3">
+                                        <div class="col-12">
+                                            <h5><u>Criterias:</u></h5>
+
+                                            @if (!$rentingRecordCriterias->isEmpty())
+                                                <div>
+                                                    @foreach ($rentingRecordCriterias as $criteria)
+                                                        <span class="btn bg-light border-dark m-1 cursor-default">
+                                                            {{ $criteria->name }} 
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @else 
+                                                <div>
+                                                    <span class="btn bg-light border-dark cursor-default w-100 text-start">
+                                                        There is no criteria being selected.
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     {{-- Description --}}
@@ -105,6 +128,10 @@
                                                     <tr>
                                                         <th scope="row" class="w-25">Monthly Payment</th>
                                                         <td class="w-75">RM {{ number_format($rentingRecordDetails[0]->monthly_price, 2) }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Room Size</th>
+                                                        <td class="w-75">{{ ucfirst(trans($rentingRecordDetails[0]->room_size)) }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Condominium</th>
@@ -237,6 +264,11 @@
             </div>
 
         </div>
+    </div>
+
+    <div id="x-image-modal">
+        <span class="close">&times;</span>
+        <img id="x-image" class="img-fluid bg-color-white-t-20">
     </div>
 
     @include('../base/dashboard/dashboard_script')

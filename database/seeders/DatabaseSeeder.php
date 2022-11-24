@@ -482,7 +482,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'tenant_signature' => 'CT' . strval($iCT++) . '_T_sign.png',
             'deposit_price' => 1550,
             'monthly_price' => 600,
-            'status' => 'expire',
+            'status' => 'expired',
             'post_id' => $rrp4->post_id
         ]);
         
@@ -499,7 +499,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'tenant_signature' => null,
             'deposit_price' => 1550,
             'monthly_price' => 600,
-            'status' => 'expire',
+            'status' => 'expired',
             'post_id' => $rrp5->post_id
         ]);
         

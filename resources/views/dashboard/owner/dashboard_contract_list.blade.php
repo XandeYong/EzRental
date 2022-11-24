@@ -20,6 +20,15 @@
                 <div class="col col-sm-10 col-md-8 col-lg-10 pb-4">
                     
                     @if (!empty($contract))
+
+                        @php
+                            $color = 'text-primary';
+                            if ($contract->status == 'expired') {
+                                $color = 'text-secondary';
+                            } else if ($contract->status == 'active') {
+                                $color = 'text-success';
+                            }
+                        @endphp
                         
                         <div id="current_contract">
                             <h5 class="text-secondary">Current Contract</h5>
@@ -39,7 +48,7 @@
                                             <h6 class="mb-0 text-sm-end pb-2">
                                                 Date: {{ date('Y-m-d', strtotime($contract->created_at)) }}
                                             </h6>
-                                            <h4 class="mb-0 text-sm-end">
+                                            <h4 class="mb-0 text-sm-end {{ $color }}">
                                                 {{ Str::ucfirst($contract->status) }}
                                             </h4>
                                         </div>
@@ -73,6 +82,13 @@
                                 $param = ['postID' => Crypt::encrypt($contract->post_id), 'contractID' => Crypt::encrypt($contract->contract_id)];
                                 $route = route('dashboard.owner.room_rental_post.contract', $param);
                             }
+
+                            $color = 'text-primary';
+                            if ($contract->status == 'expired') {
+                                $color = 'text-secondary';
+                            } else if ($contract->status == 'active') {
+                                $color = 'text-success';
+                            }
                         @endphp
                             
                             <a href="{{ $route }}" class="no-deco text-dark">
@@ -89,7 +105,7 @@
                                                 <h6 class="mb-0 text-sm-end pb-2">
                                                     Date: {{ date('Y-m-d', strtotime($contract->created_at)) }}
                                                 </h6>
-                                                <h4 class="mb-0 text-sm-end">
+                                                <h4 class="mb-0 text-sm-end {{ $color }}">
                                                     {{ Str::ucfirst($contract->status) }}
                                                 </h4>
                                             </div>

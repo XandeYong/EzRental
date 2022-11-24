@@ -17,13 +17,13 @@ class RoomRentalPostListController extends Controller
         $rrpList = DB::table('room_rental_posts')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
+            ->where('contracts.status', 'inactive')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
 
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
-
 
         return view('rentalpost_list', [
             'roomRentalPostLists' => $rrpList,
@@ -33,10 +33,8 @@ class RoomRentalPostListController extends Controller
 
     public function ownerIndex()
     {
-        
         $header = 'Room Rental Post List';
         $page = 'Room Rental Post';
-        $user = session()->get('account')['role'];
         $account_id = session()->get('account')['account_id'];
 
         $rrpList = DB::table('room_rental_posts')
@@ -49,7 +47,7 @@ class RoomRentalPostListController extends Controller
             'header' => $header,
             'button' => [
                 'name' => 'Create Room Rental Post',
-                'link' => '/dashboard/room_rental_post_list/create_room_rental_post',
+                'link' => '/dashboard/room_rental_post/create_room_rental_post',
             ],
             'posts' => $rrpList
         ]);
@@ -105,6 +103,7 @@ class RoomRentalPostListController extends Controller
                             }
                         )
                         ->where('room_rental_posts.status', 'available')
+                        ->where('contracts.status', 'inactive')
                         ->select('room_rental_posts.*', 'contracts.monthly_price')
                         ->get();
 
@@ -211,6 +210,7 @@ class RoomRentalPostListController extends Controller
                 ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                 ->where('room_rental_posts.post_id', $search)
                 ->where('room_rental_posts.status', 'available')
+                ->where('contracts.status', 'inactive')
                 ->select('room_rental_posts.*', 'contracts.monthly_price')
                 ->get();
 
@@ -220,6 +220,7 @@ class RoomRentalPostListController extends Controller
                     ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                     ->where('room_rental_posts.title',  'LIKE', '%' . $search . '%')
                     ->where('room_rental_posts.status', 'available')
+                    ->where('contracts.status', 'inactive')
                     ->select('room_rental_posts.*', 'contracts.monthly_price')
                     ->get();
             }
@@ -316,6 +317,7 @@ class RoomRentalPostListController extends Controller
                     ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
                     ->where('criterias.criteria_id', $filter[$i])
                     ->where('room_rental_posts.status', 'available')
+                    ->where('contracts.status', 'inactive')
                     ->orderBy('room_rental_posts.created_at', 'desc')
                     ->select('room_rental_posts.*', 'contracts.monthly_price')
                     ->get();

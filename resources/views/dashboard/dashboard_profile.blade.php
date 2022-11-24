@@ -46,7 +46,7 @@
                                 @endif
 
                                 <div class="col-12 col-lg-4 mb-3 mb-lg-0 text-center">
-                                    <img src="/image/account/{{ $profile[0]->image }}" class="img-fluid img-thumbnail rounded"
+                                    <img src="/image/account/{{ $profile[0]->image }}" class="x-image-modal img-fluid img-thumbnail rounded"
                                         alt="{{ $profile[0]->image }}">
                                 </div>
 
@@ -209,7 +209,7 @@
 
 
                 {{-- login success message --}}
-                @if(Session::has('login_message'))
+                @if(session()->has('login_message'))
                     <div id="login_message" class="message-popup">
                         <div class="alert alert-success alert-dismissible" role="alert">
                             {{ session()->get('login_message') }}
@@ -224,6 +224,10 @@
         </div>
     </div>
 
+    <div id="x-image-modal">
+        <span class="close">&times;</span>
+        <img id="x-image" class="img-fluid bg-color-white-t-20">
+    </div>
 
     @include('../base/dashboard/dashboard_script')
     <script src="{{ asset('vendor/xande/scripting.js') }}"></script>

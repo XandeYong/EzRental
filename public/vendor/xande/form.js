@@ -18,11 +18,16 @@ $(document).ready(function () {
         }
         
         if (validation === true) {
-            if ($(this).attr("x-confirm") !== "" || $(this).attr("x-confirm") !== null) {
+            if ($(this).attr("x-confirm") !== "" && $(this).attr("x-confirm") !== null && $(this).attr("x-confirm") !== undefined) {
                 var message = $(this).attr("x-confirm")
                 if (confirm(message) !== true) {
                     e.preventDefault()
                 }
+            }
+
+            if ($(this).attr("x-alert") !== "" && $(this).attr("x-alert") !== null && $(this).attr("x-alert") !== undefined) {
+                var message = $(this).attr("x-alert")
+                alert(message);
             }
         }
     });
@@ -30,8 +35,19 @@ $(document).ready(function () {
     $("button[x-confirm], a[x-confirm]").click(function (e) {
         var message = $(this).attr("x-confirm")
 
-        if (confirm(message) !== true) {
-            e.preventDefault()
+        if ($(this).attr('href') != undefined && $(this).attr('disabled') == undefined) {
+
+            if (confirm(message) !== true) {
+                e.preventDefault()
+            }
+        }
+    })
+
+    $("button[x-alert], a[x-alert]").click(function (e) {
+        var message = $(this).attr("x-alert")
+
+        if ($(this).attr('href') != undefined && $(this).attr('disabled') == undefined) {
+            alert(message);
         }
     })
 
