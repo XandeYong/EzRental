@@ -6,18 +6,6 @@ body {
     max-height: 100%;
     height: 100%;
 }
-/* 
-#criteria_list .col-12 {
-    width: 100%;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-#criteria_list .d-flex {
-    flex-wrap: nowrap;
-    white-space: nowrap;
-} */
 
 .item {
     padding: 12px 24px;

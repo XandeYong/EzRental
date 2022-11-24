@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EzRental | Create Maintenance Request</title>
+    <title>EzRental | Create Room Rental Post</title>
     
     @include('../base/dashboard/dashboard_head')
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_index.css') }}">

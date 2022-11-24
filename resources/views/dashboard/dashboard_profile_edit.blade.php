@@ -3,7 +3,7 @@
     <html lang="en">
 
     <head>
-        <title>EzRental | Profile</title>
+        <title>EzRental | Edit Profile</title>
 
         @include('../base/dashboard/dashboard_head')
         {{-- <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}"> --}}
