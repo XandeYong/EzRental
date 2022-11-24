@@ -650,22 +650,21 @@
 
                                 <input type="hidden" name="id" value="{{ $post[0]->post_id }}">
                                 <div class="mb-3">
-                                    <label for="visit_appointment_datetime" class="form-label">Date & Time</label>
-                                    <input type="datetime-local" class="form-control" name="datetime"
+                                    <label for="visit_appointment_datetime" class="form-label">Date & Time <span class="c-red">*</span></label>
+                                    <input type="datetime-local" class="form-control" name="datetime" value="@if(old('datetime') != null && (!$errors->has('datetime'))){{ old('datetime') }}@endif"
                                         id="visit_appointment_datetime" required>
                                     @if ($errors->has('datetime'))
                                         <span class="c-red-error">*{{ $errors->first('datetime') }}</span>
                                     @endif
                                 </div>
                                 <div class="mb-3">
-                                    <label for="visit_appointment_note" class="form-label">Note</label>
+                                    <label for="visit_appointment_note" class="form-label">Note <span class="c-red">*</span></label>
                                     <textarea class="form-control" name="note" id="visit_appointment_note" placeholder="Leave a message..."
-                                        rows="3" maxlength="255"></textarea>
+                                        rows="3" maxlength="255">@if(old('note') != null && (!$errors->has('note'))){{ old('note') }}@endif</textarea>
                                     @if ($errors->has('note'))
                                         <span class="c-red-error">*{{ $errors->first('note') }}</span>
                                     @endif
                                 </div>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
@@ -757,8 +756,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="rent_start_date" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" name="start_date"
+                                    <label for="rent_start_date" class="form-label">Start Date <span class="c-red">*</span></label>
+                                    <input type="date" class="form-control" name="start_date" value="@if(old('start_date') != null && (!$errors->has('start_date'))){{ old('start_date') }}@endif"
                                         id="rent_start_date" required>
                                     @if ($errors->has('start_date'))
                                         <span class="c-red-error">*{{ $errors->first('start_date') }}</span>
@@ -766,8 +765,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="end_date" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" name="end_date" id="rent_end_date"
+                                    <label for="end_date" class="form-label">End Date <span class="c-red">*</span></label>
+                                    <input type="date" class="form-control" name="end_date" id="rent_end_date" value="@if(old('end_date') != null && (!$errors->has('end_date'))){{ old('end_date') }}@endif"
                                         required>
                                     @if ($errors->has('end_date'))
                                         <span class="c-red-error">*{{ $errors->first('end_date') }}</span>

@@ -88,7 +88,7 @@
 
                                 @if (($maintenanceRequestDetails[0]->status == "approved" && session()->get("account")->role == "O") || $maintenanceRequestDetails[0]->status == "success")
 
-                                    <h5><u>Proof:</u></h5>
+                                    <h5><u>Proof:</u> <span class="c-red">*</span></h5>
 
                                     <div id="proof_image" class="container-fluid mt-3">
 

@@ -59,7 +59,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>ID :</label>
+                                                            <label>ID : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
                                                             <label>{{ $profile[0]->account_id }}</label>
@@ -70,7 +70,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Name :</label>
+                                                            <label>Name : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
                                                             <input class="form-control" type="text" name="name" value="{{ old('name', $profile[0]->name) }}" placeholder="Please Enter your name here" required>
@@ -84,7 +84,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Gender :</label>
+                                                            <label>Gender : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
 
@@ -127,7 +127,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Date Of birth :</label>
+                                                            <label>Date Of birth : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
                                                             <input class="form-control" type="date" name="dob" value="{{ old('dob', $dob) }}" required >
@@ -141,7 +141,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Phone Number :</label>
+                                                            <label>Phone Number : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
                                                             <input class="form-control" type="text" name="phoneNumber" value="{{ old('phoneNumber', $profile[0]->mobile_number) }}" placeholder="Please Enter your phone number here" required>
@@ -155,7 +155,7 @@
                                                 <li class="list-group-item">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-4 col-lg-3">
-                                                            <label>Email :</label>
+                                                            <label>Email : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
                                                             <input class="form-control" type="text" name="email" value="{{ old('email', $profile[0]->email) }}" placeholder="Please Enter your email here" required>
@@ -175,12 +175,12 @@
 
                                 <div id="edit_profile" class="row row-gap justify-content-center mt-2 mt-lg-5">
                                     <div class="col-12 col-lg-4 text-center mb-2">
-                                        <input type="submit" class="edit-btn btn btn-lg btn-warning px-3 px-sm-5 w-100" name="Edit Profile" value="Update" />
+                                        <input type="submit" class="edit-btn btn btn-lg btn-primary px-3 px-sm-5 w-100" name="Edit Profile" value="Update" />
                                     </div>
                                     
                                     <div class="col-12 col-lg-4 text-center">
                                         <a href="{{ URL('/dashboard/profile/index') }}">
-                                            <button type="button" class="btn btn-lg btn-danger px-3 px-sm-5  w-100">Cancel</button>
+                                            <button type="button" class="btn btn-lg btn-warning px-3 px-sm-5  w-100">Cancel</button>
                                         </a>
                                     </div>
                                 </div>

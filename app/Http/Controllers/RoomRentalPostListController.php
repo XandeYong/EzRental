@@ -18,6 +18,7 @@ class RoomRentalPostListController extends Controller
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
             ->where('contracts.status', 'inactive')
+            ->orderBy('room_rental_posts.created_at', 'desc')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
 
@@ -25,14 +26,39 @@ class RoomRentalPostListController extends Controller
             ->select('criteria_id', 'name')
             ->get();
 
+
+        //get all criterias related to post    
+        $postCriterias = array();
+        for ($i = 0; $i < count($rrpList); $i++) {
+
+            $postCriteria = DB::table('room_rental_posts')
+                ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+                ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
+                ->where('room_rental_posts.post_id', $rrpList[$i]->post_id)
+                ->select('room_rental_posts.post_id', 'criterias.criteria_id', 'criterias.name')
+                ->get();
+
+            if (!$postCriteria->isEmpty()) {
+                foreach ($postCriteria as $criteria) {
+                    array_push($postCriterias,  $criteria);
+                }
+            }
+        }
+        //Converting an array -> stdClass/Object
+        $postCriterias = json_decode(json_encode($postCriterias));
+
+
+
         return view('rentalpost_list', [
             'roomRentalPostLists' => $rrpList,
-            'criteriaLists' => $criteriaLists
+            'criteriaLists' => $criteriaLists,
+            'postCriterias' => $postCriterias
         ]);
     }
 
     public function ownerIndex()
     {
+        
         $header = 'Room Rental Post List';
         $page = 'Room Rental Post';
         $account_id = session()->get('account')['account_id'];
@@ -119,7 +145,7 @@ class RoomRentalPostListController extends Controller
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get();
+            ->get(); 
 
         if (!$allRentalPost->isEmpty()) {
             for ($i = 0; $i < count($allRentalPost); $i++) {
@@ -132,7 +158,6 @@ class RoomRentalPostListController extends Controller
             $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
         }
 
-
         //Converting an array -> stdClass/Object
         $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
 
@@ -140,9 +165,33 @@ class RoomRentalPostListController extends Controller
             ->select('criteria_id', 'name')
             ->get();
 
+        
+
+        //get all criterias related to post    
+        $postCriterias = array();
+        for ($i = 0; $i < count($roomRentalPostLists); $i++) {
+
+            $postCriteria = DB::table('room_rental_posts')
+                ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+                ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
+                ->where('room_rental_posts.post_id', $roomRentalPostLists[$i]->post_id)
+                ->select('room_rental_posts.post_id', 'criterias.criteria_id', 'criterias.name')
+                ->get();
+
+            if (!$postCriteria->isEmpty()) {
+                foreach ($postCriteria as $criteria) {
+                    array_push($postCriterias,  $criteria);
+                }
+            }
+        }
+        //Converting an array -> stdClass/Object
+        $postCriterias = json_decode(json_encode($postCriterias));
+
+
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists,
-            'criteriaLists' => $criteriaLists
+            'criteriaLists' => $criteriaLists,
+            'postCriterias' => $postCriterias
         ]);
     }
 
@@ -323,26 +372,25 @@ class RoomRentalPostListController extends Controller
                     ->get();
 
                 if (!$rentalPosts->isEmpty()) {
-                    foreach($rentalPosts as $rentalPost){
+                    foreach ($rentalPosts as $rentalPost) {
                         array_push($roomRentalPostLists,  $rentalPost);
-                    }          
+                    }
                 }
-
             }
         }
-        
+
 
         if (count($roomRentalPostLists) != 0) {
             //Remove duplicate object in array
             $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
         }
-        
+
 
         //Converting an array -> stdClass/Object
         $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
 
         //Sort desc based on room rental post created_at
-        usort($roomRentalPostLists, function($first,$second){
+        usort($roomRentalPostLists, function ($first, $second) {
             return $first->created_at < $second->created_at;
         });
 
@@ -355,6 +403,5 @@ class RoomRentalPostListController extends Controller
             'criteriaLists' => $criteriaLists,
             'filters' => $filter
         ]);
-
     }
 }

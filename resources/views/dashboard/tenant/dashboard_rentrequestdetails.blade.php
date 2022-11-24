@@ -134,7 +134,6 @@
                                 {{-- do process after tenant signed --}}
 
                                     <div class="row justify-content-center">
-
                                         <div class="col-12 col-lg-4">
                                             <a href="{{ url('/dashboard/rentrequest/confirmRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-primary w-100"
                                                 onclick="return confirm('Are you sure you want to confirm the rent request?');">Confirm</a>
@@ -181,9 +180,9 @@
         $o_sign = "";
 
         if (session()->get('account')['role'] == 'O') {
-            $url = URL("");
+            $url = URL("/dashboard/rentingrequest/ownerSignContract");
             $user = "O";
-            $confirm = "are you sure you want to approve the rent request?";
+            $confirm = "Are you sure you want to approve the rent request by sign the contract?";
             $o_sign = "x-upload-image";
         } else if (session()->get('account')['role'] == "T") {
             $url = URL("/dashboard/rentingrequest/tenantSignContract");
@@ -195,8 +194,8 @@
     @endphp
 
     <!-- Contract Modal -->
-    <form action="{{ $url }}" method="POST"
-        onsubmit="return confirm({{ $confirm }});" enctype="multipart/form-data">
+    <form action="{{ $url }}" method="POST"  
+        onsubmit="return confirm('{{ $confirm }}');" enctype="multipart/form-data"> 
         @csrf
         <div class="modal modal-lg fade" id="contract_modal" tabindex="-1" aria-labelledby="contract modal"
             aria-hidden="true">
@@ -214,7 +213,6 @@
                             <p class="mb-5">
                                 {{ $contract[0]->content }}
                             </p>
-
                             <div class="table-responsive">
                                 <table class="table table-bordered table-light mb-5">
                                     <thead class="table-info">
@@ -250,7 +248,7 @@
                                     <input type="hidden" name="rentRequestID" value="{{ $rentRequestDetails[0]->rent_request_id }}">
                                         
                                     <div class="col-12 col-md-6 col-lg-5 mb-5 mb-lg-0">
-                                        <h6 class="pb-5"><u>Owner Signature:</u></h6>
+                                        <h6 class="pb-5"><u>Owner Signature:</u> @if(session()->get('account')->role == 'O')<span class="c-red">*</span> @endif</h6>
                                         <img class="img-fluid {{ $o_sign }}" src="{{ asset('image/contract/' . $contract[0]->owner_signature) }}" alt="">
                                         <hr class="mt-5">
 
@@ -263,7 +261,7 @@
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-5">
-                                        <h6 class="pb-5"><u>Tenant Signature:</u></h6>
+                                        <h6 class="pb-5"><u>Tenant Signature:</u> @if(session()->get('account')->role == 'T')<span class="c-red">*</span> @endif</h6>
                                         <img class="img-fluid {{ $t_sign }}" src="{{ asset('image/contract/' . $contract[0]->tenant_signature) }}" alt="">
                                         <hr class="mt-5">
 
