@@ -365,7 +365,7 @@ class MaintenanceRequestController extends Controller
     {
         //Laravel validation
         $request->validate([ // 1st array is field rules
-            'images.*' =>'required|distinct|image|mimes:jpeg,png,jpg|max:2048'
+            'images.*' =>'required|distinct|image|mimes:jpeg,png,jpg|max:20480'
           ], [ ], 
           [ // 3rd array is the fields custom name
             'images.*' => 'image'

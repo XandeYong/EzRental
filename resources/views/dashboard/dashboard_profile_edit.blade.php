@@ -130,7 +130,7 @@
                                                             <label>Date Of birth : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="date" name="dob" value="{{ old('dob', $dob) }}" required >
+                                                            <input class="form-control" type="date" name="dob" value="{{ old('dob', $profile[0]->dob) }}" required >
                                                             @if($errors->has('dob'))
                                                             <span class="c-red-error">*{{ $errors->first('dob') }}</span>
                                                             @endif

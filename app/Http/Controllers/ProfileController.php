@@ -91,14 +91,11 @@ class ProfileController extends Controller
             ->select('account_id', 'name', 'gender', 'dob', 'mobile_number', 'email', 'image', 'role', 'password')
             ->get();
 
-            $dob = $profile[0]->dob;
-
         return view('dashboard/dashboard_profile_edit', [
             'page' => $this->name,
             'header' => "Edit Profile",
             'back' => "/dashboard/profile/index",
-            'profile' => $profile,
-            'dob' => $dob
+            'profile' => $profile
         ]);
     }
 
@@ -107,7 +104,7 @@ class ProfileController extends Controller
 
         //Laravel validation
         $request->validate([
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20480'],
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
             'gender' => ['required', 'regex:/^[M|F]$/'],
             'dob' => ['required', 'date', 'before:13 years ago'],
@@ -128,21 +125,24 @@ class ProfileController extends Controller
         $email = $request->input('email');
 
         
-
         //check is image file empty
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = $id.".".$image->getClientOriginalExtension();
-            $request->file('image')->move(public_path().'/image/account/', $imageName );
+            $request->file('image')->move(public_path().'/image/account/', $imageName);
+            //for if same image file name
+            $status=true;
+        }else{
+            $status=false;
         }
 
-
+        
         //update profile in database
         $updated = DB::table('accounts')
             ->where('account_id', $id)
             ->update(['name' => $name, 'image' => $imageName, 'gender' => $gender, 'dob' => $dob, 'mobile_number' => $phoneNumber, 'email' => $email]);
 
-        if ($updated > 0 ) {
+        if ($updated > 0 || $status==true) {
             $request->session()->put('successMessage', 'Profile update success.');
 
             //get new account details

@@ -46,7 +46,7 @@ class ContractController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+            'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
 
         $account = $request->session()->get('account');
@@ -109,7 +109,7 @@ class ContractController extends Controller
     {
         //Laravel validation
         $request->validate([
-            'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+            'sign' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:20480']
         ]);
 
         $account = $request->session()->get('account');
