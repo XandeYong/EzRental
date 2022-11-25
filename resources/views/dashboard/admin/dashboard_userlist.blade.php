@@ -109,7 +109,7 @@
                                             @else
                                                 @for ($i = 0; $i < count($userList); $i++)
                                                     @php
-                                                        $color = 'text-primary';
+                                                        $color = 'text-secondary';
                                                         if ($userList[$i]->status == 'banned') {
                                                             $color = 'text-danger';
                                                         } elseif ($userList[$i]->status == 'online') {
@@ -127,7 +127,7 @@
                                                             {{ $userList[$i]->email }}
                                                         </td>
                                                         <td class="text-center {{ $color }}">
-                                                            {{ Str::ucfirst($userList[$i]->status) }}
+                                                            <strong>{{ Str::ucfirst($userList[$i]->status) }}</strong>                                                   
                                                         </td>
                                                         <td class="text-center">
                                                             @if ($userList[$i]->status == 'banned')

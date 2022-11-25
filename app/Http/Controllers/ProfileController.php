@@ -112,7 +112,7 @@ class ProfileController extends Controller
             'email' => ['required', new EmailValidation, 'max:255']
         ]);
 
-
+dd("haha");
         //
         $account = $request->session()->get('account');
         $id = $account->account_id;

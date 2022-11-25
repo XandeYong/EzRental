@@ -278,6 +278,15 @@ class RentRequestController extends Controller
             ->select('rent_requests.account_id', 'rent_requests.price', 'room_rental_posts.post_id', 'room_rental_posts.title', 'contracts.contract_id')
             ->get();
 
+        //update contract status in database 
+        $updated = DB::table('contracts')
+            ->where('contract_id', $roomRentalPost[0]->contract_id)
+            ->update(['status' => "active"]);
+
+        //update room rental post status in database 
+        $updated = DB::table('room_rental_posts')
+            ->where('post_id', $roomRentalPost[0]->post_id)
+            ->update(['status' => "renting"]);
 
         //Create new renting record in database
         //getLatestRentingID
@@ -302,7 +311,7 @@ class RentRequestController extends Controller
         //make new PaymentID
         $newPaymentID = $this->paymentID($latestPaymentID);
 
-        //Insert maintenance request in to database
+        //Insert payment in to database
         DB::table('payments')->insert([
             'payment_id' => $newPaymentID,
             'payment_type' => 'Deposit',
