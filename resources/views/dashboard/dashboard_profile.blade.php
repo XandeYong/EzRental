@@ -210,10 +210,14 @@
 
                 {{-- login success message --}}
                 @if(session()->has('login_message'))
-                    <div id="login_message" class="message-popup">
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            {{ session()->get('login_message') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                            <div id="login_message" class="message-popup">
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    {{ session()->get('login_message') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
