@@ -111,6 +111,7 @@ return new class extends Migration
             $table->string('post_id');
             $table->string('contract_id');
             $table->string('status');
+            $table->string('renew_contract')->nullable()->default('no');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

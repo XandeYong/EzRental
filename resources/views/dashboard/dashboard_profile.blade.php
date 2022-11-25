@@ -132,13 +132,10 @@
                             <div id="edit_profile" class="row row-gap justify-content-center mt-1">
                                 <div class="col text-center">
                                     <a href="{{ route('dashboard.profile.edit') }}">
-                                        <button type="button"
-                                            class="edit-btn btn btn-lg btn-light btn-outline-dark w-100">Edit
-                                            Profile</button>
+                                        <button type="button" class="edit-btn btn btn-lg btn-light btn-outline-dark w-100">Edit Profile</button>
                                     </a>
                                 </div>
                             </div>
-
                         </div>
 
 
@@ -212,7 +209,7 @@
                 @if(session()->has('login_message'))
                     <div class="col-12">
                         <div class="d-flex justify-content-center">
-                            <div id="login_message" class="message-popup">
+                            <div id="login_message" class="message-popup mt-5 mt-lg-0">
                                 <div class="alert alert-success alert-dismissible" role="alert">
                                     {{ session()->get('login_message') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
