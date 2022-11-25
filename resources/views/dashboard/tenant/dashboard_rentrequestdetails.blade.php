@@ -182,10 +182,14 @@
         $confirm = "";
         $t_sign = "";
         $o_sign = "";
+        $method = "POST";
+        $action = "Sign";
 
         if (session()->get('account')['role'] == 'O' && $rentRequestDetails[0]->status == 'signed') {
             $url = url('/dashboard/rentrequest/confirmRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id));
             $confirm = "Are you sure you want to confirm the rent request?";
+            $method = "GET";
+            $action = "Confirm";
         } else if (session()->get('account')['role'] == "T") {
             $url = URL("/dashboard/rentingrequest/tenantSignContract");
             $user = "T";
@@ -201,7 +205,7 @@
     @endphp
 
     <!-- Contract Modal -->
-    <form action="{{ $url }}" method="POST"  
+    <form action="{{ $url }}" method="{{ $method }}"  
         onsubmit="return confirm('{{ $confirm }}');" enctype="multipart/form-data"> 
         @csrf
         <div class="modal modal-lg fade" id="contract_modal" tabindex="-1" aria-labelledby="contract modal"
@@ -286,7 +290,7 @@
 
                     </div>
                     <div class="modal-footer hstack">
-                        <button type="submit" class="btn btn-success w-100" data-bs-dismiss="modal">Sign</button>
+                        <button type="submit" class="btn btn-success w-100" data-bs-dismiss="modal">{{ $action }}</button>
                         <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>

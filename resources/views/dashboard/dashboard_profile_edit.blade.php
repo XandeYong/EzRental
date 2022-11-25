@@ -41,7 +41,7 @@
                                             <input class="x-input-image form-control text-center" type="file" name="image">
 
                                             @if($errors->has('image'))
-                                                <span class="c-red-error">*{{ $errors->all('image') }}</span>
+                                                <span class="c-red-error">*{{ $errors->first('image') }}</span>
                                             @endif
 
                                         </div>
