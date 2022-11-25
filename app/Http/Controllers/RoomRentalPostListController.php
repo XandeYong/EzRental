@@ -58,7 +58,7 @@ class RoomRentalPostListController extends Controller
 
     public function ownerIndex()
     {
-        
+
         $header = 'Room Rental Post List';
         $page = 'Room Rental Post';
         $account_id = session()->get('account')['account_id'];
@@ -144,8 +144,9 @@ class RoomRentalPostListController extends Controller
         $allRentalPost = DB::table('room_rental_posts')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
+            ->where('contracts.status', 'inactive')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
-            ->get(); 
+            ->get();
 
         if (!$allRentalPost->isEmpty()) {
             for ($i = 0; $i < count($allRentalPost); $i++) {
@@ -165,7 +166,7 @@ class RoomRentalPostListController extends Controller
             ->select('criteria_id', 'name')
             ->get();
 
-        
+
 
         //get all criterias related to post    
         $postCriterias = array();
@@ -281,7 +282,7 @@ class RoomRentalPostListController extends Controller
             return back()->withInput();
         }
 
-        return view('rental_post_list', [
+        return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists
         ]);
     }
@@ -302,6 +303,7 @@ class RoomRentalPostListController extends Controller
                 ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                 ->orderBy('room_rental_posts.created_at', 'desc')
                 ->where('room_rental_posts.status', 'available')
+                ->where('contracts.status', 'inactive')
                 ->select('room_rental_posts.*', 'contracts.monthly_price')
                 ->get();
         } elseif ($sort == "oldest") {
@@ -310,6 +312,7 @@ class RoomRentalPostListController extends Controller
                 ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                 ->orderBy('room_rental_posts.created_at')
                 ->where('room_rental_posts.status', 'available')
+                ->where('contracts.status', 'inactive')
                 ->select('room_rental_posts.*', 'contracts.monthly_price')
                 ->get();
         } elseif ($sort == "high price") {
@@ -318,6 +321,7 @@ class RoomRentalPostListController extends Controller
                 ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                 ->orderBy('contracts.monthly_price', 'desc')
                 ->where('room_rental_posts.status', 'available')
+                ->where('contracts.status', 'inactive')
                 ->select('room_rental_posts.*', 'contracts.monthly_price')
                 ->get();
         } elseif ($sort == "low price") {
@@ -326,18 +330,41 @@ class RoomRentalPostListController extends Controller
                 ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
                 ->orderBy('contracts.monthly_price')
                 ->where('room_rental_posts.status', 'available')
+                ->where('contracts.status', 'inactive')
                 ->select('room_rental_posts.*', 'contracts.monthly_price')
                 ->get();
         }
+
+        //get all criterias related to post    
+        $postCriterias = array();
+        for ($i = 0; $i < count($roomRentalPostLists); $i++) {
+
+            $postCriteria = DB::table('room_rental_posts')
+                ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+                ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
+                ->where('room_rental_posts.post_id', $roomRentalPostLists[$i]->post_id)
+                ->select('room_rental_posts.post_id', 'criterias.criteria_id', 'criterias.name')
+                ->get();
+
+            if (!$postCriteria->isEmpty()) {
+                foreach ($postCriteria as $criteria) {
+                    array_push($postCriterias,  $criteria);
+                }
+            }
+        }
+        //Converting an array -> stdClass/Object
+        $postCriterias = json_decode(json_encode($postCriterias));
 
 
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
 
+
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists,
-            'criteriaLists' => $criteriaLists
+            'criteriaLists' => $criteriaLists,
+            'postCriterias' => $postCriterias
         ]);
     }
 
@@ -394,6 +421,26 @@ class RoomRentalPostListController extends Controller
             return $first->created_at < $second->created_at;
         });
 
+        //get all criterias related to post    
+        $postCriterias = array();
+        for ($i = 0; $i < count($roomRentalPostLists); $i++) {
+
+            $postCriteria = DB::table('room_rental_posts')
+                ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+                ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
+                ->where('room_rental_posts.post_id', $roomRentalPostLists[$i]->post_id)
+                ->select('room_rental_posts.post_id', 'criterias.criteria_id', 'criterias.name')
+                ->get();
+
+            if (!$postCriteria->isEmpty()) {
+                foreach ($postCriteria as $criteria) {
+                    array_push($postCriterias,  $criteria);
+                }
+            }
+        }
+        //Converting an array -> stdClass/Object
+        $postCriterias = json_decode(json_encode($postCriterias));
+
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
@@ -401,7 +448,8 @@ class RoomRentalPostListController extends Controller
         return view('rentalpost_list', [
             'roomRentalPostLists' => $roomRentalPostLists,
             'criteriaLists' => $criteriaLists,
-            'filters' => $filter
+            'filters' => $filter,
+            'postCriterias' => $postCriterias
         ]);
     }
 }

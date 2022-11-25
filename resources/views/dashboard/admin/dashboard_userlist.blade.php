@@ -108,6 +108,14 @@
                                                 </tr>
                                             @else
                                                 @for ($i = 0; $i < count($userList); $i++)
+                                                    @php
+                                                        $color = 'text-primary';
+                                                        if ($userList[$i]->status == 'banned') {
+                                                            $color = 'text-danger';
+                                                        } elseif ($userList[$i]->status == 'online') {
+                                                            $color = 'text-success';
+                                                        }
+                                                    @endphp
                                                     <tr>
                                                         <td>
                                                             {{ $i + 1 }}
@@ -118,8 +126,8 @@
                                                         <td>
                                                             {{ $userList[$i]->email }}
                                                         </td>
-                                                        <td class="text-center">
-                                                            {{ $userList[$i]->status }}
+                                                        <td class="text-center {{ $color }}">
+                                                            {{ Str::ucfirst($userList[$i]->status) }}
                                                         </td>
                                                         <td class="text-center">
                                                             @if ($userList[$i]->status == 'banned')
@@ -129,7 +137,8 @@
                                                                         class="ico-sm ico-unlock-solid ico-golden m-0"></i></a>
                                                             @else
                                                                 <button class="btn btn-ban" title="ban"
-                                                                    data-bs-toggle="modal" data-bs-target="#ban_modal" account-id="{{ $userList[$i]->account_id }}">
+                                                                    data-bs-toggle="modal" data-bs-target="#ban_modal"
+                                                                    account-id="{{ $userList[$i]->account_id }}">
                                                                     <i class="ico-sm ico-lock-solid ico-red-2 m-0"></i>
                                                                 </button>
                                                             @endif
@@ -162,8 +171,10 @@
 
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label class="form-label">Duration: <span class="c-red">*</span></label>
-                                                <input type="text" placeholder="Enter Days" name="duration" @if(old('duration') != null && (!$errors->has('duration'))) value="{{ old('duration') }}" @endif
+                                                <label class="form-label">Duration: <span
+                                                        class="c-red">*</span></label>
+                                                <input type="text" placeholder="Enter Days" name="duration"
+                                                    @if (old('duration') != null && !$errors->has('duration')) value="{{ old('duration') }}" @endif
                                                     class="form-control" required>
                                                 @if ($errors->has('duration'))
                                                     <span class="c-red-error">*{{ $errors->first('duration') }}</span>
@@ -173,12 +184,17 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Reason: <span class="c-red">*</span></label>
                                                 <textarea class="form-control" name="reason" id="negotiate_message" placeholder="Enter Reason for ban the user"
-                                                    rows="3" maxlength="255" required>@if(old('reason') != null && (!$errors->has('reason'))){{ old('reason') }}@endif</textarea>
+                                                    rows="3" maxlength="255" required>
+@if (old('reason') != null && !$errors->has('reason'))
+{{ old('reason') }}
+@endif
+</textarea>
                                                 @if ($errors->has('reason'))
                                                     <span class="c-red-error">*{{ $errors->first('reason') }}</span>
                                                 @endif
                                             </div>
-                                            <input type="hidden" id="accountID" name="accountID" value="{{ old('accountID') }}">
+                                            <input type="hidden" id="accountID" name="accountID"
+                                                value="{{ old('accountID') }}">
                                         </div>
 
                                         <div class="modal-footer">
