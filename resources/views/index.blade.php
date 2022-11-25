@@ -33,10 +33,14 @@
             {{-- login success message --}}
             @if(session()->has('access_message'))
                 <div class="row justify-content-center">
-                    <div id="login_message" class="message-popup">
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                            {{ session()->get('access_message') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                            <div id="login_message" class="message-popup">
+                                <div class="alert alert-danger alert-dismissible mx-auto" role="alert">
+                                    {{ session()->get('access_message') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

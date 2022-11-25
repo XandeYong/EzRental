@@ -92,7 +92,7 @@
                         <div class="row mt-5 justify-content-center">
 
                             @if ($rentRequestDetails[0]->status == 'pending' && session()->get('account')->role == 'O')
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                                     <button type="button" class="btn btn-lg btn-primary w-100"
                                         data-bs-toggle="modal" data-bs-target="#contract_modal">
                                         Sign Contract
@@ -107,7 +107,7 @@
                             @elseif ($rentRequestDetails[0]->status == 'approved' && session()->get('account')->role == 'T')
                                 <div class="row mt-5">
                                     <div class="row justify-content-center">
-                                        <div class="col-12 col-lg-4">
+                                        <div class="col-12 col-lg-4 mb-3 mb-lg-0">
                                             <button type="button" class="btn btn-lg btn-primary w-100"
                                                 data-bs-toggle="modal" data-bs-target="#contract_modal">
                                                 Sign Contract
@@ -134,9 +134,13 @@
                                 {{-- do process after tenant signed --}}
 
                                     <div class="row justify-content-center">
-                                        <div class="col-12 col-lg-4">
-                                            <a href="{{ url('/dashboard/rentrequest/confirmRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id)) }}" class="btn btn-lg btn-primary w-100"
-                                                onclick="return confirm('Are you sure you want to confirm the rent request?');">Confirm</a>
+                                        <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+                                            <a >
+                                                <button type="button" class="btn btn-lg btn-primary w-100"
+                                                data-bs-toggle="modal" data-bs-target="#contract_modal">
+                                                Confirm Contract
+                                            </button>
+                                            </a>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
@@ -179,16 +183,19 @@
         $t_sign = "";
         $o_sign = "";
 
-        if (session()->get('account')['role'] == 'O') {
-            $url = URL("/dashboard/rentingrequest/ownerSignContract");
-            $user = "O";
-            $confirm = "Are you sure you want to approve the rent request by sign the contract?";
-            $o_sign = "x-upload-image";
+        if (session()->get('account')['role'] == 'O' && $rentRequestDetails[0]->status == 'signed') {
+            $url = url('/dashboard/rentrequest/confirmRentRequest/' . Crypt::encrypt($rentRequestDetails[0]->rent_request_id));
+            $confirm = "Are you sure you want to confirm the rent request?";
         } else if (session()->get('account')['role'] == "T") {
             $url = URL("/dashboard/rentingrequest/tenantSignContract");
             $user = "T";
             $confirm = "Are you sure you want to sign the contract?";
             $t_sign = "x-upload-image";
+        } else if (session()->get('account')['role'] == 'O') {
+            $url = URL("/dashboard/rentingrequest/ownerSignContract");
+            $user = "O";
+            $confirm = "Are you sure you want to approve the rent request by sign the contract?";
+            $o_sign = "x-upload-image";
         }
 
     @endphp

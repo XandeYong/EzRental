@@ -128,12 +128,14 @@ class ProfileController extends Controller
         $email = $request->input('email');
 
         
-
         //check is image file empty
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = $id.".".$image->getClientOriginalExtension();
             $request->file('image')->move(public_path().'/image/account/', $imageName );
+            $status = true;
+        } else {
+            $status = false;
         }
 
 
@@ -142,7 +144,7 @@ class ProfileController extends Controller
             ->where('account_id', $id)
             ->update(['name' => $name, 'image' => $imageName, 'gender' => $gender, 'dob' => $dob, 'mobile_number' => $phoneNumber, 'email' => $email]);
 
-        if ($updated > 0 ) {
+        if ($updated > 0 || $status == true) {
             $request->session()->put('successMessage', 'Profile update success.');
 
             //get new account details
