@@ -510,7 +510,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $r1 = Renting::create([
             'renting_id' => 'R' . strval($iR++),
-            'account_id' => $a3->account_id,
+            'account_id' => $a5->account_id,
             'post_id' => $rrp3->post_id,
             'contract_id' => $ct3->contract_id,
             'status' => 'active',
@@ -520,7 +520,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $r2 = Renting::create([
             'renting_id' => 'R' . strval($iR++),
-            'account_id' => $a4->account_id,
+            'account_id' => $a5->account_id,
             'post_id' => $rrp4->post_id,
             'contract_id' => $ct4->contract_id,
             'status' => 'expired',

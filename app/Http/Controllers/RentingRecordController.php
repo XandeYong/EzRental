@@ -84,7 +84,7 @@ class RentingRecordController extends Controller
         ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
         ->join('contracts', 'contracts.contract_id', '=', 'rentings.contract_id')
         ->where('rentings.renting_id', $rentingID)
-        ->select('room_rental_posts.post_id', 'room_rental_posts.title', 'room_rental_posts.description', 'room_rental_posts.room_size', 'room_rental_posts.address', 'room_rental_posts.condominium_name', 'room_rental_posts.block', 'room_rental_posts.floor', 'room_rental_posts.unit', 'accounts.name', 'rentings.status', 'rentings.renting_id', 'rentings.contract_id', 'contracts.deposit_price', 'contracts.monthly_price')
+        ->select('room_rental_posts.post_id', 'room_rental_posts.title', 'room_rental_posts.description', 'room_rental_posts.room_size', 'room_rental_posts.address', 'room_rental_posts.condominium_name', 'room_rental_posts.block', 'room_rental_posts.floor', 'room_rental_posts.unit', 'accounts.name', 'rentings.status', 'rentings.renew_contract', 'rentings.renting_id', 'rentings.contract_id', 'contracts.deposit_price', 'contracts.monthly_price')
         ->get();
 
 

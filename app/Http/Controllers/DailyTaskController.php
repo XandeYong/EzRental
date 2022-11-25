@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\UnbanMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -11,9 +12,6 @@ class DailyTaskController extends Controller
 {
     public function __construct()
     {
-        //call daily function here
-        $this->example();
-
         //Auto unbanned user when durration arrived Function
         $this->autoUnbannedUser();
         //Auto add monthly payment when one month arrived Function
@@ -26,14 +24,32 @@ class DailyTaskController extends Controller
         $this->autoCheckRoomVisitAppointment();
         //Auto check is rent request already expired 
         $this->autoCheckRentRequest();
+        
+        $datetime = Carbon::now();
+        $date = $datetime->toDateString();
+        $time = $datetime->toTimeString();
+        $status = 'success';
 
+
+        $log = <<<EOT
+        >>
+        ==================================
+        Scheduler-Log
+        ----------------------------------
+        Task: DailyTask
+        Controller: DailyTaskController
+        Date: $date
+        Time: $time
+        Status: $status
+        ==================================
+        >>\n
+        EOT;
+
+        echo $log;
     }
 
-    //put daily function here
-    public function example()
-    {
-        echo "i am being executed. [example]";
-    }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Auto unbanned user when durration arrived Function
     public function autoUnbannedUser()

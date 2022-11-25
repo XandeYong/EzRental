@@ -2,10 +2,7 @@
     max-height: 300px;
 }
 
-.sidenav-container {
-    position: sticky;
-    top: 2%;
-}
+
 
 #payment {
     height: 300px;
@@ -33,4 +30,11 @@
     border: 0;
     border-top: 1px solid rgba(0,0,0,0.13);
 
+}
+
+@media only screen and (min-width: 991.5px) {
+    .sidenav-container {
+        position: sticky;
+        top: 2%;
+    }
 }

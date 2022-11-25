@@ -94,6 +94,7 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->string('contract_id')->primary();
             $table->text('content');
+            $table->date('start_date')->nullable();
             $table->date('expired_date')->nullable();
             $table->string('owner_signature')->nullable();
             $table->string('tenant_signature')->nullable();
