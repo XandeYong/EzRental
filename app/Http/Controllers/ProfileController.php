@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         //get profile data from database  
-        $account = $request->session()->get('account'); 
+        $account = $request->session()->get('account');
         $id = $account->account_id;
         $user = $account->role;
 
@@ -62,7 +62,12 @@ class ProfileController extends Controller
                 ->where('account_id', $id)
                 ->update(['password' => $newPassword]);
 
-            $request->session()->put('successMessage', 'Password change success.');
+            if ($updated > 0) {
+                $request->session()->put('successMessage', 'Password change success.');
+            } else {
+                $request->session()->put('failMessage', 'Password change fail.');
+            }
+
         } else {
             $errorMessage = "Error Message:";
 
@@ -123,36 +128,35 @@ class ProfileController extends Controller
         $phoneNumber = $request->input('phoneNumber');
         $email = $request->input('email');
 
-        
+
 
         //check is image file empty
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $id.".".$image->getClientOriginalExtension();
-            $request->file('image')->move(public_path().'/image/account/', $imageName);
+            $imageName = $id . "." . $image->getClientOriginalExtension();
+            $request->file('image')->move(public_path() . '/image/account/', $imageName);
             //for if same image file name
-            $status=true;
-        }else{
-            $status=false;
+            $status = true;
+        } else {
+            $status = false;
         }
 
-        
+
         //update profile in database
         $updated = DB::table('accounts')
             ->where('account_id', $id)
             ->update(['name' => $name, 'image' => $imageName, 'gender' => $gender, 'dob' => $dob, 'mobile_number' => $phoneNumber, 'email' => $email]);
 
-        if ($updated > 0 || $status==true) {
+        if ($updated > 0 || $status == true) {
             $request->session()->put('successMessage', 'Profile update success.');
 
             //get new account details
             $newAccountDetails = Account::where('account_id', $id)
-            ->first();
+                ->first();
 
             //Update account Session data
             $newAccountDetails->password = "";
             $request->session()->put('account', $newAccountDetails);
-
         } else {
             $request->session()->put('failMessage', 'Profile update failed because nothing to change.');
         }
@@ -160,10 +164,4 @@ class ProfileController extends Controller
 
         return redirect(route("dashboard.profile"));
     }
-
-
-
-
-
-
 }

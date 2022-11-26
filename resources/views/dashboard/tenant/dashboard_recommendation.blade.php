@@ -32,7 +32,7 @@
                             {{-- Check is the selectedCriterias empty --}}
                             @if ($selectedCriterias->isEmpty())
                             <div class="text-center">
-                                <h3>There was no selected criteria.</h3><br>
+                                <h3>There was no selected filter criteria.</h3><br>
                             </div>
                             @else
                                 {{-- For loop records --}}

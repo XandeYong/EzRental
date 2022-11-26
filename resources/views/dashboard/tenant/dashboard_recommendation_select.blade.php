@@ -32,7 +32,7 @@
                            {{-- Check is the selectedCriterias empty --}}
                             @if ($criterias->isEmpty())
                             <div class="text-center">
-                                <h3>There was no post criteria.</h3><br>
+                                <h3>There was no criteria.</h3><br>
                             </div>
                             @else
 
