@@ -291,6 +291,28 @@
                                                         </button>
                                                     </a>
                                                 </div>
+
+                                                @if (!empty($renting))
+                                                    @php
+                                                        $color = 'btn-primary';
+                                                        $title = 'The tenant of this post has agree to renew the contract.';
+                                                        if ($renting->renew_contract == 'yes') {
+                                                            $color = 'btn-success';
+                                                            $title = 'The contract will now renew after its expired.';
+                                                        } elseif ($renting->renew_contract == 'no') {
+                                                            $color = 'btn-secondary';
+                                                            $title = 'Click to agree renew contract';
+                                                        } elseif ($renting->renew_contract == 'o_agree') {
+                                                            $title = 'The owner of this post has agree to renew the contract.';
+                                                        }
+                                                    @endphp
+
+                                                    <div class="mb-2">
+                                                        <button class="btn w-100 {{ $color }}" title="{{ $title }}" data-bs-toggle="modal" data-bs-target="#renew_contract_modal">
+                                                            Renew Contract
+                                                        </button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -357,6 +379,89 @@
 
         </div>
     </div>
+
+    @if (!empty($renting))
+        @php
+            $buttonText = "Agree";
+            $confirm = "Are you sure you want to agree on renewing the contract?";
+            $message = "
+                Click to agree renew the contract after its expired date.
+            ";
+
+            if ($renting->renew_contract == 'yes') {
+                $buttonText = "Cancel";
+                $confirm = "Are you sure you want to cancel on renewing the contract?";
+                $message = "This contract will now auto renew after its expired date.";
+
+            } elseif ($renting->renew_contract == 'no') {
+                $message = "Click to agree renew the current contract after its expired date.";
+
+            } elseif ($renting->renew_contract == 'o_agree' && session()->get('account')['role'] == 'O') {
+                $buttonText = "Cancel";
+                $confirm = "Are you sure you want to cancel on renewing the contract?";
+                $message = "
+                    You have already agree on renewing the contract after the contract reach its expired date,
+                    now wait for the tenant to agree on it, or politely contact the tenant to agree on it.
+                ";
+
+            } elseif ($renting->renew_contract == 't_agree' && session()->get('account')['role'] == 'T') {
+                $buttonText = "Cancel";
+                $confirm = "Are you sure you want to cancel on renewing the contract?";
+                $message = "
+                    You have already agree on renewing the contract after the contract reach its expired date,
+                    now wait for the owner to agree on it, or politely contact the owner to agree on it.
+                ";
+
+            } elseif ($renting->renew_contract == 'o_agree') {
+                $message = "
+                    The owner of this post has already agree to renew the contract, 
+                    you can agree to renew the contract by clicking the agree button below. 
+
+                    After the contract been agree by both parties,
+                    the contract will auto renew after the expired date of the contract.
+                ";
+
+            } elseif ($renting->renew_contract == 't_agree') {
+                $message = "
+                    The tenant of this post has already agree to renew the contract,
+                    you can agree to renew the contract by clicking the agree button below.
+
+                    After the contract been agree by both parties,
+                    the contract will auto renew after the expired date of the contract.
+                ";
+            }
+        @endphp
+        <!--  Renew Contract Modal -->
+        <div class="modal modal-lg fade" id="renew_contract_modal" tabindex="-1" aria-labelledby="renew contract modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    
+                    <form class="x-form" action="{{ route('renting.contract.renew_contract', ['rentingID' => Crypt::encrypt($renting->renting_id)]) }}" method="GET" 
+                        x-confirm="{{ $confirm }}">
+                        @csrf
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Renew Contract</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div>
+                                <p class="text-center">{!! nl2br(e($message)) !!}</p>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button id="visit_appointment_submit" type="submit" class="btn btn-primary">{{ $buttonText }}</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div id="x-image-modal">
         <span class="close">&times;</span>

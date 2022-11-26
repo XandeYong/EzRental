@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
@@ -220,6 +221,13 @@ Route::post('/rental_post_list/rental_post/update_comment', [
 Route::get('/rental_post_list/rental_post/delete_comment/{comment_id}', [
     RoomRentalPostController::class, 'deleteComment'
 ])->name('rental_post_list.rental_post.delete_comment');
+
+
+// Owner & Tenant
+Route::get('/renting/contract/renew_contract/{rentingID}', [
+    ContractController::class, 'renewContract'
+])->name('renting.contract.renew_contract');
+
 
 
 // Mail

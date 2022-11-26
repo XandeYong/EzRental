@@ -19,7 +19,6 @@
 
             <div id="content" class="row justify-content-center">
 
-                {{-- Code here --}}
                 <div class="col col-sm-10 col-md-8 col-lg-10">
 
                     <div class="card">
@@ -50,6 +49,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (!empty($contractor))
+                                                <tr>
+                                                    <th scope="row" class="w-25">Owner ID</th>
+                                                    <td class="bg-white">{{ $contractor->ownerID }}</td> 
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="w-25">Tenant ID</th>
+                                                    <td class="bg-white">{{ $contractor->tenantID }}</td> 
+                                                </tr>
+                                            @endif
                                             <tr>
                                                 <th scope="row" class="w-25">Expired date</th>
                                                 <td class="bg-white">{{ $expiredDate }}</td> 

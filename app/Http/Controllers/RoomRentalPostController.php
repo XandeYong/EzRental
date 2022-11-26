@@ -493,6 +493,11 @@ class RoomRentalPostController extends Controller
             )
             ->get();
 
+        $renting = RoomRentalPost::find($postID)
+            ->rentings()
+            ->where('status', 'active')
+            ->first();
+
         return view('dashboard/owner/dashboard_rentalpost', [
             'page' => 'Room Rental Post',
             'header' => 'Room Rental Post',
@@ -502,6 +507,7 @@ class RoomRentalPostController extends Controller
             'criterias' => $criterias,
             'contract' => $contract,
             'comments' => $comments,
+            'renting' => $renting
         ]);
     }
 

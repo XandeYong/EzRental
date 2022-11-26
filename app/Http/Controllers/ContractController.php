@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Contract;
+use App\Models\Renting;
+use App\Models\RoomRentalPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -14,7 +16,7 @@ class ContractController extends Controller
     //
     public $name = 'Renting Record';
 
-    public function index(Request $request, $rentingID)
+    public function index($rentingID)
     {
         //Decrypt the parameter
         try {
@@ -23,10 +25,6 @@ class ContractController extends Controller
             abort('500', $ex->getMessage());
         }
 
-
-        $account = $request->session()->get('account');
-        $user = $account->role;
-
         //get contract details from database 
         $contractDetails = DB::table('contracts')
             ->join('rentings', 'rentings.contract_id', '=', 'contracts.contract_id')
@@ -34,11 +32,22 @@ class ContractController extends Controller
             ->select('contracts.*')
             ->get();
 
+        if ($contractDetails[0]->status != 'inactive') {
+            $contractor = DB::table('room_rental_posts', 'RRP')
+                ->join('rentings as R', 'R.post_id', 'RRP.post_id')
+                ->where('RRP.post_id', $contractDetails[0]->post_id)
+                ->select('RRP.account_id as ownerID', 'R.account_id as tenantID')
+                ->first();
+        } else {
+            $contractor = '';
+        }
+
         return view('dashboard/tenant/dashboard_contract', [
             'page' => $this->name,
             'header' => 'Contract',
             'back' => "/dashboard/rentingrecord/getrecordDetails/" . Crypt::encrypt($rentingID),
-            'contractDetails' => $contractDetails
+            'contractDetails' => $contractDetails,
+            'contractor' => $contractor
         ]);
     }
 
@@ -226,11 +235,23 @@ class ContractController extends Controller
             ->get();
         $return['contractDetails'] = $contract;
 
+        $return['button']['link'] = '';
         if ($contract[0]->status == "inactive") {
             unset($return['button']['status']);
         } else {
             $return['button']['link'] = '';
         }
+
+        if ($contract[0]->status != 'inactive') {
+            $contractor = DB::table('room_rental_posts', 'RRP')
+                ->join('rentings as R', 'R.post_id', 'RRP.post_id')
+                ->where('RRP.post_id', $contract[0]->post_id)
+                ->select('RRP.account_id as ownerID', 'R.account_id as tenantID')
+                ->first();
+        } else {
+            $contractor = '';
+        }
+        $return['contractor'] = $contractor;
 
         return view('dashboard/tenant/dashboard_contract', $return);
     }
@@ -311,6 +332,68 @@ class ContractController extends Controller
         }
 
         return redirect($route);
+    }
+
+    public function renewContract($rentingID) {
+
+        try {
+            $rentingID = Crypt::decrypt($rentingID);
+        } catch (DecryptException $ex) {
+            abort('500', $ex->getMessage());
+        }
+
+        $account = session()->get('account');
+        $user = $account->role;
+
+        $renting = Renting::find($rentingID);
+        $route = '';
+        $status = $renting->renew_contract ?? 'no';
+        if ($user == 'T') {
+            switch ($status) {
+                case 'yes':
+                    $status = 'o_agree';
+                    break;
+                case 'o_agree':
+                    $status = 'yes';
+                    break;
+                case 't_agree':
+                    $status = 'no';
+                    break;
+                case 'no':
+                    $status = 't_agree';
+                    break;
+                default:
+                    $status = 'no';
+                    break;
+            }
+            $route = URL('/dashboard/rentingrecord/getrecordDetails', ['rentingID' => Crypt::encrypt($rentingID)]);
+
+        } else if ($user == 'O') {
+            switch ($status) {
+                case 'yes':
+                    $status = 't_agree';
+                    break;
+                case 't_agree':
+                    $status = 'yes';
+                    break;
+                case 'o_agree':
+                    $status = 'no';
+                    break;
+                case 'no':
+                    $status = 'o_agree';
+                    break;
+                default:
+                    $status = 'no';
+                    break;
+            }
+            $route = route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($renting->post_id)]);
+        }
+
+        $renting->renew_contract = $status;
+        $renting->save();
+
+        return redirect($route);
+
     }
 
 

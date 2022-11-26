@@ -17,4 +17,8 @@ class Renting extends Model
     public static $idCode = 'R';
     public static $idColumn = 'renting_id';
 
+    public function post() {
+        return $this->belongsTo(RoomRentalPost::class, 'post_id');
+    }
+
 }

@@ -40,5 +40,9 @@ class RoomRentalPost extends Model
     public function comments() {
         return $this->hasMany(Comment::class, 'post_id');
     }
+
+    public function rentings() {
+        return $this->hasMany(Renting::class, 'post_id');
+    }
    
 }

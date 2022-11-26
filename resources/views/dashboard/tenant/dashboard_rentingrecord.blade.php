@@ -210,7 +210,7 @@
                                                         $title = 'The contract will now renew after its expired.';
                                                     } elseif ($rentingRecordDetails[0]->renew_contract == 'no') {
                                                         $color = 'btn-secondary';
-                                                        $title = 'Click to agree renew_contract';
+                                                        $title = 'Click to agree renew contract';
                                                     } elseif ($rentingRecordDetails[0]->renew_contract == 'o_agree') {
                                                         $title = 'The owner of this post has agree to renew the contract.';
                                                     }
@@ -288,6 +288,7 @@
     </div>
 
 
+    
     @php
         $buttonText = "Agree";
         $confirm = "Are you sure you want to agree on renewing the contract?";
@@ -343,7 +344,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 
-                <form class="x-form" action="#" method="GET" 
+                <form class="x-form" action="{{ route('renting.contract.renew_contract', ['rentingID' => Crypt::encrypt($rentingRecordDetails[0]->renting_id)]) }}" method="GET" 
                     x-confirm="{{ $confirm }}">
                     @csrf
                     <div class="modal-header">
@@ -352,9 +353,6 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-                        <input type="hidden" name="id" value="{{ $rentingRecordDetails[0]->renting_id }}">
-                        
 
                         <div>
                             <p class="text-center">{!! nl2br(e($message)) !!}</p>
