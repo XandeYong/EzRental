@@ -135,6 +135,7 @@ class MailController extends Controller
 
     public function sendResetPassword(Request $request, $accountID)
     {
+
         try {
             $accountID = Crypt::decrypt($accountID);
         } catch (DecryptException $ex) {
@@ -146,7 +147,12 @@ class MailController extends Controller
         $account->reset_password = Str::random(255);
         $account->save();
 
-        $url = "$host/reset_password/$account->email/$account->reset_password";
+        $protocol = 'http';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { 
+            $protocol = 'https';
+        }
+        
+        $url = "$protocol://$host/reset_password/$account->email/$account->reset_password";
 
         $datetime = Carbon::now();
         $date = $datetime->toDateString();
@@ -162,7 +168,20 @@ class MailController extends Controller
         
         Mail::to($account->email)->send(new ResetPasswordMail($mailData));
 
-        return redirect(route('login.portal'));
+        if ($account->role == 'T') {
+            $route = route('login.tenant');
+        } elseif ($account->role == 'O') {
+            $route = route('login.owner');
+        } elseif ($account->role == 'A') {
+            $route = route('login.admin');
+        } else {
+            $route = route('login.portal');
+        }
+        
+        session()->put('access_message_status', 'alert-success');
+        session()->put('access_message', 'Reset password request has been sent to your email.');
+
+        return redirect($route);
     }
 
 

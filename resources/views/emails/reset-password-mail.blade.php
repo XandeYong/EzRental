@@ -1,21 +1,25 @@
 @component('mail::message')
 # EzRental Auto Mailing System
-
-Hello, We are from EZRental. 
-We would like to inform you that your account have request an <b>Reset Password Request</b> from us. <br>
-
-<b>Name:</b> {{ $data['name'] }}
-<b>Email:</b> {{ $data['email'] }}
-<b>Date:</b> {{ $data['date'] }} 
-<b>Time:</b> {{ $data['time'] }} 
-
 <br>
-@component('mail::button', ['url' => $data['url']])
+Hello, We are from EZRental. <br>
+We would like to inform you that your account has requested an <b>Reset Password Request</b> from us. <br>
+<br>
+<b>Name:</b> {{ $data['name'] }} <br>
+<b>Email:</b> {{ $data['email'] }} <br>
+<b>Date:</b> {{ $data['date'] }} <br>
+<b>Time:</b> {{ $data['time'] }} <br>
+
+@component('mail::button', ['url' => $data['url'], 'color' => 'danger'])
 Reset Password
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+@component('mail::panel')
+Once the button is clicked, the button will not be able to use again. <br>
 <br>
-Please do not reply to this email, this is an official auto mailing bot.
+If the button doesn't work, please request from us again.
+@endcomponent
+
+
+
+<b>Please do not reply to this email, this is an official mailing bot.</b>
 @endcomponent

@@ -248,7 +248,6 @@
 
 
     @include('../base/dashboard/dashboard_script')
-    <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
     <script src="{{ asset('js/dashboard/tenant/dashboard_maintenance.js') }}"></script>
 
 </body>

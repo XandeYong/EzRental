@@ -50,6 +50,13 @@ class AccountController extends Controller
 
     public function register(Request $request) {
 
+        $route = route('login.portal');
+        $roleValidation = 'Tenant|Owner';
+        if (session()->has('account') && session()->get('account')['role'] == 'MA') {
+            $route = route('dashboard.admin.register_admin');
+            $roleValidation = 'Admin';
+        }
+
         $request->validate([
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'min:5', 'max:255'],
             'gender' => ['required', 'regex:/^[M|F]$/'],
@@ -57,8 +64,9 @@ class AccountController extends Controller
             'phoneNumber' => ['required', 'numeric'],
             'email' => ['required', new EmailValidation, 'max:255'],
             'password' => ['required', 'min:6', 'max:255'],
-            'role' => ['regex:/^(Tenant|Owner)$/'],
+            'role' => ["regex:/^($roleValidation)$/"],
         ]);
+
 
         $insert['account_id'] = $this->generateID(Account::class);
         $insert['name'] = $name = $request->input('name', '');
@@ -71,13 +79,28 @@ class AccountController extends Controller
         $insert['status'] = $status = 'offline';
         $insert['role'] = $role = $request->input('role', '')[0];
         
-        Account::insert($insert);
+        if (empty(Account::where('email', $email)->first())) {
+            Account::insert($insert);
+            session()->put('access_message_status', 'alert-success');
+            session()->put('access_message', 'Account has been created');
+        } else {
+            session()->put('access_message_status', 'alert-danger');
+            session()->put('access_message', 'Email has been registered before, please pick a new email.');
+        }
 
-        return redirect(route('login.portal'));
+        if ($role == 'T') {
+            $route = route('login.tenant');
+        } elseif ($role == 'O') {
+            $route = route('login.owner');
+        }
+
+        return redirect($route);
     }
 
     public function sendPasswordResetLink(Request $request) {
         $email = $request->input('forget_email', '');
+        $user = $request->input('role', '');
+
         $account = Account::where('email', $email)->first();
         if (!empty($account)) {
             $account_id = $account->account_id;
@@ -88,8 +111,18 @@ class AccountController extends Controller
 
             return redirect(route('mail.reset_password', $return));
         }
+        
+        if ($user == 'Tenant') {
+            $route = route('login.tenant');
+        } elseif ($user == 'Owner') {
+            $route = route('login.owner');
+        } elseif ($user == 'Admin') {
+            $route = route('login.admin');
+        } else {
+            $route = route('login.portal');
+        }
 
-        return redirect(route('login.portal'));
+        return redirect($route);
     }
 
     public function resetPasswordForm($email = "", $key = "") {
@@ -99,17 +132,23 @@ class AccountController extends Controller
                 ->where('reset_password', $key)
                 ->first();
 
-            if (!empty($account)) {
-                session()->put('reset_password_key', $account->reset_password);
-                $account->reset_password = '';
-                $account->save();
-
+            if (!empty($account) || session()->has('reset_password_key')) {
+                if (!session()->has('reset_password_key')) {
+                    session()->put('reset_password_key', $account->reset_password);
+                    $account->reset_password = '';
+                    $account->save();
+                } else {
+                    $key = session()->get('reset_password_key');
+                }
+                
                 $return = [
                     'email' => $email,
                     'key' => $key
                 ];
 
                 return view('login/reset_password', $return);
+            } else {
+                session()->put('access_message', 'The link you are trying to access is no longer available.');
             }
         }
 
@@ -117,6 +156,10 @@ class AccountController extends Controller
     }
 
     public function resetPassword(Request $request, $email = "", $key = "") {
+
+        $request->validate([
+            'password' => ['required', 'min:6', 'max:255']
+        ]);
 
         $password = $request->input('password', '');
 

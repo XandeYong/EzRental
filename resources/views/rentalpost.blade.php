@@ -361,15 +361,27 @@
                                                                         @endphp
 
                                                                         <div class="post-user-comment mb-4">
+                                                                            @if (session()->has('account') && (session()->get('account')['role'] == 'A' || session()->get('account')['role'] == 'MA') && $comment->status == 'show')
+                                                                                <div class="text-end border-bottom-1 bg-color-darkseagreen">
+                                                                                    <a href="{{ route('rental_post_list.rental_post.delete_comment', ['comment_id' => $comment->comment_id]) }}" class="btn btn-sm btn-close p-3"></a>
+                                                                                </div>
+                                                                            @elseif (session()->has('account') && (session()->get('account')['role'] == 'A' || session()->get('account')['role'] == 'MA') && $comment->status == 'hide')
+                                                                                <div class="text-center border-bottom-1 bg-color-c-grey p-2">
+                                                                                    <b>{{ $comment->status }}</b>
+                                                                                </div>
+                                                                            @else
+                                                                                <div class="text-end border-bottom-1 bg-color-darkseagreen p-3"></div>
+                                                                            @endif
+
                                                                             <div class="p-3">
-                                                                                <div
-                                                                                    class="p-u-c-header d-flex justify-content-between">
+                                                                                <div class="p-u-c-header d-flex justify-content-between">
                                                                                     <div class="name">
                                                                                         <h5>{{ $comment->name }}</h5>
                                                                                     </div>
                                                                                     <div class="datetime">
-                                                                                        <small><b>Created Date:</b>
-                                                                                            {{ $createdDate[0] . ', ' . $createdDate[1] }}</small>
+                                                                                        <small>
+                                                                                            <b>Created Date:</b> {{ $createdDate[0] . ', ' . $createdDate[1] }}
+                                                                                        </small>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div>
@@ -787,6 +799,24 @@
         @endif
     @endif
 
+    {{-- access message --}}
+    @if(session()->has('access_message'))
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div id="login_message" class="message-popup">
+                        <div class="alert {{ session()->get('access_message_status') ?? 'alert-danger' }} alert-dismissible mx-auto" role="alert">
+                            {{ session()->get('access_message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @php session()->forget(['access_message', 'access_message_status']); @endphp
+    @endif
+
     <div id="x-image-modal">
         <span class="close">&times;</span>
         <img id="x-image" class="img-fluid bg-color-white-t-20">
@@ -822,7 +852,6 @@
 
     @include('base/footer')
     @include('base/script')
-    <script src="{{ asset("/vendor/xande/scripting.js") }}"></script>
     <script src="{{ asset('js/rentalpost.js') }}"></script>
 
 

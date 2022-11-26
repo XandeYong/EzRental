@@ -30,13 +30,13 @@
                 </div>
             </div>
 
-            {{-- login success message --}}
+            {{-- access message --}}
             @if(session()->has('access_message'))
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="d-flex justify-content-center">
                             <div id="login_message" class="message-popup">
-                                <div class="alert alert-danger alert-dismissible mx-auto" role="alert">
+                                <div class="alert {{ session()->get('access_message_status') ?? 'alert-danger' }} alert-dismissible mx-auto" role="alert">
                                     {{ session()->get('access_message') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                @php session()->forget('access_message') @endphp
+                @php session()->forget(['access_message', 'access_message_status']); @endphp
             @endif
 
         </div>
@@ -53,7 +53,6 @@
 
     @include('base/footer')
     @include('base/script')
-    <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
 
 </body>
 </html>

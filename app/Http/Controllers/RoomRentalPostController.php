@@ -47,17 +47,31 @@ class RoomRentalPostController extends Controller
             ->where('status', 'inactive')
             ->get();
 
-        $comments = DB::table('comments')
-            ->join('accounts', 'accounts.account_id', '=', 'comments.account_id')
-            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'comments.post_id')
-            ->where('room_rental_posts.post_id', $post_id)
-            ->where('comments.status', 'show')
-            ->orderBy('created_at')
-            ->select(
-                'comments.*',
-                'accounts.name'
-            )
-            ->get();
+        if (session()->has('account') && (session()->get('account')['role'] == 'A' || session()->get('account')['role'] == 'MA')) {
+            $comments = DB::table('comments')
+                ->join('accounts', 'accounts.account_id', '=', 'comments.account_id')
+                ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'comments.post_id')
+                ->where('room_rental_posts.post_id', $post_id)
+                ->orderBy('created_at')
+                ->select(
+                    'comments.*',
+                    'accounts.name'
+                )
+                ->get();
+        } else {
+            $comments = DB::table('comments')
+                ->join('accounts', 'accounts.account_id', '=', 'comments.account_id')
+                ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'comments.post_id')
+                ->where('room_rental_posts.post_id', $post_id)
+                ->where('comments.status', 'show')
+                ->orderBy('created_at')
+                ->select(
+                    'comments.*',
+                    'accounts.name'
+                )
+                ->get();
+        }
+
 
 
 
@@ -441,6 +455,16 @@ class RoomRentalPostController extends Controller
         $comment->status = $status;
 
         $comment->save();
+
+        $role = session()->get('account')['role'];
+        if ($role == 'A' || $role == 'MA') {
+            $message = 'You have hide a comment from public.';
+        } else {
+            $message = 'You have deleted a comment.';
+        }
+        
+        session()->put('access_message_status', 'alert-success');
+        session()->put('access_message', $message);
 
         return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id, '#comment_section']));
     }

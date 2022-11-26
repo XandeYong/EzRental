@@ -44,6 +44,9 @@
 
                                     <div id="password-txt" class="col-10 mb-3">
                                         <input type="password" name="password" class="w-100" placeholder="New Password" required>
+                                        @if($errors->has('password'))
+                                            <span class="x-form-error c-red-error">*{{ $errors->first('password') }}</span>
+                                        @endif
                                     </div>
 
                                     <div id="login-btn" class="col-10 text-center">

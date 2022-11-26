@@ -100,6 +100,24 @@
         </div>
     </div>
 
+    {{-- access message --}}
+    @if(session()->has('access_message'))
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div id="login_message" class="message-popup">
+                        <div class="alert {{ session()->get('access_message_status') ?? 'alert-danger' }} alert-dismissible mx-auto" role="alert">
+                            {{ session()->get('access_message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @php session()->forget(['access_message', 'access_message_status']); @endphp
+    @endif
+
     <!-- Forget Password Modal -->
     <div class="modal modal-lg fade" id="forget_password_modal" tabindex="-1" aria-labelledby="forget password modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -114,6 +132,8 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+
+                        <input type="hidden" name="role" value="{{ $user }}" hidden>
 
                         <div class="mb-3">
                             <label for="forget_email" class="form-label">Email Address</label>

@@ -235,7 +235,6 @@ class ContractController extends Controller
             ->get();
         $return['contractDetails'] = $contract;
 
-        $return['button']['link'] = '';
         if ($contract[0]->status == "inactive") {
             unset($return['button']['status']);
         } else {

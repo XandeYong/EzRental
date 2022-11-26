@@ -24,3 +24,14 @@
         </a>
     </div>
 </div>
+
+@if (session()->has('account') && session()->get('account')['role'] == 'MA')
+<div id="register_admin" class="row navlist-item">
+    <div class="navlist-item-title">
+        <a href="{{ route('dashboard.admin.register_admin') }}" class="unselectable">
+            <i class="ico-sm ico-sidebar ico-list-task"></i>
+            <h5>Register Admin</h5>
+        </a>
+    </div>
+</div>
+@endif

@@ -469,7 +469,6 @@
     </div>
 
     @include('../base/dashboard/dashboard_script')
-    <script src="{{ asset('vendor/xande/scripting.js') }}"></script>
 
 </body>
 
