@@ -25,7 +25,7 @@
                     {{-- Check is the favorite empty --}}
                     @if ($favoritePosts->isEmpty())
                         <div class="text-center">
-                            <h3 >There was no favourite found.</h3>
+                            <h3 >There was no favorite found.</h3>
                         </div>
                     @else
 

@@ -159,7 +159,7 @@
                                                     </div>
                                                     <div class="col-12 col-lg-9">
                                                         <input type="password" name="newPassword"
-                                                            class="form-control w-100" required>
+                                                            class="form-control w-100" minlength="6" required>
                                                     </div>
                                                 </div>
 
