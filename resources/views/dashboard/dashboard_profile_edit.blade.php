@@ -73,7 +73,7 @@
                                                             <label>Name : <span class="c-red">*</span></label>
                                                         </div>
                                                         <div class="col-12 col-sm-8 col-lg-9">
-                                                            <input class="form-control" type="text" name="name" value="{{ old('name', $profile[0]->name) }}" placeholder="Please Enter your name here" required>
+                                                            <input class="form-control" type="text" name="name" value="{{ old('name', $profile[0]->name) }}" placeholder="Please Enter your name here" minlength="5" required>
                                                             @if($errors->has('name'))
                                                             <span class="c-red-error">*{{ $errors->first('name') }}</span>
                                                             @endif
