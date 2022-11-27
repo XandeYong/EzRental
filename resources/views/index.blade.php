@@ -35,7 +35,7 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="d-flex justify-content-center">
-                            <div id="login_message" class="message-popup">
+                            <div class="message-popup">
                                 <div class="alert {{ session()->get('access_message_status') ?? 'alert-danger' }} alert-dismissible mx-auto" role="alert">
                                     {{ session()->get('access_message') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -25,17 +25,26 @@ class AccountController extends Controller
 
         if ($account) {
 
-            if ($account->role == $role || $account->role == "MA") {
-                $account->status = "online";
-                $account->save();
+            if ($account->role == $role || ($role == 'A' && $account->role == "MA")) {
+                
+                if ($account->status != 'banned') {
 
-                $account->password = "";
-                $request->session()->put('account', $account);
+                    $account->status = "online";
+                    $account->save();
 
-                // dd($request->session()->get('account'));
-                $message = "Welcome back! " . $account->name;
-                $request->session()->put('login_message', $message);
-                return redirect(route('dashboard.' . strToLower($user)));
+                    $account->password = "";
+                    $request->session()->put('account', $account);
+
+                    // dd($request->session()->get('account'));
+                    $message = "Welcome back! " . $account->name;
+                    $request->session()->put('access_message_status', 'alert-success');
+                    $request->session()->put('access_message', $message);
+                    return redirect('/');
+
+                } else {
+                    $message = "Your account has been banned. Please check your email or contact our admin for more info.";
+                }
+                
             } else {
                 $message = "Have you login into a wrong login portal?";
             }
@@ -87,6 +96,7 @@ class AccountController extends Controller
             session()->put('access_message_status', 'alert-danger');
             session()->put('access_message', 'Email has been registered before, please pick a new email.');
         }
+        //dd(session()->get('access_message'));
 
         if ($role == 'T') {
             $route = route('login.tenant');

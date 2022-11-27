@@ -62,7 +62,7 @@
 
                                 <div id="l-m-body" class="row justify-content-center pt-4 pb-3">
                                     <div id="email-txt" class="col-10 mb-3">
-                                        <input type="email" name="email" class="w-100" placeholder="E-mail" required value="{{ $email }}">
+                                        <input type="email" name="email" class="w-100" placeholder="E-mail" required value="{{ old('email') ?? $email }}">
                                     </div>
                                     
                                     <div id="password-txt" class="col-10 mb-3">
@@ -105,7 +105,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="d-flex justify-content-center">
-                    <div id="login_message" class="message-popup">
+                    <div class="message-popup">
                         <div class="alert {{ session()->get('access_message_status') ?? 'alert-danger' }} alert-dismissible mx-auto" role="alert">
                             {{ session()->get('access_message') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

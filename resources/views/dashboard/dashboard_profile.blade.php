@@ -5,7 +5,6 @@
     <title>EzRental | Profile</title>
 
     @include('../base/dashboard/dashboard_head')
-    {{-- <link rel="stylesheet" href="{{ asset("/css/dashboard/dashboard_index.css")}}"> --}}
     <link rel="stylesheet" href="{{ asset('/css/dashboard/dashboard_profile.css') }}">
 
 </head>
@@ -205,20 +204,20 @@
 
 
 
-                {{-- login success message --}}
-                @if(session()->has('login_message'))
+                {{-- access message --}}
+                @if(session()->has('access_message'))
                     <div class="col-12">
                         <div class="d-flex justify-content-center">
-                            <div id="login_message" class="message-popup mt-5 mt-lg-0">
+                            <div class="message-popup mt-5 mt-lg-0">
                                 <div class="alert alert-success alert-dismissible" role="alert">
-                                    {{ session()->get('login_message') }}
+                                    {{ session()->get('access_message') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    @php session()->forget('login_message') @endphp
+                    @php session()->forget('access_message') @endphp
                 @endif
             </div>
 
