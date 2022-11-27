@@ -842,7 +842,7 @@
 /* popup */
 .message-popup {
     display: none;
-    position:absolute;
+    position: fixed ;
     text-align: center;
     top: 10%;
 

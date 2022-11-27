@@ -30,7 +30,7 @@
                                     <input type="hidden" name="role" value="{{ $user }}" hidden>
 
                                     <div id="name-txt" class="col-10 mb-3">
-                                        <input type="text" name="name" value="{{ old('name') }}" class="w-100" placeholder="Name" required>
+                                        <input type="text" name="name" value="{{ old('name') }}" class="w-100" placeholder="Name" min='5' max='255' required>
                                         @if($errors->has('name'))
                                             <span class="x-form-error c-red-error">*{{ $errors->first('name') }}</span>
                                         @endif

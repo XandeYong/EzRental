@@ -143,9 +143,14 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="roomVisitAppointmentID" value="{{ $roomVisitAppointmentDetails[0]->appointment_id }}">
+
+                            @php
+                                $datetime = substr($roomVisitAppointmentDetails[0]->datetime, 0, 16);
+                            @endphp
+
                             <div class="mb-3">
                                 <label for="visit_appointment_datetime" class="form-label">Date & Time <span class="c-red">*</span></label>
-                                <input type="datetime-local" class="form-control" name="datetime" value="@if(old('datetime') != null && (!$errors->has('datetime'))){{ old('datetime') }}@else{{ $roomVisitAppointmentDetails[0]->datetime }}@endif"
+                                <input type="datetime-local" class="form-control" name="datetime" value="@if(old('datetime') != null && (!$errors->has('datetime'))){{ old('datetime') }}@else{{ $datetime }}@endif"
                                     id="visit_appointment_datetime" required>
                                 @if ($errors->has('datetime'))
                                     <span class="c-red-error">*{{ $errors->first('datetime') }}</span>
@@ -164,7 +169,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit Appointment</button>
+                            <button id="visit_appointment_button" type="submit" class="btn btn-primary">Edit Appointment</button>
                         </div>
                     </form>
 
