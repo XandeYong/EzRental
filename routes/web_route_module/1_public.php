@@ -119,6 +119,7 @@ Route::post('/reset_password/{email}/{key}/reset', [
 ])->name('reset_password.form.reset');
 
 
+
 route::middleware(['account', 'account.has'])->group(function () {
 
     // Chat

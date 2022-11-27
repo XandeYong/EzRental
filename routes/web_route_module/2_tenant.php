@@ -65,11 +65,6 @@ Route::middleware(['account', 'account.tenant'])->group(function () {
     Route::get('/dashboard/rentingrecord/contract/index/{rentingID}', [ContractController::class, 'index'])->name('dashboard.tenant.contract');
     Route::post('/dashboard/rentingrequest/tenantSignContract', [ContractController::class, 'tenantSignContract']);
 
-    //RoomVisitAppointmentController
-    Route::get('/dashboard/roomvisitappointment/approveAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'approveAppointment']);
-    Route::get('/dashboard/roomvisitappointment/rejectAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'rejectAppointment']);
-    Route::get('/dashboard/roomvisitappointment/cancelAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'cancelAppointment']);
-
     //Room Rental Post
     Route::get('/rental_post_list/rental_post/addOrRemoveFavorite/{postID}/{process}', [RoomRentalPostController::class, 'addOrRemoveFavorite']); 
 
@@ -92,7 +87,10 @@ Route::middleware(['account', 'account.tenant.owner'])->group(function () {
     
     //RoomVisitAppointmentController
     Route::get('/dashboard/roomvisitappointment/index', [RoomVisitAppointmentController::class, 'index'])->name('dashboard.tenant.roomvisitappointment');
-    Route::get('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'getRoomVisitAppoitmentDetails']);
+    Route::get('/dashboard/roomvisitappointment/getRoomVisitAppoitmentDetails/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'getRoomVisitAppoitmentDetails']);    
+    Route::get('/dashboard/roomvisitappointment/approveAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'approveAppointment']);
+    Route::get('/dashboard/roomvisitappointment/rejectAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'rejectAppointment']);
+    Route::get('/dashboard/roomvisitappointment/cancelAppointment/{roomVisitAppointmentID}', [RoomVisitAppointmentController::class, 'cancelAppointment']);
 
 });
 
