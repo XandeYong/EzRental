@@ -28,7 +28,7 @@ use App\Http\Controllers\RoomVisitAppointmentController;
 // Tenant Dashboard
 //=============================================================================================
 
-Route::middleware('account.tenant')->group(function () {
+Route::middleware(['account', 'account.tenant'])->group(function () {
 
     Route::get('/dashboard/tenant', function() {
         return redirect(route("dashboard.profile"));
@@ -77,7 +77,7 @@ Route::middleware('account.tenant')->group(function () {
 
 
 
-Route::middleware('account.tenant.owner')->group(function () {
+Route::middleware(['account', 'account.tenant.owner'])->group(function () {
 
     //Payment
     Route::get('/dashboard/payment/index/{rentingID}', [PaymentController::class, 'index'])->name('dashboard.tenant.payment');

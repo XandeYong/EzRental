@@ -119,7 +119,7 @@ Route::post('/reset_password/{email}/{key}/reset', [
 ])->name('reset_password.form.reset');
 
 
-route::middleware('account.has')->group(function () {
+route::middleware(['account', 'account.has'])->group(function () {
 
     // Chat
     Route::get('/chat', function () {
@@ -158,6 +158,7 @@ route::middleware('account.has')->group(function () {
 
             session()->forget('account');
             session()->forget('access_message');
+            session()->forget('access_message_status');
         }
         return redirect(route("home"));
     })->name('logout');

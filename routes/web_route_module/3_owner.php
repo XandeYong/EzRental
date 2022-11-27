@@ -26,7 +26,7 @@ use Illuminate\Http\Request;
 // Owner Dashboard
 //=============================================================================================
 
-Route::middleware('account.owner')->group(function () {
+Route::middleware(['account', 'account.owner'])->group(function () {
     
     Route::get('/dashboard/owner', function() {
         return redirect(route('dashboard.profile'));

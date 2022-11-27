@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Admin Dashboard
 //=============================================================================================
 
-Route::middleware('account.admin')->group(function () {
+Route::middleware(['account', 'account.admin'])->group(function () {
     
     Route::get('/dashboard/admin', function() {
         return redirect(route("dashboard.profile"));
@@ -51,7 +51,7 @@ Route::middleware('account.admin')->group(function () {
     Route::get('/mail/sentBanMail/{accountID}/{reason}/{duration}', [MailController::class, 'sentBanMail']);
 
 
-    Route::middleware('account.master')->group(function () {
+    Route::middleware(['account', 'account.master'])->group(function () {
     
         Route::get('/dashboard/register_admin', function() {
             return view('dashboard/admin/dashboard_register', [

@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'account.owner' => \App\Http\Middleware\AccessControlOwner::class,
         'account.tenant.owner' => \App\Http\Middleware\AccessControlTenantOwner::class,
         'account.tenant.admin' => \App\Http\Middleware\AccessControlTenantAdmin::class,
+        'account' =>  \App\Http\Middleware\AccountControl::class,
     ];
 }
