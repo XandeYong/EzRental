@@ -296,9 +296,8 @@ class RoomVisitAppointmentController extends Controller
 
 
         $date = substr($datetime, 0, 10);
-        $time = substr($datetime, -8);
+        $time = substr($datetime, -5) . ":00";
         $datetime = $date . " " . $time;
-
 
         //Update visit appointment
         $updated = DB::table('visit_appointments')

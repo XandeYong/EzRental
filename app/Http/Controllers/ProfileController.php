@@ -110,7 +110,7 @@ class ProfileController extends Controller
         //Laravel validation
         $request->validate([
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20480'],
-            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255', 'min:5'],
             'gender' => ['required', 'regex:/^[M|F]$/'],
             'dob' => ['required', 'date', 'before:13 years ago'],
             'phoneNumber' => ['required', 'numeric'],
