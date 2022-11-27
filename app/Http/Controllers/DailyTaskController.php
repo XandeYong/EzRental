@@ -12,6 +12,8 @@ class DailyTaskController extends Controller
 {
     public function __construct()
     {
+        $execTimeStart = microtime(true);
+
         //Auto unbanned user when durration arrived Function
         $this->autoUnbannedUser();
         //Auto add monthly payment when one month arrived Function
@@ -27,23 +29,26 @@ class DailyTaskController extends Controller
         //Auto check contract is it expired and need be renew
         $this->autoCheckContract();
 
+        $execTimeEnd = microtime(true);
+
         $datetime = Carbon::now();
         $date = $datetime->toDateString();
         $time = $datetime->toTimeString();
         $status = 'success';
 
-
+        $execTime = $execTimeStart - $execTimeEnd;
         $log = <<<EOT
         >>
-        ==================================
+        ==================================================
         Scheduler-Log
-        ----------------------------------
+        --------------------------------------------------
         Task: DailyTask
         Controller: DailyTaskController
         Date: $date
         Time: $time
         Status: $status
-        ==================================
+        Execute Time: $execTime microseconds
+        ==================================================
         >>\n
         EOT;
 
