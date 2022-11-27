@@ -159,7 +159,7 @@
                             <div class="mb-3">
                                 <label for="visit_appointment_note" class="form-label">Note <span class="c-red">*</span></label>
                                 <textarea class="form-control" name="note" id="visit_appointment_note" placeholder="Leave a message..."
-                                    rows="3" maxlength="255">@if(old('note') != null && (!$errors->has('note'))){{ old('note') }}@else{{ $roomVisitAppointmentDetails[0]->note }}@endif</textarea>
+                                    rows="3" maxlength="255" required>@if(old('note') != null && (!$errors->has('note'))){{ old('note') }}@else{{ $roomVisitAppointmentDetails[0]->note }}@endif</textarea>
                                 @if ($errors->has('note'))
                                     <span class="c-red-error">*{{ $errors->first('note') }}</span>
                                 @endif

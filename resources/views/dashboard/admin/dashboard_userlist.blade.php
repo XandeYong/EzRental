@@ -127,7 +127,7 @@
                                                             {{ $userList[$i]->email }}
                                                         </td>
                                                         <td class="text-center {{ $color }}">
-                                                            <strong>{{ Str::ucfirst($userList[$i]->status) }}</strong>                                                   
+                                                            <strong>{{ Str::ucfirst($userList[$i]->status) }}</strong>
                                                         </td>
                                                         <td class="text-center">
                                                             @if ($userList[$i]->status == 'banned')
