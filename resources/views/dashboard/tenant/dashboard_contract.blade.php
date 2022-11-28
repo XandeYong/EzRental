@@ -32,13 +32,6 @@
                                     {!! nl2br(e($contractDetails[0]->content)) !!}
                                 </p>
 
-                                @php
-                                    $expiredDate = $contractDetails[0]->expired_date;
-                                    if (empty($contractDetails[0]->expired_date)) {
-                                        $expiredDate = '-';
-                                    }
-                                @endphp
-
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-light mb-5">
                                         <thead class="table-info">
@@ -60,8 +53,12 @@
                                                 </tr>
                                             @endif
                                             <tr>
+                                                <th scope="row" class="w-25">Started date</th>
+                                                <td class="bg-white">{{ $startDate ?? '-' }}</td> 
+                                            </tr>
+                                            <tr>
                                                 <th scope="row" class="w-25">Expired date</th>
-                                                <td class="bg-white">{{ $expiredDate }}</td> 
+                                                <td class="bg-white">{{ $expiredDate ?? '-' }}</td> 
                                             </tr>
                                             <tr>
                                                 <th scope="row">Deposit Payment</th>

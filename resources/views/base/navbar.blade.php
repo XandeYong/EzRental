@@ -25,9 +25,6 @@
                             @endif
                             
                         </li>
-                        <li class="px-2">
-                            <a href="{{ route('chat') }}">Chat</a>
-                        </li>
 
                         @if (!session()->has('account'))
                         <li class="px-2">
@@ -35,8 +32,13 @@
                         </li>
                         @else
                         <li class="px-2">
+                            <a href="{{ route('chat') }}">Chat</a>
+                        </li>
+
+                        <li class="px-2">
                             <a href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
+                        
                         <li class="px-2">
                             <a href="{{ route('logout') }}">Logout</a>
                         </li>

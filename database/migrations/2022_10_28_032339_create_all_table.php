@@ -32,6 +32,7 @@ return new class extends Migration
         Schema::create('criterias', function (Blueprint $table) {
             $table->string('criteria_id')->primary();
             $table->string('name');
+            $table->string('type');
             $table->integer('selected_count');
             $table->integer('post_count');
             $table->timestamp('created_at')->useCurrent();
@@ -81,7 +82,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('room_size');
             $table->string('address');
-            $table->string('condominium_name')->unique();
+            $table->string('condominium_name');
             $table->string('block');
             $table->string('floor');
             $table->integer('unit');
@@ -130,7 +131,6 @@ return new class extends Migration
 
         Schema::create('rent_requests', function (Blueprint $table) {
             $table->string('rent_request_id')->primary();
-            $table->double('price');
             $table->date('rent_date_start');
             $table->date('rent_date_end');
             $table->string('status');
@@ -153,7 +153,8 @@ return new class extends Migration
 
         Schema::create('negotiations', function (Blueprint $table) {
             $table->string('negotiation_id')->primary();
-            $table->double('price');
+            $table->double('deposit_price');
+            $table->double('monthly_price');
             $table->string('message')->nullable()->default("");
             $table->string('status');
             $table->string('post_id');

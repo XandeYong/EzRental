@@ -707,18 +707,33 @@
                             <div class="modal-body">
 
                                 <input type="hidden" name="id" value="{{ $post[0]->post_id }}">
+
+                                <div class="mb-3">
+                                    <label for="negotiate_deposit_payment" class="form-label">Deposit Payment</label>
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">RM</span>
+                                        <input type="number" class="form-control hideArrow" name="deposit_payment"
+                                            id="negotiate_deposit_payment"
+                                            aria-label="Amount (to the nearest Ringgit)" value="0"
+                                            min="1">
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="negotiate_monthly_payment" class="form-label">Monthly Payment</label>
 
                                     <div class="input-group mb-3">
                                         <span class="input-group-text">RM</span>
-                                        <input type="number" class="form-control hideArrow" name="price"
+                                        <input type="number" class="form-control hideArrow" name="monthly_payment"
                                             id="negotiate_monthly_payment"
                                             aria-label="Amount (to the nearest Ringgit)" value="0"
                                             min="1">
                                         <span class="input-group-text">.00</span>
                                     </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="negotiate_message" class="form-label">Message</label>
                                     <textarea class="form-control" name="message" id="negotiate_message" placeholder="Leave a message..."

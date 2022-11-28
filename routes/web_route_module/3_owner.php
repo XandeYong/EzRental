@@ -64,7 +64,7 @@ Route::middleware(['account', 'account.owner'])->group(function () {
         RoomRentalPostController::class, 'updatePost'
     ])->name('dashboard.owner.room_rental_post.edit_form.edit');
 
-    Route::post('/dashboard/room_rental_post_list/{postID}/delete', [
+    Route::get('/dashboard/room_rental_post_list/{postID}/delete', [
         RoomRentalPostController::class, 'deletePost'
     ])->name('dashboard.owner.room_rental_post.delete');
 

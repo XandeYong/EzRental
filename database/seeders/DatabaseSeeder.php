@@ -114,21 +114,6 @@ class DatabaseSeeder extends Seeder
         sleep(1);
 
         $a3 = Account::create([
-            'account_id' => 'A' . strval($iA),
-            'name' => "Janice Towne",
-            'gender' => "F",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "vjanton6@gmail.com",
-            'password' => 'DxiKRnJrLc',
-            'image' => 'A' . strval($iA++) . '.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-
-        sleep(1);
-
-        $a4 = Account::create([
             'account_id' => 'A' . strval($iA++),
             'name' => "Lubowitz",
             'gender' => "F",
@@ -137,8 +122,23 @@ class DatabaseSeeder extends Seeder
             'email' => "sshegog9@gmail.com",
             'password' => Str::random(10),
             'image' => 'profile.png',
-            'status' => 'banned',
+            'status' => 'offline',
             'role' => 'O',
+        ]);
+
+        sleep(1);
+
+        $a4 = Account::create([
+            'account_id' => 'A' . strval($iA),
+            'name' => "Janice Towne",
+            'gender' => "F",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "vjanton6@gmail.com",
+            'password' => 'DxiKRnJrLc',
+            'image' => 'A' . strval($iA++) . '.png',
+            'status' => 'banned',
+            'role' => 'T',
         ]);
 
         sleep(1);
@@ -167,7 +167,7 @@ class DatabaseSeeder extends Seeder
             'email' => "Danial@gmail.com",
             'password' => Str::random(10),
             'image' => 'profile.png',
-            'status' => 'online',
+            'status' => 'offline',
             'role' => 'T',
         ]);
         
@@ -187,6 +187,66 @@ class DatabaseSeeder extends Seeder
         ]);
         
         sleep(1);
+        
+        $a8 = Account::create([
+            'account_id' => 'A' . strval($iA++),
+            'name' => "Phillip Jast",
+            'gender' => "M",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "Beaulah@gmail.com",
+            'password' => Str::random(10),
+            'image' => 'profile.png',
+            'status' => 'offline',
+            'role' => 'T',
+        ]);
+        
+        sleep(1);
+        
+        $a9 = Account::create([
+            'account_id' => 'A' . strval($iA++),
+            'name' => "Kristi Roob",
+            'gender' => "M",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "Ziemann@gmail.com",
+            'password' => Str::random(10),
+            'image' => 'profile.png',
+            'status' => 'offline',
+            'role' => 'T',
+        ]);
+        
+        sleep(1);
+        
+        $a10 = Account::create([
+            'account_id' => 'A' . strval($iA++),
+            'name' => "Sylvester Cremin",
+            'gender' => "M",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "Jadaslee@gmail.com",
+            'password' => Str::random(10),
+            'image' => 'profile.png',
+            'status' => 'offline',
+            'role' => 'T',
+        ]);
+        
+        sleep(1);
+        
+        $a11 = Account::create([
+            'account_id' => 'A' . strval($iA++),
+            'name' => "Travis Casper",
+            'gender' => "M",
+            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
+            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
+            'email' => "Abigail@gmail.com",
+            'password' => Str::random(10),
+            'image' => 'profile.png',
+            'status' => 'offline',
+            'role' => 'T',
+        ]);
+        
+        sleep(1);
 
 
         static $iCTR = 1;
@@ -194,6 +254,7 @@ class DatabaseSeeder extends Seeder
         $ctr1 = Criteria::create([
             'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'PV13',
+            'type' => 'condominium',
             'selected_count' => 1,
             'post_count' => 1
         ]);
@@ -203,6 +264,7 @@ class DatabaseSeeder extends Seeder
         $ctr2 = Criteria::create([
             'criteria_id' => 'CTR' . strval($iCTR++),
             'name' => 'PV12',
+            'type' => 'condominium',
             'selected_count' => 1,
             'post_count' => 0
         ]);
@@ -211,39 +273,84 @@ class DatabaseSeeder extends Seeder
 
         $ctr3 = Criteria::create([
             'criteria_id' => 'CTR' . strval($iCTR++),
-            'name' => 'Fully Furnish',
+            'name' => 'Master Room',
+            'type' => 'room type',
             'selected_count' => 0,
-            'post_count' => 1
+            'post_count' => 0
         ]);
         
         sleep(1);
 
         $ctr4 = Criteria::create([
             'criteria_id' => 'CTR' . strval($iCTR++),
-            'name' => 'Master Room',
+            'name' => 'Big Medium Room',
+            'type' => 'room type',
             'selected_count' => 0,
             'post_count' => 0
         ]);
         
         sleep(1);
-
+        
         $ctr5 = Criteria::create([
             'criteria_id' => 'CTR' . strval($iCTR++),
-            'name' => 'Big Medium Room',
+            'name' => 'Small Medium Room',
+            'type' => 'room type',
+            'selected_count' => 0,
+            'post_count' => 0
+        ]);
+        
+        sleep(1);
+        
+        $ctr6 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
+            'name' => 'Small Room',
+            'type' => 'room type',
+            'selected_count' => 0,
+            'post_count' => 1
+        ]);
+        
+        sleep(1);
+
+        $ctr7 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
+            'name' => 'Fully Furnish',
+            'type' => 'furnish type',
+            'selected_count' => 0,
+            'post_count' => 0
+        ]);
+        
+        sleep(1);
+        
+        $ctr8 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
+            'name' => 'No Furnish',
+            'type' => 'furnish type',
+            'selected_count' => 0,
+            'post_count' => 0
+        ]);
+        
+        sleep(1);
+        
+        $ctr9 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
+            'name' => 'Ceiling Fan',
+            'type' => 'equipment',
+            'selected_count' => 0,
+            'post_count' => 0
+        ]);
+        
+        sleep(1);
+        
+        $ctr10 = Criteria::create([
+            'criteria_id' => 'CTR' . strval($iCTR++),
+            'name' => 'Air Conditioner',
+            'type' => 'equipment',
             'selected_count' => 0,
             'post_count' => 0
         ]);
         
         sleep(1);
 
-        $ctr6 = Criteria::create([
-            'criteria_id' => 'CTR' . strval($iCTR++),
-            'name' => 'Air Conditioner',
-            'selected_count' => 0,
-            'post_count' => 0
-        ]);
-        
-        sleep(1);
 
 
         static $iC = 1;
@@ -364,7 +471,7 @@ class DatabaseSeeder extends Seeder
             'floor' => '16',
             'unit' => 66,
             'status' => 'reserve',
-            'account_id' => $a4->account_id
+            'account_id' => $a3->account_id
         ]);
         
         sleep(1);
@@ -396,7 +503,7 @@ class DatabaseSeeder extends Seeder
             'floor' => '1',
             'unit' => 2,
             'status' => 'archived',
-            'account_id' => $a4->account_id
+            'account_id' => $a3->account_id
         ]);
         
         sleep(1);
@@ -521,7 +628,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         $r2 = Renting::create([
             'renting_id' => 'R' . strval($iR++),
             'account_id' => $a5->account_id,
-            'post_id' => $rrp4->post_id,
+            'post_id' => $rrp1->post_id,
             'contract_id' => $ct4->contract_id,
             'status' => 'expired',
         ]);
@@ -548,7 +655,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'rating' => 4.0,
             'status' => 'hide',
             'account_id' => $a5->account_id,
-            'post_id' => $rrp5->post_id,
+            'post_id' => $rrp4->post_id,
         ]);
         
         sleep(1);
@@ -558,19 +665,17 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $rr1 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 600.00,
             'rent_date_start' => '2023-04-28',
             'rent_date_end' => '2023-08-28',
             'status' => 'pending',
             'post_id' => $rrp1->post_id,
-            'account_id' => $a5->account_id,
+            'account_id' => $a8->account_id,
         ]);
         
         sleep(1);
 
         $rr2 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 700.00,
             'rent_date_start' => '2022-04-28',
             'rent_date_end' => '2022-08-28',
             'status' => 'approved',
@@ -582,7 +687,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $rr3 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 800.00,
             'rent_date_start' => '2022-04-28',
             'rent_date_end' => '2022-08-28',
             'status' => 'rejected',
@@ -594,7 +698,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $rr4 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 500.00,
             'rent_date_start' => '2021-06-27',
             'rent_date_end' => '2021-12-20',
             'status' => 'expired',
@@ -606,7 +709,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $rr5 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 600.00,
             'rent_date_start' => '2023-06-27',
             'rent_date_end' => '2023-12-20',
             'status' => 'canceled',
@@ -618,7 +720,6 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $rr6 = RentRequest::create([
             'rent_request_id' => 'RR' . strval($iRR++),
-            'price' => 500.00,
             'rent_date_start' => '2024-04-28',
             'rent_date_end' => '2024-08-28',
             'status' => 'success',
@@ -637,7 +738,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'note' => 'Will be late 5 minutes.',
             'status' => 'pending',
             'post_id' => $rrp1->post_id,
-            'account_id' => $a5->account_id,
+            'account_id' => $a8->account_id,
         ]);
         
         sleep(1);
@@ -648,7 +749,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'note' => 'Will be late 6 minutes.',
             'status' => 'rescheduled',
             'post_id' => $rrp1->post_id,
-            'account_id' => $a5->account_id,
+            'account_id' => $a9->account_id,
         ]);
         
         sleep(1);
@@ -691,7 +792,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'datetime' => '2021-02-21 03:15:41',
             'note' => 'Hope to see you soon.',
             'status' => 'success',
-            'post_id' => $rrp2->post_id,
+            'post_id' => $rrp1->post_id,
             'account_id' => $a5->account_id,
         ]);
         
@@ -702,29 +803,32 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $ngt1 = Negotiation::create([
             'negotiation_id' => 'NGT' . strval($iNGT++),
-            'price' => 500.00,
+            'deposit_price' => 1250.00,
+            'monthly_price' => 500.00,
             'message' => 'Can negotiate.',
             'status' => 'tenant_offer',
             'post_id' => $rrp1->post_id,
-            'account_id' => $a5->account_id,
+            'account_id' => $a10->account_id,
         ]);
         
         sleep(1);
 
         $ngt2 = Negotiation::create([
             'negotiation_id' => 'NGT' . strval($iNGT++),
-            'price' => 600.00,
+            'deposit_price' => 1500.00,
+            'monthly_price' => 600.00,
             'message' => 'Can negotiate.',
             'status' => 'owner_offer',
             'post_id' => $rrp1->post_id,
-            'account_id' => $a5->account_id,
+            'account_id' => $a11->account_id,
         ]);
         
         sleep(1);
 
         $ngt3 = Negotiation::create([
             'negotiation_id' => 'NGT' . strval($iNGT++),
-            'price' => 400.00,
+            'deposit_price' => 1000.00,
+            'monthly_price' => 400.00,
             'message' => 'Can negotiate.',
             'status' => 'accepted',
             'post_id' => $rrp5->post_id,
@@ -735,7 +839,8 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $ngt4 = Negotiation::create([
             'negotiation_id' => 'NGT' . strval($iNGT++),
-            'price' => 500.00,
+            'deposit_price' => 1250.00,
+            'monthly_price' => 500.00,
             'message' => 'Can negotiate.',
             'status' => 'rejected',
             'post_id' => $rrp4->post_id,
@@ -746,7 +851,8 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
 
         $ngt5 = Negotiation::create([
             'negotiation_id' => 'NGT' . strval($iNGT++),
-            'price' => 600.00,
+            'deposit_price' => 1500.00,
+            'monthly_price' => 600.00,
             'message' => 'Can negotiate.',
             'status' => 'canceled',
             'post_id' => $rrp3->post_id,
@@ -810,7 +916,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'message_id' => 'CM' . strval($iCM++),
             'message' => 'Hi',
             'sender_id' => $a6->account_id,
-            'receiver_id' => $a4->account_id,
+            'receiver_id' => $a3->account_id,
             'chat_id' => $c1->chat_id,
         ]);
         
@@ -819,7 +925,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         $cm2 = ChatMessage::create([
             'message_id' => 'CM' . strval($iCM++),
             'message' => 'Bye',
-            'sender_id' => $a4->account_id,
+            'sender_id' => $a3->account_id,
             'receiver_id' => $a6->account_id,
             'chat_id' => $c1->chat_id,
         ]);
@@ -902,7 +1008,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
         sleep(1);
 
         $pc2 = PostCriteria::create([
-            'criteria_id' => $ctr3->criteria_id,
+            'criteria_id' => $ctr6->criteria_id,
             'post_id' => $rrp1->post_id,
         ]);
         

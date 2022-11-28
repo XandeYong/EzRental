@@ -282,22 +282,14 @@ class RoomRentalPostController extends Controller
     function createNegotiation(Request $request)
     {
 
-        $account_id = session()->get('account')['account_id'];
-        $post_id = $request->input('id');
-        $price = $request->input('price');
-        $message = $request->input('message');
-        $status = "tenant_offer";
+        $insert['account_id'] = $account_id = session()->get('account')['account_id'];
+        $insert['post_id'] = $post_id = $request->input('id');
+        $insert['deposit_price'] = $deposit = $request->input('deposit_price');
+        $insert['monthly_price'] = $monthly = $request->input('monthly_price');
+        $insert['message'] = $message = $request->input('message');
+        $insert['status'] = $status = "tenant_offer";
 
-        $negotiation_id = $this->generateID(Negotiation::class);
-
-        $insert = [
-            'negotiation_id' => $negotiation_id,
-            'price' => $price,
-            'message' => $message,
-            'status' => $status,
-            'post_id' => $post_id,
-            'account_id' => $account_id
-        ];
+        $insert['negotiation_id'] = $negotiation_id = $this->generateID(Negotiation::class);
 
         Negotiation::insert($insert);
 
