@@ -67,9 +67,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Price</th>
+                                                <th scope="row">Deposit Price</th>
                                                 <td colspan="3" class="bg-white">RM
-                                                    {{ number_format($rentRequestDetails[$i]->price, 2) }}</td>
+                                                    {{ number_format($rentRequestDetails[$i]->deposit_price, 2) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Monthly Price</th>
+                                                <td colspan="3" class="bg-white">RM
+                                                    {{ number_format($rentRequestDetails[$i]->monthly_price, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Start Date</th>

@@ -40,8 +40,7 @@ class MailController extends Controller
 
 
         //check is email sent success
-        // if(Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData))){ //use this
-        if(Mail::to('mcgallery21@gmail.com')->send(new UnbanMail($mailData))){ //need remove
+        if(Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData))){ 
             $request->session()->put('successMessage', 'Unban email sent success.');
         }else{
             $request->session()->put('failMessage', 'Unban email sent failed.');
@@ -77,8 +76,7 @@ class MailController extends Controller
 
 
         //check is email sent success
-        // if(Mail::to($userDetails[0]->email)->send(new BanMail($mailData))){ //use this
-            if(Mail::to('mcgallery21@gmail.com')->send(new BanMail($mailData))){ //need remove
+        if(Mail::to($userDetails[0]->email)->send(new BanMail($mailData))){ 
                 $request->session()->put('successMessage', 'Ban email sent success.');
             }else{
                 $request->session()->put('failMessage', 'Ban email sent failed.');
@@ -117,8 +115,7 @@ class MailController extends Controller
 
 
         //check is email sent success
-        // if(Mail::to($userDetails[0]->email)->send(new PaymentReceiptMail($mailData))){ //use this
-            Mail::to('mcgallery21@gmail.com')->send(new PaymentReceiptMail($mailData)); //need remove
+        Mail::to($userDetails[0]->email)->send(new PaymentReceiptMail($mailData)); //use this
 
 
         //Display paymentDetails
