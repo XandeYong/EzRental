@@ -18,7 +18,7 @@ class TopSelectionCriteriaListController extends Controller
         //get topselectioncriterialist from database  
         $topResults = DB::table('criterias')
             ->orderBy('selected_count','DESC')
-            ->select('name', 'selected_count')
+            ->select('name', 'type', 'selected_count')
             ->get();
 
 

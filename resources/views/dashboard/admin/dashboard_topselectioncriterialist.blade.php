@@ -49,7 +49,7 @@
                                     @foreach ($topResults as $topResult)
                                     <tr>
                                         <td><label>{{ $topResult->name }}</label></td>
-                                        <td><label>GG</label></td>
+                                        <td><label>{{ $topResult->type }}</label></td>
                                         <td class="text-align-second-column"><label>{{ $topResult->selected_count }}</label></td>
                                     </tr>
                                     @endforeach

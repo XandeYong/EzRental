@@ -41,7 +41,7 @@
                                             <th scope="row" class="w-25">Payment ID</th>
                                             <td class="bg-white">{{ $paymentDetails[$i]->payment_id }}</td> 
 
-                                            <th scope="row" class="w-25">Payment date</th>
+                                            <th scope="row" class="w-25">Paid date</th>
                                             @if(isset($paymentDetails[$i]->paid_date))
                                             <td class="bg-white w-25">{{ $paymentDetails[$i]->paid_date }}</td>
                                             @else
