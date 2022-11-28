@@ -108,3 +108,4 @@ Route::get('/autoReminderForOwner', [TestController::class, 'autoReminderForOwne
 Route::get('/autoCheckRoomVisitAppointment', [TestController::class, 'autoCheckRoomVisitAppointment']); 
 Route::get('/autoCheckRentRequest', [TestController::class, 'autoCheckRentRequest']); 
 Route::get('/autoCheckContract', [TestController::class, 'autoCheckContract']); 
+Route::get('/autoCheckRoomVisitAppointmentExpired', [TestController::class, 'autoCheckRoomVisitAppointmentExpired']); 

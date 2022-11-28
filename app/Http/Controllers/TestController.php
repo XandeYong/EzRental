@@ -610,7 +610,78 @@ class TestController extends Controller
     }
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Auto check is visit appointment already expired without approved 
+    public function autoCheckRoomVisitAppointmentExpired()
+    {
+
+        //get room visit appointment details from database 
+        $roomVisitAppointments = DB::table('visit_appointments')
+            ->where('status', 'pending')
+            ->orWhere('status', 'rescheduled')
+            ->select('appointment_id', 'datetime', 'account_id')
+            ->get();
+
+        if (!$roomVisitAppointments->isEmpty()) {
+            for ($i = 0; $i < count($roomVisitAppointments); $i++) {
+
+                //get current date time in Malaysia
+                date_default_timezone_set("Asia/Kuala_Lumpur");
+                $currentDate = date("Y-m-d H:i:s");
+
+                if ($currentDate >= $roomVisitAppointments[$i]->datetime) {
+                    //update room visit appoitment status in database 
+                    $updated = DB::table('visit_appointments')
+                        ->where('appointment_id', $roomVisitAppointments[$i]->appointment_id)
+                        ->update(['status' => "expired"]);
+
+                    //getLatestNotificationID
+                    $latestNotificationID = $this->getLatestNotificationID();
+
+                    //make new NotificationID
+                    $newNotificationID = $this->notificationID($latestNotificationID);
+
+                    //get room rental post details from database 
+                    $roomRentalPost = DB::table('room_rental_posts')
+                        ->join('visit_appointments', 'visit_appointments.post_id', '=', 'room_rental_posts.post_id')
+                        ->where('visit_appointments.appointment_id', $roomVisitAppointments[$i]->appointment_id)
+                        ->select('room_rental_posts.account_id', 'room_rental_posts.title')
+                        ->get();
+
+
+                    //need sent notification to owner
+                    //add notification to database
+                    $addNotification = DB::table('notifications')->insert([
+                        'notification_id' => $newNotificationID,
+                        'title' => "Visit Appointment Expired",
+                        'message' => "Visit Appointment for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                        'type' => "visit_appointment",
+                        'status' => "unread",
+                        'account_id' => $roomRentalPost[0]->account_id
+                    ]);
+
+                    //need sent notification to tenant
+                    //getLatestNotificationID
+                    $latestNotificationID = $this->getLatestNotificationID();
+
+                    //make new NotificationID
+                    $newNotificationID = $this->notificationID($latestNotificationID);
+
+                    //add notification to database
+                    $addNotification = DB::table('notifications')->insert([
+                        'notification_id' => $newNotificationID,
+                        'title' => "Visit Appointment Expired",
+                        'message' => "Visit Appointment for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                        'type' => "visit_appointment",
+                        'status' => "unread",
+                        'account_id' => $roomVisitAppointments[$i]->account_id
+                    ]);
+
+                }
+            }
+        }
+    }
 
 
 
