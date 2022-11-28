@@ -72,6 +72,8 @@ class DailyTaskController extends Controller
             ->select('accounts.account_id', 'ban_records.ban_id', 'ban_records.duration', 'ban_records.created_at')
             ->get();
 
+            
+
         if (!$banRecords->isEmpty()) {
             for ($i = 0; $i < count($banRecords); $i++) {
 
@@ -88,7 +90,7 @@ class DailyTaskController extends Controller
                 if ($currentDate >= $unbannedDate) {
                     //update to unbanned as the unbanned date arrived in database 
                     $updated = DB::table('ban_records')
-                        ->join('accounts', 'accounts.account_id', '=', 'accounts.account_id')
+                        ->join('accounts', 'accounts.account_id', '=', 'ban_records.account_id')
                         ->where('ban_records.ban_id', $banRecords[$i]->ban_id)
                         ->update(['ban_records.status' => 'unbanned', 'accounts.status' => 'offline']);
 
@@ -114,8 +116,7 @@ class DailyTaskController extends Controller
         ];
 
         //sent email
-        // Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData)); //use this
-        Mail::to("mcgallery21@gmail.com")->send(new UnbanMail($mailData)); //remove this
+        Mail::to($userDetails[0]->email)->send(new UnbanMail($mailData)); //use this
     }
 
 
@@ -248,8 +249,12 @@ class DailyTaskController extends Controller
                 //Check is current date exceed the due date need pay monthly rent
                 if ($currentDate == $paymentDueDate) {
                     //Get payment name
-                    $date = strtotime($unpaidPaymentRecords[$i]->created_at);
-                    $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    if($unpaidPaymentRecords[$i]->payment_type=="Deposit"){
+                        $paymentName = $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    }else{
+                        $date = strtotime($unpaidPaymentRecords[$i]->created_at);
+                        $paymentName = date('M', $date) . " " . date('Y', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    }
 
                     //get room rental post details from database 
                     $roomRentalPost = DB::table('room_rental_posts')
@@ -307,8 +312,12 @@ class DailyTaskController extends Controller
                 //Check is current date exceed the due date need pay monthly rent
                 if ($currentDate == $paymentDueDate) {
                     //Get payment name
-                    $date = strtotime($unpaidPaymentRecords[$i]->created_at);
-                    $paymentName = date('M', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    if($unpaidPaymentRecords[$i]->payment_type=="Deposit"){
+                        $paymentName = $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    }else{
+                        $date = strtotime($unpaidPaymentRecords[$i]->created_at);
+                        $paymentName = date('M', $date) . " " . date('Y', $date) . " " . $unpaidPaymentRecords[$i]->payment_type . " " . "Payment";
+                    }
 
                     //get room rental post details from database 
                     $roomRentalPost = DB::table('room_rental_posts')
@@ -490,7 +499,6 @@ class DailyTaskController extends Controller
             ->get();
 
 
-
         if (!$contractLists->isEmpty()) {
             for ($i = 0; $i < count($contractLists); $i++) {
 
@@ -514,13 +522,53 @@ class DailyTaskController extends Controller
 
                     //check does contract need to be renew
                     if ($contractLists[$i]->renew_contract != "yes") {
+
+                        //update rentings status in database 
+                        $updated = DB::table('rentings')
+                            ->where('renting_id', $contractLists[$i]->renting_id)
+                            ->update(['status' => "expired"]);
+
                         //getLatestNotificationID
                         $latestNotificationID = $this->getLatestNotificationID();
 
                         //make new NotificationID
                         $newNotificationID = $this->notificationID($latestNotificationID);
 
-                        //need sent notification to owner
+                        //need sent notification to owner about renting expired
+                        //add notification to database
+                        $addNotification = DB::table('notifications')->insert([
+                            'notification_id' => $newNotificationID,
+                            'title' => "Renting Expired",
+                            'message' => "Renting for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                            'type' => "renting",
+                            'status' => "unread",
+                            'account_id' => $roomRentalPost[0]->account_id
+                        ]);
+
+                        //need sent notification to tenant
+                        //getLatestNotificationID
+                        $latestNotificationID = $this->getLatestNotificationID();
+
+                        //make new NotificationID
+                        $newNotificationID = $this->notificationID($latestNotificationID);
+
+                        //add notification to database
+                        $addNotification = DB::table('notifications')->insert([
+                            'notification_id' => $newNotificationID,
+                            'title' => "Renting Expired",
+                            'message' => "renting for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
+                            'type' => "contract",
+                            'status' => "unread",
+                            'account_id' => $contractLists[$i]->account_id
+                        ]);
+
+                        //getLatestNotificationID
+                        $latestNotificationID = $this->getLatestNotificationID();
+
+                        //make new NotificationID
+                        $newNotificationID = $this->notificationID($latestNotificationID);
+
+                        //need sent notification to owner about contract expired
                         //add notification to database
                         $addNotification = DB::table('notifications')->insert([
                             'notification_id' => $newNotificationID,

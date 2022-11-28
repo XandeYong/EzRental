@@ -42,8 +42,13 @@ class PaymentController extends Controller
 
             //get unpaid payment name
             foreach ($paidPayments as $paidPayment) {
-                $date = strtotime($paidPayment->created_at);
-                $paidPaymentName = date('M', $date) . " " . $paidPayment->payment_type . " " . "Payment";
+
+                if($paidPayment->payment_type=="Deposit"){
+                    $paidPaymentName = $paidPayment->payment_type . " " . "Payment";
+                }else{
+                    $date = strtotime($paidPayment->created_at);
+                    $paidPaymentName = date('M', $date) . " " . date('Y', $date) . " " . $paidPayment->payment_type . " " . "Payment";
+                }
 
                 array_push($paidPaymentsName, $paidPaymentName);
             }
@@ -90,8 +95,13 @@ class PaymentController extends Controller
 
             //get unpaid payment name
             foreach ($paidPayments as $paidPayment) {
-                $date = strtotime($paidPayment->created_at);
-                $paidPaymentName = date('M', $date) . " " . $paidPayment->payment_type . " " . "Payment";
+
+                if($paidPayment->payment_type=="Deposit"){
+                    $paidPaymentName = $paidPayment->payment_type . " " . "Payment";
+                }else{
+                    $date = strtotime($paidPayment->created_at);
+                    $paidPaymentName = date('M', $date) . " " . date('Y', $date) . " " . $paidPayment->payment_type . " " . "Payment";
+                }
 
                 array_push($paidPaymentsName, $paidPaymentName);
             }
@@ -131,8 +141,13 @@ class PaymentController extends Controller
 
         $paymentDetailsName = array();
         //get payment name
-        $date = strtotime($paymentDetails[0]->created_at);
-        $paymentDetailName = date('M', $date) . " " . $paymentDetails[0]->payment_type . " " . "Payment";
+
+        if($paymentDetails[0]->payment_type=="Deposit"){
+            $paymentDetailName = $paymentDetails[0]->payment_type . " " . "Payment";
+        }else{
+            $date = strtotime($paymentDetails[0]->created_at);
+            $paymentDetailName = date('M', $date) . " " . date('Y', $date) . " " . $paymentDetails[0]->payment_type . " " . "Payment";
+        }
         array_push($paymentDetailsName, $paymentDetailName);
 
 
@@ -223,8 +238,12 @@ class PaymentController extends Controller
 
 
             //get payment name
-            $date = strtotime($paymentDetail[0]->created_at);
-            $paymentDetailName = date('M', $date) . " " . $paymentDetail[0]->payment_type . " " . "Payment";
+            if($paymentDetail[0]->payment_type=="Deposit"){
+                $paymentDetailName = $paymentDetail[0]->payment_type . " " . "Payment";
+            }else{
+                $date = strtotime($paymentDetail[0]->created_at);
+                $paymentDetailName = date('M', $date) . " " . date('Y', $date) . " " . $paymentDetail[0]->payment_type . " " . "Payment";
+            }
             array_push($paymentDetailsName, $paymentDetailName);
 
 

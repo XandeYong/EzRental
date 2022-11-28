@@ -17,12 +17,21 @@ class UserListController extends Controller
         $account = $request->session()->get('account');
         $user = $account->role;
 
-        //get all userlist from database  
-        $userList = DB::table('accounts')
-            ->where('role', '!=', 'A')
-            ->where('role', '!=', 'MA')
-            ->select('account_id', 'name', 'email', 'status')
-            ->get();
+        if ($user == 'MA') {
+            //get all userlist from database for master admin 
+            $userList = DB::table('accounts')
+                ->where('role', '!=', 'MA')
+                ->select('account_id', 'name', 'email', 'status')
+                ->get();
+        } else {
+            //get all userlist from database  for admin 
+            $userList = DB::table('accounts')
+                ->where('role', '!=', 'A')
+                ->where('role', '!=', 'MA')
+                ->select('account_id', 'name', 'email', 'status')
+                ->get();
+        }
+
 
         return view('dashboard/admin/dashboard_userlist', [
             'page' => $this->name,
@@ -42,25 +51,42 @@ class UserListController extends Controller
         } catch (DecryptException $ex) {
             abort('500', $ex->getMessage());
         }
-        if ($filter == "banned") {
-            //get all userlist from database with status banned  
-            $userList = DB::table('accounts')
-                ->where('role', '!=', 'A')
-                ->where('role', '!=', 'MA')
-                ->where('status', 'banned')
-                ->select('account_id', 'name', 'email', 'status')
-                ->get();
+
+        if ($user == 'MA') {
+            if ($filter == "banned") {
+                //get all userlist from database with status banned for master admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'MA')
+                    ->where('status', 'banned')
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            } else {
+                //get all userlist from database  with status not banned for master admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'MA')
+                    ->where('status', '!=', 'banned')
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            }
         } else {
-            //get all userlist from database  with status not banned  
-            $userList = DB::table('accounts')
-                ->where('role', '!=', 'A')
-                ->where('role', '!=', 'MA')
-                ->where('status', '!=', 'banned')
-                ->select('account_id', 'name', 'email', 'status')
-                ->get();
+            if ($filter == "banned") {
+                //get all userlist from database with status banned for admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'A')
+                    ->where('role', '!=', 'MA')
+                    ->where('status', 'banned')
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            } else {
+                //get all userlist from database  with status not banned for admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'A')
+                    ->where('role', '!=', 'MA')
+                    ->where('status', '!=', 'banned')
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            }
         }
-
-
 
         return view('dashboard/admin/dashboard_userlist', [
             'page' => $this->name,
@@ -77,23 +103,31 @@ class UserListController extends Controller
         //get accountID from search field in User List 
         $accountID = trim($request->input('accountId'));
 
-
         $pattern = "/^[A|a]{1}[0-9]+$/";
-        
-        if (strlen($accountID) <= 255 && preg_match($pattern, $accountID)==1) {
 
-        //get userlist from database  
-        $userList = DB::table('accounts')
-            ->where('role', '!=', 'A')
-            ->where('role', '!=', 'MA')
-            ->where('account_id', $accountID)
-            ->select('account_id', 'name', 'email', 'status')
-            ->get();
+        if (strlen($accountID) <= 255 && preg_match($pattern, $accountID) == 1) {
 
+            if ($user == 'MA') {
+                //get userlist from database for master admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'MA')
+                    ->where('account_id', $accountID)
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            } else {
+                //get userlist from database for admin 
+                $userList = DB::table('accounts')
+                    ->where('role', '!=', 'A')
+                    ->where('role', '!=', 'MA')
+                    ->where('account_id', $accountID)
+                    ->select('account_id', 'name', 'email', 'status')
+                    ->get();
+            }
+            
         } else {
             $errorMessage = "";
 
-            if(strlen($accountID) > 255){
+            if (strlen($accountID) > 255) {
                 $errorMessage .= "*Input cannot be more than 255 characters!,";
             }
 
@@ -102,7 +136,7 @@ class UserListController extends Controller
             }
 
             $request->session()->put('errorMessage', $errorMessage);
-            
+
             return redirect(route('dashboard.admin.userlist'));
         }
 

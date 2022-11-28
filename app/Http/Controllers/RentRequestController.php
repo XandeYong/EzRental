@@ -58,8 +58,9 @@ class RentRequestController extends Controller
         //get rent request details from database 
         $rentRequestDetails = DB::table('rent_requests')
             ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rent_requests.post_id')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('rent_requests.rent_request_id', $rentRequestID)
-            ->select('rent_requests.rent_request_id', 'rent_requests.post_id', 'rent_requests.price', 'rent_requests.rent_date_start', 'rent_requests.rent_date_end', 'rent_requests.status', 'rent_requests.created_at', 'room_rental_posts.title')
+            ->select('rent_requests.rent_request_id', 'rent_requests.post_id', 'rent_requests.rent_date_start', 'rent_requests.rent_date_end', 'rent_requests.status', 'rent_requests.created_at', 'room_rental_posts.title', 'contracts.deposit_price', 'contracts.monthly_price')
             ->get();
 
         $contract = DB::table('contracts')
@@ -92,6 +93,12 @@ class RentRequestController extends Controller
         $updated = DB::table('rent_requests')
             ->where('rent_request_id', $rentRequestID)
             ->update(['status' => "approved"]);
+
+        //update room rental post status in database 
+        $updated = DB::table('room_rental_posts')
+            ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->update(['room_rental_posts.status' => "reserve"]);
 
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
@@ -146,6 +153,12 @@ class RentRequestController extends Controller
         $updated = DB::table('rent_requests')
             ->where('rent_request_id', $rentRequestID)
             ->update(['status' => "rejected"]);
+
+        //update room rental post status in database 
+        $updated = DB::table('room_rental_posts')
+            ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->update(['room_rental_posts.status' => "available"]);
 
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
@@ -203,6 +216,12 @@ class RentRequestController extends Controller
         $updated = DB::table('rent_requests')
             ->where('rent_request_id', $rentRequestID)
             ->update(['status' => "canceled"]);
+
+        //update room rental post status in database 
+        $updated = DB::table('room_rental_posts')
+            ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->update(['room_rental_posts.status' => "available"]);
 
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
@@ -275,13 +294,13 @@ class RentRequestController extends Controller
             ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'rent_requests.post_id')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->where('rent_requests.rent_request_id', $rentRequestID)
-            ->select('rent_requests.account_id', 'rent_requests.price', 'room_rental_posts.post_id', 'room_rental_posts.title', 'contracts.contract_id')
+            ->select('rent_requests.account_id', 'rent_requests.rent_date_start', 'rent_requests.rent_date_end', 'room_rental_posts.post_id', 'room_rental_posts.title', 'contracts.contract_id', 'contracts.deposit_price', 'contracts.monthly_price')
             ->get();
 
         //update contract status in database 
         $updated = DB::table('contracts')
             ->where('contract_id', $roomRentalPost[0]->contract_id)
-            ->update(['status' => "active"]);
+            ->update(['start_date' => $roomRentalPost[0]->rent_date_start, 'end_date' => $roomRentalPost[0]->rent_date_end, 'status' => "active"]);
 
         //update room rental post status in database 
         $updated = DB::table('room_rental_posts')
@@ -315,7 +334,23 @@ class RentRequestController extends Controller
         DB::table('payments')->insert([
             'payment_id' => $newPaymentID,
             'payment_type' => 'Deposit',
-            'amount' => $roomRentalPost[0]->price,
+            'amount' => $roomRentalPost[0]->deposit_price,
+            'status' => "unpaid",
+            'renting_id' => $newRentingID
+        ]);
+
+        //create new monthly payment in database
+        //getLatestPaymentID
+        $latestPaymentID = $this->getLatestPaymentID();
+
+        //make new PaymentID
+        $newPaymentID = $this->paymentID($latestPaymentID);
+
+        //Insert payment in to database
+        DB::table('payments')->insert([
+            'payment_id' => $newPaymentID,
+            'payment_type' => 'Monthly',
+            'amount' => $roomRentalPost[0]->monthly_price,
             'status' => "unpaid",
             'renting_id' => $newRentingID
         ]);

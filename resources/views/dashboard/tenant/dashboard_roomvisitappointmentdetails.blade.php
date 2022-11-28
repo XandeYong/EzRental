@@ -53,7 +53,7 @@
                                             <td class="bg-white">{{ $roomVisitAppointmentDetails[0]->appointment_id }}
                                             </td>
 
-                                            <th scope="row" class="w-25">Request Appointment date</th>
+                                            <th scope="row" class="w-25">Date Created</th>
                                             <td class="bg-white w-25">
                                                 {{ date('Y-m-d', strtotime($roomVisitAppointmentDetails[0]->created_at)) }}
                                             </td>
