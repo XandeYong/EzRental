@@ -53,7 +53,7 @@
                                                 <th scope="row" class="w-25">Request ID</th>
                                                 <td class="bg-white">{{ $rentRequestDetails[$i]->rent_request_id }}</td>
 
-                                                <th scope="row" class="w-25">Request Date</th>
+                                                <th scope="row" class="w-25">Date Created</th>
                                                 <td class="bg-white w-25">
                                                     {{ date('Y-m-d', strtotime($rentRequestDetails[$i]->created_at)) }}
                                                 </td>

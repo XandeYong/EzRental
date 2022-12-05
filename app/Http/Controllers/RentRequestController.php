@@ -300,7 +300,7 @@ class RentRequestController extends Controller
         //update contract status in database 
         $updated = DB::table('contracts')
             ->where('contract_id', $roomRentalPost[0]->contract_id)
-            ->update(['start_date' => $roomRentalPost[0]->rent_date_start, 'end_date' => $roomRentalPost[0]->rent_date_end, 'status' => "active"]);
+            ->update(['start_date' => $roomRentalPost[0]->rent_date_start, 'expired_date' => $roomRentalPost[0]->rent_date_end, 'status' => "active"]);
 
         //update room rental post status in database 
         $updated = DB::table('room_rental_posts')
