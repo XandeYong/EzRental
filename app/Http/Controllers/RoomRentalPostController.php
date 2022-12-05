@@ -22,7 +22,7 @@ class RoomRentalPostController extends Controller
     // Public
     function index($post_id)
     {
-
+    
         $post = DB::table('room_rental_posts')
             ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
@@ -73,8 +73,6 @@ class RoomRentalPostController extends Controller
         }
 
 
-
-
         if (session()->has('account')) {
             $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
 
@@ -97,6 +95,15 @@ class RoomRentalPostController extends Controller
             ];
 
             $favorite = collect();
+        }
+
+        if ($post[0]->status != 'available') {
+            $message = 'You have been redirect to homepage as the post you are trying to access is not accessible at the moment.';
+            
+            session()->put('access_message_status', 'alert-danger');
+            session()->put('access_message', $message);
+
+            return redirect('/');
         }
 
 

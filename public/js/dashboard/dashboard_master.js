@@ -12,9 +12,7 @@ $(document).ready(function () {
             }
         } else {
             sidebar("-16rem", "0"); 
-            if ($scene2) {
-                $(".hide_sidebar").css("display", "none");
-            }
+            $(".hide_sidebar").css("display", "none");
         }
 
     });
@@ -60,6 +58,8 @@ $(document).ready(function () {
             } else {
                 $(".hide_sidebar").css("display", "none");
             }
+        } else {
+            $(".hide_sidebar").css("display", "none");
         }
     });
 

@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     $("#rent_button").click(function (e) { 
         var now = currentTime(1);
-        var later = currentTime(30);
+        var later = currentTime(31);
 
         now = now.toJSON().slice(0,10);
         later = later.toJSON().slice(0,10);
@@ -18,6 +18,16 @@ $(document).ready(function () {
         $("#rent_start_date").attr("min", now);
         $("#rent_end_date").attr("min", later);
     });
+
+    $("#rent_start_date").change(function (e) {
+        var date = $(this).val();
+        var later = givenTime(date, 30);
+
+        later = later.toJSON().slice(0,10);
+        
+        $("#rent_end_date").attr("min", later);
+    });
+
 
     if ($("input[name=rating]").attr('checked') !== 'undefined' && $("[name=rating]").attr('checked') !== false && $("#comment_submit_input").val() === "Update") {
         $(".rating__icon--star").removeClass('rating__icon--star-initial');
@@ -85,6 +95,19 @@ function currentTime(addDay = 0) {
     addDay = addDay * 1440;
 
     var now = new Date();
+    now.setMinutes((now.getMinutes() - now.getTimezoneOffset()) + addDay);
+
+    return now;
+}
+
+function givenTime(date = 0, addDay = 0) {
+    addDay = addDay * 1440;
+
+    if (date !== 0) {
+        var now = new Date(date);
+    } else {
+        var now = new Date();
+    }
     now.setMinutes((now.getMinutes() - now.getTimezoneOffset()) + addDay);
 
     return now;

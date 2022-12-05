@@ -90,7 +90,7 @@
                         <div class="d-flex justify-content-center d-block d-lg-none">
                             <div class="fixed-bottom-button">
                                 <a href="{{ $button['link'] }}">
-                                    <button class="btn btn-lg btn-success px-3 px-sm-5">{{ $button['name'] }}</button>
+                                    <button class="btn btn-lg btn-primary px-3 px-sm-5">{{ $button['name'] }}</button>
                                 </a>
                             </div>
                         </div>

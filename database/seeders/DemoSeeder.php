@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
         $ma1 = Account::create([
             'account_id' => 'A' . strval($iA),
-            'name' => "Jon Strosin",
+            'name' => "Arthur Kuphal",
             'gender' => "M",
             'dob' => "1981-01-19",
             'mobile_number' => "0188550178",
@@ -80,173 +80,46 @@ class DatabaseSeeder extends Seeder
             'status' => 'offline',
             'role' => 'MA'
         ]);
-        
-        sleep(1);
-
-        $a1 = Account::create([
-            'account_id' => 'A' . strval($iA),
-            'name' => "Yolanda Fahey",
-            'gender' => "F",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "pbrandt1@gmail.com",
-            'password' => "I0pVObJcKH",
-            'image' => 'A' . strval($iA++) . '.png',
-            'status' => 'offline',
-            'role' => 'A',
-        ]);
-
-        sleep(1);
 
         $a2 = Account::create([
             'account_id' => 'A' . strval($iA),
-            'name' => "Peter Greenholt",
+            'name' => "Marcos Metz",
             'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "tmoss2@gmail.com",
-            'password' => "ObJc0pVXUEIg",
+            'dob' => "1981-01-19",
+            'mobile_number' => "0188550178",
+            'email' => "marcosmetz@gmail.com",
+            'password' => "123456",
             'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
-            'role' => 'O',
+            'role' => 'A'
         ]);
-
-        sleep(1);
 
         $a3 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Lubowitz",
-            'gender' => "F",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "sshegog9@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'O',
-        ]);
-
-        sleep(1);
-
-        $a4 = Account::create([
             'account_id' => 'A' . strval($iA),
-            'name' => "Janice Towne",
-            'gender' => "F",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "vjanton6@gmail.com",
-            'password' => 'DxiKRnJrLc',
+            'name' => "Dexter Kling MD",
+            'gender' => "M",
+            'dob' => "1981-01-19",
+            'mobile_number' => "0188550178",
+            'email' => "dexterklingmd@gmail.com",
+            'password' => "123456",
             'image' => 'A' . strval($iA++) . '.png',
-            'status' => 'banned',
-            'role' => 'T',
+            'status' => 'offline',
+            'role' => 'O'
         ]);
 
-        sleep(1);
-
-        $a5 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Angela Friesen",
+        $a3 = Account::create([
+            'account_id' => 'A' . strval($iA),
+            'name' => "Kim Larkin",
             'gender' => "F",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Kailey@gmail.com",
-            'password' => "Vruqm3C6j4",
-            'image' => 'profile.png',
+            'dob' => "1981-01-19",
+            'mobile_number' => "0188550178",
+            'email' => "kimlarkin@gmail.com",
+            'password' => "123456",
+            'image' => 'A' . strval($iA++) . '.png',
             'status' => 'offline',
-            'role' => 'T',
+            'role' => 'T'
         ]);
         
-        sleep(1);
-
-        $a6 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Danial Siow",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Danial@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
-
-        $a7 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Sylvester Cremin",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Oberbrunner@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'banned',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
-        
-        $a8 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Phillip Jast",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Beaulah@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
-        
-        $a9 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Kristi Roob",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Ziemann@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
-        
-        $a10 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Sylvester Cremin",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Jadaslee@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
-        
-        $a11 = Account::create([
-            'account_id' => 'A' . strval($iA++),
-            'name' => "Travis Casper",
-            'gender' => "M",
-            'dob' => strval(rand(1950, 2010)) . "-" . strval(rand(1, 12)) . "-" . strval(rand(1, 28)),
-            'mobile_number' => "01" . strval(rand(10000000, 99999999)),
-            'email' => "Abigail@gmail.com",
-            'password' => Str::random(10),
-            'image' => 'profile.png',
-            'status' => 'offline',
-            'role' => 'T',
-        ]);
-        
-        sleep(1);
 
 
         static $iCTR = 1;
@@ -352,96 +225,6 @@ class DatabaseSeeder extends Seeder
         sleep(1);
 
 
-
-        static $iC = 1;
-
-        $c1 = Chat::create([
-            'chat_id' => 'C' . strval($iC++),
-            'status' => 'live'
-        ]);
-
-        sleep(1);
-
-        $c2 = Chat::create([
-            'chat_id' => 'C' . strval($iC++),
-            'status' => 'blocked1'
-        ]);
-
-        sleep(1);
-        
-        $c3 = Chat::create([
-            'chat_id' => 'C' . strval($iC++),
-            'status' => 'blocked2'
-        ]);
-
-        sleep(1);
-
-
-        static $iGC = 1;
-
-        $gc1 = GroupChat::create([
-            'group_id' => 'GC' . strval($iGC++),
-            'name' => 'PV13-23-33 Main'
-        ]);
-
-        sleep(1);
-
-        $gc2 = GroupChat::create([
-            'group_id' => 'GC' . strval($iGC++),
-            'name' => 'PV13-23-33 Side'
-        ]);
-
-        sleep(1);
-
-
-        static $iBR =1;
-
-        $br1 = BanRecord::create([
-            'ban_id' => 'BR' . strval($iBR++),
-            'reason' => 'for testing purpose (1 day ban)',
-            'duration' => '1',
-            'status' => 'banned',
-            'account_id' => $a4->account_id
-        ]);
-
-        sleep(1);
-
-        $br2 = BanRecord::create([
-            'ban_id' => 'BR' . strval($iBR++),
-            'reason' => 'for testing purpose (perma ban)',
-            'duration' => '0',
-            'status' => 'banned',
-            'account_id' => $a7->account_id
-        ]);
-
-        sleep(1);
-
-
-        static $iNTF = 1;
-
-        $ntf1 = Notification::create([
-            'notification_id' => 'NTF' . strval($iNTF++),
-            'title' => 'new message from ' . $a2->name,
-            'message' => 'hello',
-            'type' => 'chat',
-            'status' => 'read',
-            'account_id' => $a3->account_id
-        ]);
-
-        sleep(1);
-
-        $ntf2 = Notification::create([
-            'notification_id' => 'NTF' . strval($iNTF++),
-            'title' => 'new message from ' . $a2->name,
-            'message' => 'hello',
-            'type' => 'chat',
-            'status' => 'unread',
-            'account_id' => $a3->account_id
-        ]);
-
-        sleep(1);
-
-
         static $iRRP = 1;
 
         $rrp1 = RoomRentalPost::create([
@@ -455,7 +238,7 @@ class DatabaseSeeder extends Seeder
             'floor' => '3A',
             'unit' => 10,
             'status' => 'available',
-            'account_id' => $a2->account_id
+            'account_id' => $a3->account_id
         ]);
         
         sleep(1);
@@ -487,7 +270,7 @@ class DatabaseSeeder extends Seeder
             'floor' => '17',
             'unit' => 70,
             'status' => 'renting',
-            'account_id' => $a2->account_id
+            'account_id' => $a3->account_id
         ]);
         
         sleep(1);
@@ -513,13 +296,13 @@ class DatabaseSeeder extends Seeder
             'title' => 'PV12 small room for rent',
             'description' => 'Included all facility like Wifi, air-conditioner and many more.',
             'room_size' => "small",
-            'address' => 'Jalan Langkawi, Taman Danau Kota, 53100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur',
+            'address' => 'Sentral Station-Kl Sentral Jln Tun Sambanthan',
             'condominium_name' => 'PV12',
             'block' => 'A',
             'floor' => '1',
             'unit' => 3,
-            'status' => 'archived',
-            'account_id' => $a2->account_id
+            'status' => 'avaialble',
+            'account_id' => $a3->account_id
         ]);
         
         sleep(1);
@@ -1209,30 +992,7 @@ Corrupti at quasi ut et doloribus illum et cupiditate. Ut in vitae. Beatae repre
             'image' => 'MI' . strval($iMI++) . '.jpg',     
             'maintenance_id' => $mr1->maintenance_id,
         ]);
-        
-        sleep(1);
 
-        $mi2 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI),
-            'image' => 'MI' . strval($iMI++) . '.jpg',     
-            'maintenance_id' => $mr2->maintenance_id,
-        ]);
-        
-        sleep(1);
-
-        $mi3 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI),
-            'image' => 'MI' . strval($iMI++) . '.png',     
-            'maintenance_id' => $mr3->maintenance_id,
-        ]);
-        
-        sleep(1);
-
-        $mi4 = MaintenanceImage::create([
-            'maintenance_image_id' => 'MI' . strval($iMI),
-            'image' => 'MI' . strval($iMI++) . '.png',     
-            'maintenance_id' => $mr4->maintenance_id,
-        ]);
 
     }
 }

@@ -43,7 +43,7 @@
 
     <div id="header-2" class="row align-items-center justify-content-center">
         
-        <div id="header-back" class="col-1 col-sm-3 text-start ps-4 ps-sm-2">
+        <div id="header-back" class="col-1 col-sm-3 text-start ps-4 ps-lg-2">
         @if (isset($back))
             <div class="d-flex">
                 <h4 class="m-0 border-right-2">

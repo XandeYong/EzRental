@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomRentalPostController;
 use App\Http\Controllers\RoomRentalPostListController;
+use App\Models\Chat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -123,9 +126,64 @@ Route::post('/reset_password/{email}/{key}/reset', [
 route::middleware(['account', 'account.has'])->group(function () {
 
     // Chat
-    Route::get('/chat', function () {
-        return view('chat');
-    })->name('chat');
+    Route::get('/chat', [
+        ChatController::class, 'index'
+    ])->name('chat');
+
+        // Chat Message
+        Route::get('/chat/message/{id?}', [
+            ChatController::class, 'getMessage'
+        ])->name('chat.user');
+
+        Route::post('/chat/message/send', [
+            ChatController::class, 'sendMessage'
+        ])->name('chat.user.send');
+
+
+        // Group Chat Message
+        Route::get('/chat/message/group/{id?}', [
+            GroupChatController::class, 'getMessage'
+        ])->name('chat.group');
+
+        Route::post('/chat/message/group/create', [
+            GroupChatController::class, 'createGroup'
+        ])->name('chat.group.create');
+
+        Route::post('/chat/message/group/send', [
+            GroupChatController::class, 'sendMessage'
+        ])->name('chat.group.send');
+
+        Route::post('/chat/message/group/delete', [
+            GroupChatController::class, 'deleteGroup'
+        ])->name('chat.group.delete');
+
+
+            // Group Chat User
+            Route::post('/chat/message/group/user/add/{id?}', [
+                GroupChatController::class, 'addUser'
+            ])->name('chat.group.user.add');
+    
+            Route::post('/chat/message/group/user/remove/{id?}', [
+                GroupChatController::class, 'removeUser'
+            ])->name('chat.group.user.remove');
+    
+            Route::post('/chat/message/group/user/promote/{id?}', [
+                GroupChatController::class, 'promoteUser'
+            ])->name('chat.group.user.promote');
+            
+            Route::post('/chat/message/group/user/demote/{id?}', [
+                GroupChatController::class, 'demoteUser'
+            ])->name('chat.group.user.demote');
+            
+            Route::post('/chat/message/group/user/transfer/{id?}', [
+                GroupChatController::class, 'transferOwnership'
+            ])->name('chat.group.user.transfer');
+
+            Route::get('/chat/message/group/userlist/{id?}', [
+                GroupChatController::class, 'displayGroupUser'
+            ])->name('chat.group.user.list');
+
+
     
 
     Route::get('/dashboard', function () {

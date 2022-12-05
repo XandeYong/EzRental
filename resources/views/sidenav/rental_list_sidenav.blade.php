@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="sidenav-item mb-3">
+    <div id="filter_section" class="sidenav-item mb-3">
         <form action="/rental_post_list/filter" method="post">
             @csrf
             <div class="item-header p-1 ps-3">
@@ -80,8 +80,8 @@
                 </div>
             </div>
 
-            <div id="post_filter" class="item-body container">
-                <div class="row px-3 py-2">
+            <div id="post_filter" class="item-body container pe-3 py-2">
+                <div class="row px-3 py-2 x-scrollbar-y">
 
                     @if (count($criteriaLists) == 0)
                         <div class="text-center">

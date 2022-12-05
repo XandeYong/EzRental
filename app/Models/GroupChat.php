@@ -17,4 +17,8 @@ class GroupChat extends Model
     public static $idCode = 'GC';
     public static $idColumn = 'group_id';
    
+
+    public function messages() {
+        return $this->hasMany(GroupMessage::class, 'group_id');
+    }
 }

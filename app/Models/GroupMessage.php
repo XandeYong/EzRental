@@ -16,5 +16,5 @@ class GroupMessage extends Model
     public static $tableName = 'group_messages';
     public static $idCode = 'GM';
     public static $idColumn = 'group_message_id';
-   
+    
 }
