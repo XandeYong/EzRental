@@ -157,6 +157,10 @@ route::middleware(['account', 'account.has'])->group(function () {
             GroupChatController::class, 'deleteGroup'
         ])->name('chat.group.delete');
 
+        Route::post('/chat/message/group/leave', [
+            GroupChatController::class, 'leaveGroup'
+        ])->name('chat.group.leave');
+
 
             // Group Chat User
             Route::post('/chat/message/group/user/add/{id?}', [

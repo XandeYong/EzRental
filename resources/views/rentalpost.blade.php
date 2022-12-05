@@ -176,7 +176,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="w-25">Post Owner</th>
-                                                                <td class="w-75">{{ $post[0]->name }}</td>
+                                                                <td class="w-75">{{ $post[0]->name }} (<b>{{ $post[0]->account_id }}</b>)</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row" class="w-25">Post Status</th>
@@ -376,7 +376,7 @@
                                                                             <div class="p-3">
                                                                                 <div class="p-u-c-header d-flex justify-content-between">
                                                                                     <div class="name">
-                                                                                        <h5>{{ $comment->name }}</h5>
+                                                                                        <h5>{{ $comment->name }} (<b>{{ $comment->account_id }}</b>)</h5>
                                                                                     </div>
                                                                                     <div class="datetime">
                                                                                         <small>

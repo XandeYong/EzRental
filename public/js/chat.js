@@ -71,11 +71,15 @@ $(document).ready(function () {
 
         $("#chat_options").find('li.master').attr('hidden', 'hidden');
         $("#chat_options").find('li.admin').attr('hidden', 'hidden');
+        $("#chat_options").find('li.member').attr('hidden', 'hidden');
         if (role === 'Master') {
             $("#chat_options").find('li.master').removeAttr('hidden');
             $("#chat_options").find('li.admin').removeAttr('hidden');
         } else if (role === 'Admin') {
             $("#chat_options").find('li.admin').removeAttr('hidden');
+            $("#chat_options").find('li.member').removeAttr('hidden');
+        } else if (role === 'Member') {
+            $("#chat_options").find('li.member').removeAttr('hidden');
         }
         
         $("#chat_options").attr('groupID', id);
@@ -87,6 +91,41 @@ $(document).ready(function () {
         var id = $("#chat_options").attr('groupID');
         var src = ulIframeSrc + "/" + id;
         $("#group_user_list_iframe").attr('src', src)
+    });
+
+    $("#dd_add_user_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#add_user_modal #groupID").val(id);
+    });
+
+    $("#dd_remove_user_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#remove_user_modal #groupID").val(id);
+    });
+
+    $("#dd_promote_user_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#promote_user_modal #groupID").val(id);
+    });
+
+    $("#dd_demote_user_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#demote_user_modal #groupID").val(id);
+    });
+
+    $("#dd_transfer_ownership").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#transfer_ownership_modal #groupID").val(id);
+    });
+
+    $("#dd_delete_group_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#delete_group_modal #groupID").val(id);
+    });
+
+    $("#dd_leave_group_modal").click(function (e) { 
+        var id = $("#chat_options").attr('groupID');
+        $("#leave_group_modal #groupID").val(id);
     });
 
     $("#message_send").on("input", function (e) { 
@@ -121,9 +160,6 @@ $(document).ready(function () {
             alert("It seem like you did not enter a message.");
         }
     });
-
-
-    $("#")
     
 
     // Search User

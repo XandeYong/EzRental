@@ -19,16 +19,6 @@ class ChatController extends Controller
         
         $accountID = session()->get('account')['account_id'];
 
-        //get chat id
-        // $chats = DB::table('chat_messages', 'CM')
-        //     ->join('chats as C','C.chat_id','CM.chat_id')
-        //     ->where('CM.sender_id', $accountID)
-        //     ->orWhere('CM.receiver_id', $accountID)
-        //     ->select('CM.sender_id', 'CM.receiver_id', 'CM.chat_id')
-        //     ->distinct()
-        //     ->get();
-
-
         //account get (chat Messages get(sender / receiver base on account_id) )
         $cmQ1 = ChatMessage::select('receiver_id as account_id')->where('sender_id', $accountID)->distinct();
         $cms = ChatMessage::select('sender_id as account_id')
@@ -48,6 +38,7 @@ class ChatController extends Controller
         $gChats = DB::table('group_chats', 'GC')
             ->join('group_users as GU', 'GU.group_id', 'GC.group_id')
             ->where('GU.account_id', $accountID)
+            ->where('GC.status', '!=', 'archive')
             ->select('GC.group_id', 'GC.name', 'GU.role')
             ->distinct()
             ->get();

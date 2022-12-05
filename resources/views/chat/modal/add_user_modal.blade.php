@@ -14,7 +14,7 @@
 
                 <div class="modal-body">
 
-                    <input type="hidden" name="groupID" value="">
+                    <input id="groupID" type="hidden" name="groupID" value="">
                     <div class="mb-3">
                         <label for="accountID" class="form-label">Add User<span class="c-red">*</span></label>
                         <input type="text" class="form-control" name="accountID" value="" minlength="2" maxlength="255" id="accountID" required placeholder="User id...">

@@ -21,13 +21,4 @@
 
         </div>
     </div>
-
-    <template id="group_user_list_item">
-        <tr>
-            <th scope="row" data-pos="num">1</th>
-            <td data-pos="id">Mark</td>
-            <td data-pos="name">Otto</td>
-            <td data-pos="role">@mdo</td>
-        </tr>
-    </template>
 </div>

@@ -381,14 +381,16 @@ class DatabaseSeeder extends Seeder
 
         $gc1 = GroupChat::create([
             'group_id' => 'GC' . strval($iGC++),
-            'name' => 'PV13-23-33 Main'
+            'name' => 'PV13-23-33 Main',
+            'status' => 'live'
         ]);
 
         sleep(1);
 
         $gc2 = GroupChat::create([
             'group_id' => 'GC' . strval($iGC++),
-            'name' => 'PV13-23-33 Side'
+            'name' => 'PV13-23-33 Side',
+            'status' => 'live'
         ]);
 
         sleep(1);

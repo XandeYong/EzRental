@@ -133,39 +133,45 @@
                                                     </a>
                                                 </li>
                                                 <li class="admin" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_add_user_modal" class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#add_user_modal">
                                                         Add User
                                                     </a>
                                                 </li>
                                                 <li class="admin" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_remove_user_modal" class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#remove_user_modal">
                                                         Remove User
                                                     </a>
                                                 </li>
                                                 <li class="master" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_transfer_ownership" class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#transfer_ownership_modal">
                                                         Transfer Ownership
                                                     </a>
                                                 </li>
                                                 <li class="master" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_promote_user_modal" class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#promote_user_modal">
                                                         Promote User
                                                     </a>
                                                 </li>
                                                 <li class="master" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_demote_user_modal"  class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#demote_user_modal">
                                                         Demote User
                                                     </a>
                                                 </li>
                                                 <li class="master" hidden>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    <a id="dd_delete_group_modal" class="dropdown-item" href="#" data-bs-toggle="modal" 
                                                     data-bs-target="#delete_group_modal">
                                                         Delete Group
+                                                    </a>
+                                                </li>
+                                                <li class="member" hidden>
+                                                    <a id="dd_leave_group_modal" class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    data-bs-target="#leave_group_modal">
+                                                        Leave Group
                                                     </a>
                                                 </li>
                                             </ul>
@@ -264,6 +270,7 @@
     @include('chat/modal/transfer_ownership_modal')
     @include('chat/modal/delete_group_modal')
     @include('chat/modal/display_user_modal')
+    @include('chat/modal/leave_group_modal')
 
 
     {{-- access message --}}
