@@ -172,6 +172,7 @@ class RoomRentalPostController extends Controller
             ->where('status', '!=', 'rejected')
             ->where('status', '!=', 'canceled')
             ->where('status', '!=', 'success')
+            ->where('status', '!=', 'expired')
             ->get();
 
         if ($appointment->isEmpty()) {
@@ -318,6 +319,8 @@ class RoomRentalPostController extends Controller
             'end_date' => ['required', 'date', 'after:start_date']
         ]);
 
+        dd("Hello");
+
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');
         $startDate = $request->input('start_date');
@@ -337,7 +340,6 @@ class RoomRentalPostController extends Controller
 
         $insert = [
             'rent_request_id' => $rent_request_id,
-            'price' => $price[0]['monthly_price'],
             'rent_date_start' => $startDate,
             'rent_date_end' => $endDate,
             'status' => $status,

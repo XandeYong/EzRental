@@ -66,7 +66,7 @@
                                     @csrf
                                     <div class="input-group mb-3 border-1 bg-warning rounded px-2 py-2">
                                         <input type="text" class="form-control" name="accountId" value=""
-                                            placeholder="Search by account id" aria-describedby="search input field"
+                                            placeholder="Search by account id" aria-describedby="search input field" maxlength="255"
                                             required>
                                         <button class="btn btn-light btn-outline-danger" type="submit">Search</button>
                                     </div>
