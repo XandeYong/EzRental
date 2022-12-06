@@ -290,14 +290,13 @@ class RoomRentalPostController extends Controller
     function createNegotiation(Request $request)
     {
 
-        $insert['account_id'] = $account_id = session()->get('account')['account_id'];
-        $insert['post_id'] = $post_id = $request->input('id');
-        $insert['deposit_price'] = $deposit = $request->input('deposit_price');
-        $insert['monthly_price'] = $monthly = $request->input('monthly_price');
-        $insert['message'] = $message = $request->input('message');
-        $insert['status'] = $status = "tenant_offer";
-
         $insert['negotiation_id'] = $negotiation_id = $this->generateID(Negotiation::class);
+        $insert['deposit_price'] = $deposit = $request->input('deposit_payment', '');
+        $insert['monthly_price'] = $monthly = $request->input('monthly_payment', '');
+        $insert['message'] = $message = $request->input('message', '');
+        $insert['status'] = $status = "tenant_offer";
+        $insert['post_id'] = $post_id = $request->input('id', '');
+        $insert['account_id'] = $account_id = session()->get('account')['account_id'];
 
         Negotiation::insert($insert);
 
@@ -306,14 +305,16 @@ class RoomRentalPostController extends Controller
         $rrp = RoomRentalPost::findOrFail($post_id)
             ->select('account_id', 'title')->get();
 
+
         $title = 'Negotiation Received';
         $message = session()->get('account')['name'] . 'have created a negotiation for <b>' . $rrp[0]['title'] . '</b>.';
         $type = 'negotiation';
         $receiver = $rrp[0]['account_id'];
 
         $this->notify($title, $message, $type, $receiver);
+        $accountID = $rrp[0]->account_id;
 
-        return redirect(route('rental_post_list.rental_post', ['post_id' => $post_id]));
+        return redirect("/chat#$accountID");
     }
 
 

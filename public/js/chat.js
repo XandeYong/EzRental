@@ -45,7 +45,8 @@ $(document).ready(function () {
         var name = $(this).find('h6').html();
         var id = $(this).find('a').attr('href').substring(1);
 
-        $("#chat_options").children().attr('hidden', 'hidden');
+        $("#chat_options").removeAttr('hidden');
+        $("#group_chat_options").attr('hidden', 'hidden');
         $("#message_iframe").attr('chatType', 'chat');
         $("#title").find('h4').html(name);
         $("#message_iframe").attr('src', iframeSrc + '/' + id);
@@ -61,7 +62,8 @@ $(document).ready(function () {
         var id = $(this).find('a').attr('href').substring(1);
         var role = $(this).find('a').attr('role');
 
-        $("#chat_options").children().removeAttr('hidden');
+        $("#chat_options").attr('hidden', 'hidden');
+        $("#group_chat_options").removeAttr('hidden');
         $("#message_iframe").attr('chatType', 'group_chat');
         $("#title").find('h4').html(name)
         $("#message_iframe").attr('src', iframeSrc + '/group/' + id);
@@ -69,62 +71,62 @@ $(document).ready(function () {
 
         $("#message_footer #message_send").removeAttr("disabled");
 
-        $("#chat_options").find('li.master').attr('hidden', 'hidden');
-        $("#chat_options").find('li.admin').attr('hidden', 'hidden');
-        $("#chat_options").find('li.member').attr('hidden', 'hidden');
+        $("#group_chat_options").find('li.master').attr('hidden', 'hidden');
+        $("#group_chat_options").find('li.admin').attr('hidden', 'hidden');
+        $("#group_chat_options").find('li.member').attr('hidden', 'hidden');
         if (role === 'Master') {
-            $("#chat_options").find('li.master').removeAttr('hidden');
-            $("#chat_options").find('li.admin').removeAttr('hidden');
+            $("#group_chat_options").find('li.master').removeAttr('hidden');
+            $("#group_chat_options").find('li.admin').removeAttr('hidden');
         } else if (role === 'Admin') {
-            $("#chat_options").find('li.admin').removeAttr('hidden');
-            $("#chat_options").find('li.member').removeAttr('hidden');
+            $("#group_chat_options").find('li.admin').removeAttr('hidden');
+            $("#group_chat_options").find('li.member').removeAttr('hidden');
         } else if (role === 'Member') {
-            $("#chat_options").find('li.member').removeAttr('hidden');
+            $("#group_chat_options").find('li.member').removeAttr('hidden');
         }
         
-        $("#chat_options").attr('groupID', id);
+        $("#group_chat_options").attr('groupID', id);
         
         setTimeout(checkSession, 600);
     });
 
     $("#dd_show_group_user").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         var src = ulIframeSrc + "/" + id;
         $("#group_user_list_iframe").attr('src', src)
     });
 
     $("#dd_add_user_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#add_user_modal #groupID").val(id);
     });
 
     $("#dd_remove_user_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#remove_user_modal #groupID").val(id);
     });
 
     $("#dd_promote_user_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#promote_user_modal #groupID").val(id);
     });
 
     $("#dd_demote_user_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#demote_user_modal #groupID").val(id);
     });
 
     $("#dd_transfer_ownership").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#transfer_ownership_modal #groupID").val(id);
     });
 
     $("#dd_delete_group_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#delete_group_modal #groupID").val(id);
     });
 
     $("#dd_leave_group_modal").click(function (e) { 
-        var id = $("#chat_options").attr('groupID');
+        var id = $("#group_chat_options").attr('groupID');
         $("#leave_group_modal #groupID").val(id);
     });
 
@@ -165,6 +167,7 @@ $(document).ready(function () {
     // Search User
     $("#user_util_search #search_button").click(function (e) {
         var id = $("#user_util_search #search_input").val();
+        $("#group_chat_options").attr('hidden', 'hidden');
         search(id);
 
         setTimeout(function() {

@@ -56,7 +56,6 @@ class GroupChatController extends Controller
                 ->first();
 
             if (!empty($groupID)) {
-                //$messages = GroupChat::find($groupID->chat_id)->messages()->orderBy('created_at')->get();
 
                 $messages = DB::table('group_messages', 'GM')
                     ->join('accounts as A', 'A.account_id', 'GM.sender_id')

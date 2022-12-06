@@ -38,6 +38,34 @@
 
                             <div id="user_list" class="container-fluid">
 
+                                @if (!empty($negotiation))
+                                    <div id="negotiation" class="row chat-item mb-2">
+                                        <div class="chat-item-title">
+                                            <a href="#" class="unselectable">
+                                                <h5>Negotiation</h5>
+                                                <i class="ico-sm ico-white ico-chevron ico-chevron-right rotate"></i>
+                                            </a>
+                                        </div>
+                                                                    
+                                        <div class="chattype container x-scrollbar-x">
+
+                                            <div class="ct-item row">
+                                                <a id="negotiation_modal_trigger" class="unselectable" data-bs-toggle="modal" 
+                                                    data-bs-target="#negotiation_modal">
+                                                    <h6>
+                                                        {{ $negotiation->title }} 
+                                                        <span class="text-bold-c">({{ $negotiation->negotiation_id }})</span>
+                                                    </h6>
+                                                </a>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="chat-item-footer"></div>
+                                    </div>
+                                @endif
+
+
                                 <div id="chat" class="row chat-item mb-2">
                                     <div class="chat-item-title">
                                         <a href="#" class="unselectable">
@@ -47,22 +75,35 @@
                                     </div>
                                                                 
                                     <div class="chattype container x-scrollbar-x">
-                                        @foreach ($accounts as $account)
+                                        @if (!empty($accounts))
+                                            @foreach ($accounts as $account)
+                                                
+                                                @if (!$loop->first)
+                                                    <hr>
+                                                @endif
                                             
-                                            @if (!$loop->first)
-                                                <hr>
-                                            @endif
-                                        
-                                            <div class="ct-item row">
-                                                <a href="#{{ $account->account_id }}" class="unselectable">
-                                                    <h6>
-                                                        {{ $account->name }} 
-                                                        <span class="text-bold-c">({{ $account->account_id }})</span>
-                                                    </h6>
-                                                </a>
-                                            </div>
+                                                <div class="ct-item row">
+                                                    <a href="#{{ $account->account_id }}" class="unselectable">
+                                                        <h6>
+                                                            {{ $account->name }} 
+                                                            <span class="text-bold-c">({{ $account->account_id }})</span>
+                                                        </h6>
+                                                    </a>
+                                                </div>
 
-                                        @endforeach
+                                            @endforeach
+
+                                        @else
+                                        
+                                        <div class="ct-item row empty">
+                                            <a class="unselectable">
+                                                <h6>
+                                                    There is no one in your chat at the moment.
+                                                </h6>
+                                            </a>
+                                        </div>
+
+                                        @endif
                                     </div>
 
                                     <div class="chat-item-footer"></div>
@@ -119,9 +160,27 @@
                                         </div>
                                         
                                     </div>
-                                    <div id="chat_options" class="col-3 text-end" groupID=''>
 
-                                        <div class="dropdown" hidden>
+                                    <div id="options" class="col-3 text-end">
+
+                                        {{-- chat --}}
+                                        <div id="chat_options" class="dropdown" chatID='' hidden>
+                                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Options
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a id="" class="dropdown-item" href="#" data-bs-toggle="modal" 
+                                                    data-bs-target="#">
+                                                        Block
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        
+                                        {{-- group --}}
+                                        <div id="group_chat_options" class="dropdown" groupID='' hidden>
                                             <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Options
                                             </button>
@@ -227,42 +286,8 @@
             </div>
         </div>
     </template>
-
-    {{-- Create Group Modal --}}
-    <div class="modal modal-lg fade" id="create_group_modal" tabindex="-1" aria-labelledby="create group modal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-
-                <form action="{{ route('chat.group.create') }}" method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">Create Group</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="group_name" class="form-label">Group Name <span class="c-red">*</span></label>
-                            <input type="text" class="form-control" name="name" value="" minlength="5" maxlength="255" id="group_name" required placeholder="Group Name...">
-                            @if ($errors->has('name'))
-                                <span class="c-red-error">*{{ $errors->first('name') }}</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button id="visit_appointment_submit" type="submit" class="btn btn-primary">Create Group</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
+    
+    @include('chat/modal/create_group_modal')
     @include('chat/modal/add_user_modal')
     @include('chat/modal/remove_user_modal')
     @include('chat/modal/promote_user_modal')
@@ -271,6 +296,11 @@
     @include('chat/modal/delete_group_modal')
     @include('chat/modal/display_user_modal')
     @include('chat/modal/leave_group_modal')
+
+    @if (!empty($negotiation))
+        @include('chat/modal/negotiation_modal')    
+    @endif
+    
 
 
     {{-- access message --}}

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Chat;
 use App\Models\ChatMessage;
-use App\Models\GroupChat;
-use App\Models\GroupUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -27,13 +25,16 @@ class ChatController extends Controller
             ->distinct()
             ->get();
 
-        $accounts = Account::where(function($query) use ($cms) {
-                foreach ($cms as $cm) {
-                    $query->orWhere('account_id', $cm->account_id);
-                }
-            })
-            ->select('account_id', 'name')
-            ->get();
+        $accounts = [];
+        if (!$cms->isEmpty()) {
+            $accounts = Account::where(function ($query) use ($cms) {
+                    foreach ($cms as $cm) {
+                        $query->orWhere('account_id', $cm->account_id);
+                    }
+                })
+                ->select('account_id', 'name')
+                ->get();
+        }
         
         $gChats = DB::table('group_chats', 'GC')
             ->join('group_users as GU', 'GU.group_id', 'GC.group_id')
@@ -43,9 +44,20 @@ class ChatController extends Controller
             ->distinct()
             ->get();
 
+        $negotiation = DB::table('negotiations', 'NGT')
+            ->join('room_rental_posts as RRP', 'RRP.post_id', 'NGT.post_id')
+            ->where('NGT.account_id', $accountID)
+            ->where('NGT.status', '!=', 'canceled')
+            ->where('NGT.status', '!=', 'rejected')
+            ->where('NGT.status', '!=', 'accepted')
+            ->select('NGT.*', 'RRP.title', 'RRP.condominium_name', 'RRP.room_size', 'RRP.block', 'RRP.floor', 'RRP.unit')
+            ->first();
+        
+
         $return = [
             'accounts' => $accounts,
-            'gChats' => $gChats
+            'gChats' => $gChats,
+            'negotiation' => $negotiation
         ];
         
         return view('chat/chat', $return);

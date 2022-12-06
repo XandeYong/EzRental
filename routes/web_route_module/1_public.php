@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NegotiationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomRentalPostController;
@@ -160,6 +161,20 @@ route::middleware(['account', 'account.has'])->group(function () {
         Route::post('/chat/message/group/leave', [
             GroupChatController::class, 'leaveGroup'
         ])->name('chat.group.leave');
+
+
+        //Negotiation
+        Route::post('/chat/negotiation/accept', [
+            NegotiationController::class, 'acceptNegotiation'
+        ])->name('chat.negotiation.accept');
+
+        Route::get('/chat/negotiation/reject/{id?}', [
+            NegotiationController::class, 'rejectNegotiation'
+        ])->name('chat.negotiation.reject');
+
+        Route::post('/chat/negotiation/further_negotiation', [
+            NegotiationController::class, 'furtherNegotiation'
+        ])->name('chat.negotiation.further_negotiation');
 
 
             // Group Chat User

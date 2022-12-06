@@ -1,4 +1,4 @@
-{{-- Add User Modal --}}
+{{-- Promote User Modal --}}
 <div class="modal modal-lg fade" id="promote_user_modal" tabindex="-1" aria-labelledby="create group modal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
