@@ -1,4 +1,4 @@
-{{-- Add User Modal --}}
+{{-- Display User Modal --}}
 <div class="modal modal-lg fade" id="display_user_modal" tabindex="-1" aria-labelledby="modal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -21,13 +21,4 @@
 
         </div>
     </div>
-
-    <template id="group_user_list_item">
-        <tr>
-            <th scope="row" data-pos="num">1</th>
-            <td data-pos="id">Mark</td>
-            <td data-pos="name">Otto</td>
-            <td data-pos="role">@mdo</td>
-        </tr>
-    </template>
 </div>

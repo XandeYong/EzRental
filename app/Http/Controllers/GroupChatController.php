@@ -28,7 +28,8 @@ class GroupChatController extends Controller
 
         $insert = [
             'group_id' => $groupID,
-            'name' => $name
+            'name' => $name,
+            'status' => 'live'
         ];
 
         GroupChat::insert($insert);
@@ -55,7 +56,6 @@ class GroupChatController extends Controller
                 ->first();
 
             if (!empty($groupID)) {
-                //$messages = GroupChat::find($groupID->chat_id)->messages()->orderBy('created_at')->get();
 
                 $messages = DB::table('group_messages', 'GM')
                     ->join('accounts as A', 'A.account_id', 'GM.sender_id')
@@ -120,10 +120,10 @@ class GroupChatController extends Controller
             $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
 
             if (!empty($user)) {
-                //$groupUsers = GroupUser::where('group_id', $groupID)->get();
                 $groupUsers = DB::table('group_users', 'GU')
                     ->join('accounts as A', 'A.account_id', 'GU.account_id')
                     ->where('group_id', $groupID)
+                    ->select('A.account_id', 'A.name', 'GU.role')
                     ->get();
             }
     
@@ -141,7 +141,7 @@ class GroupChatController extends Controller
         $accountID = $request->input('accountID', '');
 
         if (!empty($groupID) && !empty($accountID)) {
-            if (!empty(Account::find($accountID))) {
+            if (!empty(Account::find($accountID)) && $accountID != session()->get('account')['account_id']) {
 
                 if (empty(GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first())) {
                     $insert = [
@@ -156,7 +156,7 @@ class GroupChatController extends Controller
             }
         }
 
-        return redirect(route('chat'));
+        return redirect("/chat#$groupID");
     }
 
     public function removeUser(Request $request) {
@@ -164,41 +164,104 @@ class GroupChatController extends Controller
         $accountID = $request->input('accountID', '');
 
         if (!empty($groupID) && !empty($accountID)) {
-            if (!empty(Account::find($accountID))) {
+            if (!empty(Account::find($accountID)) && $accountID != session()->get('account')['account_id']) {
                 $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
+                $myRole = GroupUser::where(['group_id' => $groupID, 'account_id' => session()->get('account')['account_id']])->first();
 
-                if (!empty($user)) {
-                    $user->delete();
+                if ((!empty($user) && $user->role == "Member") || $myRole->role == 'Master') {
+                    GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->delete();
                 }
     
+            }
+        }
+
+        return redirect("/chat#$groupID");
+    }
+
+    public function leaveGroup(Request $request) {
+        $groupID = $request->input('groupID', '');
+        $accountID = session()->get('account')['account_id'];
+
+        if (!empty($groupID)) {
+            $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
+
+            if (!empty($user)) {
+                GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->delete();
             }
         }
 
         return redirect(route('chat'));
     }
 
-    // public function promoteUser(Request $request) {
-    //     $groupID = $request->input('groupID', '');
-    //     $accountID = $request->input('account_id', '');
+    public function promoteUser(Request $request) {
+        $groupID = $request->input('groupID', '');
+        $accountID = $request->input('accountID', '');
 
-    //     if (!empty($groupID) && !empty($accountID)) {
-    //         if (!empty(Account::find($accountID))) {
+        if (!empty($groupID) && !empty($accountID)) {
+            if (!empty(Account::find($accountID)) && $accountID != session()->get('account')['account_id']) {
+                $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
 
-    //             if (empty(GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first())) {
-    //                 $insert = [
-    //                     'group_id' => $groupID,
-    //                     'account_id' => $accountID,
-    //                     'role' => 'Member'
-    //                 ];
+                if (!empty($user) && $user->role == 'Member') {
+                    GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->update(['role' => 'Admin']);
+                }
+            }
+        }
 
-    //                 GroupUser::insert($insert);
-    //             }
-    
-    //         }
-    //     }
+        return redirect("/chat#$groupID");
+    }
 
-    //     return redirect(route('chat'));
-    // }
+    public function demoteUser(Request $request) {
+        $groupID = $request->input('groupID', '');
+        $accountID = $request->input('accountID', '');
+
+        if (!empty($groupID) && !empty($accountID)) {
+            if (!empty(Account::find($accountID)) && $accountID != session()->get('account')['account_id']) {
+                $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
+
+                if (!empty($user) && $user->role == 'Admin') {
+                    GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->update(['role' => 'Member']);
+                }
+            }
+        }
+
+        return redirect("/chat#$groupID");
+    }
+
+    public function transferOwnership(Request $request) {
+        $groupID = $request->input('groupID', '');
+        $accountID = $request->input('accountID', '');
+
+        if (!empty($groupID) && !empty($accountID)) {
+            if (!empty(Account::find($accountID)) && $accountID != session()->get('account')['account_id']) {
+                $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
+
+                if (!empty($user) && $user->role != 'Master') {
+                    GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->update(['role' => 'Master']);
+
+                    $accountID = session()->get('account')['account_id'];
+                    GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->update(['role' => 'Admin']);
+                }
+            }
+        }
+
+        return redirect("/chat#$groupID");
+    }
+
+    public function deleteGroup(Request $request) {
+        $groupID = $request->input('groupID', '');
+
+        if (!empty($groupID)) {
+            $accountID = session()->get('account')['account_id'];
+            $user = GroupUser::where(['group_id' => $groupID, 'account_id' => $accountID])->first();
+            if (!empty($user) && $user->role == 'Master') {
+                $group = GroupChat::find($groupID);
+                $group->status = "archive";
+                $group->save();
+            }
+        }
+
+        return redirect("/chat");
+    }
 
 
 

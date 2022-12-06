@@ -307,6 +307,22 @@ class DatabaseSeeder extends Seeder
         
         sleep(1);
 
+        $rrp6 = RoomRentalPost::create([
+            'post_id' => 'RRP' . strval($iRRP++),
+            'title' => 'PV9 Medium room for rent',
+            'description' => 'Included all facility like Wifi, air-conditioner and many more.',
+            'room_size' => "medium",
+            'address' => 'Sentral Station-Kl Sentral Jln Tun Sambanthan',
+            'condominium_name' => 'PV9',
+            'block' => 'B',
+            'floor' => '13',
+            'unit' => 31,
+            'status' => 'avaialble',
+            'account_id' => $a3->account_id
+        ]);
+        
+        sleep(1);
+
 
         static $iCT = 1;
 

@@ -49,6 +49,7 @@ return new class extends Migration
         Schema::create('group_chats', function (Blueprint $table) {
             $table->string('group_id')->primary();
             $table->string('name');
+            $table->string('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
