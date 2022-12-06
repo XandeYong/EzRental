@@ -53,11 +53,11 @@
                                             @endif
                                             <tr>
                                                 <th scope="row" class="w-25">Started date</th>
-                                                <td class="bg-white">{{ $startDate ?? '-' }}</td> 
+                                                <td class="bg-white">{{ $contractDetails[0]->startDate }}</td> 
                                             </tr>
                                             <tr>
                                                 <th scope="row" class="w-25">Expired date</th>
-                                                <td class="bg-white">{{ $expiredDate ?? '-' }}</td> 
+                                                <td class="bg-white">{{ $contractDetails[0]->expiredDate }}</td> 
                                             </tr>
                                             <tr>
                                                 <th scope="row">Deposit Payment</th>

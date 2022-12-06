@@ -164,6 +164,16 @@
 
                                                 <div class="row row-gap align-items-center">
                                                     <div class="col-12 col-lg-3">
+                                                        <label>Confirm Password <span class="c-red">*</span></label>
+                                                    </div>
+                                                    <div class="col-12 col-lg-9">
+                                                        <input type="password" name="confirmPassword"
+                                                            class="form-control w-100" minlength="6" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row row-gap align-items-center">
+                                                    <div class="col-12 col-lg-3">
                                                         <label>Old Password <span class="c-red">*</span></label>
                                                     </div>
                                                     <div class="col-12 col-lg-9">

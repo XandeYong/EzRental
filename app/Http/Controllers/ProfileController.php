@@ -52,10 +52,11 @@ class ProfileController extends Controller
 
         //get passwords from Profile View  
         $newPassword = $request->input('newPassword');
+        $confirmPassword = $request->input('confirmPassword');
         $oldPassword = $request->input('oldPassword');
         $correctOldPassword = $request->input('correctOldPassword');
 
-        if (trim($correctOldPassword) == trim($oldPassword) && strlen($newPassword) >= 6) {
+        if (trim($newPassword) == trim($confirmPassword) && trim($correctOldPassword) == trim($oldPassword) && strlen($newPassword) >= 6) {
 
             //Change password in database
             $updated = DB::table('accounts')
@@ -72,7 +73,13 @@ class ProfileController extends Controller
             $errorMessage = "Error Message:";
 
             if (strlen($newPassword) < 6) {
-                $errorMessage .= ",*Password must have 6 value or more than 6 value!";
+                $errorMessage .= ",*New Password must have 6 value or more than 6 value!";
+            }
+            if (trim($newPassword) != trim($confirmPassword)) {
+                $errorMessage .= ",*Confirm Password must same as the new password!";
+            }
+            if (strlen($confirmPassword) < 6) {
+                $errorMessage .= ",*Confirm Password must have 6 value or more than 6 value!";
             }
             if (trim($correctOldPassword) != trim($oldPassword)) {
                 $errorMessage .= ",*Invalid old password!";
