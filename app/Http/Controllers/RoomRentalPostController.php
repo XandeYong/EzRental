@@ -327,7 +327,6 @@ class RoomRentalPostController extends Controller
             'end_date' => ['required', 'date', 'after:start_date']
         ]);
 
-        dd("Hello");
 
         $account_id = session()->get('account')['account_id'];
         $post_id = $request->input('id');

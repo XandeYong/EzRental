@@ -66,7 +66,7 @@ class MailController extends Controller
         ->where('account_id', $accountID)
         ->select('name', 'email')
         ->get();             
-        
+
         $mailData = [
             'name' => $userDetails[0]->name,
             'reason' => $reason,
@@ -83,7 +83,6 @@ class MailController extends Controller
             }
 
         return redirect(route("dashboard.admin.userlist"));
-
     }
 
     public function sentPaymentReceiptMail(Request $request, $paymentDetails, $paymentDetailsName)

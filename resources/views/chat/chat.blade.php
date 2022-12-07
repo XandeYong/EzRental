@@ -278,7 +278,7 @@
                     </div>
                     <div class="date text-end">
                         <h6 class="text-secondary mb-0">
-                            <small>date</small>    
+                            <small>date</small>
                         </h6>
                     </div>
                 </div>
