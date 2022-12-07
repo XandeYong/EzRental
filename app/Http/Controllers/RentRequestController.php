@@ -100,8 +100,7 @@ class RentRequestController extends Controller
             ->where('rent_requests.rent_request_id', $rentRequestID)
             ->update(['room_rental_posts.status' => "reserve"]);
 
-        //////     
-        //Change all rent request to rejected if one of the rent request of the post become success
+        //Change all rent request to rejected if one of the rent request of the post become approved
         //get room rental post ID from database 
         $roomRentalPostID = DB::table('room_rental_posts')
             ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
@@ -112,10 +111,7 @@ class RentRequestController extends Controller
         //get rent request ID with from database 
         $rentRequestIDs = DB::table('rent_requests')
             ->where('post_id', $roomRentalPostID[0]->post_id)
-            ->where('status', '!=', 'success')
-            ->where('status', '!=', 'canceled')
-            ->where('status', '!=', 'expired')
-            ->where('status', '!=', 'rejected')
+            ->where('status', 'pending')
             ->where('rent_request_id', '!=', $rentRequestID)
             ->select('rent_request_id', 'account_id')
             ->get();
@@ -150,9 +146,7 @@ class RentRequestController extends Controller
                 'status' => "unread",
                 'account_id' => $rentRequestIDs[$i]->account_id
             ]);
-        }
-
-        ///////        
+        }     
 
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
