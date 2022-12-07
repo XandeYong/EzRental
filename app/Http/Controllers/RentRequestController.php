@@ -100,6 +100,54 @@ class RentRequestController extends Controller
             ->where('rent_requests.rent_request_id', $rentRequestID)
             ->update(['room_rental_posts.status' => "reserve"]);
 
+        //Change all rent request to rejected if one of the rent request of the post become approved
+        //get room rental post ID from database 
+        $roomRentalPostID = DB::table('room_rental_posts')
+            ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->select('room_rental_posts.post_id')
+            ->get();
+
+        //get rent request ID with from database 
+        $rentRequestIDs = DB::table('rent_requests')
+            ->where('post_id', $roomRentalPostID[0]->post_id)
+            ->where('status', 'pending')
+            ->where('rent_request_id', '!=', $rentRequestID)
+            ->select('rent_request_id', 'account_id')
+            ->get();
+
+        //get room rental post details from database 
+        $roomRentalPost = DB::table('room_rental_posts')
+            ->join('rent_requests', 'rent_requests.post_id', '=', 'room_rental_posts.post_id')
+            ->where('rent_requests.rent_request_id', $rentRequestID)
+            ->select('room_rental_posts.account_id', 'room_rental_posts.title')
+            ->get();            
+
+        for ($i = 0; $i < count($rentRequestIDs); $i++) {
+            //update rent_requests status in database 
+            $updated = DB::table('rent_requests')
+                ->where('rent_request_id', $rentRequestIDs[$i]->rent_request_id)
+                ->update(['status' => "rejected"]);
+
+
+            //getLatestNotificationID
+            $latestNotificationID = $this->getLatestNotificationID();
+
+            //make new NotificationID
+            $newNotificationID = $this->notificationID($latestNotificationID);
+
+            //need sent notification to tenant
+            //add notification to database
+            $addNotification = DB::table('notifications')->insert([
+                'notification_id' => $newNotificationID,
+                'title' => "Renting Request Rejected",
+                'message' => "Renting request for <b>" . $roomRentalPost[0]->title . "</b> had been rejected.",
+                'type' => "renting_request",
+                'status' => "unread",
+                'account_id' => $rentRequestIDs[$i]->account_id
+            ]);
+        }     
+
         //getLatestNotificationID
         $latestNotificationID = $this->getLatestNotificationID();
 
