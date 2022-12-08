@@ -84,7 +84,6 @@ class RoomRentalPostListController extends Controller
     {
         $account = $request->session()->get('account');
         $id = $account->account_id;
-        $user = $account->role;
 
         //get selected criterias from database 
         $selectedCriterias = DB::table('selected_criterias')
@@ -93,48 +92,29 @@ class RoomRentalPostListController extends Controller
             ->select('criterias.criteria_id')
             ->get();
 
+        $wherein = array();
+        foreach ($selectedCriterias as $criteria) {
+            array_push($wherein,  $criteria->criteria_id);
+        }
 
-        //Define a array variable to store all room rental post    
-        $roomRentalPostLists = array();
+        $matchedPost = DB::table('room_rental_posts')
+            ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
+            ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
+            ->where('room_rental_posts.status', 'available')
+            ->where('contracts.status', 'inactive')
+            ->whereIn('post_criterias.criteria_id', $wherein)
+            ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->get();
+            
+        $sortedMatchedPost = collect();
+        if (!$matchedPost->isEmpty()) {
+            $sorted = $matchedPost->countBy('post_id')->sortDesc();
 
-        if (!$selectedCriterias->isEmpty()) {
-            //Change selectedCriterias collection to array
-            $selectedCriteriasArray = array();
-            for ($i = 0; $i < count($selectedCriterias); $i++) {
-                array_push($selectedCriteriasArray, $selectedCriterias[$i]->criteria_id);
-            }
-
-            //if got selected criteria then display filtered post list
-            for ($i = count($selectedCriteriasArray); $i > 0; $i--) {
-
-                //Get all the unique combination based on size
-                $comparePair = $this->allSubsets($selectedCriteriasArray, $i);
-
-                for ($h = 0; $h < count($comparePair); $h++) {
-
-                    $rentalPost = DB::table('room_rental_posts')
-                        ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-                        ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
-                        ->join('criterias', 'criterias.criteria_id', '=', 'post_criterias.criteria_id')
-                        ->join('selected_criterias', 'selected_criterias.criteria_id', '=', 'criterias.criteria_id')
-                        ->where(
-                            function ($query) use ($h, $comparePair) {
-                                //loop all condition
-                                for ($x = 0; $x < count($comparePair[$h]); $x++) {
-
-                                    $query = $query
-                                        ->where('selected_criterias.criteria_id', $comparePair[$h][$x]);
-                                }
-                                return $query;
-                            }
-                        )
-                        ->where('room_rental_posts.status', 'available')
-                        ->where('contracts.status', 'inactive')
-                        ->select('room_rental_posts.*', 'contracts.monthly_price')
-                        ->get();
-
-                    if (!$rentalPost->isEmpty()) {
-                        array_push($roomRentalPostLists,  $rentalPost[0]);
+            foreach ($sorted as $key => $value) {
+                foreach ($matchedPost as $rrp) {
+                    if ($rrp->post_id == $key) {
+                        $sortedMatchedPost->push($rrp);
+                        break;
                     }
                 }
             }
@@ -146,26 +126,18 @@ class RoomRentalPostListController extends Controller
             ->where('room_rental_posts.status', 'available')
             ->where('contracts.status', 'inactive')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
+            ->orderByDesc('updated_at')
             ->get();
 
-        if (!$allRentalPost->isEmpty()) {
-            for ($i = 0; $i < count($allRentalPost); $i++) {
-                array_push($roomRentalPostLists, $allRentalPost[$i]);
-            }
+        $uniqued = $sortedMatchedPost->merge($allRentalPost)->unique();
+        $roomRentalPostLists = collect();
+        foreach ($uniqued as $rrp) {
+            $roomRentalPostLists->push($rrp);
         }
-
-        if (count($roomRentalPostLists) != 0) {
-            //Remove duplicate object in array
-            $roomRentalPostLists = $this->unique_multi_array($roomRentalPostLists, 'post_id');
-        }
-
-        //Converting an array -> stdClass/Object
-        $roomRentalPostLists = json_decode(json_encode($roomRentalPostLists));
-
+        
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
-
 
 
         //get all criterias related to post    

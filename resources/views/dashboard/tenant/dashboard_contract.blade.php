@@ -50,15 +50,15 @@
                                                     <th scope="row" class="w-25">Tenant ID</th>
                                                     <td class="bg-white">{{ $contractor->tenantID }}</td> 
                                                 </tr>
+                                                <tr>
+                                                    <th scope="row" class="w-25">Started date</th>
+                                                    <td class="bg-white">{{ $contractDetails[0]->start_date }}</td> 
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="w-25">Expired date</th>
+                                                    <td class="bg-white">{{ $contractDetails[0]->expired_date }}</td> 
+                                                </tr>
                                             @endif
-                                            <tr>
-                                                <th scope="row" class="w-25">Started date</th>
-                                                <td class="bg-white">{{ $contractDetails[0]->startDate }}</td> 
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" class="w-25">Expired date</th>
-                                                <td class="bg-white">{{ $contractDetails[0]->expiredDate }}</td> 
-                                            </tr>
                                             <tr>
                                                 <th scope="row">Deposit Payment</th>
                                                 <td class="bg-white">RM {{ number_format($contractDetails[0]->deposit_price, 2) }}</td>

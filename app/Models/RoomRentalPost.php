@@ -17,6 +17,10 @@ class RoomRentalPost extends Model
     public static $idCode = 'RRP';
     public static $idColumn = 'post_id';
 
+    protected $fillable = [
+        'post_id', 'title', 'description', 'room_size', 'address', 'condominium_name', 'block', 'floor', 'unit', 'status', 'account_id'
+    ];
+
     public function owner() {
         return $this->belongsTo(Account::class, 'account_id');
     }

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\UnbanMail;
+use App\Models\Contract;
+use App\Models\Notification;
+use App\Models\Renting;
+use App\Models\RoomRentalPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -500,207 +504,127 @@ class DailyTaskController extends Controller
 
 
         if (!$contractLists->isEmpty()) {
-            for ($i = 0; $i < count($contractLists); $i++) {
+            foreach ($contractLists as $contract) {
+                $today = date("Y-m-d");
 
-                //get current date time in Malaysia
-                date_default_timezone_set("Asia/Kuala_Lumpur");
-                $currentDate = date("Y-m-d");
+                if ($today >= $contract->expired_date) {
+                    Contract::find($contract->contract_id)->update(['status' => "expired"]);
+                    
+                    $post = DB::table('room_rental_posts', 'RRP')
+                        ->join('contracts as C', 'C.post_id', 'RRP.post_id')
+                        ->where('C.contract_id', $contract->contract_id)
+                        ->select('RRP.post_id', 'RRP.account_id', 'RRP.title')
+                        ->first();
 
-                if ($currentDate >= $contractLists[$i]->expired_date) {
-
-                    //update contracts status in database 
-                    $updated = DB::table('contracts')
-                        ->where('contract_id', $contractLists[$i]->contract_id)
-                        ->update(['status' => "expired"]);
-
-                    //get room rental post details from database 
-                    $roomRentalPost = DB::table('room_rental_posts')
-                        ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
-                        ->where('contracts.contract_id', $contractLists[$i]->contract_id)
-                        ->select('room_rental_posts.account_id', 'room_rental_posts.title')
-                        ->get();
+                    $newContractID = $this->generateID(Contract::class);
+                    $newContract = [
+                        'contract_id' => $newContractID,
+                        'content' => $contract->content,
+                        'start_date' => null,
+                        'expired_date' => null,
+                        'owner_signature' => null,
+                        'tenant_signature' => null,
+                        'deposit_price' => $contract->deposit_price,
+                        'monthly_price' => $contract->monthly_price,
+                        'status' => 'inactive',
+                        'post_id' => $contract->post_id
+                    ];
 
                     //check does contract need to be renew
-                    if ($contractLists[$i]->renew_contract != "yes") {
-
-                        //update rentings status in database 
-                        $updated = DB::table('rentings')
-                            ->where('renting_id', $contractLists[$i]->renting_id)
-                            ->update(['status' => "expired"]);
-
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //need sent notification to owner about renting expired
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
-                            'title' => "Renting Expired",
-                            'message' => "Renting for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
-                            'type' => "renting",
-                            'status' => "unread",
-                            'account_id' => $roomRentalPost[0]->account_id
-                        ]);
-
-                        //need sent notification to tenant
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
-                            'title' => "Renting Expired",
-                            'message' => "renting for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
-                            'type' => "contract",
-                            'status' => "unread",
-                            'account_id' => $contractLists[$i]->account_id
-                        ]);
-
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //need sent notification to owner about contract expired
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
-                            'title' => "Contract Expired",
-                            'message' => "Contract for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
-                            'type' => "contract",
-                            'status' => "unread",
-                            'account_id' => $roomRentalPost[0]->account_id
-                        ]);
-
-                        //need sent notification to tenant
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
-                            'title' => "Contract Expired",
-                            'message' => "Contract for <b>" . $roomRentalPost[0]->title . "</b> had been expired.",
-                            'type' => "contract",
-                            'status' => "unread",
-                            'account_id' => $contractLists[$i]->account_id
-                        ]);
-                    } else {
-
+                    if ($contract->renew_contract == "yes") {
+                        
                         //calculate expired date for new contract
-                        //Creates DateTime objects
-                        $date1 = date_create($contractLists[$i]->start_date);
-                        $date2 = date_create($contractLists[$i]->expired_date);
-                        $different = date_diff($date1, $date2);
-
-                        $different = $different->format("%r %a days");
+                        $date1 = date_create($contract->start_date);
+                        $date2 = date_create($contract->expired_date);
+                        $different = date_diff($date1, $date2)->format("%r %a days");
 
                         //get newExpiredDate
-                        $newExpiredDate = date('Y-m-d', strtotime($contractLists[$i]->expired_date . ' ' . $different));
+                        $newExpiredDate = date('Y-m-d', strtotime($contract->expired_date . ' ' . $different));
 
-                        //getLatestContractID
-                        $latestContractID = $this->getLatestContractID();
-
-                        //make new ContractID
-                        $newContractID = $this->contractID($latestContractID);
-
-                        //Insert new contract to database
-                        $addNewContract = DB::table('contracts')->insert([
-                            'contract_id' => $newContractID,
-                            'content' => $contractLists[$i]->content,
-                            'start_date' => $currentDate,
-                            'expired_date' => $newExpiredDate,
-                            'owner_signature' => $contractLists[$i]->owner_signature,
-                            'tenant_signature' => $contractLists[$i]->tenant_signature,
-                            'deposit_price' => $contractLists[$i]->deposit_price,
-                            'monthly_price' => $contractLists[$i]->monthly_price,
-                            'status' => 'active',
-                            'post_id' => $contractLists[$i]->post_id
-                        ]);
+                        //contract info
+                        $newContract['start_date'] = $today;
+                        $newContract['expired_date'] = $newExpiredDate;
+                        $newContract['owner_signature'] = $contract->owner_signature;
+                        $newContract['tenant_signature'] = $contract->tenant_signature;
+                        $newContract['status'] = 'active';
 
                         //Update the contract id in rentings
-                        $updated = DB::table('rentings')
-                            ->where('renting_id', $contractLists[$i]->renting_id)
-                            ->update(['contract_id' => $newContractID]);
+                        Renting::find($contract->renting_id)->update(['contract_id' => $newContractID]);
 
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //need sent notification to owner
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
+                        //send notification to owner
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
                             'title' => "Contract Renewed",
-                            'message' => "Contract for <b>" . $roomRentalPost[0]->title . "</b> had been renewed.",
+                            'message' => "Contract for <b>" . $post->title . "</b> had been renewed.",
                             'type' => "contract",
                             'status' => "unread",
-                            'account_id' => $roomRentalPost[0]->account_id
+                            'account_id' => $post->account_id
                         ]);
 
-                        //need sent notification to tenant
-                        //getLatestNotificationID
-                        $latestNotificationID = $this->getLatestNotificationID();
-
-                        //make new NotificationID
-                        $newNotificationID = $this->notificationID($latestNotificationID);
-
-                        //add notification to database
-                        $addNotification = DB::table('notifications')->insert([
-                            'notification_id' => $newNotificationID,
+                        //send notification to tenant
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
                             'title' => "Contract Renewed",
-                            'message' => "Contract for <b>" . $roomRentalPost[0]->title . "</b> had been renewed.",
+                            'message' => "Contract for <b>" . $post->title . "</b> had been renewed.",
                             'type' => "contract",
                             'status' => "unread",
-                            'account_id' => $contractLists[$i]->account_id
+                            'account_id' => $contract->account_id
                         ]);
+
+                    } else {
+
+                        //update renting & post status in database 
+                        Renting::find($contract->renting_id)->update(['status' => 'expired']);
+                        RoomRentalPost::find($post->post_id)->update(['status' => 'available']);
+
+                        // Notification:: Renting expired
+                        //send notification to owner about renting expired
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
+                            'title' => "Renting Expired",
+                            'message' => "Renting for <b>" . $post->title . "</b> had been expired.",
+                            'type' => "renting",
+                            'status' => "unread",
+                            'account_id' => $post->account_id
+                        ]);
+
+                        //send notification to tenant
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
+                            'title' => "Renting Expired",
+                            'message' => "Renting for <b>" . $post->title . "</b> had been expired.",
+                            'type' => "renting",
+                            'status' => "unread",
+                            'account_id' => $contract->account_id
+                        ]);
+
+                        // Notification:: Contract expired
+                        //send notification to owner about contract expired
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
+                            'title' => "Contract Expired",
+                            'message' => "Contract for <b>" . $post->title . "</b> had been expired.",
+                            'type' => "contract",
+                            'status' => "unread",
+                            'account_id' => $post->account_id
+                        ]);
+
+                        //send notification to tenant
+                        Notification::insert([
+                            'notification_id' => $this->generateID(Notification::class),
+                            'title' => "Contract Expired",
+                            'message' => "Contract for <b>" . $post->title . "</b> had been expired.",
+                            'type' => "contract",
+                            'status' => "unread",
+                            'account_id' => $contract->account_id
+                        ]);
+
                     }
+                    
+                    Contract::insert($newContract);
                 }
             }
         }
-    }
-
-
-    public function getLatestContractID()
-    {
-        $contractID = DB::table('contracts')
-            ->select('contract_id')
-            ->whereRaw("CHAR_LENGTH(contract_id) = (SELECT MAX(CHAR_LENGTH(contract_id)) from contracts)")
-            ->orderByDesc('contract_id')
-            ->distinct()
-            ->select('contract_id')
-            ->get();
-
-        if ($contractID->isEmpty()) {
-            return "CT0";
-        }
-        return $contractID[0]->contract_id;
-    }
-
-    //add 1 to ID to make new ID 
-    private function contractID($value)
-    {
-        $result = substr($value, 2);
-
-        //parse result to int
-        $ans = ((int)$result) + 1;
-
-        //combine char and int into string
-        $result = "CT" . ((string)$ans);
-
-        return $result;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -778,6 +702,31 @@ class DailyTaskController extends Controller
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Custom fucntion
+    public function generateID($model)
+    {
+        $table = $model::$tableName;
+        $idCol = $model::$idColumn;
+        $idCode = $model::$idCode;
+        $idCodeLength = strlen($idCode);
+
+        $newID = $model::select($idCol)
+            ->whereRaw("CHAR_LENGTH($idCol) = (SELECT MAX(CHAR_LENGTH($idCol)) from $table)")
+            ->orderByDesc($idCol)
+            ->distinct()
+            ->first();
+            
+        if (empty($newID)) {
+            return $idCode . '1';
+        } else {
+            $newID = $newID->$idCol;
+            $idCode = substr($newID, 0, $idCodeLength);
+            $id = intval(substr($newID, $idCodeLength) + 1);
+            $newID = $idCode . $id;
+        }
+
+        return $newID;
+    }
 
 
 }

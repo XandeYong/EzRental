@@ -598,10 +598,6 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row" class="w-25">Expired date</th>
-                                        <td class="bg-white">-</td>
-                                    </tr>
-                                    <tr>
                                         <th scope="row">Deposit Payment</th>
                                         <td class="bg-white">RM {{ number_format($contract[0]->deposit_price, 2) }}</td>
                                     </tr>

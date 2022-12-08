@@ -17,6 +17,10 @@ class Contract extends Model
     public static $idCode = 'CT';
     public static $idColumn = 'contract_id';
 
+    protected $fillable = [
+        'contract_id', 'content', 'start_date', 'expired_date', 'owner_signature', 'tenant_signature', 'deposit_price', 'monthly_price', 'status'
+    ];
+
     public function post() {
         return $this->belongsTo(RoomRentalPost::class, 'post_id');
     }
