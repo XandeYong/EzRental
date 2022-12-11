@@ -168,27 +168,45 @@ class AccountController extends Controller
     public function resetPassword(Request $request, $email = "", $key = "") {
 
         $request->validate([
-            'password' => ['required', 'min:6', 'max:255'],
-            'retypePassword' => ['required', 'min:6', 'max:255']
+            'password' => ['required', 'min:6', 'max:255']
         ]);
 
         $password = $request->input('password', '');
+        $retypePassword = $request->input('retypePassword', '');
 
-        if (!empty($email) && !empty($key) && !empty($password)) {
+        if ($password == $retypePassword) {
+            if (!empty($email) && !empty($key) && !empty($password)) {
 
-            $account = Account::where('email', $email)
-                ->first();
-                
-            if (!empty($account) && (session()->has('reset_password_key') && session()->get('reset_password_key') == $key)) {
-                session()->forget('reset_password_key');
-                $account->password = $password;
-                $account->save();
+                $account = Account::where('email', $email)
+                    ->first();
+                    
+                if (!empty($account) && (session()->has('reset_password_key') && session()->get('reset_password_key') == $key)) {
+                    session()->forget('reset_password_key');
+                    $account->password = $password;
+                    $account->save();
 
-                return redirect(route('login.portal'));
+                    $message = 'Password reset successful.';
+            
+                    session()->put('access_message_status', 'alert-success');
+                    session()->put('access_message', $message);
+    
+                    return redirect('/');
+                }
             }
+        } else {
+            $message = 'Your new password and your confirm new password is different.';
+            
+            session()->put('access_message_status', 'alert-danger');
+            session()->put('access_message', $message);
         }
 
-        return redirect('/');
+        $return = [
+            'email' => $email,
+            'key' => $key
+        ];
+        
+
+        return redirect(route('reset_password.form', $return));
     }
 
     //Custom fucntion
