@@ -97,15 +97,18 @@ class RoomRentalPostListController extends Controller
             array_push($wherein,  $criteria->criteria_id);
         }
 
+        //Match the room rental post with array of selected criteria
         $matchedPost = DB::table('room_rental_posts')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
             ->join('post_criterias', 'post_criterias.post_id', '=', 'room_rental_posts.post_id')
             ->where('room_rental_posts.status', 'available')
             ->where('contracts.status', 'inactive')
             ->whereIn('post_criterias.criteria_id', $wherein)
+            ->orderByDesc('updated_at')
             ->select('room_rental_posts.*', 'contracts.monthly_price')
             ->get();
-            
+
+        //Sort post
         $sortedMatchedPost = collect();
         if (!$matchedPost->isEmpty()) {
             $sorted = $matchedPost->countBy('post_id')->sortDesc();
@@ -129,12 +132,12 @@ class RoomRentalPostListController extends Controller
             ->orderByDesc('updated_at')
             ->get();
 
-        $uniqued = $sortedMatchedPost->merge($allRentalPost)->unique();
+        $unique = $sortedMatchedPost->merge($allRentalPost)->unique();
         $roomRentalPostLists = collect();
-        foreach ($uniqued as $rrp) {
+        foreach ($unique as $rrp) {
             $roomRentalPostLists->push($rrp);
         }
-        
+
         $criteriaLists = DB::table('criterias')
             ->select('criteria_id', 'name')
             ->get();
@@ -194,29 +197,6 @@ class RoomRentalPostListController extends Controller
         return $temp;
     }
 
-
-    //get unique pair of combination
-    function allSubsets($set, $size)
-    {
-        $subsets = [];
-        if ($size == 1) {
-            return array_map(function ($v) {
-                return [$v];
-            }, $set);
-        }
-        foreach ($this->allSubsets($set, $size - 1) as $subset) {
-            foreach ($set as $element) {
-                if (!in_array($element, $subset)) {
-                    $newSet = array_merge($subset, [$element]);
-                    sort($newSet);
-                    if (!in_array($newSet, $subsets)) {
-                        $subsets[] = array_merge($subset, [$element]);
-                    }
-                }
-            }
-        }
-        return $subsets;
-    }
 
 
     public function searchRentalPost(Request $request)
