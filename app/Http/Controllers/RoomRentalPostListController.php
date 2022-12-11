@@ -198,29 +198,6 @@ class RoomRentalPostListController extends Controller
     }
 
 
-    //get unique pair of combination
-    function allSubsets($set, $size)
-    {
-        $subsets = [];
-        if ($size == 1) {
-            return array_map(function ($v) {
-                return [$v];
-            }, $set);
-        }
-        foreach ($this->allSubsets($set, $size - 1) as $subset) {
-            foreach ($set as $element) {
-                if (!in_array($element, $subset)) {
-                    $newSet = array_merge($subset, [$element]);
-                    sort($newSet);
-                    if (!in_array($newSet, $subsets)) {
-                        $subsets[] = array_merge($subset, [$element]);
-                    }
-                }
-            }
-        }
-        return $subsets;
-    }
-
 
     public function searchRentalPost(Request $request)
     {
