@@ -168,7 +168,8 @@ class AccountController extends Controller
     public function resetPassword(Request $request, $email = "", $key = "") {
 
         $request->validate([
-            'password' => ['required', 'min:6', 'max:255']
+            'password' => ['required', 'min:6', 'max:255'],
+            'retypePassword' => ['required', 'min:6', 'max:255']
         ]);
 
         $password = $request->input('password', '');

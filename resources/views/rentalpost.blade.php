@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>EzRental | Rental Post List</title>
+    <title>EzRental | Rental Post</title>
     @include('base/head')
     <link rel="stylesheet" href="{{ asset('css/rentalpost.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sidenav.css') }}">

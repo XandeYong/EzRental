@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <title>EzRental | Messages</title>
+    <meta http-equiv="refresh" content="3600">
     @include('base/head')
     <link rel="stylesheet" href="{{ asset('/css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
@@ -61,6 +62,15 @@
                     <div class="message-container {{ $type }} d-flex {{ $pos }}">
                         
                         <div class="message-item">
+
+                            @if ($type == 'receive')
+                            <div class="message text-start text-primary">
+                                <h6 class="mb-0">
+                                    <small>{{ $user->name }}</small>        
+                                </h6>
+                            </div>
+                            @endif
+
                             <div class="message text-start text-dark">
                                 <h6>{{ $message->message }}</h6>
                             </div>

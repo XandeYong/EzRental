@@ -49,6 +49,13 @@
                                         @endif
                                     </div>
 
+                                    <div id="retype-password-txt" class="col-10 mb-3">
+                                        <input type="password" name="retypePassword" class="w-100" placeholder="Confirm New Password" required>
+                                        @if($errors->has('retypePassword'))
+                                            <span class="x-form-error c-red-error">*{{ $errors->first('retypePassword') }}</span>
+                                        @endif
+                                    </div>
+
                                     <div id="login-btn" class="col-10 text-center">
                                         <input type="submit" name="submit" value="Reset">
                                     </div>
