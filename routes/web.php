@@ -40,19 +40,8 @@ include(base_path() . "\\routes\\web_route_module\\4_admin.php");
 
 
 //==========================================================================================================
-// Testing Purpose [Need to remove before Complete Version]
+// Error Pages
 //=============================================================================================
-
-//Base component only route
-Route::get('/base', function () {
-    return view('/base/base');
-})->name('base');
-
-Route::get('/base/dashboard', function () {
-    return view('/dashboard/dashboard_index');
-})->name('base.dashboard');
-
-//Error Page
 Route::get('/401', function () {
     return view('/errors/401');
 })->name('401');
