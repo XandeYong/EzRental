@@ -73,13 +73,13 @@ class ProfileController extends Controller
             $errorMessage = "Error Message:";
 
             if (strlen($newPassword) < 6) {
-                $errorMessage .= ",*New Password must have 6 value or more than 6 value!";
+                $errorMessage .= ",*New Password must have at least 6 value!";
             }
             if (trim($newPassword) != trim($confirmPassword)) {
                 $errorMessage .= ",*Confirm Password must same as the new password!";
             }
             if (strlen($confirmPassword) < 6) {
-                $errorMessage .= ",*Confirm Password must have 6 value or more than 6 value!";
+                $errorMessage .= ",*Confirm Password must have at least 6 value!";
             }
             if (trim($correctOldPassword) != trim($oldPassword)) {
                 $errorMessage .= ",*Invalid old password!";

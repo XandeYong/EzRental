@@ -94,18 +94,3 @@ Route::middleware(['account', 'account.tenant.owner'])->group(function () {
 
 });
 
-
-
-
-
-
-//need remove
-Route::get('/dashboard/favorite/test/{postID}', [FavoriteController::class, 'test']); //need remove
-Route::get('/autoUnbannedUser', [TestController::class, 'autoUnbannedUser']); 
-Route::get('/autoAddMonthlyPayment', [TestController::class, 'autoAddMonthlyPayment']); 
-Route::get('/autoReminderForTenant', [TestController::class, 'autoReminderForTenant']); 
-Route::get('/autoReminderForOwner', [TestController::class, 'autoReminderForOwner']); 
-Route::get('/autoCheckRoomVisitAppointment', [TestController::class, 'autoCheckRoomVisitAppointment']); 
-Route::get('/autoCheckRentRequest', [TestController::class, 'autoCheckRentRequest']); 
-Route::get('/autoCheckContract', [TestController::class, 'autoCheckContract']); 
-Route::get('/autoCheckRoomVisitAppointmentExpired', [TestController::class, 'autoCheckRoomVisitAppointmentExpired']); 

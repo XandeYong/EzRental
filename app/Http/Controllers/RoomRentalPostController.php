@@ -22,7 +22,7 @@ class RoomRentalPostController extends Controller
     // Public
     function index($post_id)
     {
-    
+
         $post = DB::table('room_rental_posts')
             ->join('accounts', 'accounts.account_id', '=', 'room_rental_posts.account_id')
             ->join('contracts', 'contracts.post_id', '=', 'room_rental_posts.post_id')
@@ -77,14 +77,14 @@ class RoomRentalPostController extends Controller
             $access = $this->validateAccess($post_id, session()->get('account')['account_id']);
 
             $account = session()->get('account');
-            $id = $account->account_id; 
-    
+            $id = $account->account_id;
+
             $favorite = DB::table('favorites')
-            ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'favorites.post_id')
-            ->where('favorites.account_id', $id)
-            ->where('room_rental_posts.post_id', $post_id)
-            ->select('room_rental_posts.post_id')
-            ->get();
+                ->join('room_rental_posts', 'room_rental_posts.post_id', '=', 'favorites.post_id')
+                ->where('favorites.account_id', $id)
+                ->where('room_rental_posts.post_id', $post_id)
+                ->select('room_rental_posts.post_id')
+                ->get();
         } else {
 
             $access = [
@@ -99,7 +99,7 @@ class RoomRentalPostController extends Controller
 
         if ($post[0]->status != 'available') {
             $message = 'You have been redirect to homepage as the post you are trying to access is not accessible at the moment.';
-            
+
             session()->put('access_message_status', 'alert-danger');
             session()->put('access_message', $message);
 
@@ -267,13 +267,16 @@ class RoomRentalPostController extends Controller
 
 
         // Notification
-        $rrp = RoomRentalPost::findOrFail($post_id)
-            ->select('account_id', 'title')->get();
-
+        //get room rental post details from database 
+        $rrp = DB::table('room_rental_posts')
+            ->where('post_id', $post_id)
+            ->select('account_id', 'title')
+            ->get();
         $title = 'Room Visit Appointment Received';
-        $message = session()->get('account')['name'] . 'have created a room visit appointment for <b>' . $rrp[0]['title'] . '</b>.';
+        $message = session()->get('account')['name'] . 'have created a room visit appointment for <b>' . $rrp[0]->title . '</b>.';
         $type = 'visit_appointment';
-        $receiver = $rrp[0]['account_id'];
+        $receiver = $rrp[0]->account_id;
+
 
         $this->notify($title, $message, $type, $receiver);
 
@@ -339,11 +342,6 @@ class RoomRentalPostController extends Controller
 
         $rent_request_id = $this->generateID(RentRequest::class);
 
-        $price = RoomRentalPost::findOrFail($post_id)
-            ->contracts()
-            ->where('status', 'inactive')
-            ->select('monthly_price')
-            ->get();
 
         $insert = [
             'rent_request_id' => $rent_request_id,
@@ -358,13 +356,17 @@ class RoomRentalPostController extends Controller
 
 
         // Notification
-        $rrp = RoomRentalPost::findOrFail($post_id)
-            ->select('account_id', 'title')->get();
+        //get room rental post details from database 
+        $rrp = DB::table('room_rental_posts')
+        ->where('post_id', $post_id)
+        ->select('account_id', 'title')
+        ->get();
 
         $title = 'Renting Request Received';
-        $message = session()->get('account')['name'] . 'have created a renting request for <b>' . $rrp[0]['title'] . '</b>.';
+        $message = session()->get('account')['name'] . 'have created a renting request for <b>' . $rrp[0]->title . '</b>.';
         $type = 'renting_request';
-        $receiver = $rrp[0]['account_id'];
+        $receiver = $rrp[0]->account_id;
+
 
         $this->notify($title, $message, $type, $receiver);
 
@@ -463,7 +465,7 @@ class RoomRentalPostController extends Controller
         } else {
             $message = 'You have deleted a comment.';
         }
-        
+
         session()->put('access_message_status', 'alert-success');
         session()->put('access_message', $message);
 
@@ -626,12 +628,15 @@ class RoomRentalPostController extends Controller
         /* Image */
 
         //Laravel validation
-        $request->validate([ // 1st array is field rules
-            'images.*' =>'required|distinct|image|mimes:jpeg,png,jpg|max:2048'
-          ], [ ], 
-          [ // 3rd array is the fields custom name
-            'images.*' => 'image'
-          ]);
+        $request->validate(
+            [ // 1st array is field rules
+                'images.*' => 'required|distinct|image|mimes:jpeg,png,jpg|max:2048'
+            ],
+            [],
+            [ // 3rd array is the fields custom name
+                'images.*' => 'image'
+            ]
+        );
 
         $images = $request->file('images');
         $saved_images = $request->input('saved_images');
@@ -663,7 +668,6 @@ class RoomRentalPostController extends Controller
                 $postImage->image = $imageName;
                 $postImage->status = 'show';
                 $postImage->save();
-
             } else {
                 $insert = [
                     'post_image_id' => $postImageID,
@@ -694,7 +698,7 @@ class RoomRentalPostController extends Controller
         $unit = $request->input('unit');
         $address = $request->input('address');
 
-        
+
         $post = RoomRentalPost::find($postID);
         $post->title = $title;
         $post->description = $description;
@@ -710,7 +714,8 @@ class RoomRentalPostController extends Controller
         return redirect(route('dashboard.owner.room_rental_post', ['postID' => Crypt::encrypt($postID)]));
     }
 
-    function deletePost($postID) {
+    function deletePost($postID)
+    {
         try {
             $postID = Crypt::decrypt($postID);
         } catch (DecryptException $ex) {
@@ -738,7 +743,7 @@ class RoomRentalPostController extends Controller
             ->orderByDesc($idCol)
             ->distinct()
             ->first();
-            
+
         if (empty($newID)) {
             return $idCode . '1';
         } else {
@@ -805,9 +810,10 @@ class RoomRentalPostController extends Controller
 
 
 
-    public function addOrRemoveFavorite($postID, $process) {
+    public function addOrRemoveFavorite($postID, $process)
+    {
 
-        $account = session()->get('account'); 
+        $account = session()->get('account');
         $id = $account->account_id;
 
         //Decrypt the parameter
@@ -818,20 +824,18 @@ class RoomRentalPostController extends Controller
             abort('500', $ex->getMessage());
         }
 
-        if($process=="add"){
+        if ($process == "add") {
             DB::table('favorites')->insert([
                 'account_id' => $id,
                 'post_id' => $postID
             ]);
-        }else{
+        } else {
             DB::table('favorites')
-            ->where('account_id', $id)
-            ->where('post_id', $postID)
-            ->delete();
-
+                ->where('account_id', $id)
+                ->where('post_id', $postID)
+                ->delete();
         }
 
-        return redirect(route('rental_post_list.rental_post', ['post_id' => $postID])); 
+        return redirect(route('rental_post_list.rental_post', ['post_id' => $postID]));
     }
-    
 }
