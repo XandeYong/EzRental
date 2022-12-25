@@ -306,7 +306,8 @@ class RoomRentalPostController extends Controller
 
         // Notification
         $rrp = RoomRentalPost::select('account_id', 'title')
-            ->find($post_id);
+            ->where("post_id", $post_id)    
+            ->get($post_id);
 
 
         $title = 'Negotiation Received';
@@ -405,7 +406,9 @@ class RoomRentalPostController extends Controller
 
 
         // Notification
-        $rrp = RoomRentalPost::select('account_id', 'title')->find($post_id);
+        $rrp = RoomRentalPost::select('account_id', 'title')
+            ->where("post_id", $post_id)    
+            ->get($post_id);
 
         $title = 'You have received a Comment on a rental post';
         $message = '<b>' . session()->get('account')['name'] . '</b> has leave a rating and comment on your "<b>' . $rrp[0]['title'] . '</b>".';
@@ -434,7 +437,9 @@ class RoomRentalPostController extends Controller
 
 
         // Notification
-        $rrp = RoomRentalPost::select('account_id', 'title')->find($post_id);
+        $rrp = RoomRentalPost::select('account_id', 'title')
+            ->where("post_id", $post_id)    
+            ->get($post_id);
 
         $title = 'Someone has updated their comment in your rental post';
         $message = '<b>' . session()->get('account')['name'] . '</b> has updated a rating and comment on your "<b>' . $rrp[0]['title'] . '</b>".';
